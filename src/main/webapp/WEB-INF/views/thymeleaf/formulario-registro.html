@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Detalles y Metas</title>
+
+    <link th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="mt-4">Detalles Personales</h2>
+            <form th:action="@{/enviarFormulario}" method="post">
+                <div class="form-group">
+                    <label>Sexo:</label><br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="femenino" name="sexo" value="femenino">
+                        <label class="form-check-label" for="femenino">Femenino</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="masculino" name="sexo" value="masculino">
+                        <label class="form-check-label" for="masculino">Masculino</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="peso">Peso Actual:</label><br>
+                    <input type="number" class="form-control" id="peso" name="peso" required> kg
+                </div>
+
+                <div class="form-group">
+                    <label for="altura">Altura:</label><br>
+                    <input type="number" class="form-control" id="altura" name="altura" required> cm
+                </div>
+
+                <div class="form-group">
+                    <label>Fecha de nacimiento:</label><br>
+                    <div class="row">
+                        <div class="col">
+                            <input type="number" class="form-control" id="mes" name="mes" min="1" max="12" required>
+                        </div>
+                        <div class="col">
+                            <input type="number" class="form-control" id="dia" name="dia" min="1" max="31" required>
+                        </div>
+                        <div class="col">
+                            <input type="number" class="form-control" id="anio" name="anio" min="1900" max="2024" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="nivel_actividad">Nivel de Actividad:</label><br>
+                    <select class="form-control" id="nivel_actividad" name="nivel_actividad" required>
+                        <option value="sedentario">Sedentario</option>
+                        <option value="baja_actividad">Baja Actividad</option>
+                        <option value="activo">Activo</option>
+                        <option value="muy_activo">Muy Activo</option>
+                    </select>
+                </div>
+
+                <h2 class="mt-4">Mis Metas</h2>
+
+                <div class="form-group">
+                    <label for="dieta">Dieta Objetivo:</label>
+                    <select class="form-control" id="dieta" name="dieta">
+                        <option value="mantener_peso_actual">Mantener mi peso actual</option>
+                        <option value="perder_peso">Perder peso</option>
+                        <option value="ganar_peso">Ganar peso</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="peso_meta">Peso meta:</label>
+                    <input type="text" class="form-control" id="peso_meta" name="peso_meta" placeholder="kg">
+                </div>
+                <div class="form-group">
+                    <h3>Crea tu cuenta</h3>
+                    <label for="nombre_miembro">Nombre del Miembro:</label>
+                    <input type="text" class="form-control" id="nombre_miembro" name="nombre_miembro" placeholder="Nombre de usuario público">
+                    <label for="contrasena">Contraseña:</label>
+                    <input type="password" class="form-control" id="contrasena" name="contrasena">
+                    <label for="correo_electronico">Correo Electrónico:</label>
+                    <input type="email" class="form-control" id="correo_electronico" name="correo_electronico">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Enviar</button>
+                <button type="button" class="btn btn-secondary" th:onclick="|window.location.href='@{/inicio}'|">Cancelar</button>
+
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script th:src="@{https://code.jquery.com/jquery-3.5.1.slim.min.js}"></script>
+<script th:src="@{https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js}"></script>
+<script th:src="@{https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js}"></script>
+
+</body>
+</html>
