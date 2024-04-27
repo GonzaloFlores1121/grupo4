@@ -17,3 +17,10 @@ h2{
 .navbar-brand{
     margin:0 2rem;
 }
+.verde-fondo {
+    background-color: green !important;
+}
+
+.blanco-texto {
+    color: white !important;
+}

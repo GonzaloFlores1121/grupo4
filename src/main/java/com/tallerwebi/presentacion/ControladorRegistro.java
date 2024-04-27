@@ -10,12 +10,19 @@ import org.springframework.web.servlet.ModelAndView;
 public class ControladorRegistro {
 
     @RequestMapping(value = "/inicio", method = RequestMethod.GET)
-    public String irAInicio() {
-        return "inicio";
+    public ModelAndView irAInicio() {
+        return new ModelAndView("inicio");
     }
 
     @RequestMapping(value = "/irAFormulario", method = RequestMethod.GET)
-    public String irAFormulario() {
-        return "formulario-registro";
+    public ModelAndView irAFormulario() {
+
+        return new ModelAndView("formulario-registro");
+    }
+
+    @RequestMapping(value = "/menuprincipal", method = RequestMethod.GET)
+    public ModelAndView irAlMenuPrincipal() {
+
+        return new ModelAndView("menuprincipal");
     }
 }
