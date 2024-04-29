@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -25,4 +26,11 @@ public class ControladorRegistro {
 
         return new ModelAndView("menuprincipal");
     }
+    @RequestMapping(value = "/enviarFormulario", method = RequestMethod.POST)
+    public ModelAndView enviarFormulario(@RequestParam("nombre_miembro") String nombre, @RequestParam("contrasena") String contrasena, @RequestParam("correo_electronico") String correo_electronico) {
+
+        return new ModelAndView("redirect:/menuprincipal");
+    }
+
+
 }
