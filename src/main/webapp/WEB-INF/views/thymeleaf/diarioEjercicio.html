@@ -1,0 +1,119 @@
+<!DOCTYPE HTML>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Diario De Ejercicio</title>
+
+
+     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-success">
+    <div class="container-fluid">
+        <!-- Logo y nombre de la empresa -->
+        <a th:href="@{/menuprincipal}" class="navbar-brand d-flex align-items-center " >
+
+            <img th:src="@{/img/logo1.png}" alt="Logo de FatLoss" height="60" class="d-inline-block align-top">
+            <h1 class="blanco-texto">FatLoss</h1>
+        </a>
+        <!-- Botón de colapso para dispositivos pequeños -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- Contenido del navbar -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto"> <!--  "ms-auto" para alinear a la derecha -->
+                <!-- Saludo personalizado y enlaces -->
+                <li class="nav-item">
+                    <a th:href="@{/perfilUsuario}" class="nav-link" >Hola, Usuario X</a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/ingresarPeso}" class="nav-link" >Mi peso X kg</a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/inicio}" class="nav-link">Salir</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container mt-4">
+    <div class="row">
+        <!-- Columna de la tarjeta -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Mi Diario de Ejercicios</h5>
+                    <p class="card-text">Fecha: Hoy, martes 30 de abril de 2024</p>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Tiempo empleado</th>
+                                <th>Cals</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>24 hrs</td>
+                                <td>6445</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+           <form class="container-sm formulario_actividad">
+               <div class="row justify-content-center"> <!-- Agregar justify-content-center para centrar horizontalmente -->
+                   <div class="col">
+                       <div class="form-group">
+                           <label for="dia">Día:</label>
+                           <input type="number" class="form-control" id="dia" placeholder="Día" min="1" max="31">
+                       </div>
+                   </div>
+                   <div class="col">
+                       <div class="form-group">
+                           <label for="mes">Mes:</label>
+                           <input type="number" class="form-control" id="mes" placeholder="Mes" min="1" max="12">
+                       </div>
+                   </div>
+                   <div class="col">
+                       <div class="form-group">
+                           <label for="año">Año:</label>
+                           <input type="number" class="form-control" id="año" placeholder="Año" min="1900" max="2100">
+                       </div>
+                   </div>
+               </div>
+                <div class="form-group">
+                    <label for="tiempo">Tiempo empleado:</label>
+                    <div class="row">
+                        <div class="col">
+                            <input type="number" class="form-control" id="horas" placeholder="Horas" min="0">
+                        </div>
+                        <div class="col">
+                            <input type="number" class="form-control" id="minutos" placeholder="Minutos" min="0" max="59">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="actividad">Cuéntanos cómo te sentiste:</label>
+                    <textarea class="form-control" id="comentarios" rows="5" placeholder="Ingresa tus comentarios aquí..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Guardar</button>
+                <button type="button" class="btn btn-secondary btn-block">Cancelar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+</body>
+</html>
