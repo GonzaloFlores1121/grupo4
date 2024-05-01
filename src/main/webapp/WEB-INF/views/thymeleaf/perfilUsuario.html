@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/menuprincipal}">
+                <h1><img th:src="@{/img/logo1.png}" alt="logo" height="60">   FatLoss</h1>       
+            </a>             
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="row align-items-center">
+            <div class="col-md-3">
+                <img th:src="@{/img/icono-perfil.png}" alt="icono-perfil" class="img-fluid">
+            </div>
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 th:text="${usuario}" class="card-title"></h4>
+                        <h5 th:text="${email}" class="card-title"></h5>
+                        <p th:text="'Edad: '+${edad}+' años'" class="card-text"></p>
+                        <p th:text="'Genero: '+${genero}" class="card-text"></p>
+                        <p th:text="'Altura: '+${altura}+'cm'" class="card-text"></p>
+                        <p th:text="'Peso: '+${peso}+'kg'" class="card-text"></p>
+                        <p th:text="'Nivel de Actividad Fisica: '+${nivelDeActividadFisica}" class="card-text"></p>
+                        <p th:text="'Dieta Objetivo: '+${dietaObjetivo}"></p>
+                        <p th:text="'Peso Meta: '+${pesoMeta}+'kg'"></p>
+                    </div>
+                </div>  
+            </div>
+        </div>        
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
