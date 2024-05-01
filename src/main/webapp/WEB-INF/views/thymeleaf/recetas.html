@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Recetas</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+        <div class="container-fluid">
+            <!-- Logo y nombre de la empresa -->
+            <a th:href="@{/menuprincipal}" class="navbar-brand d-flex align-items-center " >
+
+                <img th:src="@{/img/logo1.png}" alt="Logo de FatLoss" height="60" class="d-inline-block align-top">
+                <h1 class="blanco-texto">FatLoss</h1>
+            </a>
+            <!-- Botón de colapso para dispositivos pequeños -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- Contenido del navbar -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto"> <!--  "ms-auto" para alinear a la derecha -->
+                    <!-- Saludo personalizado y enlaces -->
+                    <li class="nav-item">
+                        <a th:href="@{/perfilUsuario}" class="nav-link" >Hola, Usuario X</a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/ingresarPeso}" class="nav-link" >Mi peso X kg</a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/inicio}" class="nav-link">Salir</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="contenedor-principal-receta">
+        <div class="contenedor-descripcion-recetas">
+            <img th:src="@{/img/icono-cocina.png}" alt="icono-recetas" width="100px" height="100px">
+            <div class="div-parrafos-receta">
+                <p class="titulo-receta">Recetas</p>
+                <p>Encuentre recetas perfectas para su dieta!</p>
+            </div>
+        </div>
+
+        <div class="contenedor-busqueda">
+            <label class="buscar-receta"> Encuentra la receta que buscas!
+                <div>
+                    <input class="busqueda-alimento" name="busqueda-alimento" type="text">
+                    <button type="submit">buscar</button>
+                </div>
+            </label>
+        </div>
+    </div>
+
+    <div class="contenedor-recetas">
+        <div class="seccion-receta">
+            <img th:src="@{/img/receta1.jpg}" alt="receta">
+            <div class="div-textos-receta">
+                <p class="titulo-receta">Pan proteico</p>
+                <p>Una receta facil y rapida</p>
+            </div>
+        </div>
+        <div class="seccion-receta">
+            <img th:src="@{/img/receta2.jpg}" alt="receta">
+            <div class="div-textos-receta">
+                <p class="titulo-receta">Trufas de banana y chocolate</p>
+                <p>bajo en carbohidratos y deliciosa</p>
+            </div>
+        </div>
+        <div class="seccion-receta">
+            <img th:src="@{/img/receta3.jpg}" alt="receta">
+            <div class="div-textos-receta">
+                <p class="titulo-receta">Ensalada con huevo</p>
+                <p>Una receta sana y facil de hacer</p>
+            </div>
+        </div>
+        <div class="seccion-receta">
+            <img th:src="@{/img/receta4.jpg}" alt="receta">
+            <div class="div-textos-receta">
+                <p class="titulo-receta">Arroz con pollo</p>
+                <p>Perfecto para subir volumen</p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

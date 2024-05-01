@@ -1,6 +1,3 @@
-body {
-  padding-top: 5rem;
-}
 .starter-template {
   padding: 3rem 1.5rem;
   text-align: center;
@@ -165,6 +162,51 @@ font-size:1.5rem ;
     text-align: center;
     color: black;
 }
+/*recetas*/
+
+.div-parrafos-receta{
+    display: flex;
+    flex-direction: column;
+    aling-items: center;
+    pading: 1rem;
+}
+
+.contenedor-busqueda{
+    margin-rigth: 8rem;
+}
+
+.contenedor-principal-receta{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    aling-items: center;
+    padding: 3rem;
+}
+
+.contenedor-descripcion-recetas{
+    display: flex;
+    flex-direction: row;
+    margin-left: 8rem;
+}
+
+.contenedor-recetas {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 9.5rem;
+}
+
+.seccion-receta{
+    display: flex;
+    flex-direction: row;
+    padding: 1rem;
+}
+
+.div-textos-receta{
+    display: flex;
+    flex-direction: column;
+}
+
 
 /*diarioEjercicio*/
 
