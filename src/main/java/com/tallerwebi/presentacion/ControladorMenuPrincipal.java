@@ -70,4 +70,20 @@ public class ControladorMenuPrincipal {
         return new ModelAndView("notificaciones", modelo);
     }
 
+    @RequestMapping(path="/configuracion", method=RequestMethod.GET)
+    public ModelAndView configuracion() {
+        ModelMap modelo = new ModelMap();
+        modelo.put("region", "");
+        modelo.put("idioma", "");
+        modelo.put("unidad-energia", "");
+        modelo.put("unidad-masa", "");
+        modelo.put("idr", 0);
+        return new ModelAndView("configuracion", modelo);
+    }
+
+    @RequestMapping(path="/guardarConfiguracion", method=RequestMethod.POST)
+    public ModelAndView guardarConfiguracion() {
+        return new ModelAndView("redirect:/menuprincipal");
+    }
+
 }

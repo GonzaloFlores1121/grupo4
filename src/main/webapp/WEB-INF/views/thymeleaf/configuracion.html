@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"></html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Configuracion</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .form-caja {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 25vh;
+        }
+        
+        .form-borde {
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }        
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/menuprincipal}">
+                <h1><img th:src="@{/img/logo1.png}" alt="logo" height="60">   FatLoss</h1>       
+            </a>             
+        </div>
+    </nav>
+
+    <div class="container form-caja">
+        <div class="col-md-6">
+            <h3 class="text-center">Configuración</h3>
+            <form th:action="@{/guardarConfiguracion}" method="post" class="form-borde">
+                <div class="form-group">
+                    <label for="region">Región: </label>
+                    <select th:field="*{region}" id="region" name="region" class="form-control" required>
+                        <option value="argentina" selected>Argentina</option>
+                        <option value="bolivia">Bolivia</option>
+                        <option value="brasil">Brasil</option>
+                        <option value="chile">Chile</option>
+                        <option value="colombia">Colombia</option>
+                        <option value="ecuador">Ecuador</option>
+                        <option value="paraguay">Paraguay</option>
+                        <option value="peru">Peru</option>
+                        <option value="uruguay">Uruguay</option>
+                    </select><br>             
+                </div>
+                <div class="form-group">
+                    <label for="idioma">Idioma: </label>
+                    <select th:field="*{idioma}" id="idioma" name="idioma" class="form-control" required>
+                        <option value="español" selected>Español</option>
+                        <option value="ingles">Ingles</option>
+                        <option value="portugues">Portugues</option>
+                    </select><br>                
+                </div>
+                <div class="form-group">
+                    <label for="unidad-energia">Unidad de Energía: </label>
+                    <select th:field="*{unidad-energia}" id="unidad-energia" name="unidad-energia" class="form-control" required>
+                        <option value="calorias" selected>Calorias</option>
+                        <option value="kilojulios">Kilojulios</option>
+                    </select><br>                
+                </div>
+                <div class="form-group">
+                    <label for="unidad-masa">Unidad de Masa: </label>
+                    <select th:field="*{unidad-masa}" id="unidad-masa" name="unidad-masa" class="form-control" required>
+                        <option value="kilogramos" selected>Kilogramos</option>
+                        <option value="libras">Libras</option>
+                    </select><br>                
+                </div>
+                <div class="form-group">
+                    <label for="idr">IDR: </label>
+                    <input th:field="*{idr}" type="number" id="idr" name="idr" class="form-control" required><br>
+                </div>
+                <div class="form-group">
+                    <input type="submit" id="guardar" name="guardar" value="GUARDAR" class="btn btn-primary btn-block"><br>
+                </div>
+            </form>
+        </div>
+    </div>
+        
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
