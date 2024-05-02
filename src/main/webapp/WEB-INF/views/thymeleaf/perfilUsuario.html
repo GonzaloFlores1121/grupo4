@@ -9,13 +9,36 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" th:href="@{/menuprincipal}">
-                <h1><img th:src="@{/img/logo1.png}" alt="logo" height="60">   FatLoss</h1>       
-            </a>             
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+        <div class="container-fluid">
+            <!-- Logo y nombre de la empresa -->
+            <a th:href="@{/menuprincipal}" class="navbar-brand d-flex align-items-center " >
+    
+                <img th:src="@{/img/logo1.png}" alt="Logo de FatLoss" height="60" class="d-inline-block align-top">
+                <h1 class="blanco-texto">FatLoss</h1>
+            </a>
+            <!-- Botón de colapso para dispositivos pequeños -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- Contenido del navbar -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto"> <!--  "ms-auto" para alinear a la derecha -->
+                    <!-- Saludo personalizado y enlaces -->
+                    <li class="nav-item">
+                        <a th:href="@{/perfilUsuario}" class="nav-link" >Hola, Usuario X</a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/ingresarPeso}" class="nav-link" >Mi peso X kg</a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/inicio}" class="nav-link">Salir</a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
+    <!--Fin del nav-->
 
     <div class="container mt-5">
         <div class="row align-items-center">
