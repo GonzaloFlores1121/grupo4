@@ -15,7 +15,27 @@ public class Usuario {
     private String password;
     private String rol;
     private Boolean activo = false;
+    private String genero;
+    private String nivelDeActividad;
+    private Double peso;
+    private Double altura;
+    private Integer edad;
 
+
+    public Usuario() {
+   this.nivelDeActividad = getNivelDeActividad();
+   this.peso = getPeso();
+   this.altura = getAltura();
+   this.genero = getGenero();
+   this.rol = getRol();
+   this.activo = getActivo();
+   this.email = getEmail();
+   this.password = getPassword();
+   this.edad= getEdad();
+    }
+
+    public void setEdad(Integer edad){this.edad=edad;}
+    public Integer getEdad(){return edad;}
     public Long getId() {
         return id;
     }
@@ -46,9 +66,30 @@ public class Usuario {
     public void setActivo(Boolean activo) {
         this.activo = activo;
     }
+    public String getGenero() {
+        return genero;
+    }
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
 
-    public boolean activo() {
-        return activo;
+    public String getNivelDeActividad() {
+        return nivelDeActividad;
+    }
+    public void setNivelDeActividad(String nivelDeActividad) {
+        this.nivelDeActividad = nivelDeActividad;
+    }
+    public Double getPeso() {
+        return peso;
+    }
+    public void setPeso(Double peso) {
+        this.peso = peso;
+    }
+    public Double getAltura() {
+        return altura;
+    }
+    public Double setAltura(Double altura) {
+        return this.altura=altura;
     }
 
     public void activar() {
