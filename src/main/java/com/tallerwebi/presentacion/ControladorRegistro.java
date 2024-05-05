@@ -14,6 +14,7 @@ import org.springframework.ui.ModelMap;
 
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class ControladorRegistro {
@@ -56,8 +57,10 @@ public class ControladorRegistro {
             nuevoUsuario.setNivelDeActividad(datosLogin.getNivelDeActividad());
             nuevoUsuario.setPeso(datosLogin.getPeso());
             nuevoUsuario.setAltura(datosLogin.getAltura());
-            nuevoUsuario.getEdad();
+            nuevoUsuario.setEdad(datosLogin.getEdad());
             servicioDatosUsuario.registrarUsuario(nuevoUsuario);
+            HttpSession session = request.getSession();
+            session.setAttribute("usuario", nuevoUsuario);
         } catch (DatosIncorrectos e) {
             ModelAndView modelAndView = new ModelAndView("redirect:/irAFormulario");
             modelAndView.addObject("error", "Error al registrar el usuario: " + e.getMessage());

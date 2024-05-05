@@ -31,8 +31,8 @@ public class ServicioFormularioRegistroTest {
         Double peso = 0.0;
         Double altura = 170.0;
         Integer edad = 25;
-        String sexo = "femenino"; // Cambiar según necesites
-        String nivelActividad = "sedentario"; // Cambiar según necesites
+        String sexo = "femenino";
+        String nivelActividad = "sedentario";
 
         usuario.setEmail(email);
         usuario.setPassword(password);
@@ -48,9 +48,9 @@ public class ServicioFormularioRegistroTest {
     private boolean thenRegistroDenegado(Usuario usuario) {
         try {
             servicioUsuario.registrarUsuario(usuario);
-            return false; // El registro debería haber sido denegado
+            return false;
         } catch (DatosIncorrectos e) {
-            return true; // El registro fue denegado correctamente
+            return true;
         }
     }
     @Test
@@ -89,9 +89,9 @@ public class ServicioFormularioRegistroTest {
     private boolean thenRegistroAceptado(Usuario usuario) {
         try {
             servicioUsuario.registrarUsuario(usuario);
-            return true; // El registro fue aceptado correctamente
+            return true;
         } catch (DatosIncorrectos e) {
-            return false; // El registro no debería haber sido denegado
+            return false;
         }
     }
     @Test
@@ -110,7 +110,7 @@ public class ServicioFormularioRegistroTest {
         Usuario usuario = new Usuario();
         String email = "ejemplo@example.com";
         String password = "contraseña123";
-        Double peso = 70.0; // Peso válido
+        Double peso = 70.0;
         Double altura = 170.0;
         String sexo = "femenino";
         Integer edad = 3;
