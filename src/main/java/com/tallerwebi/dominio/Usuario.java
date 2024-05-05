@@ -20,18 +20,11 @@ public class Usuario {
     private Double peso;
     private Double altura;
     private Integer edad;
+    private Integer ingestaCalorica;
 
 
     public Usuario() {
-   this.nivelDeActividad = getNivelDeActividad();
-   this.peso = getPeso();
-   this.altura = getAltura();
-   this.genero = getGenero();
-   this.rol = getRol();
-   this.activo = getActivo();
-   this.email = getEmail();
-   this.password = getPassword();
-   this.edad= getEdad();
+
     }
 
     public void setEdad(Integer edad){this.edad=edad;}
@@ -91,7 +84,12 @@ public class Usuario {
     public Double setAltura(Double altura) {
         return this.altura=altura;
     }
-
+    public Integer getIngestaCalorica() {
+        return ingestaCalorica;
+    }
+    public void setIngestaCalorica(Integer ingestaCalorica) {
+        this.ingestaCalorica = ingestaCalorica;
+    }
     public void activar() {
         activo = true;
     }

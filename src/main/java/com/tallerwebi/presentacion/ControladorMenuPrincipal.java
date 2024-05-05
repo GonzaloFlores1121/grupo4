@@ -1,20 +1,35 @@
 package com.tallerwebi.presentacion;
 
-
+import javax.servlet.http.HttpSession;
+import com.tallerwebi.dominio.ServicioDatosUsuario;
 import com.tallerwebi.dominio.Usuario;
 
 import java.util.TreeMap;
 import java.util.Map;
 
+import com.tallerwebi.dominio.excepcion.DatosIncorrectos;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 public class ControladorMenuPrincipal {
+
+
+    private ServicioDatosUsuario servicioDatosUsuario;
+
+    @Autowired
+    public ControladorMenuPrincipal(ServicioDatosUsuario servicioDatosUsuario) {
+        this.servicioDatosUsuario = servicioDatosUsuario;
+    }
 
     @RequestMapping(value = "/actividadesFisicas",method = RequestMethod.GET)
     public ModelAndView irAEnForma(){
@@ -86,4 +101,8 @@ public class ControladorMenuPrincipal {
         return new ModelAndView("redirect:/menuprincipal");
     }
 
+
 }
+
+
+

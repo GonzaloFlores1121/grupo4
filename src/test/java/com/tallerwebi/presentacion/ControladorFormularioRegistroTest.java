@@ -7,49 +7,48 @@ import com.tallerwebi.dominio.excepcion.DatosIncorrectos;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 public class ControladorFormularioRegistroTest {
     private ControladorRegistro controladorRegistro;
-
+    private ControladorMenuPrincipal controladorMenu;
     private ServicioDatosUsuario servicioDatosUsuarioMock;
 
     @BeforeEach
-    public void init(){
-        servicioDatosUsuarioMock=mock(ServicioDatosUsuario.class);
+    public void init() {
+        servicioDatosUsuarioMock = mock(ServicioDatosUsuario.class);
         controladorRegistro = new ControladorRegistro(servicioDatosUsuarioMock);
+        controladorMenu = new ControladorMenuPrincipal(servicioDatosUsuarioMock);
     }
 
     @Test
     public void seRegistraAlUsuario() throws DatosIncorrectos {
-        DatosLogin datosRegistro = whenRegistroAlUsuario();
+        // Given
+        DatosLogin datosRegistro = givenDatosDeRegistro();
 
-        when(servicioDatosUsuarioMock.registrarUsuario(any(Usuario.class))).thenReturn(true);
+        HttpServletRequest solicitudRegistro = mock(HttpServletRequest.class);
+        HttpSession sessionMock = mock(HttpSession.class);
+        //comportamiento esperado del objeto simulado
+        when(solicitudRegistro.getSession()).thenReturn(sessionMock);
 
-        Boolean usuarioRegistrado = thenElUsuarioSeRegistro(datosRegistro);
+        // When
+        Boolean usuarioRegistrado = whenRegistroAlUsuario(datosRegistro, solicitudRegistro);
 
-        assertEquals(true, usuarioRegistrado);
+        // Then
+        thenUsuarioSeRegistroCorrectamente(usuarioRegistrado, sessionMock);
     }
 
-    private Boolean thenElUsuarioSeRegistro(DatosLogin datosRegistro) throws DatosIncorrectos {
-        HttpServletRequest requestMock = mock(HttpServletRequest.class);
-
-        ModelAndView modelAndView = controladorRegistro.enviarFormulario(datosRegistro, requestMock);
-
-        String vistaDestino = modelAndView.getViewName();
-
-        return "redirect:/menuprincipal".equals(vistaDestino);
-    }
-
-    private DatosLogin whenRegistroAlUsuario() {
+    private DatosLogin givenDatosDeRegistro() {
         String email = "ejemplo@example.com";
         String password = "contraseña123";
         Double peso = 70.0;
@@ -70,7 +69,19 @@ public class ControladorFormularioRegistroTest {
         return datosLogin;
     }
 
+    private Boolean whenRegistroAlUsuario(DatosLogin datosRegistro, HttpServletRequest requestMock) throws DatosIncorrectos {
+        // Lógica para registrar al usuario
+        when(servicioDatosUsuarioMock.registrarUsuario(any(Usuario.class))).thenReturn(true);//escenario en el que se registra el usuario con exitow :)
+
+        ModelAndView modelAndView = controladorRegistro.enviarFormulario(datosRegistro, requestMock);
+        String vistaDestino = modelAndView.getViewName();
+        return "redirect:/menuprincipal".equals(vistaDestino);
+    }
+
+    private void thenUsuarioSeRegistroCorrectamente(Boolean usuarioRegistrado, HttpSession sessionMock) {
+
+        verify(sessionMock).setAttribute(eq("usuario"), any(Usuario.class));
+    }
+
 
 }
-
-

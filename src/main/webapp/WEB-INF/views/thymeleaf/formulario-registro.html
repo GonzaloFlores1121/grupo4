@@ -41,16 +41,16 @@
                 <input type="number" class="form-control" id="altura" th:field="*{altura}" required> cm
             </div>
          <div class="form-group">
-                        <label for="edad">Altura:</label><br>
+                        <label for="edad">Edad:</label><br>
                         <input type="number" class="form-control" id="edad" th:field="*{edad}" required>
                     </div>
             <div class="form-group">
                 <label for="nivel_actividad">Nivel de Actividad:</label><br>
                 <select class="form-control" id="nivel_actividad" th:field="*{nivelDeActividad}" required>
-                    <option value="sedentario">Sedentario</option>
-                    <option value="baja_actividad">Baja Actividad</option>
-                    <option value="activo">Activo</option>
-                    <option value="muy_activo">Muy Activo</option>
+                     <option value="sedentario" th:value="sedentario">Sedentario</option>
+                        <option value="baja_actividad" th:value="baja_actividad">Baja Actividad</option>
+                        <option value="activo" th:value="activo">Activo</option>
+                        <option value="muy_activo" th:value="muy_activo">Muy Activo</option>
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Enviar</button>
