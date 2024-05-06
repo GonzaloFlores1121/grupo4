@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil</title>
+    <title>Mi Perfil</title>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/css/main.css}">
 
@@ -16,34 +16,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
-    
-    <style>
-        body {
-            font-family: "Lato", sans-serif;
-        }
-
-        h1,h2, h3, h4, h5, h6, .nav-link {
-            font-family: "Quicksand", sans-serif;
-            font-weight: bolder;    
-        }
-
-        h1, footer {
-            color: #ffffff;
-        }       
-
-        .navbar {
-            background-color: #5FB92E;
-        }
-
-        footer {
-            background-color: #1B1F23;
-        }        
-
-        a, a:hover {
-            text-decoration: none;
-        }
-
-    </style>
 </head>
 <body>
 
@@ -59,11 +31,11 @@
             <div class="collapse navbar-collapse" id="collapsibleNavbar">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" th:text="${usuario}"></a>
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Usuario</a>
                         <ul class="dropdown-menu">
                           <li><a class="dropdown-item active" th:href="@{#}">Perfil</a></li>
-                          <li><a class="dropdown-item" th:href="@{#}">Configuracion</a></li>
-                          <li><a class="dropdown-item" th:href="@{#}">Notificaciones</a></li>
+                          <li><a class="dropdown-item" th:href="@{/configuracion}">Configuracion</a></li>
+                          <li><a class="dropdown-item" th:href="@{/notificaciones}">Notificaciones</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
@@ -91,7 +63,7 @@
 
     <!--perfil-->
     <div class="container my-5"> 
-        <div class="row d-flex align-items-center ">
+        <div class="row d-flex align-items-center">
             <div class="col-sm-3 d-flex flex-column justify-content-center my-3">
                 <h3 class="text-center text-dark">Mi Foto</h3>
                 <img class="img-fluid" th:src="@{/img/icono_perfil.png}" alt="icono-perfil">
@@ -99,17 +71,17 @@
             </div>
             <div class="col-sm-9">
                 <h2 class="text-center text-dark">Mi Perfil</h2>
-                <div class="card px-3" th:style="'background-image: url(\'' + @{/img/background.png} + '\'); background-size: cover;'">
+                <div class="card" th:style="'background-image: url(\'' + @{/img/background.png} + '\'); background-size: cover;'">
                     <div class="card-body ">
-                        <h4 class="card-title" th:text="${usuario}"></h4>
-                        <h5 class="card-title" th:text="${email}"></h5>
-                        <p class="card-text" th:text="'Edad: '+${edad}+' años'"></p>
-                        <p class="card-text" th:text="'Genero: '+${genero}"></p>
-                        <p class="card-text" th:text="'Altura: '+${altura}+'cm'"></p>
-                        <p class="card-text" th:text="'Peso: '+${peso}+'kg'"></p>
-                        <p class="card-text" th:text="'Nivel de Actividad Fisica: '+${nivelDeActividadFisica}"></p>
-                        <p class="card-text" th:text="'Dieta Objetivo: '+${dietaObjetivo}"></p>
-                        <p class="card-text" th:text="'Peso Meta: '+${pesoMeta}+'kg'"></p>
+                        <h4 class="card-title text-white" th:text="${usuario}"></h4>
+                        <h5 class="card-title text-white" th:text="${email}"></h5>
+                        <p class="card-text text-dark">Edad: <span class="badge bg-dark" th:text="${edad}+' anos'"></span></p>
+                        <p class="card-text text-dark">Genero: <span class="badge bg-dark" th:text="${genero}"></span></p>
+                        <p class="card-text text-dark">Altura: <span class="badge bg-dark" th:text="${altura}+'cm'"></span></p>
+                        <p class="card-text text-dark">Peso: <span class="badge bg-dark" th:text="${peso}+'kg'"></span></p>
+                        <p class="card-text text-dark">Nivel de Actividad Fisica: <span class="badge bg-dark" th:text="${nivelDeActividadFisica}"></span></p>
+                        <p class="card-text text-dark">Dieta Objetivo: <span class="badge bg-dark" th:text="${dietaObjetivo}"></span></p>
+                        <p class="card-text text-dark">Peso Meta: <span class="badge bg-dark" th:text="${pesoMeta}+'kg'"></span></p>
                         <a class="btn btn-outline-dark" th:href="@{#}">Editar Perfil</a>
                     </div>
                 </div>  

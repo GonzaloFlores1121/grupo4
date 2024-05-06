@@ -4,110 +4,136 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Configuracion</title>
-    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/css/main.css}">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        .form-caja {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 25vh;
-        }
+    
+    <!--bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         
-        .form-borde {
-            border: 1px solid #ccc;
-            padding: 20px;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }        
-    </style>
+    <!--google-fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+
+    <!--header/nav-->
+    <nav class="navbar navbar-expand-sm navbar-dark">
         <div class="container-fluid">
-            <!-- Logo y nombre de la empresa -->
-            <a th:href="@{/menuprincipal}" class="navbar-brand d-flex align-items-center " >
-    
-                <img th:src="@{/img/logo1.png}" alt="Logo de FatLoss" height="60" class="d-inline-block align-top">
-                <h1 class="blanco-texto">FatLoss</h1>
+            <a class="navbar-brand" th:href="@{/menuprincipal}">
+                <h1><img th:src="@{/img/logo_bg-color.png}" alt="logo" height="100px">   fatloss</h1>
             </a>
-            <!-- Botón de colapso para dispositivos pequeños -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <!-- Contenido del navbar -->
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto"> <!--  "ms-auto" para alinear a la derecha -->
-                    <!-- Saludo personalizado y enlaces -->
-                    <li class="nav-item">
-                        <a th:href="@{/perfilUsuario}" class="nav-link" >Hola, Usuario X</a>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Usuario</a>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" th:href="@{/perfilUsuario}">Perfil</a></li>
+                          <li><a class="dropdown-item active" th:href="@{#}">Configuracion</a></li>
+                          <li><a class="dropdown-item" th:href="@{/notificaciones}">Notificaciones</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Mi Calendario</a>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" th:href="@{#}">Dieta</a></li>
+                          <li><a class="dropdown-item" th:href="@{#}">Alimentacion</a></li>
+                          <li><a class="dropdown-item" th:href="@{#}">Ejercicios</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Mi Historial</a>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" th:href="@{#}">Mi historial de Peso</a></li>
+                          <li><a class="dropdown-item" th:href="@{#}">Libro de Cocina</a></li>
+                        </ul>
                     </li>
                     <li class="nav-item">
-                        <a th:href="@{/ingresarPeso}" class="nav-link" >Mi peso X kg</a>
-                    </li>
-                    <li class="nav-item">
-                        <a th:href="@{/inicio}" class="nav-link">Salir</a>
+                        <a class="nav-link" th:href="@{/inicio}">Salir</a>
                     </li>
                 </ul>
             </div>
         </div>
-    </nav>
-    <!--Fin del nav-->
+    </nav>   
 
-    <div class="container form-caja">
-        <div class="col-md-6">
-            <h3 class="text-center">Configuración</h3>
-            <form th:action="@{/guardarConfiguracion}" method="post" class="form-borde">
-                <div class="form-group">
-                    <label for="region">Región: </label>
-                    <select th:field="*{region}" id="region" name="region" class="form-control" required>
-                        <option value="argentina" selected>Argentina</option>
-                        <option value="bolivia">Bolivia</option>
-                        <option value="brasil">Brasil</option>
-                        <option value="chile">Chile</option>
-                        <option value="colombia">Colombia</option>
-                        <option value="ecuador">Ecuador</option>
-                        <option value="paraguay">Paraguay</option>
-                        <option value="peru">Peru</option>
-                        <option value="uruguay">Uruguay</option>
-                    </select><br>             
-                </div>
-                <div class="form-group">
-                    <label for="idioma">Idioma: </label>
-                    <select th:field="*{idioma}" id="idioma" name="idioma" class="form-control" required>
-                        <option value="español" selected>Español</option>
-                        <option value="ingles">Ingles</option>
-                        <option value="portugues">Portugues</option>
-                    </select><br>                
-                </div>
-                <div class="form-group">
-                    <label for="unidad-energia">Unidad de Energía: </label>
-                    <select th:field="*{unidad-energia}" id="unidad-energia" name="unidad-energia" class="form-control" required>
-                        <option value="calorias" selected>Calorias</option>
-                        <option value="kilojulios">Kilojulios</option>
-                    </select><br>                
-                </div>
-                <div class="form-group">
-                    <label for="unidad-masa">Unidad de Masa: </label>
-                    <select th:field="*{unidad-masa}" id="unidad-masa" name="unidad-masa" class="form-control" required>
-                        <option value="kilogramos" selected>Kilogramos</option>
-                        <option value="libras">Libras</option>
-                    </select><br>                
-                </div>
-                <div class="form-group">
-                    <label for="idr">IDR: </label>
-                    <input th:field="*{idr}" type="number" id="idr" name="idr" class="form-control" required><br>
-                </div>
-                <div class="form-group">
-                    <input type="submit" id="guardar" name="guardar" value="GUARDAR" class="btn btn-primary btn-block"><br>
-                </div>
-            </form>
+    <!--configuracion-->
+    <div class="container my-3">
+        <div class="row d-flex flex-column justify-content-center align-items-center">
+            <h2 class="text-center text-dark my-3">Mi Configuracion</h2>
+            <div class="col-sm-6 border border-1 rounded" th:style="'background-image: url(\'' + @{/img/background.png} + '\'); background-size: cover;'">
+                <form class="m-3 p-3" th:action="@{/guardarConfiguracion}" method="post">
+                    <h4 class="text-white">Preferencias</h4>
+                    <div class="form-floating mb-3">
+                        <select class="form-select" th:field="*{region}" name="region" id="region" required>
+                            <option value="argentina" selected>Argentina</option>
+                            <option value="bolivia">Bolivia</option>
+                            <option value="brasil">Brasil</option>
+                            <option value="chile">Chile</option>
+                            <option value="colombia">Colombia</option>
+                            <option value="ecuador">Ecuador</option>
+                            <option value="paraguay">Paraguay</option>
+                            <option value="peru">Peru</option>
+                            <option value="uruguay">Uruguay</option>
+                        </select>
+                        <label class="form-label" for="region">Selecciona Region: </label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <select class="form-select" th:field="*{idioma}" name="idioma" id="idioma" required>
+                            <option value="espanol" selected>Espanol</option>
+                            <option value="ingles">Ingles</option>
+                            <option value="portugues">Portugues</option>
+                        </select>
+                        <label class="form-label" for="idioma">Selecciona Idioma: </label>
+                    </div>
+                    <h4 class="text-white">Datos Nutricionales</h4>
+                    <div class="form-floating mb-3">
+                        <select class="form-select" th:field="*{unidad-energia}" name="unidad-energia" id="unidad-energia" required>
+                            <option value="calorias" selected>Calorias</option>
+                            <option value="kilojulios">Kilojulios</option>
+                        </select>
+                        <label class="form-label" for="unidad-energia">Seleciona Unidad de Energia: </label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <select class="form-select" th:field="*{unidad-masa}" name="unidad-masa" id="unidad-masa" required>
+                            <option value="kilogramos">Kilogramos</option>
+                            <option value="libras">Libras</option>
+                        </select>
+                        <label class="form-label" for="unidad-masa">Selecciona Unidad de Masa: </label>
+                    </div>
+                    <div class="mb-3">
+                        <a class="btn btn-outline-success" th:href="@{#}">Recalcular IDR</a><span class="badge bg-success ms-1" name="idr" id="idr">2000</span>
+                    </div>
+                    <input class="btn btn-outline-dark ms-auto" type="submit" name="guardar" id="guardar" value="Guardar">
+                </form>
+            </div>
         </div>
     </div>
+
+    <!--footer-->
+    <footer class="container-fluid mt-auto py-2">
+        <div class="row d-flex align-items-center">
+            <div class="col-sm-2 d-flex justify-content-center justify-content-sm-end justify-content-md-end
+            justify-content-lg-end justify-content-xl-end justify-content-xxl-end py-2">
+                <img th:src="@{/img/logo-mono_bg-color.png}" alt="logo" height="80px">
+            </div>
+            <div class="col-sm-5 d-flex flex-column justify-content-star">
+                <h4>TP Taller Web I: fatloss</h4>
+                <p><img th:src="@{/img/github.png}" alt="logo-github"> Github:  <a class="text-break" href="https://github.com/GonzaloFlores1121/grupo4" target="_blank">https://github.com/GonzaloFlores1121/grupo4</a></p>
+                <p><img th:src="@{/img/trello.png}" alt="logo-trello"> Trello:  <a class="text-break" href="https://trello.com/w/grupo4tallerweb" target="_blank">https://trello.com/w/grupo4tallerweb</a></p>
+            </div>
+            <div class="col-sm-5 d-flex flex-column justify-content-star">
+                <h5>Integrantes: </h5>
+                <p>Rodolfo Gutierrez - Gonzalo Flores</p>
+                <p>Milagros Chavez - Kevin Llombart</p>
+                <p>Joaquin Paiva</p>
+            </div>
+        </div>
+    </footer>  
         
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
