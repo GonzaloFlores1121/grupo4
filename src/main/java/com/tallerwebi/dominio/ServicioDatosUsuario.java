@@ -11,4 +11,6 @@ public interface ServicioDatosUsuario {
     Integer calcularIngestaCalorica(Usuario usuario) throws DatosIncorrectos;
 
     Double calcularMetabolismoBasalDelUsuario(Usuario usuario) throws DatosIncorrectos;
+
+    MacronutrientesUsuario CalcularDistribucionDeMacronutrientes(Usuario usuario);
 }

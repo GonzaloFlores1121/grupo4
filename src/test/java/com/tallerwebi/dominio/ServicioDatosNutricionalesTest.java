@@ -67,5 +67,31 @@ public class ServicioDatosNutricionalesTest {
         return usuario;
     }
 
+    @Test
+    public void SeGuardanLosMacronutrientesDelUsuario() throws DatosIncorrectos {
+        Usuario usuario = givenTengoUnUsuario();
+
+        MacronutrientesUsuario macro=whenCalculoLosMacronutrientesDelUsuario(usuario);
+
+        thenMeSeGuardanLosMacronutrientes(usuario,macro);
+    }
+
+    private void thenMeSeGuardanLosMacronutrientes(Usuario usuario, MacronutrientesUsuario macro) throws DatosIncorrectos {
+
+        Integer vo1 = macro.getGrasaAConsumir();
+        Integer vo2 = macro.getProteinaAConsumir();
+        Integer vo3 = macro.getCarbohidratosAConsumir();
+        assertNotNull(vo1);
+        assertNotNull(vo2);
+        assertNotNull(vo3);
+
+
+    }
+
+    private MacronutrientesUsuario whenCalculoLosMacronutrientesDelUsuario(Usuario usuario) throws DatosIncorrectos {
+        servicioUsuario.calcularIngestaCalorica(usuario);
+        return servicioUsuario.CalcularDistribucionDeMacronutrientes(usuario);
+    }
+
 }
 

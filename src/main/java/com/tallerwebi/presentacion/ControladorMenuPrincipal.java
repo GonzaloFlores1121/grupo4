@@ -43,6 +43,12 @@ public class ControladorMenuPrincipal {
         return new ModelAndView("ejercicio");
     }
 
+    @RequestMapping(value = "/miDiario",method = RequestMethod.GET)
+    public ModelAndView irAMiDiario(){
+
+        return new ModelAndView("miDiario");
+    }
+
     @RequestMapping(value = "/recetas",method = RequestMethod.GET)
     public ModelAndView irARecetas(){
 

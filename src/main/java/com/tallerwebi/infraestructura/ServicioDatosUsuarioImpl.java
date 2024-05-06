@@ -1,5 +1,6 @@
 package com.tallerwebi.infraestructura;
 
+import com.tallerwebi.dominio.MacronutrientesUsuario;
 import com.tallerwebi.dominio.ServicioDatosUsuario;
 import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.excepcion.DatosIncorrectos;
@@ -85,6 +86,26 @@ public class ServicioDatosUsuarioImpl implements ServicioDatosUsuario {
         }
         return mb;
     }
+
+    @Override
+    public MacronutrientesUsuario CalcularDistribucionDeMacronutrientes(Usuario usuario) {
+
+        MacronutrientesUsuario macronutrientesUsuario= new MacronutrientesUsuario(usuario);
+        Integer caloriasGrasas = (int) (usuario.getIngestaCalorica() * 0.30);
+        Integer gramosGrasas = caloriasGrasas / 9;
+        macronutrientesUsuario.setGrasaAConsumir(gramosGrasas);
+
+        Integer caloriasProteinas = (int) (usuario.getIngestaCalorica() * 0.20);
+        Integer gramosProteinas = caloriasProteinas / 4;
+        macronutrientesUsuario.setProteinaAConsumir(gramosProteinas);
+
+        Integer caloriasCarbohidratos = (int) (usuario.getIngestaCalorica() * 0.50);
+        Integer gramosCarbohidratos = caloriasCarbohidratos / 4;
+        macronutrientesUsuario.setCarbohidratosAConsumir(gramosCarbohidratos);
+
+        return macronutrientesUsuario;
+    }
+
 }
 
 
