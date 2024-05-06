@@ -2,7 +2,9 @@
   padding: 3rem 1.5rem;
   text-align: center;
 }
-
+body {
+    font-family: "Lato", sans-serif;
+}
 h1{
 	color:#0000FF;
 }
@@ -13,6 +15,27 @@ h2{
 
 .navbar-brand{
     margin:0 2rem;
+}
+
+.navbar {
+    background-color: #5FB92E;
+}
+
+footer {
+    background-color: #1B1F23;
+}
+
+a, a:hover {
+    text-decoration: none;
+}
+
+h1,h2, h3, h4, h5, h6, .nav-link {
+    font-family: "Quicksand", sans-serif;
+    font-weight: bolder;
+}
+
+h1, footer {
+    color: #ffffff;
 }
 .verde-fondo {
     background-color: green !important;
@@ -209,3 +232,61 @@ font-size:1.5rem ;
 
 
 /*diarioEjercicio*/
+
+.activo{
+    background-color: #5FB92E !important;
+    color: white !important;
+}
+/*Alimentos*/
+.conEncabezado{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 2px solid grey !important;
+}
+.conTitulo{
+    color: #666666;
+}
+
+.conAlimentosComunes{
+    padding: 1rem;
+    width: 75%;
+}
+
+.conAlimentosComunes h3{
+    font-size: 1.5rem;
+    color: #666666;
+    border-bottom: 1px solid grey !important;
+}
+
+.conAlimentos{
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.alimento{
+    width: 45%;
+    margin: 0.5rem;
+    display: flex;
+    flex-direction: row;
+}
+
+.alimento img{
+    width: 100px;
+    height: 100px;
+}
+
+.alimentoTexto{
+    display: flex;
+    flex-direction: column;
+}
+
+.alimentoTitulo{
+    font-size: 1.2rem;
+    font-weight: bold;
+}

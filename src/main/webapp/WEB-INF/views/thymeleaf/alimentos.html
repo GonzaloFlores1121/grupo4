@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Alimentos</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+
+    <!--bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!--google-fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+<!--header/nav-->
+<nav class="navbar navbar-expand-sm navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/menuprincipal}">
+            <h1><img th:src="@{/img/logo_bg-color.png}" alt="logo" height="100px">   fatloss</h1>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" th:text="${usuario}"></a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item active" th:href="@{#}">Perfil</a></li>
+                        <li><a class="dropdown-item" th:href="@{#}">Configuracion</a></li>
+                        <li><a class="dropdown-item" th:href="@{#}">Notificaciones</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Mi Calendario</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" th:href="@{#}">Dieta</a></li>
+                        <li><a class="dropdown-item" th:href="@{#}">Alimentacion</a></li>
+                        <li><a class="dropdown-item" th:href="@{#}">Ejercicios</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Mi Historial</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" th:href="@{#}">Mi historial de Peso</a></li>
+                        <li><a class="dropdown-item" th:href="@{#}">Libro de Cocina</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/inicio}">Salir</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="list-group flex-row">
+                <a th:href="@{/alimentos}" class="list-group-item list-group-item-action activo">ALIMENTOS</a>
+                <a th:href="@{/recetas}" class="list-group-item list-group-item-action">RECETAS</a>
+                <a th:href="@{/actividadesFisicas}" class="list-group-item list-group-item-action">EN FORMA</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container mt-4">
+    <div>
+        <div class="conEncabezado">
+            <div class="conTitulo"> <!--Titulo -->
+                <h1>Alimentos</h1>
+                <p>Encuentra alimentos de sus marcas favoritas</p>
+            </div>
+            <div class="contenedor-busqueda">
+                <label class="buscar-receta"> Encuentra el alimento que buscas!
+                    <div>
+                        <input class="busqueda-alimento" name="busqueda-alimento" type="text">
+                        <button type="submit">buscar</button>
+                    </div>
+                </label>
+            </div>
+        </div>
+        </div>
+        <div class="conAlimentosComunes">
+            <div>
+                <h3>Alimentos Comunes</h3>
+                <div class="conAlimentos">
+                    <div class="alimento">
+                        <img src="https://m.ftscrt.com/static/images/food_groups/fruit.jpg" alt="Banana">
+                        <div class="alimentoTexto">
+                            <p class="alimentoTitulo">Banana</p>
+                            <p class="alimentoDesc">Hay 105 calorías (1 mediano).
+                                Desglose de Calorías: 3% grasa, 93% carbh, 4% prot.</p>
+                        </div>
+                    </div>
+                    <div class="alimento">
+                        <img src="https://m.ftscrt.com/static/images/food_groups/vegetables.jpg" alt="Lechuga">
+                        <div class="alimentoTexto">
+                            <p class="alimentoTitulo">Lechuga</p>
+                            <p class="alimentoDesc">Hay 8 calorías en (1 taza, con ralladura o picadura).
+                                Desglose de Calorías: 8% grasa, 71% carbh, 22% prot.</p>
+                        </div>
+                    </div>
+                    <div class="alimento">
+                        <img src="https://m.ftscrt.com/static/images/food_groups/eggs.jpg" alt="Huevo">
+                        <div class="alimentoTexto">
+                            <p class="alimentoTitulo">Huevo</p>
+                            <p class="alimentoDesc">
+                                Hay 74 calorías en (1 grande).
+                                Desglose de Calorías: 63% grasa, 2% carbh, 35% prot.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="alimento">
+                        <img src="https://m.ftscrt.com/static/images/food_groups/nuts.jpg" alt="Almendras">
+                        <div class="alimentoTexto">
+                            <p class="alimentoTitulo">Almendras</p>
+                            <p class="alimentoDesc">
+                                Hay 7 calorías(1).
+                                Desglose de Calorías: 74% grasa, 13% carbh, 14% prot.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="alimento">
+                        <img src="https://m.ftscrt.com/static/images/food_groups/breads_cereals.jpg" alt="Pan Integral">
+                        <div class="alimentoTexto">
+                            <p class="alimentoTitulo">Pan Integral</p>
+                            <p class="alimentoDesc">
+                                Hay 67 calorías(1 tajada normal).
+                                Desglose de Calorías: 14% grasa, 72% carbh, 14% prot.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="alimento">
+                        <img src="https://m.ftscrt.com/static/images/food_groups/pasta_rice.jpg" alt="Fideos">
+                        <div class="alimentoTexto">
+                            <p class="alimentoTitulo">Fideos</p>
+                            <p class="alimentoDesc">
+                                Hay 137 calorías(100 g).
+                                Desglose de Calorías: 14% grasa, 73% carbh, 13% prot.
+                            </p>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!--footer-->
+<footer class="container-fluid mt-auto py-2">
+    <div class="row d-flex align-items-center">
+        <div class="col-sm-2 d-flex justify-content-center justify-content-sm-end justify-content-md-end
+            justify-content-lg-end justify-content-xl-end justify-content-xxl-end py-2">
+            <img th:src="@{/img/logo-mono_bg-color.png}" alt="logo" height="80px">
+        </div>
+        <div class="col-sm-5 d-flex flex-column justify-content-star">
+            <h4>TP Taller Web I: fatloss</h4>
+            <p><img th:src="@{/img/github.png}" alt="logo-github"> Github:  <a class="text-break" href="https://github.com/GonzaloFlores1121/grupo4" target="_blank">https://github.com/GonzaloFlores1121/grupo4</a></p>
+            <p><img th:src="@{/img/trello.png}" alt="logo-trello"> Trello:  <a class="text-break" href="https://trello.com/w/grupo4tallerweb" target="_blank">https://trello.com/w/grupo4tallerweb</a></p>
+        </div>
+        <div class="col-sm-5 d-flex flex-column justify-content-star">
+            <h5>Integrantes: </h5>
+            <p>Rodolfo Gutierrez - Gonzalo Flores</p>
+            <p>Milagros Chavez - Kevin Llombart</p>
+            <p>Joaquin Paiva</p>
+        </div>
+    </div>
+</footer>
+
+</div>
+</body>
+</html>
