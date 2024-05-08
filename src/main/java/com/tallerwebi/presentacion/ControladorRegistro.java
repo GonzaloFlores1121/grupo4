@@ -42,9 +42,18 @@ public class ControladorRegistro {
         return new ModelAndView("formulario-registro", modelo);
     }
 
+    @RequestMapping(value = "/iniciar-sesion", method = RequestMethod.GET)
+    public ModelAndView irAInicioSesion() {
+        return new ModelAndView("iniciar-sesion");
+    }
+
+    @RequestMapping(value ="/ingresarUsuario", method = RequestMethod.POST)
+    public ModelAndView ingresarUsuario() {
+        return new ModelAndView("redirect:/menuprincipal");
+    }
+
     @RequestMapping(value = "/menuprincipal", method = RequestMethod.GET)
     public ModelAndView irAlMenuPrincipal() {
-
         return new ModelAndView("menuprincipal");
     }
 

@@ -4,56 +4,107 @@
 <head>
     <meta charset="UTF-8">
     <title>Inicio</title>
-    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
-    <link rel="stylesheet" th:href="@{/css/main.css}"/>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+
+    <!--bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!--google-fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<!-- Barra de Navegación (opcional) -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <img th:src="@{/img/logo1.png}" alt="Logo de FatLoss" height="60" class="d-inline-block align-top">
-    <h1 class="text-black">FatLoss</h1>
-    <div class="ms-auto d-flex">
-        <a class="navbar-brand me-3" href="#">Iniciar Sesión</a>
-        <a class="navbar-brand" th:href="@{/formulario-registro}">Registrarse</a>
-    </div>
-</nav>
-
-<div class="container mt-4">
-    <div class="row">
-        <div class="col-md-6">
-
-
-            <img th:src="@{/img/inicio_imagen.jpg}" class="img-fluid" alt="Imagen de Inicio">
-
+    <!--header-->
+    <nav class="navbar navbar-expand-sm" style="background-color: #ffffff;">
+        <div class="container-fluid">
+            <a class="navbar-brand" th:href="@{#}">
+                <h1 class="display-1" style="color: #5FB92E"><img th:src="@{/img/logo.png}" alt="logo" height="120px">   fatloss</h1>
+            </a>
         </div>
+    </nav>
 
-        <div class="col-md-6">
-
-            <h1 class="mb-4 text-black">Bienvenido a FatLoss</h1>
-
-            <ul>
-                <li>Personalización de planes de dieta</li>
-                <li>Seguimiento del progreso y logros</li>
-                <li>Seguimiento de comidas</li>
-
-            </ul>
-
-            <p>Comienza tu viaje hacia una vida más saludable hoy mismo. ¡Regístrate ahora!</p>
-
-            <a th:href="@{/formulario-registro}" class="btn btn-primary">Registrarse</a>
-
-
-
-            <a href="" class="text-decoration-none text-center btn-block m-lg-4">Ya tengo cuenta!</a>
+    <!--imagenes-->
+    <div class="carousel slide mt-2 mb-4" id="imagenes" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button class="active" type="button" data-bs-target="#imagenes" data-bs-slide-to="0" ></button>
+            <button type="button" data-bs-target="#imagenes" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#imagenes" data-bs-slide-to="2"></button>
         </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img class="d-block" th:src="@{/img/inicio-1.png}" alt="imagen-1" style="width: 100%;">
+                <div class="carousel-caption" style="background-color: rgba(0, 0, 0, 0.2);">
+                    <h3 class="text-white">Alimentacion</h3>
+                    <p class="text-white">Cada eleccion, un paso hacia tu mejor version.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img class="d-block" th:src="@{/img/inicio-2.png}" alt="imagen-2" style="width: 100%;">
+                <div class="carousel-caption" style="background-color: rgba(0, 0, 0, 0.2);">
+                    <h3 class="text-white">Ejercicio</h3>
+                    <p class="text-white">Cada esfuerzo, un paso mas cerca de tu meta.</p>
+                </div> 
+            </div>
+            <div class="carousel-item">
+                <img class="d-block" th:src="@{/img/inicio-3.png}" alt="imagen-3" style="width: 100%;">
+                <div class="carousel-caption" style="background-color: rgba(0, 0, 0, 0.2);">
+                    <h3 class="text-white">Progreso y Logros</h3>
+                    <p class="text-white">Cada paso cuenta, cada logro te impulsa.</p>
+                </div>  
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#imagenes" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#imagenes" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+        </button>
     </div>
-</div>
+    
+    <!--registro/iniciar-sesion-->
+    <div class="container-fluid mb-5">
+        <h3 class="text-center mb-2" style="color: #5FB92E">Bienvenido a Fatloose</h3>
+        <div class="row">    
+            <div class="col-sm-6 d-flex flex-column justify-content-center align-items-center my-2">
+                <p>Comienza tu viaje hacia una vida mas saludable.</p>
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <a class="btn btn-outline-success" th:href="@{/formulario-registro}">Registrarse</a>
+                </div>
+            </div>
+            <div class="col-sm-6 d-flex flex-column justify-content-center align-items-center my-2">
+                <p>Vuelve al sendero de una vida mas saludable.</p>
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <a class="btn btn-outline-success" th:href="@{/iniciar-sesion}">Iniciar Sesion</a>
+                </div>
+            </div>
+        </div>   
+    </div>
 
+    <!--footer-->
+    <footer class="container-fluid mt-auto py-2">
+        <div class="row d-flex align-items-center" >
+            <div class="col-sm-2 d-flex justify-content-center justify-content-sm-end justify-content-md-end
+            justify-content-lg-end justify-content-xl-end justify-content-xxl-end py-2">
+                <img th:src="@{/img/logo-mono_bg-color.png}" alt="logo" height="140px">
+            </div>
+            <div class="col-sm-5 d-flex flex-column justify-content-star">
+                <h4>TP Taller Web I: fatloss</h4>
+                <p><img th:src="@{/img/github.png}" alt="logo-github"> Github:  <a class="text-break" href="https://github.com/GonzaloFlores1121/grupo4" target="_blank">https://github.com/GonzaloFlores1121/grupo4</a></p>
+                <p><img th:src="@{/img/trello.png}" alt="logo-trello"> Trello:  <a class="text-break" href="https://trello.com/w/grupo4tallerweb" target="_blank">https://trello.com/w/grupo4tallerweb</a></p>
+            </div>
+            <div class="col-sm-5 d-flex flex-column justify-content-star">
+                <h5>Integrantes: </h5>
+                <p>Rodolfo Gutierrez - Gonzalo Flores</p>
+                <p>Milagros Chavez - Kevin Llombart</p>
+                <p>Joaquin Paiva</p>
+            </div>
+        </div>
+    </footer>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

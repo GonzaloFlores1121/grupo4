@@ -32,11 +32,11 @@ footer {
     background-color: #1B1F23;
 }
 
-a, a:hover {
+a, a:link, a:visited, a:hover, a:active {
     text-decoration: none;
 }
 
-h1,h2, h3, h4, h5, h6, .nav-link {
+h1, h2, h3, h4, h5, h6, .nav-link {
     font-family: "Quicksand", sans-serif;
     font-weight: bolder;
 }
