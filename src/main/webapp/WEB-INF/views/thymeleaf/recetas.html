@@ -7,40 +7,73 @@
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!--bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!--google-fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
-        <div class="container-fluid">
-            <!-- Logo y nombre de la empresa -->
-            <a th:href="@{/menuprincipal}" class="navbar-brand d-flex align-items-center " >
-
-                <img th:src="@{/img/logo1.png}" alt="Logo de FatLoss" height="60" class="d-inline-block align-top">
-                <h1 class="blanco-texto">FatLoss</h1>
-            </a>
-            <!-- Botón de colapso para dispositivos pequeños -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <!-- Contenido del navbar -->
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto"> <!--  "ms-auto" para alinear a la derecha -->
-                    <!-- Saludo personalizado y enlaces -->
-                    <li class="nav-item">
-                        <a th:href="@{/perfilUsuario}" class="nav-link" >Hola, Usuario X</a>
-                    </li>
-                    <li class="nav-item">
-                        <a th:href="@{/ingresarPeso}" class="nav-link" >Mi peso X kg</a>
-                    </li>
-                    <li class="nav-item">
-                        <a th:href="@{/inicio}" class="nav-link">Salir</a>
-                    </li>
-                </ul>
+<nav class="navbar navbar-expand-sm navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/menuprincipal}">
+            <h1><img th:src="@{/img/logo_bg-color.png}" alt="logo" height="100px">   fatloss</h1>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" th:text="${usuario}"></a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item active" th:href="@{#}">Perfil</a></li>
+                        <li><a class="dropdown-item" th:href="@{#}">Configuracion</a></li>
+                        <li><a class="dropdown-item" th:href="@{#}">Notificaciones</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Mi Calendario</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" th:href="@{#}">Dieta</a></li>
+                        <li><a class="dropdown-item" th:href="@{#}">Alimentacion</a></li>
+                        <li><a class="dropdown-item" th:href="@{#}">Ejercicios</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Mi Historial</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" th:href="@{#}">Mi historial de Peso</a></li>
+                        <li><a class="dropdown-item" th:href="@{#}">Libro de Cocina</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/inicio}">Salir</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="list-group flex-row">
+                <a th:href="@{/alimentos}" class="list-group-item list-group-item-action">ALIMENTOS</a>
+                <a th:href="@{/recetas}" class="list-group-item list-group-item-action activo">RECETAS</a>
+                <a th:href="@{/actividadesFisicas}" class="list-group-item list-group-item-action">EN FORMA</a>
             </div>
         </div>
-    </nav>
-
-    <div class="contenedor-principal-receta">
+    </div>
+</div>
+<div class="container mt-4">
+    <div class="conEncabezado">
         <div class="contenedor-descripcion-recetas">
             <img th:src="@{/img/icono-cocina.png}" alt="icono-recetas" width="100px" height="100px">
             <div class="div-parrafos-receta">
@@ -48,9 +81,8 @@
                 <p>Encuentre recetas perfectas para su dieta!</p>
             </div>
         </div>
-
         <div class="contenedor-busqueda">
-            <label class="buscar-receta"> Encuentra la receta que buscas!
+            <label class="buscar-receta"> Encuentre el alimento que buscas!
                 <div>
                     <input class="busqueda-alimento" name="busqueda-alimento" type="text">
                     <button type="submit">buscar</button>
@@ -58,37 +90,57 @@
             </label>
         </div>
     </div>
-
-    <div class="contenedor-recetas">
-        <div class="seccion-receta">
-            <img th:src="@{/img/receta-quinoa.jpg}" alt="receta" width="100x" height="50px">
-            <div class="div-textos-receta">
-                <a  th:src="@{/descripcionRecetas}" class="titulo-receta">Ensalada de quinoa con vegetales asados</a>
-                <p>Una receta facil y rapida</p>
+    <div class="contenedor-principal-receta">
+        <div class="contenedor-recetas">
+            <div class="seccion-receta">
+                <img th:src="@{/img/receta-quinoa.jpg}" alt="receta" width="100px" height="50px">
+                <div class="div-textos-receta">
+                    <a  th:src="@{/descripcionRecetas}" class="titulo-receta">Ensalada de quinoa con vegetales asados</a>
+                    <p>Una receta facil y rapida</p>
+                </div>
             </div>
-        </div>
-        <div class="seccion-receta">
-            <img th:src="@{/img/receta2.jpg}" alt="receta" width="100px" height="100px">
-            <div class="div-textos-receta">
-                <p class="titulo-receta">Trufas de banana y chocolate</p>
-                <p>bajo en carbohidratos y deliciosa</p>
+            <div class="seccion-receta">
+                <img th:src="@{/img/receta2.jpg}" alt="receta" width="100px" height="100px">
+                <div class="div-textos-receta">
+                    <p class="titulo-receta">Trufas de banana y chocolate</p>
+                    <p>bajo en carbohidratos y deliciosa</p>
+                </div>
             </div>
-        </div>
-        <div class="seccion-receta">
-            <img th:src="@{/img/receta3.jpg}" alt="receta" width="100px" height="100px">
-            <div class="div-textos-receta">
-                <p class="titulo-receta">Ensalada con huevo</p>
-                <p>Una receta sana y facil de hacer</p>
+            <div class="seccion-receta">
+                <img th:src="@{/img/receta3.jpg}" alt="receta" width="100px" height="100px">
+                <div class="div-textos-receta">
+                    <p class="titulo-receta">Ensalada con huevo</p>
+                    <p>Una receta sana y facil de hacer</p>
+                </div>
             </div>
-        </div>
-        <div class="seccion-receta">
-            <img th:src="@{/img/receta4.jpg}" alt="receta" width="100px" height="100px">
-            <div class="div-textos-receta">
-                <p class="titulo-receta">Arroz con pollo</p>
-                <p>Perfecto para subir volumen</p>
+            <div class="seccion-receta">
+                <img th:src="@{/img/receta4.jpg}" alt="receta" width="100px" height="100px">
+                <div class="div-textos-receta">
+                    <p class="titulo-receta">Arroz con pollo</p>
+                    <p>Perfecto para subir volumen</p>
+                </div>
             </div>
         </div>
     </div>
-
+</div>
+<footer class="container-fluid mt-auto py-2">
+    <div class="row d-flex align-items-center">
+        <div class="col-sm-2 d-flex justify-content-center justify-content-sm-end justify-content-md-end
+            justify-content-lg-end justify-content-xl-end justify-content-xxl-end py-2">
+            <img th:src="@{/img/logo-mono_bg-color.png}" alt="logo" height="80px">
+        </div>
+        <div class="col-sm-5 d-flex flex-column justify-content-star">
+            <h4>TP Taller Web I: fatloss</h4>
+            <p><img th:src="@{/img/github.png}" alt="logo-github"> Github:  <a class="text-break" href="https://github.com/GonzaloFlores1121/grupo4" target="_blank">https://github.com/GonzaloFlores1121/grupo4</a></p>
+            <p><img th:src="@{/img/trello.png}" alt="logo-trello"> Trello:  <a class="text-break" href="https://trello.com/w/grupo4tallerweb" target="_blank">https://trello.com/w/grupo4tallerweb</a></p>
+        </div>
+        <div class="col-sm-5 d-flex flex-column justify-content-star">
+            <h5>Integrantes: </h5>
+            <p>Rodolfo Gutierrez - Gonzalo Flores</p>
+            <p>Milagros Chavez - Kevin Llombart</p>
+            <p>Joaquin Paiva</p>
+        </div>
+    </div>
+</footer>
 </body>
 </html>
