@@ -12,16 +12,6 @@ public class DatosLogin {
     public DatosLogin() {
     }
 
-    public DatosLogin(String email, String password,Double peso, Double altura, String nivelDeActividad,Integer edad) {
-        this.email = email;
-        this.password = password;
-        this.peso = peso;
-        this.nivelDeActividad = nivelDeActividad;
-        this.altura = altura;
-        this.edad=edad;
-
-    }
-
 
     public Integer getEdad() {return edad;}
 

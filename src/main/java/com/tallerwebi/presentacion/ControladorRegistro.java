@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.ui.ModelMap;
 
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
+@SessionAttributes("usuario")
 public class ControladorRegistro {
 
 
@@ -33,11 +35,11 @@ public class ControladorRegistro {
         return new ModelAndView("inicio");
     }
 
-    @RequestMapping(value = "/irAFormulario", method = RequestMethod.GET)
+    @RequestMapping(value = "/formulario-registro", method = RequestMethod.GET)
     public ModelAndView irAFormulario() {
-        ModelAndView modelAndView = new ModelAndView("formulario-registro");
-        modelAndView.addObject("datosLogin", new DatosLogin()); // Agrega datosLogin al modelo
-        return modelAndView;
+        ModelMap modelo = new ModelMap();
+        modelo.put("usuario", new Usuario());
+        return new ModelAndView("formulario-registro", modelo);
     }
 
     @RequestMapping(value = "/menuprincipal", method = RequestMethod.GET)
@@ -47,23 +49,15 @@ public class ControladorRegistro {
     }
 
     @RequestMapping(value = "/enviarFormulario", method = RequestMethod.POST)
-    public ModelAndView enviarFormulario(@ModelAttribute("datosLogin") DatosLogin datosLogin, HttpServletRequest request) {
+    public ModelAndView enviarFormulario(@ModelAttribute("usuario") Usuario usuario, HttpServletRequest request) {
         ModelMap model = new ModelMap();
         try {
-            Usuario nuevoUsuario = new Usuario();
-            nuevoUsuario.setEmail(datosLogin.getEmail());
-            nuevoUsuario.setPassword(datosLogin.getPassword());
-            nuevoUsuario.setGenero(datosLogin.getSexo());
-            nuevoUsuario.setNivelDeActividad(datosLogin.getNivelDeActividad());
-            nuevoUsuario.setPeso(datosLogin.getPeso());
-            nuevoUsuario.setAltura(datosLogin.getAltura());
-            nuevoUsuario.setEdad(datosLogin.getEdad());
-            servicioDatosUsuario.registrarUsuario(nuevoUsuario);
+            servicioDatosUsuario.registrarUsuario(usuario);
             HttpSession session = request.getSession();
-            session.setAttribute("usuario", nuevoUsuario);
+            session.setAttribute("usuario", usuario);
         } catch (DatosIncorrectos e) {
-            ModelAndView modelAndView = new ModelAndView("redirect:/irAFormulario");
-            modelAndView.addObject("error", "Error al registrar el usuario: " + e.getMessage());
+            model.put("error", "Datos incorrectos");
+            ModelAndView modelAndView = new ModelAndView("formulario-registro", model);
             return modelAndView;
         }
 

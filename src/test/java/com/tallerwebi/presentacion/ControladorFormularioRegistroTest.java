@@ -4,8 +4,10 @@ import com.tallerwebi.dominio.DatosLogin;
 import com.tallerwebi.dominio.ServicioDatosUsuario;
 import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.excepcion.DatosIncorrectos;
+import org.hibernate.Session;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,6 +26,8 @@ public class ControladorFormularioRegistroTest {
     private ControladorMenuPrincipal controladorMenu;
     private ServicioDatosUsuario servicioDatosUsuarioMock;
 
+    //cuando registro al user me lleva al menuPrincipal
+
     @BeforeEach
     public void init() {
         servicioDatosUsuarioMock = mock(ServicioDatosUsuario.class);
@@ -34,7 +38,7 @@ public class ControladorFormularioRegistroTest {
     @Test
     public void seRegistraAlUsuario() throws DatosIncorrectos {
         // Given
-        DatosLogin datosRegistro = givenDatosDeRegistro();
+        Usuario usuario = givenDatosDeRegistro();
 
         HttpServletRequest solicitudRegistro = mock(HttpServletRequest.class);
         HttpSession sessionMock = mock(HttpSession.class);
@@ -42,46 +46,53 @@ public class ControladorFormularioRegistroTest {
         when(solicitudRegistro.getSession()).thenReturn(sessionMock);
 
         // When
-        Boolean usuarioRegistrado = whenRegistroAlUsuario(datosRegistro, solicitudRegistro);
+        whenRegistroAlUsuario(usuario, solicitudRegistro);
 
         // Then
-        thenUsuarioSeRegistroCorrectamente(usuarioRegistrado, sessionMock);
+        thenUsuarioSeRegistroCorrectamente( sessionMock, usuario);
     }
 
-    private DatosLogin givenDatosDeRegistro() {
+    private Usuario givenDatosDeRegistro() {
         String email = "ejemplo@example.com";
         String password = "contraseña123";
         Double peso = 70.0;
         Double altura = 170.0;
         Integer edad = 18;
-        String sexo = "femenino"; // Cambiar según necesites
-        String nivelActividad = "sedentario"; // Cambiar según necesites
+        String sexo = "femenino";
+        String nivelActividad = "sedentario";
 
-        DatosLogin datosLogin = new DatosLogin();
-        datosLogin.setEmail(email);
-        datosLogin.setPassword(password);
-        datosLogin.setPeso(peso);
-        datosLogin.setAltura(altura);
-        datosLogin.setSexo(sexo);
-        datosLogin.setNivelDeActividad(nivelActividad);
-        datosLogin.setEdad(edad);
+        Usuario usuario = new Usuario();
+        usuario.setEmail(email);
+        usuario.setPassword(password);
+        usuario.setPeso(peso);
+        usuario.setAltura(altura);
+        usuario.setGenero(sexo);
+        usuario.setNivelDeActividad(nivelActividad);
+        usuario.setEdad(edad);
 
-        return datosLogin;
+        return usuario;
     }
 
-    private Boolean whenRegistroAlUsuario(DatosLogin datosRegistro, HttpServletRequest requestMock) throws DatosIncorrectos {
+    private void whenRegistroAlUsuario(Usuario usuario, HttpServletRequest requestMock) throws DatosIncorrectos {
         // Lógica para registrar al usuario
         when(servicioDatosUsuarioMock.registrarUsuario(any(Usuario.class))).thenReturn(true);//escenario en el que se registra el usuario con exitow :)
 
-        ModelAndView modelAndView = controladorRegistro.enviarFormulario(datosRegistro, requestMock);
-        String vistaDestino = modelAndView.getViewName();
-        return "redirect:/menuprincipal".equals(vistaDestino);
+       controladorRegistro.enviarFormulario(usuario, requestMock);
+
+
     }
 
-    private void thenUsuarioSeRegistroCorrectamente(Boolean usuarioRegistrado, HttpSession sessionMock) {
+    private void thenUsuarioSeRegistroCorrectamente( HttpSession sessionMock,Usuario usuario) {
 
         verify(sessionMock).setAttribute(eq("usuario"), any(Usuario.class));
-    }
 
+        // Capturar el usuario que se pasó al método setAttribute
+        ArgumentCaptor<Usuario> usuarioCaptor = ArgumentCaptor.forClass(Usuario.class);
+        verify(sessionMock).setAttribute(eq("usuario"), usuarioCaptor.capture());
+        Usuario usuarioReg = usuarioCaptor.getValue();
+
+
+        assertEquals(usuario.getEmail(), usuarioReg.getEmail());
+    }
 
 }

@@ -84,8 +84,6 @@ public class ServicioDatosNutricionalesTest {
         assertNotNull(vo1);
         assertNotNull(vo2);
         assertNotNull(vo3);
-
-
     }
 
     private MacronutrientesUsuario whenCalculoLosMacronutrientesDelUsuario(Usuario usuario) throws DatosIncorrectos {

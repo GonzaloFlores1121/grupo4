@@ -48,55 +48,104 @@
         </div>
     </div>
 </nav>
-<div class="container mt-5">
-    <h1 class="text-center">Mi Ingesta Diaria Recomendada (IDR)</h1>
-    <p class="lead text-center">LU. 06 MAY 2024</p>
 
-    <div class="row justify-content-center">
+<div class="container mt-4">
+    <h1 class="text-center m-5">Mi diario de comida</h1>
+    <div class="row">
+        <!-- Columna para los contenedores de Desayuno, Almuerzo, etc. -->
         <div class="col-md-6">
-            <table class="table">
-                <tbody>
-                <tr>
-                    <td>IDR actual</td>
-                    <td><p>180</p></td>
-                </tr>
-                <tr>
-                    <td>Edad</td>
-                    <td>19</td>
-                </tr>
-                <tr>
-                    <td>Peso</td>
-                    <td>56.6 kg</td>
-                </tr>
-                <tr>
-                    <td>Altura</td>
-                    <td>150 cm</td>
-                </tr>
-                <tr>
-                    <td>Dieta Objetivo</td>
-                    <td>Perder Peso Lentamente</td>
-                </tr>
-                <tr>
-                    <td>Nivel de Actividad</td>
-                    <td>Sedentario</td>
-                </tr>
-                <tr>
-                    <td>Grasa a consumir</td>
-                    <td><p></p></td>
-                </tr>
-                <tr>
-                    <td>Cabohidratos a consumir</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Proteinas a consumir</td>
-                    <td></td>
-                </tr>
-                </tbody>
-            </table>
+            <!-- Desayuno -->
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <h5 class="card-title m-0">Desayuno</h5>
+                            <button class="btn btn-success" type="button" id="button-addon2">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Almuerzo -->
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <h5 class="card-title m-0">Almuerzo</h5>
+                            <button class="btn btn-success" type="button" id="button-addon3">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Cena -->
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <h5 class="card-title m-0">Cena</h5>
+                            <button class="btn btn-success" type="button" id="button-addon4">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Pasa Bocas / Otros -->
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <h5 class="card-title m-0">Pasa Bocas / Otros</h5>
+                            <button class="btn btn-success" type="button" id="button-addon5">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Columna para la ingesta diaria recomendada -->
+        <div class="col-md-6">
+            <div class="card border-0">
+                <div class="card-body">
+                    <h2 class="text-center">Mi Ingesta Diaria Recomendada (IDR)</h2>
+                    <p class="lead text-center">LU. 06 MAY 2024</p>
+                    <div class="row justify-content-center">
+                        <div class="col-md-7">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td>IDR actual:</td>
+                                        <td>
+                                            <p th:if="${idr != null}" th:text="${idr} + ' cal'"></p>
+                                            <p th:unless="${idr != null}">Valor de IDR no disponible</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Grasa a consumir:</td>
+                                        <td>
+                                            <p th:if="${grasas != null}" th:text="${grasas} + ' g'"></p>
+                                            <p th:unless="${grasas != null}">Valor de cantidad de grasas a consumir no disponible</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Carbohidratos a consumir:</td>
+                                        <td>
+                                            <p th:if="${carbos != null}" th:text="${carbos} + ' g'"></p>
+                                            <p th:unless="${carbos != null}">Valor de cantidad de carbohidratos a consumir no disponible</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Proteínas a consumir:</td>
+                                        <td>
+                                            <p th:if="${proteinas != null}" th:text="${proteinas} + ' g'"></p>
+                                            <p th:unless="${proteinas != null}">Valor de cantidad de proteínas a consumir no disponible</p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
+</div>
 
 <footer class="container-fluid mt-auto py-2">
     <div class="row d-flex align-items-center">

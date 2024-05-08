@@ -65,7 +65,6 @@ public class Usuario {
     public void setGenero(String genero) {
         this.genero = genero;
     }
-
     public String getNivelDeActividad() {
         return nivelDeActividad;
     }

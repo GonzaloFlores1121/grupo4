@@ -16,6 +16,7 @@ public class ServicioDatosUsuarioImpl implements ServicioDatosUsuario {
 
     @Override
     public Boolean registrarUsuario(Usuario usuario) throws DatosIncorrectos {
+
         return usuarioDatosCorrecto(usuario);
     }
 
