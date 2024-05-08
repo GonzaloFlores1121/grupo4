@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="footer">
+<footer class="container-fluid mt-auto py-2">
+    <div class="row d-flex align-items-center">
+        <div class="col-sm-2 d-flex justify-content-center justify-content-sm-end justify-content-md-end
+            justify-content-lg-end justify-content-xl-end justify-content-xxl-end py-2">
+            <img th:src="@{/img/logo-mono_bg-color.png}" alt="logo" height="80px">
+        </div>
+        <div class="col-sm-5 d-flex flex-column justify-content-star">
+            <h4>TP Taller Web I: fatloss</h4>
+            <p><img th:src="@{/img/github.png}" alt="logo-github"> Github:  <a class="text-break" href="https://github.com/GonzaloFlores1121/grupo4" target="_blank">https://github.com/GonzaloFlores1121/grupo4</a></p>
+            <p><img th:src="@{/img/trello.png}" alt="logo-trello"> Trello:  <a class="text-break" href="https://trello.com/w/grupo4tallerweb" target="_blank">https://trello.com/w/grupo4tallerweb</a></p>
+        </div>
+        <div class="col-sm-5 d-flex flex-column justify-content-star">
+            <h5>Integrantes: </h5>
+            <p>Rodolfo Gutierrez - Gonzalo Flores</p>
+            <p>Milagros Chavez - Kevin Llombart</p>
+            <p>Joaquin Paiva</p>
+        </div>
+    </div>
+</footer>
+</div>
+</body>
+</html>

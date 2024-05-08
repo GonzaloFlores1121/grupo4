@@ -10,35 +10,19 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
-        <div class="container-fluid">
-            <!-- Logo y nombre de la empresa -->
-            <a th:href="@{/menuprincipal}" class="navbar-brand d-flex align-items-center " >
+<div th:replace="navbar :: navbar"></div>
 
-                <img th:src="@{/img/logo1.png}" alt="Logo de FatLoss" height="60" class="d-inline-block align-top">
-                <h1 class="blanco-texto">FatLoss</h1>
-            </a>
-            <!-- Botón de colapso para dispositivos pequeños -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <!-- Contenido del navbar -->
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto"> <!--  "ms-auto" para alinear a la derecha -->
-                    <!-- Saludo personalizado y enlaces -->
-                    <li class="nav-item">
-                        <a th:href="@{/perfilUsuario}" class="nav-link" >Hola, Usuario X</a>
-                    </li>
-                    <li class="nav-item">
-                        <a th:href="@{/ingresarPeso}" class="nav-link" >Mi peso X kg</a>
-                    </li>
-                    <li class="nav-item">
-                        <a th:href="@{/inicio}" class="nav-link">Salir</a>
-                    </li>
-                </ul>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="list-group flex-row">
+                <a th:href="@{/alimentos}" class="list-group-item list-group-item-action ">ALIMENTOS</a>
+                <a th:href="@{/recetas}" class="list-group-item list-group-item-action activo">RECETAS</a>
+                <a th:href="@{/actividadesFisicas}" class="list-group-item list-group-item-action">EN FORMA</a>
             </div>
         </div>
-    </nav>
+    </div>
+</div>
 
     <div class="contenedor-principal-receta">
         <div class="contenedor-descripcion-recetas">
@@ -90,5 +74,6 @@
         </div>
     </div>
 
+<div th:replace="footer :: footer"></div>
 </body>
 </html>

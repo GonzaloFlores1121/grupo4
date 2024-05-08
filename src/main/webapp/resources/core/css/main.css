@@ -1,3 +1,6 @@
+.espacio {
+    height: 200px; /* solucion momentanea para ocupar el espacio blanco en act.fisicas y el home */
+}
 .starter-template {
   padding: 3rem 1.5rem;
   text-align: center;
@@ -10,6 +13,7 @@ body {
     min-height: 100vh;
     /*fin*/
     font-family: "Lato", sans-serif;
+
 }
 
 h1{
@@ -379,4 +383,12 @@ descripcion recetas
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+footer {
+
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    margin-top: auto;
 }
