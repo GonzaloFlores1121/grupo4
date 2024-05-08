@@ -70,6 +70,12 @@ if(usuario != null) {
         return new ModelAndView("recetas");
     }
 
+    @RequestMapping(value = "/descripcionRecetas",method = RequestMethod.GET)
+    public ModelAndView irADescripcionRecetas(){
+
+        return new ModelAndView("descripcionRecetas");
+    }
+
     @RequestMapping(value = "/alimentos",method = RequestMethod.GET)
         public ModelAndView irALimentos(){
             return new ModelAndView("alimentos");

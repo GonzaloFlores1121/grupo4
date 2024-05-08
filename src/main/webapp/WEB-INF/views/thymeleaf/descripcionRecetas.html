@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Descripción de Receta</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="css/main.css"/>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-success">
+    <div class="container-fluid">
+        <a th:href="@{/menuprincipal}" class="navbar-brand d-flex align-items-center " >
+
+            <img th:src="@{/img/logo1.png}" alt="Logo de FatLoss" height="60" class="d-inline-block align-top">
+            <h1 class="blanco-texto">FatLoss</h1>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a th:href="@{/perfilUsuario}" class="nav-link" >Hola, Usuario X</a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/ingresarPeso}" class="nav-link" >Mi peso X kg</a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/inicio}" class="nav-link">Salir</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="row-receta">
+    <section class="contenedor-imagen-receta">
+        <img th:src="@{img/receta-quinoa.jpg}"  width="200px" height="200px" alt="Platillo_quinoa_con_vegetales" class="borde-verde">
+    </section>
+    <div class="container-rec">
+        <h2>Ensalada de Quinoa con Vegetales Asados</h2>
+
+        <h3>Ingredientes:</h3>
+        <ul>
+            <li>1 taza de quinoa</li>
+            <li>2 tazas de caldo de verduras o agua</li>
+            <li>1 pimiento rojo, cortado en trozos</li>
+            <li>1 pimiento amarillo, cortado en trozos</li>
+            <li>1 calabacín, cortado en rodajas</li>
+            <li>1 berenjena, cortada en rodajas</li>
+            <li>1 cebolla roja, cortada en trozos</li>
+            <li>2 cucharadas de aceite de oliva</li>
+            <li>Sal y pimienta al gusto</li>
+            <li>2 cucharadas de jugo de limón</li>
+            <li>2 cucharadas de hojas de cilantro fresco (opcional)</li>
+            <li>1 aguacate, cortado en cubos</li>
+        </ul>
+
+        <h3>Instrucciones:</h3>
+        <ol>
+            <li>Precalienta el horno a 200°C (390°F).</li>
+            <li>Enjuaga bien la quinoa bajo agua fría para eliminar el sabor amargo. Luego, colócala en una olla con el caldo de verduras o agua. Lleva a ebullición, luego reduce el fuego, tapa y cocina a fuego lento durante 15-20 minutos, o hasta que la quinoa esté cocida y el líquido se haya absorbido. Retira del fuego y deja reposar durante unos minutos.</li>
+            <li>Mientras la quinoa se cocina, prepara las verduras. Coloca los pimientos, el calabacín, la berenjena y la cebolla en una bandeja para hornear. Rocía con aceite de oliva, sal y pimienta al gusto. Mezcla bien para asegurarte de que todas las verduras estén cubiertas.</li>
+            <li>Hornea las verduras en el horno precalentado durante unos 20-25 minutos, o hasta que estén tiernas y ligeramente doradas, revolviendo ocasionalmente.</li>
+            <li>Una vez que la quinoa y las verduras estén listas, mezcla la quinoa cocida con las verduras asadas en un tazón grande.</li>
+            <li>Adereza la ensalada con jugo de limón y hojas de cilantro fresco (si lo deseas). Mezcla bien.</li>
+            <li>Sirve la ensalada en platos individuales y decora con cubos de aguacate.</li>
+            <li>¡Disfruta de tu deliciosa ensalada de quinoa con vegetales asados!</li>
+        </ol>
+    </div>
+
+    <aside>
+        <h2>Información Nutricional</h2>
+        <table>
+            <tr>
+                <th>Tamaño de la Porción</th>
+                <td>por porción</td>
+            </tr>
+            <tr>
+                <th>Energía</th>
+                <td>160 kj / 38 kcal</td>
+            </tr>
+            <tr>
+                <th>Carbohidratos</th>
+                <td>3,3g</td>
+            </tr>
+            <tr>
+                <th>Azúcar</th>
+                <td>0,64g</td>
+            </tr>
+            <tr>
+                <th>Proteína</th>
+                <td>2,69g</td>
+            </tr>
+            <tr>
+                <th>Grasa</th>
+                <td>1,58g</td>
+            </tr>
+            <tr>
+                <th>Grasa Saturada</th>
+                <td>0,422g</td>
+            </tr>
+            <tr>
+                <th>Grasa Poliinsaturada</th>
+                <td>0,32g</td>
+            </tr>
+            <tr>
+                <th>Grasa Monoinsaturada</th>
+                <td>0,552g</td>
+            </tr>
+            <tr>
+                <th>Colesterol</th>
+                <td>53mg</td>
+            </tr>
+            <tr>
+                <th>Fibra</th>
+                <td>0,6g</td>
+            </tr>
+            <tr>
+                <th>Sodio</th>
+                <td>143mg</td>
+            </tr>
+            <tr>
+                <th>Potasio</th>
+                <td>59mg</td>
+            </tr>
+        </table>
+    </aside>
+</div>
+</div>
+</body>
+</html>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        margin: 0;
+        padding: 0;
+        background-color: #f9f9f9;
+    }
+    .container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+        color: #007bff;
+    }
+    h3 {
+        margin-top: 20px;
+        color: #4caf50;
+    }
+    ul {
+        margin-bottom: 20px;
+    }
+    li {
+        margin-bottom: 5px;
+    }
+
+    aside {
+        background-color: #f2f2f2;
+        padding: 20px;
+        border-radius: 10px;
+        margin-top: 20px;
+        margin-left: 20px;;
+    }
+    h2 {
+        color: #007bff;
+        margin-bottom: 10px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+    th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    th {
+        background-color: #ddd;
+    }
+
+    .borde-verde {
+        border: 2px solid #4caf50;
+        border-radius: 5px;
+        margin-top: 20px;
+        margin-right: 14px;
+    }
+</style>
