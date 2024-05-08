@@ -23,57 +23,57 @@
         </div>
     </div>
 </div>
-
-    <div class="contenedor-principal-receta">
-        <div class="contenedor-descripcion-recetas">
-            <img th:src="@{/img/icono-cocina.png}" alt="icono-recetas" width="100px" height="100px">
-            <div class="div-parrafos-receta">
-                <p class="titulo-receta">Recetas</p>
-                <p>Encuentre recetas perfectas para su dieta!</p>
-            </div>
-        </div>
-
-        <div class="contenedor-busqueda">
-            <label class="buscar-receta"> Encuentra la receta que buscas!
-                <div>
-                    <input class="busqueda-alimento" name="busqueda-alimento" type="text">
-                    <button type="submit">buscar</button>
+<div class="container mt-4">
+    <div class="conEncabezado">
+            <div class="contenedor-descripcion-recetas">
+                <img th:src="@{/img/icono-cocina.png}" alt="icono-recetas" width="100px" height="100px">
+                <div class="div-parrafos-receta">
+                    <p class="titulo-receta">Recetas</p>
+                    <p>Encuentre recetas perfectas para su dieta!</p>
                 </div>
-            </label>
+            </div>
+            <div class="contenedor-busqueda">
+                <label class="buscar-receta"> Encuentra la receta que buscas!
+                    <div>
+                        <input class="busqueda-alimento" name="busqueda-alimento" type="text">
+                        <button type="submit">buscar</button>
+                    </div>
+                </label>
+            </div>
+    </div>
+    <div class="contenedor-principal-receta">
+        <div class="contenedor-recetas">
+            <div class="seccion-receta">
+                <img th:src="@{/img/receta-quinoa.jpg}" alt="receta" width="100x" height="50px">
+                <div class="div-textos-receta">
+                    <a  th:src="@{/descripcionRecetas}" class="titulo-receta">Ensalada de quinoa con vegetales asados</a>
+                    <p>Una receta facil y rapida</p>
+                </div>
+            </div>
+            <div class="seccion-receta">
+                <img th:src="@{/img/receta2.jpg}" alt="receta" width="100px" height="100px">
+                <div class="div-textos-receta">
+                    <p class="titulo-receta">Trufas de banana y chocolate</p>
+                    <p>bajo en carbohidratos y deliciosa</p>
+                </div>
+            </div>
+            <div class="seccion-receta">
+                <img th:src="@{/img/receta3.jpg}" alt="receta" width="100px" height="100px">
+                <div class="div-textos-receta">
+                    <p class="titulo-receta">Ensalada con huevo</p>
+                    <p>Una receta sana y facil de hacer</p>
+                </div>
+            </div>
+            <div class="seccion-receta">
+                <img th:src="@{/img/receta4.jpg}" alt="receta" width="100px" height="100px">
+                <div class="div-textos-receta">
+                    <p class="titulo-receta">Arroz con pollo</p>
+                    <p>Perfecto para subir volumen</p>
+                </div>
+            </div>
         </div>
     </div>
-
-    <div class="contenedor-recetas">
-        <div class="seccion-receta">
-            <img th:src="@{/img/receta-quinoa.jpg}" alt="receta" width="100x" height="50px">
-            <div class="div-textos-receta">
-                <a  th:src="@{/descripcionRecetas}" class="titulo-receta">Ensalada de quinoa con vegetales asados</a>
-                <p>Una receta facil y rapida</p>
-            </div>
-        </div>
-        <div class="seccion-receta">
-            <img th:src="@{/img/receta2.jpg}" alt="receta" width="100px" height="100px">
-            <div class="div-textos-receta">
-                <p class="titulo-receta">Trufas de banana y chocolate</p>
-                <p>bajo en carbohidratos y deliciosa</p>
-            </div>
-        </div>
-        <div class="seccion-receta">
-            <img th:src="@{/img/receta3.jpg}" alt="receta" width="100px" height="100px">
-            <div class="div-textos-receta">
-                <p class="titulo-receta">Ensalada con huevo</p>
-                <p>Una receta sana y facil de hacer</p>
-            </div>
-        </div>
-        <div class="seccion-receta">
-            <img th:src="@{/img/receta4.jpg}" alt="receta" width="100px" height="100px">
-            <div class="div-textos-receta">
-                <p class="titulo-receta">Arroz con pollo</p>
-                <p>Perfecto para subir volumen</p>
-            </div>
-        </div>
-    </div>
-
+</div>
 <div th:replace="footer :: footer"></div>
 </body>
 </html>

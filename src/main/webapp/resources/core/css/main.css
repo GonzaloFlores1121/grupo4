@@ -282,7 +282,6 @@ font-size:1.5rem ;
 .contenedor-descripcion-recetas{
     display: flex;
     flex-direction: row;
-    margin-left: 8rem;
 }
 
 .contenedor-recetas {
