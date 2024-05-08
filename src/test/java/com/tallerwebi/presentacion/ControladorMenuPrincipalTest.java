@@ -44,7 +44,8 @@ public class ControladorMenuPrincipalTest {
     }
 
     private ModelAndView thenSeCalculanLosDatosYMeLLevaALaVistaMiDiario( Usuario usuario,MockHttpServletRequest solicitud) throws DatosIncorrectos {
-      return controladorMenu.irAMiDiario(solicitud);
+
+        return controladorMenu.irAMiDiario(solicitud);
 
     }
 

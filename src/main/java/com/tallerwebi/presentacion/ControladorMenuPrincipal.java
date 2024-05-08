@@ -134,7 +134,11 @@ if(usuario != null) {
         return new ModelAndView("redirect:/menuprincipal");
     }
 
+    @RequestMapping(value = "/calendarioDieta",method = RequestMethod.GET)
+    public ModelAndView irAMiCalendarioDieta(){
 
+        return new ModelAndView("calendarioDieta");
+    }
 }
 
 
