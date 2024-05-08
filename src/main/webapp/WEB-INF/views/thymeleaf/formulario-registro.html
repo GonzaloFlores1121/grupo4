@@ -3,20 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Detalles y Metas</title>
     <title>Formulario de Registro</title>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/css/main.css}">
 
+    <link th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css}" rel="stylesheet">
     <!--bootstrap-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    
+
     <!--google-fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
-    
+
     <!--solo me anduvo en el html si lo pueden solucionar para ponerlo en el archivo css-->
     <style>
         input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
@@ -24,88 +26,96 @@
             margin: 0;
         }
     </style>
-    
+
 </head>
+
+ <!--header-->
+ <nav class="navbar navbar-expand-sm" style="background-color: #ffffff;">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/inicio}">
+            <h1 class="display-1" style="color: #5FB92E"><img th:src="@{/img/logo.png}" alt="logo" height="120px">   fatloss</h1>
+        </a>
+    </div>
+</nav>
 <body>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="mt-4">Detalles Personales</h2>
+        <form th:action="@{/enviarFormulario}" method="post" th:object="${usuario}">
+            <div class="form-group">
+                <label>Email:</label>
+                <input type="email" class="form-control" th:field="*{email}" required>
+            </div>
+            <div class="form-group">
+                <label>Password:</label>
+                <input type="password" class="form-control" th:field="*{password}" required>
+            </div>
+            <div class="form-group">
+                <label>Sexo:</label><br>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="femenino" th:field="*{genero}" value="femenino">
+                    <label class="form-check-label" for="femenino">Femenino</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="masculino" th:field="*{genero}" value="masculino">
+                    <label class="form-check-label" for="masculino">Masculino</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="peso">Peso Actual:</label><br>
+                <input type="number" class="form-control" id="peso" th:field="*{peso}" required> kg
+            </div>
+            <div class="form-group">
+                <label for="altura">Altura:</label><br>
+                <input type="number" class="form-control" id="altura" th:field="*{altura}" required> cm
+            </div>
+         <div class="form-group">
+                        <label for="edad">Edad:</label><br>
+                        <input type="number" class="form-control" id="edad" th:field="*{edad}" required>
 
-    <!--header-->
-    <nav class="navbar navbar-expand-sm" style="background-color: #ffffff;">
-        <div class="container-fluid">
-            <a class="navbar-brand" th:href="@{/inicio}">
-                <h1 class="display-1" style="color: #5FB92E"><img th:src="@{/img/logo.png}" alt="logo" height="120px">   fatloss</h1>
-            </a>
-        </div>
-    </nav>
 
-    <!--formulario-->
-    <div class="container mt-2 mb-4">
-        <div class="row d-flex flex-column justify-content-center align-items-center">
-            <div class="col-sm-7 border border-3 rounded" th:style="'background-image: url(\'' + @{/img/background.png} + '\'); background-size: cover;'">
-                <form class="p-5" th:action="@{/enviarFormulario}" method="post" th:object="${usuario}">
-                    <h2 class="text-center text-white mb-3">Detalles Personales</h2>
-                    <div class="form-floating mb-3">
-                        <input class="form-control" th:field="*{email}" type="email" name="email" id="email" placeholder="Ingresar Email" required>
-                        <label for="email">Email</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input class="form-control" th:field="*{password}" type="password" name="password" id="password" placeholder="Ingresar Password" required>
-                        <label for="password">Password</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <select class="form-select" th:field="*{genero}" name="genero" id="genero" required>
-                            <option value="" hidden>Seleccione una opcion...</option>
-                            <option value="femenino">Femenino</option>
-                            <option value="masculino">Masculino</option>
-                        </select>
-                        <label class="form-label" for="genero">Genero</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input class="form-control" th:field="*{peso}" type="number" name="peso" id="peso" placeholder="Ingresar Peso" required>
-                        <label for="peso">Peso (en kg)</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input class="form-control" th:field="*{altura}" type="number" name="altura" id="altura" placeholder="Ingresar Altura" required>
-                        <label for="altura">Altura (en cm)</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input class="form-control" th:field="*{edad}" type="number" name="edad" id="edad" placeholder="Ingresar edad" required>
-                        <label for="edad">Edad</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <select class="form-select" th:field="*{nivelDeActividad}" name="nivelDeActividad" id="nivelDeActividad" required>
-                            <option value="" hidden>Seleccione una opcion...</option>
-                            <option value="sedentario">Sedentario</option>
-                            <option value="bajaActividad">Baja actividad</option>
-                            <option value="activo">Activo</option>
-                            <option value="muyActivo">Muy Activo</option>
-                        </select>
-                        <label for="nivelDeActividad">Nivel de Actividad Fisica</label>
-                    </div>
+
+            <div class="form-group">
+                <label for="nivel_actividad">Nivel de Actividad:</label><br>
+                <select class="form-control" id="nivel_actividad" th:field="*{nivelDeActividad}" required>
+                     <option value="sedentario" th:value="sedentario">Sedentario</option>
+                        <option value="baja_actividad" th:value="baja_actividad">Baja Actividad</option>
+                        <option value="activo" th:value="activo">Activo</option>
+                        <option value="muy_activo" th:value="muy_activo">Muy Activo</option>
+                </select>
+
                     <div class="row">
                         <div class="col-sm-6 d-flex flex-column justify-content-center align-items-center">
                             <div class="d-flex flex-column justify-content-center align-items-center">
-                                <input class="btn btn-outline-success" type="submit" name="enviar" id="enviar" value="Enviar">
+                                <input class="btn btn-outline-success m-5" type="submit" name="enviar" id="enviar" value="Enviar">
                             </div>
                         </div>
                         <div class="col-sm-6 d-flex flex-column justify-content-center align-items-center">
                             <div class="d-flex flex-column justify-content-center align-items-center">
-                                <a class="btn btn-outline-success" th:href="@{/inicio}">Cancelar</a>
+                                <a class="btn btn-outline-success m-5" th:href="@{/inicio}">Cancelar</a>
                             </div>
-                        </div>  
+                        </div>
                     </div>
-                    <!--alerta-error(puede llegar a presentar algun error al apretar la x para 
+                    <!--alerta-error(puede llegar a presentar algun error al apretar la x para
                         cerrarlo por ser un button y estar dentro de un form)-->
                     <div class="d-flex flex-column justify-content-center m-3">
                         <div class="alert alert-danger alert-dismissible fade show" th:if="${error != null}">
                             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                             <strong>Error: </strong><span th:text="${error}"></span>
                         </div>
-                    </div>                    
+                    </div>
                 </form>
             </div>
-        </div>
-    </div>
 
+
+    </div>
+</div>
+
+
+<script th:src="@{https://code.jquery.com/jquery-3.5.1.slim.min.js}"></script>
+<script th:src="@{https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js}"></script>
+<script th:src="@{https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js}"></script>
     <!--footer-->
     <footer class="container-fluid mt-auto py-2">
         <div class="row d-flex align-items-center">
