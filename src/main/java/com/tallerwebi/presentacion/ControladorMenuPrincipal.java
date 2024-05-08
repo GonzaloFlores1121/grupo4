@@ -50,9 +50,9 @@ public class ControladorMenuPrincipal {
 
 if(usuario != null) {
     ModelMap modelo = new ModelMap();
-    Integer idr=servicioDatosUsuario.calcularIngestaCalorica(usuario);
+    Integer icr=servicioDatosUsuario.calcularIngestaCalorica(usuario);
     MacronutrientesUsuario macronutrientesUsuario = servicioDatosUsuario.CalcularDistribucionDeMacronutrientes(usuario);
-    modelo.put("idr", idr);
+    modelo.put("icr", icr);
     modelo.put("carbos", macronutrientesUsuario.getCarbohidratosAConsumir());
     modelo.put("grasas",  macronutrientesUsuario.getGrasaAConsumir());
     modelo.put("proteinas", macronutrientesUsuario.getProteinaAConsumir());
