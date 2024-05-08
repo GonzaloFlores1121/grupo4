@@ -275,11 +275,8 @@ font-size:1.5rem ;
 }
 
 .contenedor-principal-receta{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 3rem;
+    padding: 1rem;
+    width: 75%;
 }
 
 .contenedor-descripcion-recetas{
@@ -289,10 +286,11 @@ font-size:1.5rem ;
 }
 
 .contenedor-recetas {
+    padding: 0.5rem;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-left: 9.5rem;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 .seccion-receta{
@@ -323,6 +321,10 @@ font-size:1.5rem ;
 }
 .conTitulo{
     color: #666666;
+}
+
+.conTitulo h1{
+    color: #007bff;
 }
 
 .conAlimentosComunes{
