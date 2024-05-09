@@ -64,6 +64,7 @@ public class ControladorMenuPrincipalTest {
         usuario.setPeso(75.5);
         usuario.setAltura(175.0);
         usuario.setEdad(30);
+        usuario.setNombre("Tomas");
 
 
         // Configurar los parámetros de la solicitud para simular los datos del formulario
@@ -74,10 +75,11 @@ public class ControladorMenuPrincipalTest {
         solicitud.setParameter("peso", String.valueOf(usuario.getPeso()));
         solicitud.setParameter("altura", String.valueOf(usuario.getAltura()));
         solicitud.setParameter("edad", String.valueOf(usuario.getEdad()));
-
+        solicitud.setParameter("nombre", String.valueOf(usuario.getNombre()));
 
         controladorRegistro.enviarFormulario(usuario, solicitud);
 
     }
+
 
 }

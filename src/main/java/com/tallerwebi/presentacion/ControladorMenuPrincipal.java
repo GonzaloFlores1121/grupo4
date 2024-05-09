@@ -139,6 +139,19 @@ if(usuario != null) {
 
         return new ModelAndView("calendarioDieta");
     }
+
+    @RequestMapping(path="/mostrarNombreUsuario", method=RequestMethod.GET)
+    public ModelAndView mostrarNombreUsuario(HttpServletRequest request) {
+        ModelMap modelo = new ModelMap();
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario != null) {
+            modelo.put("nombre", "hfukrgfuii");
+        } else {
+        modelo.put("nombre", "Nombre de usuario desconocido");
+    }
+        return new ModelAndView("menuprincipal", modelo);
+    }
 }
 
 

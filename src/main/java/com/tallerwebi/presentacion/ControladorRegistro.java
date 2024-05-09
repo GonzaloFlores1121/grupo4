@@ -28,8 +28,6 @@ public class ControladorRegistro {
     public ControladorRegistro(ServicioDatosUsuario servicioDatosUsuario) {
         this.servicioDatosUsuario = servicioDatosUsuario;
     }
-
-
     @RequestMapping(value = "/inicio", method = RequestMethod.GET)
     public ModelAndView irAInicio() {
         return new ModelAndView("inicio");
@@ -41,7 +39,6 @@ public class ControladorRegistro {
         modelo.put("usuario", new Usuario());
         return new ModelAndView("formulario-registro", modelo);
     }
-
     @RequestMapping(value = "/iniciar-sesion", method = RequestMethod.GET)
     public ModelAndView irAInicioSesion() {
         return new ModelAndView("iniciar-sesion");
@@ -53,8 +50,16 @@ public class ControladorRegistro {
     }
 
     @RequestMapping(value = "/menuprincipal", method = RequestMethod.GET)
-    public ModelAndView irAlMenuPrincipal() {
-        return new ModelAndView("menuprincipal");
+    public ModelAndView irAlMenuPrincipal(HttpServletRequest request) {
+        ModelMap modelo = new ModelMap();
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario != null) {
+            modelo.put("nombre",usuario.getNombre() );
+        } else {
+            modelo.put("nombre", "Usuario");
+        }
+        return new ModelAndView("menuprincipal",modelo);
     }
 
     @RequestMapping(value = "/enviarFormulario", method = RequestMethod.POST)
@@ -69,7 +74,6 @@ public class ControladorRegistro {
             ModelAndView modelAndView = new ModelAndView("formulario-registro", model);
             return modelAndView;
         }
-
         return new ModelAndView("redirect:/menuprincipal");
     }
 }

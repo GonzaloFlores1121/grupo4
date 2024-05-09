@@ -60,6 +60,7 @@ public class ControladorFormularioRegistroTest {
         Integer edad = 18;
         String sexo = "femenino";
         String nivelActividad = "sedentario";
+        String nombre = "Tomas";
 
         Usuario usuario = new Usuario();
         usuario.setEmail(email);
@@ -69,6 +70,7 @@ public class ControladorFormularioRegistroTest {
         usuario.setGenero(sexo);
         usuario.setNivelDeActividad(nivelActividad);
         usuario.setEdad(edad);
+        usuario.setNombre(nombre);
 
         return usuario;
     }

@@ -33,6 +33,7 @@ public class ServicioFormularioRegistroTest {
         Integer edad = 25;
         String sexo = "femenino";
         String nivelActividad = "sedentario";
+        String nombre = "Tomas";
 
         usuario.setEmail(email);
         usuario.setPassword(password);
@@ -41,6 +42,7 @@ public class ServicioFormularioRegistroTest {
         usuario.setGenero(sexo);
         usuario.setNivelDeActividad(nivelActividad);
         usuario.setEdad(67);
+        usuario.setNombre("Tomas");
 
         return usuario;
     }
@@ -74,6 +76,7 @@ public class ServicioFormularioRegistroTest {
         String sexo = "femenino";
         Integer edad = 25;
         String nivelActividad = "sedentario";
+        String nombre = "Tomas";
 
         usuario.setEmail(email);
         usuario.setPassword(password);
@@ -82,6 +85,7 @@ public class ServicioFormularioRegistroTest {
         usuario.setGenero(sexo);
         usuario.setNivelDeActividad(nivelActividad);
         usuario.setEdad(36);
+        usuario.setNombre("Tomas");
 
         return usuario;
     }
@@ -115,6 +119,7 @@ public class ServicioFormularioRegistroTest {
         String sexo = "femenino";
         Integer edad = 3;
         String nivelActividad = "sedentario";
+        String nombre = "Tomas";
 
         usuario.setEmail(email);
         usuario.setPassword(password);
@@ -123,6 +128,7 @@ public class ServicioFormularioRegistroTest {
         usuario.setGenero(sexo);
         usuario.setNivelDeActividad(nivelActividad);
         usuario.setEdad(edad);
+        usuario.setNombre("Tomas");
 
         return usuario;
     }

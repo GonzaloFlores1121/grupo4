@@ -12,6 +12,7 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String email;
+    private String nombre;
     private String password;
     private String rol;
     private Boolean activo = false;
@@ -27,6 +28,8 @@ public class Usuario {
 
     }
 
+    public String getNombre() {return nombre;}
+    public void setNombre(String nombre) {this.nombre = nombre;}
     public void setEdad(Integer edad){this.edad=edad;}
     public Integer getEdad(){return edad;}
     public Long getId() {
@@ -83,9 +86,7 @@ public class Usuario {
     public Double setAltura(Double altura) {
         return this.altura=altura;
     }
-    public Integer getIngestaCalorica() {
-        return ingestaCalorica;
-    }
+    public Integer getIngestaCalorica() {return ingestaCalorica;}
     public void setIngestaCalorica(Integer ingestaCalorica) {
         this.ingestaCalorica = ingestaCalorica;
     }
