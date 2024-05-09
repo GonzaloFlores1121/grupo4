@@ -91,18 +91,7 @@ if(usuario != null) {
     //probando un poco lo del modelo 
     @RequestMapping(path="/perfilUsuario", method=RequestMethod.GET)
     public ModelAndView perfilUsuario() {
-        ModelMap modelo = new ModelMap();
-        modelo.put("usuario", "admin");
-        modelo.put("contraseña", "1234");
-        modelo.put("email", "admin1234@gmail.com");
-        modelo.put("edad", 25);
-        modelo.put("genero", "Masculino");
-        modelo.put("altura", 155);
-        modelo.put("peso", 45);
-        modelo.put("nivelDeActividadFisica", "Sedentaria");
-        modelo.put("dietaObjetivo", "Mantener mi peso actual");
-        modelo.put("pesoMeta", 45);
-        return new ModelAndView("perfilUsuario", modelo);
+        return new ModelAndView("perfilUsuario");
     }
 
     //viendo que tal va con un map a posteriori estas weas se borraran, pero solo para ir viendo :v
@@ -120,13 +109,7 @@ if(usuario != null) {
 
     @RequestMapping(path="/configuracion", method=RequestMethod.GET)
     public ModelAndView configuracion() {
-        ModelMap modelo = new ModelMap();
-        modelo.put("region", "");
-        modelo.put("idioma", "");
-        modelo.put("unidad-energia", "");
-        modelo.put("unidad-masa", "");
-        modelo.put("idr", 0);
-        return new ModelAndView("configuracion", modelo);
+        return new ModelAndView("configuracion");
     }
 
     @RequestMapping(path="/guardarConfiguracion", method=RequestMethod.POST)

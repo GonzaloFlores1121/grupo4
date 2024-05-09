@@ -18,33 +18,40 @@
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
 </head>
 <body>
-<div th:replace="navbar :: navbar"></div>
+
+    <!--header/nav-->
+    <div th:replace="navbar :: navbar"></div>
+
+    <!--perfil-->
     <div class="container my-5"> 
         <div class="row d-flex align-items-center">
             <div class="col-sm-3 d-flex flex-column justify-content-center my-3">
                 <h3 class="text-center text-dark">Mi Foto</h3>
                 <img class="img-fluid" th:src="@{/img/icono_perfil.png}" alt="icono-perfil">
-                <a class="btn btn-outline-success" th:href="@{#}">Cambiar Foto</a>
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <a class="btn btn-outline-success" th:href="@{#}">Cambiar Foto</a>
+                </div>
             </div>
             <div class="col-sm-9">
                 <h2 class="text-center text-dark">Mi Perfil</h2>
                 <div class="card" th:style="'background-image: url(\'' + @{/img/background.png} + '\'); background-size: cover;'">
                     <div class="card-body ">
-                        <h4 class="card-title text-white" th:text="${usuario}"></h4>
-                        <h5 class="card-title text-white" th:text="${email}"></h5>
-                        <p class="card-text text-dark">Edad: <span class="badge bg-dark" th:text="${edad}+' anos'"></span></p>
-                        <p class="card-text text-dark">Genero: <span class="badge bg-dark" th:text="${genero}"></span></p>
-                        <p class="card-text text-dark">Altura: <span class="badge bg-dark" th:text="${altura}+'cm'"></span></p>
-                        <p class="card-text text-dark">Peso: <span class="badge bg-dark" th:text="${peso}+'kg'"></span></p>
-                        <p class="card-text text-dark">Nivel de Actividad Fisica: <span class="badge bg-dark" th:text="${nivelDeActividadFisica}"></span></p>
-                        <p class="card-text text-dark">Dieta Objetivo: <span class="badge bg-dark" th:text="${dietaObjetivo}"></span></p>
-                        <p class="card-text text-dark">Peso Meta: <span class="badge bg-dark" th:text="${pesoMeta}+'kg'"></span></p>
+                        <h4 class="card-title text-white">Nombre de Usuario</h4>
+                        <h5 class="card-title text-white">Correo de Usuario</h5>
+                        <p class="card-text text-dark">Edad: <span class="badge bg-dark">24 anos</span></p>
+                        <p class="card-text text-dark">Genero: <span class="badge bg-dark">Masculino</span></p>
+                        <p class="card-text text-dark">Altura: <span class="badge bg-dark">155 cm</span></p>
+                        <p class="card-text text-dark">Peso: <span class="badge bg-dark">45 kg</span></p>
+                        <p class="card-text text-dark">Nivel de Actividad Fisica: <span class="badge bg-dark">Sedentario</span></p>
                         <a class="btn btn-outline-dark" th:href="@{#}">Editar Perfil</a>
                     </div>
                 </div>  
             </div>
         </div>        
     </div>
-<div th:replace="footer ::footer"></div>
+    
+    <!--footer-->
+    <div th:replace="footer ::footer"></div>
+
 </body>
 </html>

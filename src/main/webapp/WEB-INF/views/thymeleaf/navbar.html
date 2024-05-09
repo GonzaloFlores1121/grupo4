@@ -10,7 +10,7 @@
 <nav class="navbar navbar-expand-sm navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" th:href="@{/menuprincipal}">
-            <h1><img th:src="@{/img/logo_bg-color.png}" alt="logo" height="100px">fatloss</h1>
+            <h1 class="display-3"><img th:src="@{/img/logo_bg-color.png}" alt="logo" height="120px">fatloss</h1>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
@@ -18,19 +18,19 @@
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" th:text='${nombre}'></a>
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" th:text="${nombre} ? ${nombre} : 'Admin'"></a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item active" th:href="@{#}">Perfil</a></li>
-                        <li><a class="dropdown-item" th:href="@{#}">Configuracion</a></li>
-                        <li><a class="dropdown-item" th:href="@{#}">Notificaciones</a></li>
+                        <li><a class="dropdown-item" th:href="@{perfilUsuario}">Perfil</a></li>
+                        <li><a class="dropdown-item" th:href="@{configuracion}">Configuracion</a></li>
+                        <li><a class="dropdown-item" th:href="@{notificaciones}">Notificaciones</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Mi Calendario</a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" th:href="@{#}">Dieta</a></li>
-                        <li><a class="dropdown-item" th:href="@{#}">Alimentacion</a></li>
-                        <li><a class="dropdown-item" th:href="@{#}">Ejercicios</a></li>
+                        <li><a class="dropdown-item" th:href="@{calendarioDieta}">Dieta</a></li>
+                        <li><a class="dropdown-item" th:href="@{alimentos}">Alimentacion</a></li>
+                        <li><a class="dropdown-item" th:href="@{ejercicio}">Ejercicios</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">

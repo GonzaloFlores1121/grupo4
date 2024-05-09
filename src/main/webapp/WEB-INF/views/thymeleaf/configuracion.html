@@ -18,59 +18,45 @@
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
 </head>
 <body>
-<div th:replace="navbar :: navbar"></div>
+    
+    <!--header/nav-->
+    <div th:replace="navbar :: navbar"></div>
+
     <!--configuracion-->
-    <div class="container my-3">
+    <div class="container my-5">
         <div class="row d-flex flex-column justify-content-center align-items-center">
-            <h2 class="text-center text-dark my-3">Mi Configuracion</h2>
             <div class="col-sm-6 border border-1 rounded" th:style="'background-image: url(\'' + @{/img/background.png} + '\'); background-size: cover;'">
                 <form class="m-3 p-3" th:action="@{/guardarConfiguracion}" method="post">
-                    <h4 class="text-white">Preferencias</h4>
-                    <div class="form-floating mb-3">
-                        <select class="form-select" th:field="*{region}" name="region" id="region" required>
-                            <option value="argentina" selected>Argentina</option>
-                            <option value="bolivia">Bolivia</option>
-                            <option value="brasil">Brasil</option>
-                            <option value="chile">Chile</option>
-                            <option value="colombia">Colombia</option>
-                            <option value="ecuador">Ecuador</option>
-                            <option value="paraguay">Paraguay</option>
-                            <option value="peru">Peru</option>
-                            <option value="uruguay">Uruguay</option>
-                        </select>
-                        <label class="form-label" for="region">Selecciona Region: </label>
+                    <h2 class="text-center text-white mb-3">Mi Configuracion</h2>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="recibir-notificaciones" name="recibir-notificaciones" value="si" checked>
+                        <label class="form-check-label" for="recibir-notificaciones">Recibir Notificaciones</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <select class="form-select" th:field="*{idioma}" name="idioma" id="idioma" required>
-                            <option value="espanol" selected>Espanol</option>
-                            <option value="ingles">Ingles</option>
-                            <option value="portugues">Portugues</option>
-                        </select>
-                        <label class="form-label" for="idioma">Selecciona Idioma: </label>
-                    </div>
-                    <h4 class="text-white">Datos Nutricionales</h4>
-                    <div class="form-floating mb-3">
-                        <select class="form-select" th:field="*{unidad-energia}" name="unidad-energia" id="unidad-energia" required>
+                        <select class="form-select" name="unidad-energia" id="unidad-energia" required>
                             <option value="calorias" selected>Calorias</option>
                             <option value="kilojulios">Kilojulios</option>
                         </select>
                         <label class="form-label" for="unidad-energia">Seleciona Unidad de Energia: </label>
                     </div>
                     <div class="form-floating mb-3">
-                        <select class="form-select" th:field="*{unidad-masa}" name="unidad-masa" id="unidad-masa" required>
+                        <select class="form-select" name="unidad-masa" id="unidad-masa" required>
                             <option value="kilogramos">Kilogramos</option>
                             <option value="libras">Libras</option>
                         </select>
                         <label class="form-label" for="unidad-masa">Selecciona Unidad de Masa: </label>
                     </div>
                     <div class="mb-3">
-                        <a class="btn btn-outline-success" th:href="@{#}">Recalcular IDR</a><span class="badge bg-success ms-1" name="idr" id="idr">2000</span>
+                        <a class="btn btn-outline-dark" th:href="@{#}">Recalcular IDR</a><span class="badge bg-dark ms-1" name="idr" id="idr">2000</span>
                     </div>
-                    <input class="btn btn-outline-dark ms-auto" type="submit" name="guardar" id="guardar" value="Guardar">
+                    <input class="btn btn-outline-dark ms-auto" type="submit" name="guardar" id="guardar" value="Guardar">  
                 </form>
             </div>
         </div>
     </div>
-<div th:replace="footer ::footer"></div>
+
+    <!--footer-->
+    <div th:replace="footer ::footer"></div>
+
 </body>
 </html>
