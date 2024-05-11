@@ -42,7 +42,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <h2 class="mt-4">Detalles Personales</h2>
-        <form th:action="@{/enviarFormulario}" method="post" th:object="${usuario}">
+        <form th:action="@{/registrarme}" method="post" th:object="${usuario}">
              <div class="form-group">
                  <label>Nombre:</label>
                  <input type="text" class="form-control" th:field="*{nombre}" required>
@@ -69,6 +69,15 @@
             <div class="form-group">
                 <label for="peso">Peso Actual:</label><br>
                 <input type="number" class="form-control" id="peso" th:field="*{peso}" required> kg
+            </div>
+            <div class="form-group">
+                <label for="meta_alcanzar">¿Cuál es su meta a alcanzar</label><br>
+                <select class="form-control" id="meta_alcanzar" th:field="*{metaAlcanzarPeso}" required>
+                    <option value="bajar" th:value="bajar">Bajar de peso</option>
+                    <option value="mantener" th:value="mantener">Mantener peso</option>
+                    <option value="subir" th:value="subir">Subir de peso</option>
+
+                </select>
             </div>
             <div class="form-group">
                 <label for="altura">Altura:</label><br>
@@ -103,12 +112,12 @@
                     </div>
                     <!--alerta-error(puede llegar a presentar algun error al apretar la x para
                         cerrarlo por ser un button y estar dentro de un form)-->
-                    <div class="d-flex flex-column justify-content-center m-3">
-                        <div class="alert alert-danger alert-dismissible fade show" th:if="${error != null}">
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                            <strong>Error: </strong><span th:text="${error}"></span>
-                        </div>
-                    </div>
+            <div class="d-flex flex-column justify-content-center m-3">
+                <div th:each="error : ${errores}" class="alert alert-danger alert-dismissible fade show">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    <strong>Error: </strong><span th:text="${error}"></span>
+                </div>
+            </div>
                 </form>
             </div>
     </div>

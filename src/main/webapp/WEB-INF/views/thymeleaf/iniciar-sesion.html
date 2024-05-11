@@ -33,7 +33,7 @@
     <div class="container my-5">
         <div class="row d-flex flex-column justify-content-center align-items-center">
             <div class="col-sm-5 border border-1 rounded" th:style="'background-image: url(\'' + @{/img/background.png} + '\'); background-size: cover;'">
-                <form class="p-5" th:action="@{/ingresarUsuario}" method="post">
+                <form class="p-5" th:action="@{/validar-login}" method="POST" th:object="${datosLogin}">
                     <h2 class="text-center text-white mb-3">Iniciar Sesion</h2>
                     <div class="form-floating mb-3">
                         <input class="form-control" type="email" name="email" id="email" placeholder="Ingresar" required>
@@ -53,7 +53,12 @@
                             <div class="d-flex flex-column justify-content-center align-items-center">
                                 <a class="btn btn-outline-dark" th:href="@{/inicio}">Cancelar</a>
                             </div>
-                        </div>  
+                        </div>
+                        <div class="d-flex flex-column justify-content-center m-3">
+                            <div class="alert alert-danger alert-dismissible fade show" th:if="${error != null}">
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                <strong>Error: </strong><span th:text="${error}"></span>
+                            </div>
                     </div>                  
                 </form>
             </div>

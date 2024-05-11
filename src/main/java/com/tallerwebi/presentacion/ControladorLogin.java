@@ -2,6 +2,9 @@ package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.ServicioLogin;
 import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.excepcion.AlturaIncorrectaException;
+import com.tallerwebi.dominio.excepcion.EdadInvalidaException;
+import com.tallerwebi.dominio.excepcion.PesoIncorrectoException;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
 import com.tallerwebi.dominio.DatosLogin;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class ControladorLogin {
@@ -24,13 +30,6 @@ public class ControladorLogin {
         this.servicioLogin = servicioLogin;
     }
 
-    @RequestMapping("/login")
-    public ModelAndView irALogin() {
-
-        ModelMap modelo = new ModelMap();
-        modelo.put("datosLogin", new DatosLogin());
-        return new ModelAndView("login", modelo);
-    }
 
     @RequestMapping(path = "/validar-login", method = RequestMethod.POST)
     public ModelAndView validarLogin(@ModelAttribute("datosLogin") DatosLogin datosLogin, HttpServletRequest request) {
@@ -39,43 +38,46 @@ public class ControladorLogin {
         Usuario usuarioBuscado = servicioLogin.consultarUsuario(datosLogin.getEmail(), datosLogin.getPassword());
         if (usuarioBuscado != null) {
             request.getSession().setAttribute("ROL", usuarioBuscado.getRol());
-            return new ModelAndView("redirect:/home");
+            return new ModelAndView("redirect:/menuprincipal");
         } else {
             model.put("error", "Usuario o clave incorrecta");
         }
-        return new ModelAndView("login", model);
+        return new ModelAndView("iniciar-sesion", model);
     }
 
     @RequestMapping(path = "/registrarme", method = RequestMethod.POST)
-    public ModelAndView registrarme(@ModelAttribute("usuario") Usuario usuario) {
+    public ModelAndView registrarme(@ModelAttribute("usuario") Usuario usuario, HttpServletRequest request) {
         ModelMap model = new ModelMap();
-        try{
+        List<String> errores = new ArrayList<>();
+        try {
             servicioLogin.registrar(usuario);
-        } catch (UsuarioExistente e){
-            model.put("error", "El usuario ya existe");
-            return new ModelAndView("nuevo-usuario", model);
-        } catch (Exception e){
-            model.put("error", "Error al registrar el nuevo usuario");
-            return new ModelAndView("nuevo-usuario", model);
+            HttpSession session = request.getSession();
+            session.setAttribute("usuario", usuario);
+        } catch (UsuarioExistente e) {
+            errores.add("El usuario ya existe");
+        } catch (AlturaIncorrectaException e) {
+            errores.add("La altura debe ser mayor a 0 y metro a 3 metros");
+        } catch (EdadInvalidaException e) {
+            errores.add("La edad debe ser entre 12 y 100 años");
+        } catch (PesoIncorrectoException e) {
+            errores.add("El peso debe ser mayor a 0 y menor a 500kg");
+        } catch (Exception e) {
+            errores.add("Error al registrar el nuevo usuario");
         }
-        return new ModelAndView("redirect:/login");
+
+        if (!errores.isEmpty()) {
+            model.put("errores", errores);
+            return new ModelAndView("formulario-registro", model);
+        }
+
+        return new ModelAndView("redirect:/iniciar-sesion");
     }
 
-    @RequestMapping(path = "/nuevo-usuario", method = RequestMethod.GET)
-    public ModelAndView nuevoUsuario() {
-        ModelMap model = new ModelMap();
-        model.put("usuario", new Usuario());
-        return new ModelAndView("nuevo-usuario", model);
-    }
 
-    @RequestMapping(path = "/home", method = RequestMethod.GET)
-    public ModelAndView irAHome() {
-        return new ModelAndView("home");
-    }
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
     public ModelAndView inicio() {
-        return new ModelAndView("redirect:/login");
+        return new ModelAndView("redirect:/inicio");
     }
 }
 

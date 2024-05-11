@@ -84,6 +84,7 @@ public class ControladorFormularioRegistroTest {
 
     }
 
+
     private void thenUsuarioSeRegistroCorrectamente( HttpSession sessionMock,Usuario usuario) {
 
         verify(sessionMock).setAttribute(eq("usuario"), any(Usuario.class));

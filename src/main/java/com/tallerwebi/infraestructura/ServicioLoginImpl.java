@@ -3,7 +3,7 @@ package com.tallerwebi.infraestructura;
 import com.tallerwebi.dominio.RepositorioUsuario;
 import com.tallerwebi.dominio.ServicioLogin;
 import com.tallerwebi.dominio.Usuario;
-import com.tallerwebi.dominio.excepcion.UsuarioExistente;
+import com.tallerwebi.dominio.excepcion.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,13 +26,47 @@ public class ServicioLoginImpl implements ServicioLogin {
     }
 
     @Override
-    public void registrar(Usuario usuario) throws UsuarioExistente {
+    public void registrar(Usuario usuario) throws UsuarioExistente, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
         Usuario usuarioEncontrado = repositorioUsuario.buscarUsuario(usuario.getEmail(), usuario.getPassword());
         if(usuarioEncontrado != null){
             throw new UsuarioExistente();
         }
-        repositorioUsuario.guardar(usuario);
+        if(validarDatos(usuario)) {
+            repositorioUsuario.guardar(usuario);
+        }
+
     }
 
+
+    private Boolean validarDatos(Usuario usuario) throws DatosIncorrectos, EdadInvalidaException, AlturaIncorrectaException, PesoIncorrectoException {
+        validarUsuario(usuario);
+        validarEdad(usuario.getEdad());
+        validarAltura(usuario.getAltura());
+        validarPeso(usuario.getPeso());
+        return true;
+    }
+    private void validarUsuario(Usuario usuario) throws DatosIncorrectos {
+        if (usuario == null || usuario.getEmail() == null || usuario.getPassword() == null) {
+            throw new DatosIncorrectos("El usuario, el correo electrónico y la contraseña no pueden ser nulos");
+        }
+    }
+
+    private void validarEdad(Integer edad) throws EdadInvalidaException {
+        if (edad == null || edad <= 12 || edad >= 100) {
+            throw new EdadInvalidaException();
+        }
+    }
+
+    private void validarAltura(Double altura) throws AlturaIncorrectaException {
+        if (altura == null || altura <= 0 || altura > 300) {
+            throw new AlturaIncorrectaException();
+        }
+    }
+
+    private void validarPeso(Double peso) throws PesoIncorrectoException {
+        if (peso == null || peso <= 0 || peso > 500) {
+            throw new PesoIncorrectoException();
+        }
+    }
 }
 
