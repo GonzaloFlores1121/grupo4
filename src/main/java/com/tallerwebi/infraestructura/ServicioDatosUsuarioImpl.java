@@ -87,7 +87,7 @@ public class ServicioDatosUsuarioImpl implements ServicioDatosUsuario {
     @Override
     public MacronutrientesUsuario CalcularDistribucionDeMacronutrientes(Usuario usuario) {
 
-        MacronutrientesUsuario macronutrientesUsuario= new MacronutrientesUsuario(usuario);
+        MacronutrientesUsuario macronutrientesUsuario= new MacronutrientesUsuario(usuario.getId());
         Integer caloriasGrasas = (int) (usuario.getIngestaCalorica() * 0.30);
         Integer gramosGrasas = caloriasGrasas / 9;
         macronutrientesUsuario.setGrasaAConsumir(gramosGrasas);
@@ -101,8 +101,8 @@ public class ServicioDatosUsuarioImpl implements ServicioDatosUsuario {
         macronutrientesUsuario.setCarbohidratosAConsumir(gramosCarbohidratos);
 
         return macronutrientesUsuario;
-    }
 
+    }
 }
 
 

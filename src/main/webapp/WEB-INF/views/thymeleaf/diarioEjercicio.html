@@ -13,8 +13,8 @@
 </head>
 <body>
 <div th:replace="navbar :: navbar"></div>
-<div class="container mt-4">
-    <div class="row">
+<div class="container center" style="margin-top: 50px;">
+    <div class="row justify-content-center">
         <!-- Columna de la tarjeta -->
         <div class="col-md-6">
             <div class="card">
@@ -24,12 +24,14 @@
                     <table class="table">
                         <thead>
                             <tr>
+                                 <th>Nombre del Ejercicio</th>
                                 <th>Tiempo empleado</th>
                                 <th>Cals</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
+                                 <td>esqui</td>
                                 <td>24 hrs</td>
                                 <td>6445</td>
                             </tr>
@@ -38,52 +40,12 @@
                 </div>
             </div>
         </div>
-
-        <div class="col-md-6">
-           <form class="container-sm formulario_actividad">
-               <div class="row justify-content-center"> <!-- Agregar justify-content-center para centrar horizontalmente -->
-                   <div class="col">
-                       <div class="form-group">
-                           <label for="dia">Día:</label>
-                           <input type="number" class="form-control" id="dia" placeholder="Día" min="1" max="31">
-                       </div>
-                   </div>
-                   <div class="col">
-                       <div class="form-group">
-                           <label for="mes">Mes:</label>
-                           <input type="number" class="form-control" id="mes" placeholder="Mes" min="1" max="12">
-                       </div>
-                   </div>
-                   <div class="col">
-                       <div class="form-group">
-                           <label for="año">Año:</label>
-                           <input type="number" class="form-control" id="año" placeholder="Año" min="1900" max="2100">
-                       </div>
-                   </div>
-               </div>
-                <div class="form-group">
-                    <label for="tiempo">Tiempo empleado:</label>
-                    <div class="row">
-                        <div class="col">
-                            <input type="number" class="form-control" id="horas" placeholder="Horas" min="0">
-                        </div>
-                        <div class="col">
-                            <input type="number" class="form-control" id="minutos" placeholder="Minutos" min="0" max="59">
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="actividad">Cuéntanos cómo te sentiste:</label>
-                    <textarea class="form-control" id="comentarios" rows="5" placeholder="Ingresa tus comentarios aquí..."></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary btn-block">Guardar</button>
-                <button type="button" class="btn btn-secondary btn-block">Cancelar</button>
-            </form>
-        </div>
     </div>
 </div>
+
 <div th:replace="footer ::footer"></div>
 </body>
+
 </html>
 </body>
 </html>

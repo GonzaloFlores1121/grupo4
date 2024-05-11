@@ -17,6 +17,8 @@ import org.springframework.ui.ModelMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class ControladorRegistro {
@@ -26,10 +28,11 @@ public class ControladorRegistro {
     private ServicioLogin servicioLogin;
 
     @Autowired
-    public ControladorRegistro(ServicioDatosUsuario servicioDatosUsuario,ServicioLogin servicioLogin) {
+    public ControladorRegistro(ServicioDatosUsuario servicioDatosUsuario, ServicioLogin servicioLogin) {
         this.servicioDatosUsuario = servicioDatosUsuario;
-        this.servicioLogin=servicioLogin;
+        this.servicioLogin = servicioLogin;
     }
+
     @RequestMapping(value = "/inicio", method = RequestMethod.GET)
     public ModelAndView irAInicio() {
         return new ModelAndView("inicio");
@@ -41,6 +44,7 @@ public class ControladorRegistro {
         modelo.put("usuario", new Usuario());
         return new ModelAndView("formulario-registro", modelo);
     }
+
     @RequestMapping(value = "/iniciar-sesion", method = RequestMethod.GET)
     public ModelAndView irAInicioSesion() {
         return new ModelAndView("iniciar-sesion");
@@ -54,7 +58,7 @@ public class ControladorRegistro {
         if (usuarioBuscado != null) {
             return new ModelAndView("redirect:/menuprincipal");
         }
-            model.put("error", "Usuario o clave incorrecta");
+        model.put("error", "Usuario o clave incorrecta");
 
         return new ModelAndView("iniciar-sesion", model);
     }
@@ -66,33 +70,38 @@ public class ControladorRegistro {
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         if (usuario != null) {
-            modelo.put("nombre",usuario.getNombre() );
+            modelo.put("nombre", usuario.getNombre());
         } else {
             modelo.put("nombre", "Usuario");
         }
-        return new ModelAndView("menuprincipal",modelo);
+        return new ModelAndView("menuprincipal", modelo);
     }
 
     @RequestMapping(value = "/enviarFormulario", method = RequestMethod.POST)
     public ModelAndView enviarFormulario(@ModelAttribute("usuario") Usuario usuario, HttpServletRequest request) {
         ModelMap model = new ModelMap();
+        List<String> errores = new ArrayList<>();
         try {
             servicioLogin.registrar(usuario);
             HttpSession session = request.getSession();
             session.setAttribute("usuario", usuario);
-        } catch (DatosIncorrectos e) {
-            model.put("error", "Los datos del usuario son incorrectos");
-            ModelAndView modelAndView = new ModelAndView("formulario-registro", model);
-            return modelAndView;
         } catch (UsuarioExistente e) {
-            model.put("error", "El usuario ya existe");
+            errores.add("El usuario ya existe");
         } catch (AlturaIncorrectaException e) {
-            throw new RuntimeException(e);
+            errores.add("La altura debe ser mayor a 0 y metro a 3 metros");
         } catch (EdadInvalidaException e) {
-            throw new RuntimeException(e);
+            errores.add("La edad debe ser entre 12 y 100 años");
         } catch (PesoIncorrectoException e) {
-            throw new RuntimeException(e);
+            errores.add("El peso debe ser mayor a 0 y menor a 500kg");
+        } catch (Exception e) {
+            errores.add("Error al registrar el nuevo usuario");
         }
+
+        if (!errores.isEmpty()) {
+            model.put("errores", errores);
+            return new ModelAndView("formulario-registro", model);
+        }
+
         return new ModelAndView("redirect:/iniciar-sesion");
     }
 }

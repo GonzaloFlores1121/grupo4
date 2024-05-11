@@ -13,11 +13,12 @@
 
 <div th:replace="navbar :: navbar"></div>
 
+
 <div class="container">
     <div class="row">
         <div class="col-md-12">
             <div class="list-group flex-row">
-                <a th:href="@{/alimentos}" class="list-group-item list-group-item-action ">ALIMENTOS</a>
+                <a th:href="@{/alimentos}" class="list-group-item list-group-item-action">ALIMENTOS</a>
                 <a th:href="@{/recetas}" class="list-group-item list-group-item-action">RECETAS</a>
                 <a th:href="@{/actividadesFisicas}" class="list-group-item list-group-item-action activo">EN FORMA</a>
             </div>
@@ -27,46 +28,37 @@
 
 <div class="container">
     <div class="bloqueBusqueda">
-    <div class="advise">
-        <p>¿Sabías que el ejercicio físico no solo fortalece tus músculos, sino también tu cerebro?</p>
-        <img th:src="@{/img/brainExercise.png}" class="img-fluid" alt="Importancia del Ejercicio">
+        <div class="advise">
+            <p>¿Sabías que el ejercicio físico no solo fortalece tus músculos, sino también tu cerebro?</p>
+            <img th:src="@{/img/brainExercise.png}" class="img-fluid" alt="Importancia del Ejercicio">
+        </div>
+        <div class="busqueda">
+            <form action="/buscar" method="get">
+                <label for="searchInput">Buscador de Ejercicio</label>
+                <input type="text" id="searchInput" name="searchInput" class="form-control" placeholder="Intensidad o Tipo de Ejercicio">
+                <button type="submit" class="btn btn-success">Buscar</button>
+            </form>
+        </div>
     </div>
-<div class="busqueda">
-    <form action="/buscar" method="get">
-        <label  for="searchInput">Buscador de Ejercicio</label>
-        <input type="text" id="searchInput" name="searchInput" class="form-control" placeholder="Intensidad o Tipo de Ejercicio">
-        <button type="submit" class="btn btn-success">Buscar</button>
-    </form>
-</div>
-</div>
+
+    <!-- Lista de Ejercicios -->
     <div class="listaEjercicios">
-        <div>
-            <a  th:href="@{/ejercicio}" class="text-dark">Abdominales</a>
-            <h2>Intensidad: Agotador</h2>
-            <p>Peso de la persona: 56,6 kg</p>
-            <p>EMT - 8,0, cals / hr - 475</p>
-        </div>
-        <div>
-            <a  th:href="@{/ejercicio}" class="text-dark">Correr</a>
-            <h2>Intensidad: Agotador</h2>
-            <p>Peso de la persona: 56,6 kg</p>
-            <p>EMT - 8,0, cals / hr - 475</p>
-        </div>
-        <div>
-            <a  th:href="@{/ejercicio}" class="text-dark">Caminar</a>
-            <h2>Intensidad: Moderada</h2>
-            <p>Peso de la persona: 56,6 kg</p>
-            <p>EMT - 8,0, cals / hr - 475</p>
+        <div th:each="ejercicio : ${listaEjercicios}" class="card">
+            <div class="card-body">
+               <h2> <a th:href="@{/ejercicio}" class="card-title" th:text="${ejercicio.nombre}"></a></h2>
+                <p class="card-text">Intensidad: <span th:text="${ejercicio.intensidad}"></span></p>
+                <p class="card-text">Calorías quemadas: <span th:text="${ejercicio.caloriasQuemadas}"></span></p>
+            </div>
         </div>
     </div>
+
+    <div class="espacio"></div>
 </div>
 
-<div class="espacio"></div>
-
+<!-- Footer -->
 <div th:replace="footer :: footer"></div>
 
-<script th:src="@{/webjars/bootstrap/5.2.0/js/bootstrap.bundle.min.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
 </body>
-
 </html>

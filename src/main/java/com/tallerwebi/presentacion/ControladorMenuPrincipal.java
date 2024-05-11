@@ -2,10 +2,12 @@ package com.tallerwebi.presentacion;
 
 import javax.servlet.http.HttpSession;
 
+import com.tallerwebi.dominio.Ejercicio;
 import com.tallerwebi.dominio.MacronutrientesUsuario;
 import com.tallerwebi.dominio.ServicioDatosUsuario;
 import com.tallerwebi.dominio.Usuario;
 
+import java.util.List;
 import java.util.TreeMap;
 import java.util.Map;
 
@@ -31,11 +33,6 @@ public class ControladorMenuPrincipal {
         this.servicioDatosUsuario = servicioDatosUsuario;
     }
 
-    @RequestMapping(value = "/actividadesFisicas",method = RequestMethod.GET)
-    public ModelAndView irAEnForma(){
-
-        return new ModelAndView("actividadesFisicas");
-    }
 
     @RequestMapping(value = "/ejercicio",method = RequestMethod.GET)
     public ModelAndView irAEjercicio(){
