@@ -1,5 +1,8 @@
 package com.tallerwebi.dominio;
 
+import javax.persistence.Entity;
+
+
 public class MacronutrientesUsuario {
 
     private Usuario usuario;

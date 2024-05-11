@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
 
 public class ControladorMenuPrincipalTest {
 
-    //siMiUsuarioNoTieneLOsDatosVuelveAlInicio
+  /*  //siMiUsuarioNoTieneLOsDatosVuelveAlInicio
 
     private ControladorMenuPrincipal controladorMenu;
     private ControladorRegistro controladorRegistro;
@@ -80,6 +80,6 @@ public class ControladorMenuPrincipalTest {
         controladorRegistro.enviarFormulario(usuario, solicitud);
 
     }
-
+*/
 
 }

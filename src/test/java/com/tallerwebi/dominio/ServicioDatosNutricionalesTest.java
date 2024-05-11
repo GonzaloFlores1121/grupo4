@@ -1,7 +1,12 @@
 package com.tallerwebi.dominio;
 import com.tallerwebi.dominio.excepcion.DatosIncorrectos;
+import com.tallerwebi.infraestructura.RepositorioUsuarioImpl;
 import com.tallerwebi.infraestructura.ServicioDatosUsuarioImpl;
+import com.tallerwebi.infraestructura.ServicioLoginImpl;
+import org.hibernate.SessionFactory;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -10,7 +15,19 @@ import static org.mockito.Mockito.verify;
 
 public class ServicioDatosNutricionalesTest {
 
-    private ServicioDatosUsuario servicioUsuario = new ServicioDatosUsuarioImpl();
+    private SessionFactory sessionFactory;
+    private  RepositorioUsuario repositorioUsuario;
+    private ServicioDatosUsuario servicioUsuario ;
+    private ServicioLogin servicioLogin;
+
+    @BeforeEach
+    public void init() {
+        sessionFactory = mock(SessionFactory.class);
+        repositorioUsuario = new RepositorioUsuarioImpl(sessionFactory);
+        servicioLogin = new ServicioLoginImpl(repositorioUsuario);
+        servicioUsuario = new ServicioDatosUsuarioImpl(servicioLogin);
+    }
+
 
     @Test
     public void IngestaCaloricaDeUsuarioHombreDe40SedentarioYTiene70kgYMide170() throws  DatosIncorrectos {
@@ -25,12 +42,13 @@ public class ServicioDatosNutricionalesTest {
         assertEquals(1938, icr,0.0);
     }
 
-    private Integer whenSeCalculaSuIngestaCalorica(Usuario usuario) throws  DatosIncorrectos {
+    private Integer whenSeCalculaSuIngestaCalorica(Usuario usuario) throws DatosIncorrectos {
         // Verifica si los datos del usuario son válidos antes de calcular la ingesta calórica
-        if (!servicioUsuario.usuarioDatosCorrecto(usuario)) {
-            throw new DatosIncorrectos("Datos incorrectos del usuario");
+        if (servicioLogin.usuarioDatosCorrecto(usuario)) {
+            return servicioUsuario.calcularIngestaCalorica(usuario);
+
         }
-        return servicioUsuario.calcularIngestaCalorica(usuario);
+        throw new DatosIncorrectos("Datos incorrectos del usuario");
     }
 
 
@@ -43,6 +61,7 @@ public class ServicioDatosNutricionalesTest {
             usuario.setNivelDeActividad("sedentario");
             usuario.setPassword("123");
             usuario.setEmail("123@gmail.com");
+            usuario.setNombre("Lucas");
             return usuario;
 
         }
