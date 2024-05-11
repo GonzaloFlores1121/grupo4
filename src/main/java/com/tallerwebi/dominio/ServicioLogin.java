@@ -1,10 +1,16 @@
 package com.tallerwebi.dominio;
 
+import com.tallerwebi.dominio.excepcion.DatosIncorrectos;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
 
 public interface ServicioLogin {
 
+    void registrarUsuario(Usuario usuario) throws UsuarioExistente, DatosIncorrectos;
+
     Usuario consultarUsuario(String email, String password);
-    void registrar(Usuario usuario) throws UsuarioExistente;
+
+    Boolean usuarioDatosCorrecto(Usuario usuario) throws DatosIncorrectos;
+
+
 
 }

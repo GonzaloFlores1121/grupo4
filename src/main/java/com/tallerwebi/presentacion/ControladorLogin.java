@@ -2,6 +2,7 @@ package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.ServicioLogin;
 import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.excepcion.DatosIncorrectos;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
 import com.tallerwebi.dominio.DatosLogin;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class ControladorLogin {
-
+/*
     private ServicioLogin servicioLogin;
 
     @Autowired
@@ -32,7 +33,7 @@ public class ControladorLogin {
         return new ModelAndView("login", modelo);
     }
 
-    @RequestMapping(path = "/validar-login", method = RequestMethod.POST)
+  @RequestMapping(path = "/validar-login", method = RequestMethod.POST)
     public ModelAndView validarLogin(@ModelAttribute("datosLogin") DatosLogin datosLogin, HttpServletRequest request) {
         ModelMap model = new ModelMap();
 
@@ -50,13 +51,13 @@ public class ControladorLogin {
     public ModelAndView registrarme(@ModelAttribute("usuario") Usuario usuario) {
         ModelMap model = new ModelMap();
         try{
-            servicioLogin.registrar(usuario);
+            servicioLogin.registrarUsuario(usuario);
         } catch (UsuarioExistente e){
             model.put("error", "El usuario ya existe");
-            return new ModelAndView("nuevo-usuario", model);
-        } catch (Exception e){
-            model.put("error", "Error al registrar el nuevo usuario");
-            return new ModelAndView("nuevo-usuario", model);
+            return new ModelAndView("inicio", model);
+        } catch (DatosIncorrectos e){
+            model.put("error", "Los datos que se han ingresado no son correctos");
+            return new ModelAndView("inicio", model);
         }
         return new ModelAndView("redirect:/login");
     }
@@ -77,5 +78,6 @@ public class ControladorLogin {
     public ModelAndView inicio() {
         return new ModelAndView("redirect:/login");
     }
+    */
 }
 

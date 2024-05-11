@@ -2,8 +2,11 @@ package com.tallerwebi.infraestructura;
 
 import com.tallerwebi.dominio.MacronutrientesUsuario;
 import com.tallerwebi.dominio.ServicioDatosUsuario;
+import com.tallerwebi.dominio.ServicioLogin;
 import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.excepcion.DatosIncorrectos;
+import com.tallerwebi.dominio.excepcion.UsuarioExistente;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -14,24 +17,17 @@ import javax.transaction.Transactional;
 @Transactional
 public class ServicioDatosUsuarioImpl implements ServicioDatosUsuario {
 
-    @Override
-    public Boolean registrarUsuario(Usuario usuario) throws DatosIncorrectos {
+    ServicioLogin  servicioLogin;
 
-        return usuarioDatosCorrecto(usuario);
+    @Autowired
+    public ServicioDatosUsuarioImpl(ServicioLogin servicioLogin) {
+        this.servicioLogin = servicioLogin;
     }
 
-    @Override
-    public Boolean usuarioDatosCorrecto(Usuario usuario) throws DatosIncorrectos {
-        if (usuario != null && usuario.getPeso() != null && usuario.getPeso() > 0 && usuario.getAltura() != null && usuario.getAltura() > 0
-                && usuario.getEmail() != null && usuario.getPassword() != null && usuario.getEdad() != null && usuario.getEdad() >= 18) {
-            return true;
-        }
-        throw new DatosIncorrectos("Datos incorrectos del usuario");
-    }
 
     @Override
     public Integer calcularIngestaCalorica(Usuario usuario) throws DatosIncorrectos {
-        if (!usuarioDatosCorrecto(usuario)) {
+        if (!servicioLogin.usuarioDatosCorrecto(usuario)) {
             throw new DatosIncorrectos("Datos incorrectos del usuario");
         }
 
@@ -60,7 +56,7 @@ public class ServicioDatosUsuarioImpl implements ServicioDatosUsuario {
 
     @Override
     public Double calcularMetabolismoBasalDelUsuario(Usuario usuario) throws DatosIncorrectos {
-        if (!usuarioDatosCorrecto(usuario)) {
+        if (!servicioLogin.usuarioDatosCorrecto(usuario)) {
             throw new DatosIncorrectos("Datos incorrectos del usuario");
         }
 

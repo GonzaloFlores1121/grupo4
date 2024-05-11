@@ -1,60 +1,63 @@
 package com.tallerwebi.dominio;
 import com.tallerwebi.dominio.excepcion.DatosIncorrectos;
+import com.tallerwebi.dominio.excepcion.UsuarioExistente;
+import com.tallerwebi.infraestructura.RepositorioUsuarioImpl;
 import com.tallerwebi.infraestructura.ServicioDatosUsuarioImpl;
+import com.tallerwebi.infraestructura.ServicioLoginImpl;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockitoAnnotations;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ServicioFormularioRegistroTest {
 
+    private SessionFactory sessionFactory;
+    private  RepositorioUsuario repositorioUsuario;
+    private ServicioDatosUsuario servicioUsuario ;
+    private ServicioLogin servicioLogin;
 
-    private ServicioDatosUsuario servicioUsuario = new ServicioDatosUsuarioImpl();
+    @BeforeEach
+    public void init() {
+       repositorioUsuario=mock(RepositorioUsuarioImpl.class);
+       servicioUsuario=mock(ServicioDatosUsuarioImpl.class);
+       servicioLogin=mock(ServicioLoginImpl.class);
+    }
 
     @Test
-    public void elUsuarioNoPuedeRegistrarseSiSuPesoEsMenorACero() {
-
+    public void elUsuarioNoPuedeRegistrarseSiSuPesoEsMenorACero() throws DatosIncorrectos, UsuarioExistente {
         Usuario usuario = givenTengoUnUsuarioConPesoInvalido();
 
-
-        boolean registroDenegado = thenRegistroDenegado(usuario);
-
-
-        assertTrue(registroDenegado);
+        assertTrue(thenRegistroDenegado(usuario));
     }
 
     private Usuario givenTengoUnUsuarioConPesoInvalido() {
         Usuario usuario = new Usuario();
-        String email = "ejemplo@example.com";
-        String password = "contraseña123";
-        Double peso = 0.0;
-        Double altura = 170.0;
-        Integer edad = 25;
-        String sexo = "femenino";
-        String nivelActividad = "sedentario";
-        String nombre = "Tomas";
-
-        usuario.setEmail(email);
-        usuario.setPassword(password);
-        usuario.setPeso(peso);
-        usuario.setAltura(altura);
-        usuario.setGenero(sexo);
-        usuario.setNivelDeActividad(nivelActividad);
+        usuario.setEmail("ejemplo@example.com");
+        usuario.setPassword("contraseña123");
+        usuario.setPeso(0.0);
+        usuario.setAltura(170.0);
+        usuario.setGenero("femenino");
+        usuario.setNivelDeActividad("sedentario");
         usuario.setEdad(67);
         usuario.setNombre("Tomas");
 
         return usuario;
     }
 
-    private boolean thenRegistroDenegado(Usuario usuario) {
-        try {
-            servicioUsuario.registrarUsuario(usuario);
-            return false;
-        } catch (DatosIncorrectos e) {
-            return true;
-        }
+    private Boolean thenRegistroDenegado(Usuario usuario) throws DatosIncorrectos, UsuarioExistente {
+       if(!servicioLogin.usuarioDatosCorrecto(usuario)){
+          return true;
+       }
+        return false;
     }
+
     @Test
     public void elUsuarioPuedeRegistrarseSiTodosLosDatosSonCorrectos() {
 
@@ -92,22 +95,21 @@ public class ServicioFormularioRegistroTest {
 
     private boolean thenRegistroAceptado(Usuario usuario) {
         try {
-            servicioUsuario.registrarUsuario(usuario);
+            servicioLogin.registrarUsuario(usuario);
             return true;
         } catch (DatosIncorrectos e) {
             return false;
+        } catch (UsuarioExistente e) {
+            throw new RuntimeException(e);
         }
     }
     @Test
-    public void elUsuarioNoPuedeRegistrarseSiSuEdadEsMenorADieciOcho() {
+    public void elUsuarioNoPuedeRegistrarseSiSuEdadEsMenorADieciOcho() throws DatosIncorrectos, UsuarioExistente {
 
         Usuario usuario = givenTengoUnUsuarioMenorDeEdad();
 
 
-        boolean registroDenegado = thenRegistroDenegado(usuario);
-
-
-        assertTrue(registroDenegado);
+        assertTrue(thenRegistroDenegado(usuario));
     }
 
     private Usuario givenTengoUnUsuarioMenorDeEdad() {

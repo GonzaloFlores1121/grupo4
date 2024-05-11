@@ -43,26 +43,7 @@ public class ControladorMenuPrincipal {
         return new ModelAndView("ejercicio");
     }
 
-    @RequestMapping(value = "/miDiario",method = RequestMethod.GET)
-    public ModelAndView irAMiDiario(HttpServletRequest request) throws DatosIncorrectos {
-        HttpSession session = request.getSession();
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
 
-if(usuario != null) {
-    ModelMap modelo = new ModelMap();
-    Integer icr=servicioDatosUsuario.calcularIngestaCalorica(usuario);
-    MacronutrientesUsuario macronutrientesUsuario = servicioDatosUsuario.CalcularDistribucionDeMacronutrientes(usuario);
-    modelo.put("icr", icr);
-    modelo.put("carbos", macronutrientesUsuario.getCarbohidratosAConsumir());
-    modelo.put("grasas",  macronutrientesUsuario.getGrasaAConsumir());
-    modelo.put("proteinas", macronutrientesUsuario.getProteinaAConsumir());
-    return new ModelAndView("miDiario",modelo);
-}
-        else {
-            return new ModelAndView("redirect:/inicio");
-}
-
-    }
 
     @RequestMapping(value = "/recetas",method = RequestMethod.GET)
     public ModelAndView irARecetas(){
