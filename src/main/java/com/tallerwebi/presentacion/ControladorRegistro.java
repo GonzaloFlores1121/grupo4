@@ -3,9 +3,8 @@ package com.tallerwebi.presentacion;
 import com.tallerwebi.dominio.ServicioDatosUsuario;
 import com.tallerwebi.dominio.ServicioLogin;
 import com.tallerwebi.dominio.Usuario;
-import com.tallerwebi.dominio.excepcion.DatosIncorrectos;
+import com.tallerwebi.dominio.excepcion.*;
 import com.tallerwebi.dominio.DatosLogin;
-import com.tallerwebi.dominio.excepcion.UsuarioExistente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -78,7 +77,7 @@ public class ControladorRegistro {
     public ModelAndView enviarFormulario(@ModelAttribute("usuario") Usuario usuario, HttpServletRequest request) {
         ModelMap model = new ModelMap();
         try {
-            servicioLogin.registrarUsuario(usuario);
+            servicioLogin.registrar(usuario);
             HttpSession session = request.getSession();
             session.setAttribute("usuario", usuario);
         } catch (DatosIncorrectos e) {
@@ -87,6 +86,12 @@ public class ControladorRegistro {
             return modelAndView;
         } catch (UsuarioExistente e) {
             model.put("error", "El usuario ya existe");
+        } catch (AlturaIncorrectaException e) {
+            throw new RuntimeException(e);
+        } catch (EdadInvalidaException e) {
+            throw new RuntimeException(e);
+        } catch (PesoIncorrectoException e) {
+            throw new RuntimeException(e);
         }
         return new ModelAndView("redirect:/iniciar-sesion");
     }

@@ -1,6 +1,5 @@
 package com.tallerwebi.dominio;
-import com.tallerwebi.dominio.excepcion.DatosIncorrectos;
-import com.tallerwebi.dominio.excepcion.UsuarioExistente;
+import com.tallerwebi.dominio.excepcion.*;
 import com.tallerwebi.infraestructura.RepositorioUsuarioImpl;
 import com.tallerwebi.infraestructura.ServicioDatosUsuarioImpl;
 import com.tallerwebi.infraestructura.ServicioLoginImpl;
@@ -95,11 +94,17 @@ public class ServicioFormularioRegistroTest {
 
     private boolean thenRegistroAceptado(Usuario usuario) {
         try {
-            servicioLogin.registrarUsuario(usuario);
+            servicioLogin.registrar(usuario);
             return true;
         } catch (DatosIncorrectos e) {
             return false;
         } catch (UsuarioExistente e) {
+            throw new RuntimeException(e);
+        } catch (AlturaIncorrectaException e) {
+            throw new RuntimeException(e);
+        } catch (EdadInvalidaException e) {
+            throw new RuntimeException(e);
+        } catch (PesoIncorrectoException e) {
             throw new RuntimeException(e);
         }
     }
