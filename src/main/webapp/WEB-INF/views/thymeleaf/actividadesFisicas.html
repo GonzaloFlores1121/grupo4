@@ -41,16 +41,20 @@
         </div>
     </div>
 
-    <!-- Lista de Ejercicios -->
-    <div class="listaEjercicios">
-        <div th:each="ejercicio : ${listaEjercicios}" class="card">
-            <div class="card-body">
-               <h2> <a th:href="@{/ejercicio}" class="card-title" th:text="${ejercicio.nombre}"></a></h2>
+<div class="listaEjercicios">
+    <div th:each="ejercicio : ${listaEjercicios}" class="card">
+        <div class="card-body">
+            <form th:action="@{/irAEjercicio}" method="post">
+                <input type="hidden" name="id" th:value="${ejercicio.id}" />
+                <h2>
+                    <button type="submit" class="card-title" th:text="${ejercicio.nombre}"></button>
+                </h2>
                 <p class="card-text">Intensidad: <span th:text="${ejercicio.intensidad}"></span></p>
                 <p class="card-text">Calorías quemadas: <span th:text="${ejercicio.caloriasQuemadas}"></span></p>
-            </div>
+            </form>
         </div>
     </div>
+</div>
 
     <div class="espacio"></div>
 </div>

@@ -2,8 +2,10 @@ package com.tallerwebi.infraestructura;
 
 import com.tallerwebi.dominio.Ejercicio;
 import com.tallerwebi.dominio.RepositorioEjercicio;
+import com.tallerwebi.dominio.Usuario;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
@@ -34,6 +36,13 @@ public class RepositorioEjercicioImpl implements RepositorioEjercicio {
             // Manejo de excepciones
         }
         return Collections.emptyList(); // Devuelve una lista vacía si hay algún error
+    }
+
+    @Override
+    public Ejercicio obtenerEjercicioPorId(Integer id) {
+       return (Ejercicio) sessionFactory.getCurrentSession().createCriteria(Ejercicio.class)
+                .add(Restrictions.eq("id", id))
+                .uniqueResult();
     }
 }
 

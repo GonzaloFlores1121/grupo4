@@ -42,7 +42,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <h2 class="mt-4">Detalles Personales</h2>
-        <form th:action="@{/registrarme}" method="post" th:object="${usuario}">
+        <form th:action="@{/enviarFormulario}" method="post" th:object="${usuario}">
              <div class="form-group">
                  <label>Nombre:</label>
                  <input type="text" class="form-control" th:field="*{nombre}" required>

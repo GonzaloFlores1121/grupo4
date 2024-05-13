@@ -34,12 +34,6 @@ public class ControladorMenuPrincipal {
     }
 
 
-    @RequestMapping(value = "/ejercicio",method = RequestMethod.GET)
-    public ModelAndView irAEjercicio(){
-
-        return new ModelAndView("ejercicio");
-    }
-
 
 
     @RequestMapping(value = "/recetas",method = RequestMethod.GET)

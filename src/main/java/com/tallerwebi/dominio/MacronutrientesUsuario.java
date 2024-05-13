@@ -7,14 +7,14 @@ import javax.persistence.OneToOne;
 @Entity
 public class MacronutrientesUsuario {
 
-    private Long id_usuario;
+    private Integer id_usuario;
     private Integer grasaAConsumir;
     private Integer proteinaAConsumir;
     private Integer carbohidratosAConsumir;
     @Id
     private Integer id;
 
-    public MacronutrientesUsuario(Long id_usuario) {
+    public MacronutrientesUsuario(Integer id_usuario) {
         this.id_usuario = id_usuario;
         this.grasaAConsumir = getGrasaAConsumir();
         this.proteinaAConsumir = getProteinaAConsumir();
@@ -25,10 +25,10 @@ public class MacronutrientesUsuario {
 
     }
 
-    public Long getId_usuario() { return id_usuario;
+    public Integer getId_usuario() { return id_usuario;
     }
 
-    public void setUsuario(Long id_usuario) {
+    public void setUsuario(Integer id_usuario) {
         this.id_usuario = id_usuario;
     }
 

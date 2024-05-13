@@ -56,6 +56,8 @@ public class ControladorRegistro {
 
         Usuario usuarioBuscado = servicioLogin.consultarUsuario(usuario.getEmail(), usuario.getPassword());
         if (usuarioBuscado != null) {
+            HttpSession session = request.getSession();
+            session.setAttribute("usuario", usuarioBuscado);
             return new ModelAndView("redirect:/menuprincipal");
         }
         model.put("error", "Usuario o clave incorrecta");
@@ -83,8 +85,6 @@ public class ControladorRegistro {
         List<String> errores = new ArrayList<>();
         try {
             servicioLogin.registrar(usuario);
-            HttpSession session = request.getSession();
-            session.setAttribute("usuario", usuario);
         } catch (UsuarioExistente e) {
             errores.add("El usuario ya existe");
         } catch (AlturaIncorrectaException e) {

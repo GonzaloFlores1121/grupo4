@@ -1,15 +1,16 @@
 package com.tallerwebi.dominio;
 
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Time;
 @Entity
-public class Ejercicio_usuario {
+@Table(name = "EJERCICIO_USUARIO")
+public class EjercicioUsuario {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nombre;
-    private Time minutos;
+    private Integer minutos;
     private Integer dia;
     private Integer mes;
     private Integer anio;
@@ -17,7 +18,7 @@ public class Ejercicio_usuario {
     private Integer id_ejercicio;
     private Integer id_usuario;
 
-    public Ejercicio_usuario(Integer id, String nombre, Time minutos, Integer dia, Integer mes, Integer anio, String intensidad, Integer id_ejercicio, Integer id_usuario) {
+    public EjercicioUsuario(Integer id, String nombre, Integer minutos, Integer dia, Integer mes, Integer anio, String intensidad, Integer id_ejercicio, Integer id_usuario) {
         this.id = id;
         this.nombre = nombre;
         this.minutos = minutos;
@@ -29,7 +30,7 @@ public class Ejercicio_usuario {
         this.id_usuario = id_usuario;
     }
 
-    public Ejercicio_usuario() {
+    public EjercicioUsuario() {
 
     }
 
@@ -42,11 +43,11 @@ public class Ejercicio_usuario {
         this.nombre = nombre;
     }
 
-    public Time getMinutos() {
+    public Integer getMinutos() {
         return minutos;
     }
 
-    public void setMinutos(Time minutos) {
+    public void setMinutos(Integer minutos) {
         this.minutos = minutos;
     }
 

@@ -24,7 +24,7 @@ import java.util.List;
 public class ControladorLogin {
 
     private ServicioLogin servicioLogin;
-
+/*
     @Autowired
     public ControladorLogin(ServicioLogin servicioLogin){
         this.servicioLogin = servicioLogin;
@@ -79,5 +79,8 @@ public class ControladorLogin {
     public ModelAndView inicio() {
         return new ModelAndView("redirect:/inicio");
     }
+}
+
+ */
 }
 
