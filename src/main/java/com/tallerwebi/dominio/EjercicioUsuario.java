@@ -2,32 +2,30 @@ package com.tallerwebi.dominio;
 
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.sql.Time;
 @Entity
-@Table(name = "EJERCICIO_USUARIO")
 public class EjercicioUsuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String nombre;
     private Integer minutos;
-    private Integer dia;
-    private Integer mes;
-    private Integer anio;
+    private Date fecha;
     private String  intensidad;
-    private Integer id_ejercicio;
-    private Integer id_usuario;
+    @ManyToOne
+    private Ejercicio ejercicio;
+    @ManyToOne
+    private Usuario usuario;
 
-    public EjercicioUsuario(Integer id, String nombre, Integer minutos, Integer dia, Integer mes, Integer anio, String intensidad, Integer id_ejercicio, Integer id_usuario) {
+    public EjercicioUsuario( String nombre, Integer minutos, Date fecha, String intensidad, Ejercicio ejercicio, Usuario usuario) {
         this.id = id;
         this.nombre = nombre;
         this.minutos = minutos;
-        this.dia = dia;
-        this.mes = mes;
-        this.anio = anio;
+        this.fecha = fecha;
         this.intensidad = intensidad;
-        this.id_ejercicio = id_ejercicio;
-        this.id_usuario = id_usuario;
+        this.ejercicio = ejercicio;
+        this.usuario = usuario;
     }
 
     public EjercicioUsuario() {
@@ -51,29 +49,9 @@ public class EjercicioUsuario {
         this.minutos = minutos;
     }
 
-    public Integer getDia() {
-        return dia;
-    }
+    public Date getFecha() {return fecha;}
 
-    public void setDia(Integer dia) {
-        this.dia = dia;
-    }
-
-    public Integer getMes() {
-        return mes;
-    }
-
-    public void setMes(Integer mes) {
-        this.mes = mes;
-    }
-
-    public Integer getAnio() {
-        return anio;
-    }
-
-    public void setAnio(Integer anio) {
-        this.anio = anio;
-    }
+    public void setFecha(Date fecha) {this.fecha = fecha;}
 
     public String getIntensidad() {
         return intensidad;
@@ -83,27 +61,15 @@ public class EjercicioUsuario {
         this.intensidad = intensidad;
     }
 
-    public Integer getId_ejercicio() {
-        return id_ejercicio;
-    }
+    public Long getId() {return id;}
 
-    public void setId_ejercicio(Integer id_ejercicio) {
-        this.id_ejercicio = id_ejercicio;
-    }
+    public void setId(Long id) {this.id = id;}
 
-    public Integer getId_usuario() {
-        return id_usuario;
-    }
+    public Ejercicio getEjercicio() {return ejercicio;}
 
-    public void setId_usuario(Integer id_usuario) {
-        this.id_usuario = id_usuario;
-    }
+    public void setEjercicio(Ejercicio ejercicio) {this.ejercicio = ejercicio;}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    public Usuario getUsuario() {return usuario;}
 
-    public Integer getId() {
-        return id;
-    }
+    public void setUsuario(Usuario usuario) {this.usuario = usuario;}
 }

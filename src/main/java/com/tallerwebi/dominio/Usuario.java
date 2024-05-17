@@ -10,7 +10,7 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String email;
     private String nombre;
     private String password;
@@ -22,7 +22,7 @@ public class Usuario {
     private Double altura;
     private Integer edad;
     private Integer ingestaCalorica;
-private String metaAlcanzarPeso;
+    private String metaAlcanzarPeso;
 
     public Usuario() {
 
@@ -33,10 +33,10 @@ private String metaAlcanzarPeso;
     public void setNombre(String nombre) {this.nombre = nombre;}
     public void setEdad(Integer edad){this.edad=edad;}
     public Integer getEdad(){return edad;}
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
     public String getEmail() {

@@ -34,24 +34,27 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>mi. 8</td>
-                <td>1285</td>
-                <td>80%</td>
+            <tr th:each="entry : ${listaFechas}">
+                <td th:text="${entry.key}"></td>
+                <td><!-- Aquí iría la información de Alimentos (Cals) --></td>
+                <td><!-- Aquí iría el % IDR --></td>
+                <td><!-- Aquí iría el Resumen Nutricional --></td>
                 <td>
-                    <p>Grasa: 33,97g</p>
-                    <p>Prot: 56,81g</p>
-                    <p>Carbh: 188,14g</p>
+                    <ul>
+                        <li th:each="ejercicio : ${entry.value.ejercicios}">
+                            <div th:text="${ejercicio.nombre}"></div>
+                            <div th:text="'Minutos empleados: ' + ${ejercicio.minutos}"></div>
+                            <!-- Agregar más información del ejercicio si es necesario -->
+                        </li>
+                    </ul>
                 </td>
-                <td><a th:href=@{/diarioEjercicio}>Añadir Ejercicio</a></td>
-                <td>-</td>
+                <td><!-- Aquí irían las Netas (Cals) --></td>
             </tr>
-
-          
         </tbody>
     </table>
 </div>
-    <div th:replace="footer ::footer"></div>
+
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

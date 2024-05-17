@@ -1,21 +1,7 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.DatosLogin;
-import com.tallerwebi.dominio.ServicioDatosUsuario;
-import com.tallerwebi.dominio.Usuario;
-import com.tallerwebi.dominio.excepcion.DatosIncorrectos;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class ControladorMenuPrincipalTest {
 

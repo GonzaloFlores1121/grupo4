@@ -1,19 +1,21 @@
 package com.tallerwebi.dominio;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class Ejercicio {
 
     @Id
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String nombre;
     private Integer caloriasQuemadas;
     private String intensidad;
 
-    public Ejercicio(Integer id, String nombre, Integer caloriasQuemadas,String intensidad) {
-        this.id = id;
+    public Ejercicio( String nombre, Integer caloriasQuemadas,String intensidad) {
         this.nombre = nombre;
         this.caloriasQuemadas = caloriasQuemadas;
         this.intensidad = intensidad;
@@ -48,11 +50,11 @@ public class Ejercicio {
         this.intensidad = intensidad;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 }

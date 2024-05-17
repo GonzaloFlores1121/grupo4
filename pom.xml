@@ -54,6 +54,11 @@
             <version>${thymeleaf.spring.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.28</version> <!-- Asegúrate de usar la versión adecuada -->
+        </dependency>
 
         <dependency>
             <groupId>org.webjars</groupId>

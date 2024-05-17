@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class ControladorEjercicio {
     }
 
     @RequestMapping(value = "/irAEjercicio", method = RequestMethod.POST)
-    public ModelAndView irAEjercicio(@RequestParam("id") Integer id) {
+    public ModelAndView irAEjercicio(@RequestParam("id") Long id) {
         ModelMap model = new ModelMap();
         Ejercicio ejercicio = repositorioEjercicio.obtenerEjercicioPorId(id);
         model.put("ejercicio", ejercicio);
@@ -41,11 +42,9 @@ public class ControladorEjercicio {
     }
 
     @RequestMapping(value = "/guardarEjercicio", method = RequestMethod.POST)
-    public ModelAndView guardarEjercicio(@RequestParam("idEjercicio") Integer idEjercicio,
+    public ModelAndView guardarEjercicio(@RequestParam("idEjercicio") Long idEjercicio,
                                          @RequestParam("intensidad") String intensidad,
-                                         @RequestParam("dia") Integer dia,
-                                         @RequestParam("mes") Integer mes,
-                                         @RequestParam("anio") Integer anio,
+                                         @RequestParam("fecha") Date fecha,
                                          @RequestParam("minutos") Integer minutos,
                                          HttpServletRequest request) {
 
@@ -53,17 +52,15 @@ public class ControladorEjercicio {
         //conseguir el id de usuario
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
-        Integer idUsuario = usuario.getId();
+
 
         // Aquí puedes crear un objeto EjercicioUsuario con los datos recibidos
         EjercicioUsuario ejercicioUsuario = new EjercicioUsuario();
         ejercicioUsuario.setNombre(ejercicio.getNombre());
         ejercicioUsuario.setIntensidad(intensidad);
-        ejercicioUsuario.setId_usuario(idUsuario);
-        ejercicioUsuario.setId_ejercicio(idEjercicio);
-        ejercicioUsuario.setDia(dia);
-        ejercicioUsuario.setMes(mes);
-        ejercicioUsuario.setAnio(anio);
+        ejercicioUsuario.setEjercicio(ejercicio);
+        ejercicioUsuario.setUsuario(usuario);
+        ejercicioUsuario.setFecha(fecha);
         ejercicioUsuario.setMinutos(minutos);
         ModelMap model= new ModelMap();
         model.put("ejercicio", ejercicio);
@@ -73,7 +70,7 @@ public class ControladorEjercicio {
            model.put("mensaje", "El ejercicio se ha guardado correctamente.");
 
         } else {
-            model.put("mensaje", "El ejercicio no se ha guardado correctamente. "+ejercicioUsuario.getId_usuario()+ejercicioUsuario.getNombre()+ejercicioUsuario.getIntensidad()+ejercicioUsuario.getAnio()+ejercicioUsuario.getMes()+ejercicioUsuario.getNombre()+ejercicioUsuario.getId_ejercicio());
+            model.put("mensaje", "El ejercicio no se ha guardado correctamente. ");
 
         }
 
@@ -83,9 +80,14 @@ public class ControladorEjercicio {
     @RequestMapping(value = "/actividadesFisicas",method = RequestMethod.GET)
     public ModelAndView irAEnForma(){
         ModelMap model = new ModelMap();
-        List<Ejercicio> ejercicios = repositorioEjercicio.obtenerTodosLosEjercicios();
-        model.put("listaEjercicios", ejercicios); // Cambia "ejercicio" a "listaEjercicios"
-        return new ModelAndView("actividadesFisicas", model);
+        try {
+            List<Ejercicio> ejercicios = repositorioEjercicio.obtenerTodosLosEjercicios();
+            model.put("listaEjercicios", ejercicios); // Cambia "ejercicio" a "listaEjercicios"
+            return new ModelAndView("actividadesFisicas", model);
+        }catch (Exception e){
+            model.put("error", "Ningun Ejercicio Encontrado");
+            return new ModelAndView("actividadesFisicas", model);
+        }
 
     }
 }

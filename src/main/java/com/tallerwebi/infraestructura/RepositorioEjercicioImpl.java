@@ -27,19 +27,15 @@ public class RepositorioEjercicioImpl implements RepositorioEjercicio {
 
     @Override
     public List<Ejercicio> obtenerTodosLosEjercicios() {
-        try (Session session = sessionFactory.openSession()) {
+       Session session = sessionFactory.openSession();
             String hql = "FROM Ejercicio";
             Query<Ejercicio> query = session.createQuery(hql, Ejercicio.class);
             return query.getResultList();
-        } catch (Exception e) {
-            e.printStackTrace();
-            // Manejo de excepciones
-        }
-        return Collections.emptyList(); // Devuelve una lista vacía si hay algún error
+
     }
 
     @Override
-    public Ejercicio obtenerEjercicioPorId(Integer id) {
+    public Ejercicio obtenerEjercicioPorId(Long id) {
        return (Ejercicio) sessionFactory.getCurrentSession().createCriteria(Ejercicio.class)
                 .add(Restrictions.eq("id", id))
                 .uniqueResult();

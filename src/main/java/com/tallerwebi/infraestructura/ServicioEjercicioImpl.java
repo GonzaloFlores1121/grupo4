@@ -18,15 +18,15 @@ public class ServicioEjercicioImpl implements ServicioEjercicio {
     }
 
     public List<Ejercicio> obtenerTodosLosEjercicios() {
+
         return ejercicioRepositorio.obtenerTodosLosEjercicios();
     }
 
     @Override
     public boolean guardarEjercicio(EjercicioUsuario ejercicioUsuario) {
         if (ejercicioUsuario.getNombre() == null || ejercicioUsuario.getMinutos() == null ||
-                ejercicioUsuario.getDia() == null || ejercicioUsuario.getMes() == null ||
-                ejercicioUsuario.getAnio() == null || ejercicioUsuario.getIntensidad() == null ||
-                ejercicioUsuario.getId_ejercicio() == null || ejercicioUsuario.getId_usuario() == null) {
+                ejercicioUsuario.getFecha() == null  || ejercicioUsuario.getIntensidad() == null ||
+                ejercicioUsuario.getEjercicio() == null || ejercicioUsuario.getUsuario() == null) {
             // Si algún campo está vacío, devolver false
             return false;
         } else {

@@ -1,24 +1,8 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.DatosLogin;
-import com.tallerwebi.dominio.ServicioDatosUsuario;
-import com.tallerwebi.dominio.Usuario;
-import com.tallerwebi.dominio.excepcion.DatosIncorrectos;
-import org.hibernate.Session;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
-import org.springframework.ui.Model;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
 
 
 public class ControladorFormularioRegistroTest {
