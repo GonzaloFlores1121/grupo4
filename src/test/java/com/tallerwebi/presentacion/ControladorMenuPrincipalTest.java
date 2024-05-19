@@ -7,14 +7,14 @@ public class ControladorMenuPrincipalTest {
 
   /*  //siMiUsuarioNoTieneLOsDatosVuelveAlInicio
 
-    private ControladorMenuPrincipal controladorMenu;
+    private ControladorHome controladorMenu;
     private ControladorRegistro controladorRegistro;
     private ServicioDatosUsuario servicioDatosUsuarioMock;
 
     @BeforeEach
     public void init() {
         servicioDatosUsuarioMock = mock(ServicioDatosUsuario.class);
-        controladorMenu = new ControladorMenuPrincipal(servicioDatosUsuarioMock);
+        controladorMenu = new ControladorHome(servicioDatosUsuarioMock);
         controladorRegistro = new ControladorRegistro(servicioDatosUsuarioMock);
     }
 

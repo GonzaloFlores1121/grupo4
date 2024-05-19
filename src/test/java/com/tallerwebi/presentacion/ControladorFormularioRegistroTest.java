@@ -9,7 +9,7 @@ public class ControladorFormularioRegistroTest {
 
   /*
     private ControladorRegistro controladorRegistro;
-    private ControladorMenuPrincipal controladorMenu;
+    private ControladorHome;
     private ServicioDatosUsuario servicioDatosUsuarioMock;
 
     //cuando registro al user me lleva al menuPrincipal
@@ -18,7 +18,7 @@ public class ControladorFormularioRegistroTest {
     public void init() {
         servicioDatosUsuarioMock = mock(ServicioDatosUsuario.class);
         controladorRegistro = new ControladorRegistro(servicioDatosUsuarioMock);
-        controladorMenu = new ControladorMenuPrincipal(servicioDatosUsuarioMock);
+        controladorMenu = new ControladorHome(servicioDatosUsuarioMock);
     }
 
     @Test

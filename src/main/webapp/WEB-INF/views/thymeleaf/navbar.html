@@ -9,7 +9,7 @@
 <div th:fragment="navbar">
 <nav class="navbar navbar-expand-sm navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/menuprincipal}">
+        <a class="navbar-brand" th:href="@{/home}">
             <h1 class="display-3"><img th:src="@{/img/logo_bg-color.png}" alt="logo" height="120px">fatloss</h1>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
@@ -29,8 +29,9 @@
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Mi Calendario</a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" th:href="@{calendarioDieta}">Dieta</a></li>
-                        <li><a class="dropdown-item" th:href="@{alimentos}">Alimentacion</a></li>
-                        <li><a class="dropdown-item" th:href="@{ejercicio}">Ejercicios</a></li>
+                        <li><a class="dropdown-item" th:href="@{miDiario}">Alimentacion</a></li>
+                        <li><a class="dropdown-item" th:href="@{diarioEjercicio}">Ejercicio</a></li>
+                        <li><a class="dropdown-item" th:href="@{diarioPeso}">Peso</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">

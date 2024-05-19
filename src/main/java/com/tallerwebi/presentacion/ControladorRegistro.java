@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.ui.ModelMap;
 
@@ -61,7 +60,7 @@ public class ControladorRegistro {
         if (usuarioBuscado != null) {
             HttpSession session = request.getSession();
             session.setAttribute("usuario", usuarioBuscado);
-            return new ModelAndView("redirect:/menuprincipal");
+            return new ModelAndView("redirect:/home");
         }
         model.put("error", "Usuario o clave incorrecta");
 
@@ -69,18 +68,7 @@ public class ControladorRegistro {
     }
 
 
-    @RequestMapping(value = "/menuprincipal", method = RequestMethod.GET)
-    public ModelAndView irAlMenuPrincipal(HttpServletRequest request) {
-        ModelMap modelo = new ModelMap();
-        HttpSession session = request.getSession();
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-        if (usuario != null) {
-            modelo.put("nombre", usuario.getNombre());
-        } else {
-            modelo.put("nombre", "Usuario");
-        }
-        return new ModelAndView("menuprincipal", modelo);
-    }
+
 
     @RequestMapping(value = "/enviarFormulario", method = RequestMethod.POST)
     public ModelAndView enviarFormulario(@ModelAttribute("usuario") Usuario usuario, HttpServletRequest request) {
