@@ -3,7 +3,10 @@ package com.tallerwebi.presentacion;
 import com.tallerwebi.dominio.MacronutrientesUsuario;
 import com.tallerwebi.dominio.ServicioDatosUsuario;
 import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.excepcion.AlturaIncorrectaException;
 import com.tallerwebi.dominio.excepcion.DatosIncorrectos;
+import com.tallerwebi.dominio.excepcion.EdadInvalidaException;
+import com.tallerwebi.dominio.excepcion.PesoIncorrectoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -25,7 +28,7 @@ public class ControladorMiDiario {
     }
 
     @RequestMapping(value = "/miDiario",method = RequestMethod.GET)
-    public ModelAndView irAMiDiario(HttpServletRequest request) throws DatosIncorrectos {
+    public ModelAndView irAMiDiario(HttpServletRequest request) throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
 

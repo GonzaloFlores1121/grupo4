@@ -4,8 +4,7 @@ import com.tallerwebi.dominio.MacronutrientesUsuario;
 import com.tallerwebi.dominio.ServicioDatosUsuario;
 import com.tallerwebi.dominio.ServicioLogin;
 import com.tallerwebi.dominio.Usuario;
-import com.tallerwebi.dominio.excepcion.DatosIncorrectos;
-import com.tallerwebi.dominio.excepcion.UsuarioExistente;
+import com.tallerwebi.dominio.excepcion.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +25,7 @@ public class ServicioDatosUsuarioImpl implements ServicioDatosUsuario {
 
 
     @Override
-    public Integer calcularIngestaCalorica(Usuario usuario) throws DatosIncorrectos {
+    public Integer calcularIngestaCalorica(Usuario usuario) throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
         if (!servicioLogin.usuarioDatosCorrecto(usuario)) {
             throw new DatosIncorrectos("Datos incorrectos del usuario");
         }
@@ -55,7 +54,7 @@ public class ServicioDatosUsuarioImpl implements ServicioDatosUsuario {
     }
 
     @Override
-    public Double calcularMetabolismoBasalDelUsuario(Usuario usuario) throws DatosIncorrectos {
+    public Double calcularMetabolismoBasalDelUsuario(Usuario usuario) throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
         if (!servicioLogin.usuarioDatosCorrecto(usuario)) {
             throw new DatosIncorrectos("Datos incorrectos del usuario");
         }

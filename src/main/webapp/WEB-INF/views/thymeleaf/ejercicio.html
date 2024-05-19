@@ -10,7 +10,7 @@
 <body>
 <div th:replace="navbar :: navbar"></div>
 
-<div class="container mt-4 ejercicio_cuadro">
+<div class="container mt-4 ejercicio_cuadro" style="min-height: 80vh;">
     <div class="row">
         <div class="col-md-6">
             <h2 class="mb-3 titulos_ejercicio" th:text="'Estimación de Energía Quemada por ' + ${ejercicio.nombre} + ' (' + ${ejercicio.intensidad} + ')'"></h2>

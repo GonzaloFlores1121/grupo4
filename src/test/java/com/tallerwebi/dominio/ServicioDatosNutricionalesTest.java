@@ -1,5 +1,8 @@
 package com.tallerwebi.dominio;
+import com.tallerwebi.dominio.excepcion.AlturaIncorrectaException;
 import com.tallerwebi.dominio.excepcion.DatosIncorrectos;
+import com.tallerwebi.dominio.excepcion.EdadInvalidaException;
+import com.tallerwebi.dominio.excepcion.PesoIncorrectoException;
 import com.tallerwebi.infraestructura.RepositorioUsuarioImpl;
 import com.tallerwebi.infraestructura.ServicioDatosUsuarioImpl;
 import com.tallerwebi.infraestructura.ServicioLoginImpl;
@@ -30,7 +33,7 @@ public class ServicioDatosNutricionalesTest {
 
 
     @Test
-    public void IngestaCaloricaDeUsuarioHombreDe40SedentarioYTiene70kgYMide170() throws  DatosIncorrectos {
+    public void IngestaCaloricaDeUsuarioHombreDe40SedentarioYTiene70kgYMide170() throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
         Usuario usuario = givenTengoUnUsuario();
         Integer icr = whenSeCalculaSuIngestaCalorica(usuario);
         thenLaIngestaCaloricaEsCorrecta(icr );
@@ -42,7 +45,7 @@ public class ServicioDatosNutricionalesTest {
         assertEquals(1938, icr,0.0);
     }
 
-    private Integer whenSeCalculaSuIngestaCalorica(Usuario usuario) throws DatosIncorrectos {
+    private Integer whenSeCalculaSuIngestaCalorica(Usuario usuario) throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
         // Verifica si los datos del usuario son válidos antes de calcular la ingesta calórica
         if (servicioLogin.usuarioDatosCorrecto(usuario)) {
             return servicioUsuario.calcularIngestaCalorica(usuario);
@@ -87,7 +90,7 @@ public class ServicioDatosNutricionalesTest {
     }
 
     @Test
-    public void SeGuardanLosMacronutrientesDelUsuario() throws DatosIncorrectos {
+    public void SeGuardanLosMacronutrientesDelUsuario() throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
         Usuario usuario = givenTengoUnUsuario();
 
         MacronutrientesUsuario macro=whenCalculoLosMacronutrientesDelUsuario(usuario);
@@ -105,7 +108,7 @@ public class ServicioDatosNutricionalesTest {
         assertNotNull(vo3);
     }
 
-    private MacronutrientesUsuario whenCalculoLosMacronutrientesDelUsuario(Usuario usuario) throws DatosIncorrectos {
+    private MacronutrientesUsuario whenCalculoLosMacronutrientesDelUsuario(Usuario usuario) throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
         servicioUsuario.calcularIngestaCalorica(usuario);
         return servicioUsuario.CalcularDistribucionDeMacronutrientes(usuario);
     }

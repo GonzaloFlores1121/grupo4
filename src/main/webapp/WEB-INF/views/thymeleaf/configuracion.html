@@ -23,7 +23,7 @@
     <div th:replace="navbar :: navbar"></div>
 
     <!--configuracion-->
-    <div class="container my-5">
+    <div class="container my-5" style="min-height: 60vh;">
         <div class="row d-flex flex-column justify-content-center align-items-center">
             <div class="col-sm-6 border border-1 rounded" th:style="'background-image: url(\'' + @{/img/background.png} + '\'); background-size: cover;'">
                 <form class="m-3 p-3" th:action="@{/guardarConfiguracion}" method="post">

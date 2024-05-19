@@ -30,13 +30,13 @@
 </div>
 
 <!-- Contenido principal" -->
-<div class="container">
+<div class="container-fluid my-5" style="min-height: 60vh;">
     <div class="row mt-1">
         <!-- Columna de "Actividad Reciente" -->
         <div class="col-md-8">
             <h3>Actividad Reciente</h3>
             <div class="container">
-                <!-- Primera fila -->
+
                 <div class="row mb-3">
                     <div class="col-md-12 text-center">
                         <a th:href="@{/miDiario}">
@@ -45,7 +45,7 @@
                         </a>
                     </div>
                 </div>
-                <!-- Segunda fila -->
+
                 <div class="row mb-3">
                     <div class="col-md-12 text-center">
                         <a th:href="@{/diarioEjercicio}">
@@ -55,7 +55,7 @@
                         </a>
                     </div>
                 </div>
-                <!-- Tercera fila -->
+
                 <div class="row">
                     <div class="col-md-12 text-center">
                         <a th:href="@{/diario/peso}">
@@ -66,29 +66,10 @@
                 </div>
             </div>
         </div>
-
-        <!-- Columna de "Lista de Links" -->
-        <div class="col-md-4">
-            <h3>Mi FatLoss <3</h3>
-            <div class="list-group text-sm p-1">
-                <span>Calendario de dieta</span>
-                <a th:href="@{/calendarioDieta}" class="list-group-item list-group-item-action">Dieta</a>
-                <a th:href="@{/midiario/alimentos}" class="list-group-item list-group-item-action">Alimentos</a>
-                <a th:href="@{/midiario/ejercicio}" class="list-group-item list-group-item-action">Ejercicio</a>
-
-                <span>Mi Historia</span>
-                <a th:href="@{/diario/peso}" class="list-group-item list-group-item-action">La Historia de Mi Peso</a>
-                <a th:href="@{/diario/cocina}" class="list-group-item list-group-item-action">Mi Libro de Cocina</a>
-
-                <span>Configuración</span>
-                <a th:href="@{/notificaciones}" class="list-group-item list-group-item-action">Mis Notificaciones</a>
-                <a th:href="@{/configuracion}" class="list-group-item list-group-item-action">Mi configuración</a>
-                <a th:href="@{/perfilUsuario}" class="list-group-item list-group-item-action">Ver mi Perfil de Usuario</a>
-            </div>
-        </div>
     </div>
 </div>
-<div class="espacio"></div>
+
+
 <div th:replace="footer ::footer"></div>
 
 </body>

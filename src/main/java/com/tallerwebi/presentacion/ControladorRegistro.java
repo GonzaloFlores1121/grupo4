@@ -32,6 +32,10 @@ public class ControladorRegistro {
         this.servicioLogin = servicioLogin;
     }
 
+    @RequestMapping(path = "/", method = RequestMethod.GET)
+    public ModelAndView inicio() {
+        return new ModelAndView("redirect:/inicio");
+    }
     @RequestMapping(value = "/inicio", method = RequestMethod.GET)
     public ModelAndView irAInicio() {
         return new ModelAndView("inicio");
@@ -87,7 +91,7 @@ public class ControladorRegistro {
         } catch (UsuarioExistente e) {
             errores.add("El usuario ya existe");
         } catch (AlturaIncorrectaException e) {
-            errores.add("La altura debe ser mayor a 0 y metro a 3 metros");
+            errores.add("La altura debe ser mayor a 0 y menor que 3 metros");
         } catch (EdadInvalidaException e) {
             errores.add("La edad debe ser entre 12 y 100 años");
         } catch (PesoIncorrectoException e) {

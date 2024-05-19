@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE HTML>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,99 +19,95 @@
 </head>
 <body>
 <div th:replace="navbar :: navbar"></div>
-<div class="row-receta">
-    <section class="contenedor-imagen-receta">
-        <img th:src="@{img/receta-quinoa.jpg}"  width="200px" height="200px" alt="Platillo_quinoa_con_vegetales" class="borde-verde">
-    </section>
-    <div class="container-rec">
-        <h2>Ensalada de Quinoa con Vegetales Asados</h2>
 
-        <h3>Ingredientes:</h3>
-        <ul>
-            <li>1 taza de quinoa</li>
-            <li>2 tazas de caldo de verduras o agua</li>
-            <li>1 pimiento rojo, cortado en trozos</li>
-            <li>1 pimiento amarillo, cortado en trozos</li>
-            <li>1 calabacín, cortado en rodajas</li>
-            <li>1 berenjena, cortada en rodajas</li>
-            <li>1 cebolla roja, cortada en trozos</li>
-            <li>2 cucharadas de aceite de oliva</li>
-            <li>Sal y pimienta al gusto</li>
-            <li>2 cucharadas de jugo de limón</li>
-            <li>2 cucharadas de hojas de cilantro fresco (opcional)</li>
-            <li>1 aguacate, cortado en cubos</li>
-        </ul>
-
-        <h3>Instrucciones:</h3>
-        <ol>
-            <li>Precalienta el horno a 200°C (390°F).</li>
-            <li>Enjuaga bien la quinoa bajo agua fría para eliminar el sabor amargo. Luego, colócala en una olla con el caldo de verduras o agua. Lleva a ebullición, luego reduce el fuego, tapa y cocina a fuego lento durante 15-20 minutos, o hasta que la quinoa esté cocida y el líquido se haya absorbido. Retira del fuego y deja reposar durante unos minutos.</li>
-            <li>Mientras la quinoa se cocina, prepara las verduras. Coloca los pimientos, el calabacín, la berenjena y la cebolla en una bandeja para hornear. Rocía con aceite de oliva, sal y pimienta al gusto. Mezcla bien para asegurarte de que todas las verduras estén cubiertas.</li>
-            <li>Hornea las verduras en el horno precalentado durante unos 20-25 minutos, o hasta que estén tiernas y ligeramente doradas, revolviendo ocasionalmente.</li>
-            <li>Una vez que la quinoa y las verduras estén listas, mezcla la quinoa cocida con las verduras asadas en un tazón grande.</li>
-            <li>Adereza la ensalada con jugo de limón y hojas de cilantro fresco (si lo deseas). Mezcla bien.</li>
-            <li>Sirve la ensalada en platos individuales y decora con cubos de aguacate.</li>
-            <li>¡Disfruta de tu deliciosa ensalada de quinoa con vegetales asados!</li>
-        </ol>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="list-group flex-row">
+                <a th:href="@{/alimentos}" class="list-group-item list-group-item-action ">ALIMENTOS</a>
+                <a th:href="@{/recetas}" class="list-group-item list-group-item-action activo">RECETAS</a>
+                <a th:href="@{/actividadesFisicas}" class="list-group-item list-group-item-action">EN FORMA</a>
+            </div>
+        </div>
     </div>
-
-    <aside>
-        <h2>Información Nutricional</h2>
-        <table>
-            <tr>
-                <th>Tamaño de la Porción</th>
-                <td>por porción</td>
-            </tr>
-            <tr>
-                <th>Energía</th>
-                <td>160 kj / 38 kcal</td>
-            </tr>
-            <tr>
-                <th>Carbohidratos</th>
-                <td>3,3g</td>
-            </tr>
-            <tr>
-                <th>Azúcar</th>
-                <td>0,64g</td>
-            </tr>
-            <tr>
-                <th>Proteína</th>
-                <td>2,69g</td>
-            </tr>
-            <tr>
-                <th>Grasa</th>
-                <td>1,58g</td>
-            </tr>
-            <tr>
-                <th>Grasa Saturada</th>
-                <td>0,422g</td>
-            </tr>
-            <tr>
-                <th>Grasa Poliinsaturada</th>
-                <td>0,32g</td>
-            </tr>
-            <tr>
-                <th>Grasa Monoinsaturada</th>
-                <td>0,552g</td>
-            </tr>
-            <tr>
-                <th>Colesterol</th>
-                <td>53mg</td>
-            </tr>
-            <tr>
-                <th>Fibra</th>
-                <td>0,6g</td>
-            </tr>
-            <tr>
-                <th>Sodio</th>
-                <td>143mg</td>
-            </tr>
-            <tr>
-                <th>Potasio</th>
-                <td>59mg</td>
-            </tr>
-        </table>
-    </aside>
+</div>
+<div class="row py-5">
+    <div class="col-md-8" style="padding-left: 50px;">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 th:text="${receta.nombre}"></h2>
+                </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <h3>Ingredientes:</h3>
+                <div th:utext="${receta.ingredientes}"></div>
+                <h3>Instrucciones:</h3>
+                <div th:utext="${receta.instrucciones}"></div>
+            </div>
+            <div class="col-md-4">
+                <img th:src="@{/img/{receta.imagen}(receta.imagen=${receta.imagen})}" class="img-fluid" alt="receta">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <aside>
+            <h2>Información Nutricional</h2>
+            <table>
+                <tr>
+                    <th>Tamaño de la Porción</th>
+                    <td th:text="${receta.tamanoPorcion}"></td>
+                </tr>
+                <tr>
+                    <th>Energía</th>
+                    <td th:text="${receta.energia}"></td>
+                </tr>
+                <tr>
+                    <th>Carbohidratos</th>
+                    <td th:text="${receta.carbohidratos}"></td>
+                </tr>
+                <tr>
+                    <th>Azúcar</th>
+                    <td th:text="${receta.azucar}"></td>
+                </tr>
+                <tr>
+                    <th>Proteína</th>
+                    <td th:text="${receta.proteina}"></td>
+                </tr>
+                <tr>
+                    <th>Grasa</th>
+                    <td th:text="${receta.grasa}"></td>
+                </tr>
+                <tr>
+                    <th>Grasa Saturada</th>
+                    <td th:text="${receta.grasaSaturada}"></td>
+                </tr>
+                <tr>
+                    <th>Grasa Poliinsaturada</th>
+                    <td th:text="${receta.grasaPoliinsaturada}"></td>
+                </tr>
+                <tr>
+                    <th>Grasa Monoinsaturada</th>
+                    <td th:text="${receta.grasaMonoinsaturada}"></td>
+                </tr>
+                <tr>
+                    <th>Colesterol</th>
+                    <td th:text="${receta.colesterol}"></td>
+                </tr>
+                <tr>
+                    <th>Fibra</th>
+                    <td th:text="${receta.fibra}"></td>
+                </tr>
+                <tr>
+                    <th>Sodio</th>
+                    <td th:text="${receta.sodio}"></td>
+                </tr>
+                <tr>
+                    <th>Potasio</th>
+                    <td th:text="${receta.potasio}"></td>
+                </tr>
+            </table>
+        </aside>
 </div>
 </div>
 <div th:replace="footer ::footer"></div>
