@@ -173,5 +173,3 @@ Values('Ensalada de Quinoa con Vegetales Asados','receta-quinoa.jpg','Una receta
   </ol>',
   'por porción','160 kj / 38 kcal','3,3g','0,64g','2,69g','1,58g','0,422g','0,32g','0,552g','53mg','0,6g','143mg','59mg');
 
-
-
