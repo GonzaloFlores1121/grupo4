@@ -24,7 +24,7 @@
     <nav class="navbar navbar-expand-sm" style="background-color: #ffffff;">
         <div class="container-fluid">
             <a class="navbar-brand" th:href="@{/inicio}">
-                <h1 class="display-3" style="color: #5FB92E"><img th:src="@{/img/logo.png}" alt="logo" height="120px">   fatloss</h1>
+                <h1 class="display-3" style="color: #5FB92E; font-weight: bold;"><img th:src="@{/img/logo.png}" alt="logo" height="120px">   fatloss</h1>
             </a>
         </div>
     </nav>
@@ -54,12 +54,12 @@
                                 <a class="btn btn-outline-dark" th:href="@{/inicio}">Cancelar</a>
                             </div>
                         </div>
-                        <div class="d-flex flex-column justify-content-center m-3">
-                            <div class="alert alert-danger alert-dismissible fade show" th:if="${error != null}">
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                                <strong>Error: </strong><span th:text="${error}"></span>
-                            </div>
                     </div>
+                    <div class="d-flex flex-column justify-content-center m-3">
+                        <div class="alert alert-danger alert-dismissible fade show" th:if="${error != null}">
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            <strong>Error: </strong><span th:text="${error}"></span>
+                        </div>
                     </div>
                 </form>
             </div>

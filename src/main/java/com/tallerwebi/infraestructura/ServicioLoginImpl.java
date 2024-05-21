@@ -1,5 +1,7 @@
 package com.tallerwebi.infraestructura;
 
+import com.tallerwebi.dominio.ConfiguracionUsuario;
+import com.tallerwebi.dominio.RepositorioConfiguracionUsuario;
 import com.tallerwebi.dominio.RepositorioUsuario;
 import com.tallerwebi.dominio.ServicioLogin;
 import com.tallerwebi.dominio.Usuario;
@@ -14,10 +16,12 @@ import javax.transaction.Transactional;
 public class ServicioLoginImpl implements ServicioLogin {
 
     private RepositorioUsuario repositorioUsuario;
+    private RepositorioConfiguracionUsuario repositorioConfiguracionUsuario;
 
     @Autowired
-    public ServicioLoginImpl(RepositorioUsuario repositorioUsuario){
+    public ServicioLoginImpl(RepositorioUsuario repositorioUsuario, RepositorioConfiguracionUsuario repositorioConfiguracionUsuario){
         this.repositorioUsuario = repositorioUsuario;
+        this.repositorioConfiguracionUsuario = repositorioConfiguracionUsuario;
     }
 
     @Override
@@ -32,14 +36,50 @@ public class ServicioLoginImpl implements ServicioLogin {
             throw new UsuarioExistente();
         }
         if(validarDatos(usuario)) {
-            repositorioUsuario.guardar(usuario);
+            if(usuario.getGenero().equals("masculino")) {
+                usuario.setImagen("icono-perfil-1.png");
+            }else {
+                usuario.setImagen("icono-perfil-2.png");
+            }
+            usuario.setConfiguracionUsuario(crearConfiguracionPredeterminada());
+            repositorioUsuario.guardar(usuario);         
         }
+    }
 
+    private ConfiguracionUsuario crearConfiguracionPredeterminada() {
+        ConfiguracionUsuario configuracionUsuario = new ConfiguracionUsuario();
+        configuracionUsuario.setRecibirNotificaciones(true);
+        configuracionUsuario.setUnidadEnergia("calorias");
+        configuracionUsuario.setUnidadMasa("kilogramos");
+        repositorioConfiguracionUsuario.guardar(configuracionUsuario);
+        return configuracionUsuario;
     }
 
     @Override
-    public Boolean usuarioDatosCorrecto(Usuario usuario) throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
-    return validarDatos(usuario);
+    public Boolean usuarioDatosCorrecto(Usuario usuario) throws DatosIncorrectos {
+        if (usuario != null && usuario.getPeso() != null && usuario.getPeso() > 0.0 && usuario.getAltura() != null && usuario.getAltura() > 0
+                && usuario.getEmail() != null && usuario.getPassword() != null && usuario.getEdad() != null && usuario.getEdad() >= 18) {
+            return true;
+        } else{
+            throw new DatosIncorrectos("Datos incorrectos del usuario");
+        }
+    }
+
+    @Override
+    public void modificarPerfil(Usuario usuario, String nuevoEmail) throws UsuarioExistente, DatosIncorrectos, EdadInvalidaException, AlturaIncorrectaException, PesoIncorrectoException {
+        if(nuevoEmail!=usuario.getEmail() && repositorioUsuario.buscar(usuario.getEmail())!=null) {
+            throw new UsuarioExistente();
+        }
+        if(validarDatos(usuario)) {
+            repositorioConfiguracionUsuario.modificar(usuario.getConfiguracionUsuario());
+            repositorioUsuario.modificar(usuario);
+        }
+        
+    }
+
+    @Override
+    public Usuario buscar(String email) {
+        return repositorioUsuario.buscar(email);
     }
 
     private Boolean validarDatos(Usuario usuario) throws DatosIncorrectos, EdadInvalidaException, AlturaIncorrectaException, PesoIncorrectoException {
@@ -49,6 +89,7 @@ public class ServicioLoginImpl implements ServicioLogin {
         validarPeso(usuario.getPeso());
         return true;
     }
+
     private void validarUsuario(Usuario usuario) throws DatosIncorrectos {
         if (usuario == null || usuario.getEmail() == null || usuario.getPassword() == null) {
             throw new DatosIncorrectos("El usuario, el correo electrónico y la contraseña no pueden ser nulos");

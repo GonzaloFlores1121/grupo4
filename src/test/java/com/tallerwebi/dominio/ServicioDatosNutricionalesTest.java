@@ -4,6 +4,7 @@ import com.tallerwebi.dominio.excepcion.DatosIncorrectos;
 import com.tallerwebi.dominio.excepcion.EdadInvalidaException;
 import com.tallerwebi.dominio.excepcion.PesoIncorrectoException;
 import com.tallerwebi.infraestructura.RepositorioUsuarioImpl;
+import com.tallerwebi.infraestructura.RepositorioConfiguracionUsuarioImpl;
 import com.tallerwebi.infraestructura.ServicioDatosUsuarioImpl;
 import com.tallerwebi.infraestructura.ServicioLoginImpl;
 import org.hibernate.SessionFactory;
@@ -19,7 +20,8 @@ import static org.mockito.Mockito.verify;
 public class ServicioDatosNutricionalesTest {
 
     private SessionFactory sessionFactory;
-    private  RepositorioUsuario repositorioUsuario;
+    private RepositorioUsuario repositorioUsuario;
+    private RepositorioConfiguracionUsuario repositorioConfiguracionUsuario;
     private ServicioDatosUsuario servicioUsuario ;
     private ServicioLogin servicioLogin;
 
@@ -27,13 +29,14 @@ public class ServicioDatosNutricionalesTest {
     public void init() {
         sessionFactory = mock(SessionFactory.class);
         repositorioUsuario = new RepositorioUsuarioImpl(sessionFactory);
-        servicioLogin = new ServicioLoginImpl(repositorioUsuario);
+        repositorioConfiguracionUsuario = new RepositorioConfiguracionUsuarioImpl(sessionFactory); 
+        servicioLogin = new ServicioLoginImpl(repositorioUsuario, repositorioConfiguracionUsuario);
         servicioUsuario = new ServicioDatosUsuarioImpl(servicioLogin);
     }
 
 
     @Test
-    public void IngestaCaloricaDeUsuarioHombreDe40SedentarioYTiene70kgYMide170() throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
+    public void IngestaCaloricaDeUsuarioHombreDe40SedentarioYTiene70kgYMide170() throws  DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
         Usuario usuario = givenTengoUnUsuario();
         Integer icr = whenSeCalculaSuIngestaCalorica(usuario);
         thenLaIngestaCaloricaEsCorrecta(icr );
