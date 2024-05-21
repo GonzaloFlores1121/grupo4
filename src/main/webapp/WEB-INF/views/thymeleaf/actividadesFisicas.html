@@ -33,10 +33,10 @@
             <img th:src="@{/img/brainExercise.png}" class="img-fluid" alt="Importancia del Ejercicio">
         </div>
         <div class="busqueda">
-            <form action="/buscar" method="get">
-                <label for="searchInput">Buscador de Ejercicio</label>
-                <input type="text" id="searchInput" name="searchInput" class="form-control" placeholder="Intensidad o Tipo de Ejercicio">
-                <button type="submit" class="btn btn-success">Buscar</button>
+            <form th:action="@{/buscarEjercicio}" method="GET">
+                <label for="search">Buscador de Ejercicio</label>
+                <input type="text" id="search" name="search" class="form-control" placeholder="Intensidad o Tipo de Ejercicio">
+                <button type="submit" class="btn btn-success" >Buscar</button>
             </form>
         </div>
     </div>

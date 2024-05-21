@@ -22,7 +22,7 @@ public class Usuario {
     private Double altura;
     private Integer edad;
     private Integer ingestaCalorica;
-    private String metaAlcanzarPeso;
+    private Double metaAlcanzarPeso;
 
     public Usuario() {
 
@@ -95,11 +95,11 @@ public class Usuario {
         activo = true;
     }
 
-    public String getMetaAlcanzarPeso() {
+    public Double getMetaAlcanzarPeso() {
         return metaAlcanzarPeso;
     }
 
-    public void setMetaAlcanzarPeso(String metaAlcanzarPeso) {
+    public void setMetaAlcanzarPeso(Double metaAlcanzarPeso) {
         this.metaAlcanzarPeso = metaAlcanzarPeso;
     }
 }
