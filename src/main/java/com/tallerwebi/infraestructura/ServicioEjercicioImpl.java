@@ -1,6 +1,7 @@
 package com.tallerwebi.infraestructura;
 
 import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.excepcion.EjercicioNoExistente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +18,12 @@ public class ServicioEjercicioImpl implements ServicioEjercicio {
         this.repositorioEjercicioUsuario = ejercicioRepositorioUsuario;
     }
 
-    public List<Ejercicio> obtenerTodosLosEjercicios() {
-
+    public List<Ejercicio> obtenerTodosLosEjercicios() throws EjercicioNoExistente {
+    if (ejercicioRepositorio.obtenerTodosLosEjercicios() == null){
+        throw new EjercicioNoExistente();
+    }else {
         return ejercicioRepositorio.obtenerTodosLosEjercicios();
+        }
     }
 
     @Override
@@ -35,6 +39,15 @@ public class ServicioEjercicioImpl implements ServicioEjercicio {
             return true;
         }
     }
+
+    @Override
+    public List<Ejercicio> obtenerEjercicioPorNombreOIntensidad(String caracteristica) throws EjercicioNoExistente {
+        if (ejercicioRepositorio.obtenerEjercicioPorNombreOIntensidad(caracteristica).isEmpty()) {
+            throw new EjercicioNoExistente();
+        } else {
+            return ejercicioRepositorio.obtenerEjercicioPorNombreOIntensidad(caracteristica);
+        }
     }
+}
 
 

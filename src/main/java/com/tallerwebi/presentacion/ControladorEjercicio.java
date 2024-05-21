@@ -1,5 +1,6 @@
 package com.tallerwebi.presentacion;
 import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.excepcion.EjercicioNoExistente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -26,7 +28,7 @@ public class ControladorEjercicio {
     private ServicioEjercicio servicioEjercicio;
 
     @Autowired
-    public ControladorEjercicio(RepositorioEjercicio repositorioEjercicio , RepositorioEjercicioUsuario repositorioEjercicioUsuario, RepositorioUsuario repositorioUsuario, ServicioEjercicio servicioEjercicio){
+    public ControladorEjercicio(RepositorioEjercicio repositorioEjercicio, RepositorioEjercicioUsuario repositorioEjercicioUsuario, RepositorioUsuario repositorioUsuario, ServicioEjercicio servicioEjercicio) {
         this.repositorioEjercicio = repositorioEjercicio;
         this.repositorioEjercicioUsuario = repositorioEjercicioUsuario;
         this.repositorioUsuario = repositorioUsuario;
@@ -41,6 +43,7 @@ public class ControladorEjercicio {
         return new ModelAndView("ejercicio", model);
     }
 
+
     @RequestMapping(value = "/guardarEjercicio", method = RequestMethod.POST)
     public ModelAndView guardarEjercicio(@RequestParam("idEjercicio") Long idEjercicio,
                                          @RequestParam("intensidad") String intensidad,
@@ -48,7 +51,7 @@ public class ControladorEjercicio {
                                          @RequestParam("minutos") Integer minutos,
                                          HttpServletRequest request) {
 
-       Ejercicio ejercicio= repositorioEjercicio.obtenerEjercicioPorId(idEjercicio);
+        Ejercicio ejercicio = repositorioEjercicio.obtenerEjercicioPorId(idEjercicio);
         //conseguir el id de usuario
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
@@ -62,32 +65,51 @@ public class ControladorEjercicio {
         ejercicioUsuario.setUsuario(usuario);
         ejercicioUsuario.setFecha(fecha);
         ejercicioUsuario.setMinutos(minutos);
-        ModelMap model= new ModelMap();
+        ModelMap model = new ModelMap();
         model.put("ejercicio", ejercicio);
         // Guarda el ejercicioUsuario en la base de datos
         boolean guardadoExitoso = servicioEjercicio.guardarEjercicio(ejercicioUsuario);
         if (guardadoExitoso) {
-           model.put("mensaje", "El ejercicio se ha guardado correctamente.");
+            model.put("mensaje", "El ejercicio se ha guardado correctamente.");
 
         } else {
             model.put("mensaje", "El ejercicio no se ha guardado correctamente. ");
 
         }
 
-        return new ModelAndView("ejercicio",model);
+        return new ModelAndView("ejercicio", model);
     }
 
-    @RequestMapping(value = "/actividadesFisicas",method = RequestMethod.GET)
-    public ModelAndView irAEnForma(){
+    @RequestMapping(value = "/buscarEjercicio", method = RequestMethod.GET)
+    public ModelAndView buscarEjercicio(@RequestParam(value = "search", required = false) String search) throws EjercicioNoExistente {
         ModelMap model = new ModelMap();
         try {
-            List<Ejercicio> ejercicios = repositorioEjercicio.obtenerTodosLosEjercicios();
-            model.put("listaEjercicios", ejercicios); // Cambia "ejercicio" a "listaEjercicios"
+            List<Ejercicio> ejercicios;
+            ejercicios = servicioEjercicio.obtenerEjercicioPorNombreOIntensidad(search);
+            model.put("listaEjercicios", ejercicios);
             return new ModelAndView("actividadesFisicas", model);
-        }catch (Exception e){
-            model.put("error", "Ningun Ejercicio Encontrado");
+        } catch (Exception e) {
+            List<Ejercicio> ejercicios;
+            ejercicios = servicioEjercicio.obtenerTodosLosEjercicios();
+            model.put("listaEjercicios", ejercicios);
             return new ModelAndView("actividadesFisicas", model);
         }
-
+    }
+    @RequestMapping(value = "/actividadesFisicas", method = RequestMethod.GET)
+    public ModelAndView irAEnForma(@RequestParam(value = "search", required = false) String search) {
+        ModelMap model = new ModelMap();
+        try {
+            List<Ejercicio> ejercicios;
+            if (search != null && !search.isEmpty()) {
+                ejercicios = servicioEjercicio.obtenerEjercicioPorNombreOIntensidad(search);
+            } else {
+                ejercicios = servicioEjercicio.obtenerTodosLosEjercicios();
+            }
+            model.put("listaEjercicios", ejercicios);
+            return new ModelAndView("actividadesFisicas", model);
+        } catch (Exception e) {
+            model.put("error", "Ningún Ejercicio Encontrado");
+            return new ModelAndView("actividadesFisicas", model);
+        }
     }
 }

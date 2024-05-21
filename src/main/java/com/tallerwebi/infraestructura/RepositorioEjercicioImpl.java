@@ -2,7 +2,6 @@ package com.tallerwebi.infraestructura;
 
 import com.tallerwebi.dominio.Ejercicio;
 import com.tallerwebi.dominio.RepositorioEjercicio;
-import com.tallerwebi.dominio.Usuario;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -10,7 +9,6 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
-import java.util.Collections;
 import java.util.List;
 
 @Repository("repositorioEjercicio")
@@ -40,6 +38,19 @@ public class RepositorioEjercicioImpl implements RepositorioEjercicio {
                 .add(Restrictions.eq("id", id))
                 .uniqueResult();
     }
+
+
+    @Override
+    public List obtenerEjercicioPorNombreOIntensidad(String caracteristica) {
+        return sessionFactory.getCurrentSession().createCriteria(Ejercicio.class)
+                .add(Restrictions.or(
+                        Restrictions.eq("nombre", caracteristica),
+                        Restrictions.eq("intensidad", caracteristica)
+                ))
+                .list();
+    }
+
+
 }
 
 

@@ -102,6 +102,8 @@ public class ServicioDatosUsuarioImpl implements ServicioDatosUsuario {
         return macronutrientesUsuario;
 
     }
+
+
 }
 
 

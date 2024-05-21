@@ -20,3 +20,5 @@ hs_err_pid*
 /.settings/
 
 
+src/main/java/com/tallerwebi/config/HibernateConfig.java
+src/main/java/com/tallerwebi/config/HibernateConfig.java

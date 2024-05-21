@@ -53,36 +53,6 @@ public class ControladorHome {
         return new ModelAndView("diarioPeso");
     }
 
-    //probando un poco lo del modelo 
-    @RequestMapping(path="/perfilUsuario", method=RequestMethod.GET)
-    public ModelAndView perfilUsuario() {
-        return new ModelAndView("perfilUsuario");
-    }
-
-    //viendo que tal va con un map a posteriori estas weas se borraran, pero solo para ir viendo :v
-    @RequestMapping(path="/notificaciones", method=RequestMethod.GET) 
-    public ModelAndView notificaciones() {
-        ModelMap modelo = new ModelMap();
-        Map<String, String> notificaciones = new TreeMap<>();
-        notificaciones.put("Control Peso", "A las 8 a.m. debes controlar tu peso.");
-        notificaciones.put("Alimentacion", "No olvides que a las 12 a.m. debe almorzar de manera saludable.");
-        notificaciones.put("Mantenimiento", "Desde las 8 p.m. a las 10 p.m. la aplicacion se hallara en mantenimiento gracias por su comprension.");
-        notificaciones.put("Novedades", "No olvides leer el parche con las nuevas actualizaciones.");
-        modelo.addAttribute("notificaciones", notificaciones);
-        return new ModelAndView("notificaciones", modelo);
-    }
-
-    @RequestMapping(path="/configuracion", method=RequestMethod.GET)
-    public ModelAndView configuracion() {
-        return new ModelAndView("configuracion");
-    }
-
-    @RequestMapping(path="/guardarConfiguracion", method=RequestMethod.POST)
-    public ModelAndView guardarConfiguracion() {
-        return new ModelAndView("redirect:/menuprincipal");
-    }
-
-
     @RequestMapping(path="/mostrarNombreUsuario", method=RequestMethod.GET)
     public ModelAndView mostrarNombreUsuario(HttpServletRequest request) {
         ModelMap modelo = new ModelMap();
