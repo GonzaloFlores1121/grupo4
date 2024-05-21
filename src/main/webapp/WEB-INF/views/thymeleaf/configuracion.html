@@ -23,31 +23,28 @@
     <div th:replace="navbar :: navbar"></div>
 
     <!--configuracion-->
-    <div class="container my-5" style="min-height: 60vh;">
+    <div class="container my-5">
         <div class="row d-flex flex-column justify-content-center align-items-center">
             <div class="col-sm-6 border border-1 rounded" th:style="'background-image: url(\'' + @{/img/background.png} + '\'); background-size: cover;'">
-                <form class="m-3 p-3" th:action="@{/guardarConfiguracion}" method="post">
+                <form class="m-3 p-3" th:action="@{/guardarConfiguracion}" th:object="${configuracionUsuario}" method="post">
                     <h2 class="text-center text-white mb-3">Mi Configuracion</h2>
                     <div class="form-check form-switch mb-3">
-                        <input class="form-check-input" type="checkbox" id="recibir-notificaciones" name="recibir-notificaciones" value="si" checked>
-                        <label class="form-check-label" for="recibir-notificaciones">Recibir Notificaciones</label>
+                        <input class="form-check-input" th:field="*{recibirNotificaciones}" th:checked="${recibirNotificaciones}" type="checkbox" id="recibirNotificaciones" name="recibirNotificaciones">
+                        <label class="form-check-label" for="recibirNotificaciones">Recibir Notificaciones</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <select class="form-select" name="unidad-energia" id="unidad-energia" required>
-                            <option value="calorias" selected>Calorias</option>
-                            <option value="kilojulios">Kilojulios</option>
+                        <select class="form-select" th:field="*{unidadEnergia}" name="unidadEnergia" id="unidadEnergia" required>
+                            <option th:value="'calorias'" th:selected="${unidadEnergia == 'calorias'}">Calorias</option>
+                            <option th:value="'kilojulios'" th:selected="${unidadEnergia == 'kilojulios'}">Kilojulios</option>
                         </select>
-                        <label class="form-label" for="unidad-energia">Seleciona Unidad de Energia: </label>
+                        <label class="form-label" for="unidadEnergia">Seleciona Unidad de Energia: </label>
                     </div>
                     <div class="form-floating mb-3">
-                        <select class="form-select" name="unidad-masa" id="unidad-masa" required>
-                            <option value="kilogramos">Kilogramos</option>
-                            <option value="libras">Libras</option>
+                        <select class="form-select" th:field="*{unidadMasa}" name="unidadMasa" id="unidadMasa" required>
+                            <option th:value="'kilogramos'" th:selected="${unidadMasa == 'kilogramos'}">Kilogramos</option>
+                            <option th:value="'libras'" th:selected="${unidadMasa == 'libras'}">Libras</option>
                         </select>
-                        <label class="form-label" for="unidad-masa">Selecciona Unidad de Masa: </label>
-                    </div>
-                    <div class="mb-3">
-                        <a class="btn btn-outline-dark" th:href="@{#}">Recalcular IDR</a><span class="badge bg-dark ms-1" name="idr" id="idr">2000</span>
+                        <label class="form-label" for="unidadMasa">Selecciona Unidad de Masa: </label>
                     </div>
                     <input class="btn btn-outline-dark ms-auto" type="submit" name="guardar" id="guardar" value="Guardar">  
                 </form>
