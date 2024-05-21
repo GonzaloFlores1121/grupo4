@@ -2,7 +2,9 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Alimentos</title>
+    <title>Categorias Alimentos</title>
+
+
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/css/main.css}">
 
@@ -15,9 +17,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+
 </head>
 <body>
+<!--header/nav-->
+
 <div th:replace="navbar :: navbar"></div>
+
 
 <div class="container">
     <div class="row">
@@ -31,13 +37,17 @@
     </div>
 </div>
 
-
-<h1 th:text="${categoria.nombre}"></h1>
+<h1>Categorías</h1>
 <ul>
-    <li th:each="alimento : ${categoria.alimentos}">
-        <a th:href="@{/alimentos/{id}(id=${alimento.id})}" th:text="${alimento.nombre}"></a>
+    <li th:each="categoria : ${categorias}">
+        <img th:src="@{/img/{categoria.imagen}(categoria.imagen=${categoria.imagen})}" class="card-img-top w-50 mx-auto d-block"  alt="categoria_imagen" >
+        <a th:href="@{/categorias/{id}(id=${categoria.id})}" th:text="${categoria.nombre}"></a>
     </li>
 </ul>
+<!--footer-->
 <div th:replace="footer :: footer"></div>
+
+
+
 </body>
 </html>

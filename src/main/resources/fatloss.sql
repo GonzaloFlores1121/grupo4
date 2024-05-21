@@ -173,5 +173,37 @@ Values('Ensalada de Quinoa con Vegetales Asados','receta-quinoa.jpg','Una receta
   </ol>',
   'por porción','160 kj / 38 kcal','3,3g','0,64g','2,69g','1,58g','0,422g','0,32g','0,552g','53mg','0,6g','143mg','59mg');
 
+INSERT INTO CategoriaAlimento (nombre, imagen) VALUES ('Bebida', 'imagen_agua.jpg');
+/*INSERT INTO CategoriaAlimento (nombre, imagen) VALUES ('Carne', 'imagen_carne.jpg');
+INSERT INTO CategoriaAlimento (nombre, imagen) VALUES ('Verdura', 'imagen_verdura.jpg');
+INSERT INTO CategoriaAlimento (nombre, imagen) VALUES ('Fruta', 'imagen_fruta.jpg');
+
+ */
+
+INSERT INTO Alimento (nombre, imagen, tamanoPorcion, energia, carbohidratos, azucar, proteina, grasa, grasaSaturada, grasaPoliinsaturada, grasaMonoinsaturada, colesterol, fibra, sodio, potasio, categoria_id)
+VALUES ('Cafe', 'imagen_cafe.png', '1 vaso', '50 kcal', '10g', '5g', '0g', '0g', '0g', '0g', '0g', '0mg', '0g', '10mg', '0mg', 1),
+       ('Té', 'imagen_te.jpg', '1 vaso', '50 kcal', '10g', '5g', '0g', '0g', '0g', '0g', '0g', '0mg', '0g', '10mg', '0mg', 1),
+        ('Agua', 'imagen_agua.jpg', '1 vaso', '50 kcal', '10g', '5g', '0g', '0g', '0g', '0g', '0g', '0mg', '0g', '10mg', '0mg', 1),
+        ('Coca cola', 'imagen_cocacola.jpg', '1 vaso', '50 kcal', '10g', '5g', '0g', '0g', '0g', '0g', '0g', '0mg', '0g', '10mg', '0mg', 1);
+
+/*INSERT INTO Alimento (nombre, imagen, tamanoPorcion, energia, carbohidratos, azucar, proteina, grasa, grasaSaturada, grasaPoliinsaturada, grasaMonoinsaturada, colesterol, fibra, sodio, potasio, categoria_id)
+VALUES ('Carne1', 'imagen_carne1.jpg', '100g', '250 kcal', '0g', '0g', '20g', '17g', '6g', '0g', '0g', '70mg', '0g', '70mg', '300mg', 2),
+       ('Carne1', 'imagen_carne1.jpg', '100g', '250 kcal', '0g', '0g', '20g', '17g', '6g', '0g', '0g', '70mg', '0g', '70mg', '300mg', 2),
+       ('Carne1', 'imagen_carne1.jpg', '100g', '250 kcal', '0g', '0g', '20g', '17g', '6g', '0g', '0g', '70mg', '0g', '70mg', '300mg', 2),
+       ('Carne1', 'imagen_carne1.jpg', '100g', '250 kcal', '0g', '0g', '20g', '17g', '6g', '0g', '0g', '70mg', '0g', '70mg', '300mg', 2),;
+
+INSERT INTO Alimento (nombre, imagen, tamanoPorcion, energia, carbohidratos, azucar, proteina, grasa, grasaSaturada, grasaPoliinsaturada, grasaMonoinsaturada, colesterol, fibra, sodio, potasio, categoria_id)
+VALUES ('Verdura1', 'imagen_verdura1.jpg', '100g', '25 kcal', '5g', '2g', '1g', '0g', '0g', '0g', '0g', '0mg', '3g', '10mg', '200mg', 3),
+    ('Verdura1', 'imagen_verdura1.jpg', '100g', '25 kcal', '5g', '2g', '1g', '0g', '0g', '0g', '0g', '0mg', '3g', '10mg', '200mg', 3),
+('Verdura1', 'imagen_verdura1.jpg', '100g', '25 kcal', '5g', '2g', '1g', '0g', '0g', '0g', '0g', '0mg', '3g', '10mg', '200mg', 3),
+('Verdura1', 'imagen_verdura1.jpg', '100g', '25 kcal', '5g', '2g', '1g', '0g', '0g', '0g', '0g', '0mg', '3g', '10mg', '200mg', 3);
+
+INSERT INTO Alimento (nombre, imagen, tamanoPorcion, energia, carbohidratos, azucar, proteina, grasa, grasaSaturada, grasaPoliinsaturada, grasaMonoinsaturada, colesterol, fibra, sodio, potasio, categoria_id)
+VALUES ('Fruta1', 'imagen_fruta1.jpg', '100g', '60 kcal', '15g', '10g', '1g', '0g', '0g', '0g', '0g', '0mg', '2g', '0mg', '200mg', 4),
+       ('Fruta1', 'imagen_fruta1.jpg', '100g', '60 kcal', '15g', '10g', '1g', '0g', '0g', '0g', '0g', '0mg', '2g', '0mg', '200mg', 4),
+       ('Fruta1', 'imagen_fruta1.jpg', '100g', '60 kcal', '15g', '10g', '1g', '0g', '0g', '0g', '0g', '0mg', '2g', '0mg', '200mg', 4),
+       ('Fruta1', 'imagen_fruta1.jpg', '100g', '60 kcal', '15g', '10g', '1g', '0g', '0g', '0g', '0g', '0mg', '2g', '0mg', '200mg', 4);
+
+ */
 
 

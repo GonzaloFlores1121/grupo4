@@ -35,6 +35,7 @@ public class ControladorRegistro {
     public ModelAndView inicio() {
         return new ModelAndView("redirect:/inicio");
     }
+    
     @RequestMapping(value = "/inicio", method = RequestMethod.GET)
     public ModelAndView irAInicio() {
         return new ModelAndView("inicio");

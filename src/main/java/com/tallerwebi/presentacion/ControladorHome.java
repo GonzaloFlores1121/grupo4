@@ -43,13 +43,6 @@ public class ControladorHome {
 
 
 
-
-    @RequestMapping(value = "/alimentos",method = RequestMethod.GET)
-        public ModelAndView irALimentos(){
-            return new ModelAndView("alimentos");
-    }
-
-
     @RequestMapping(value = "/diarioEjercicio",method = RequestMethod.GET)
     public ModelAndView irADiarioEjercicio(){
 
