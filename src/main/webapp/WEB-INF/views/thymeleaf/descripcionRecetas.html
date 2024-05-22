@@ -32,7 +32,7 @@
     </div>
 </div>
 <div class="row py-5">
-    <div class="col-md-8" style="padding-left: 50px;">
+    <div class="col-md-8" style="padding-left: 100px;">
         <div class="row">
             <div class="col-md-12">
                 <h2 th:text="${receta.nombre}"></h2>
@@ -46,7 +46,7 @@
                 <div th:utext="${receta.instrucciones}"></div>
             </div>
             <div class="col-md-4">
-                <img th:src="@{/img/{receta.imagen}(receta.imagen=${receta.imagen})}" class="img-fluid" alt="receta">
+                <img th:src="@{'/img/recetas/' + ${receta.imagen}}" class="img-fluid" alt="receta">
             </div>
         </div>
     </div>

@@ -175,11 +175,11 @@ Values('Ensalada de Quinoa con Vegetales Asados','receta-quinoa.jpg','Una receta
   'por porción','160 kj / 38 kcal','3,3g','0,64g','2,69g','1,58g','0,422g','0,32g','0,552g','53mg','0,6g','143mg','59mg');
 
 INSERT INTO CategoriaAlimento (nombre, imagen) VALUES ('Bebida', 'imagen_agua.jpg');
-/*INSERT INTO CategoriaAlimento (nombre, imagen) VALUES ('Carne', 'imagen_carne.jpg');
+INSERT INTO CategoriaAlimento (nombre, imagen) VALUES ('Carne', 'imagen_carne.jpg');
 INSERT INTO CategoriaAlimento (nombre, imagen) VALUES ('Verdura', 'imagen_verdura.jpg');
 INSERT INTO CategoriaAlimento (nombre, imagen) VALUES ('Fruta', 'imagen_fruta.jpg');
 
- */
+
 
 INSERT INTO Alimento (nombre, imagen, tamanoPorcion, energia, carbohidratos, azucar, proteina, grasa, grasaSaturada, grasaPoliinsaturada, grasaMonoinsaturada, colesterol, fibra, sodio, potasio, categoria_id)
 VALUES ('Cafe', 'imagen_cafe.png', '1 vaso', '50 kcal', '10g', '5g', '0g', '0g', '0g', '0g', '0g', '0mg', '0g', '10mg', '0mg', 1),
