@@ -55,10 +55,10 @@
                     </div>                   
                     <div class="form-floating mb-3">
                         <select class="form-select" th:field="*{genero}" name="genero" id="genero" required>
-                            <option th:value="'femenino'" th:selected="${genero == 'femenino'}">Femenino</option>
-                            <option th:value="'masculino'" th:selected="${genero == 'masculino'}">Masculino</option>
+                            <option value="femenino" th:selected="${genero == 'femenino'}">Femenino</option>
+                            <option value="masculino" th:selected="${genero == 'masculino'}">Masculino</option>
                         </select>
-                        <label class="form-label" for="genero">Genero</label>
+                        <label for="genero">Genero</label>
                     </div>                    
                     <div class="form-floating mb-3">
                         <input class="form-control" th:field="*{altura}" type="number" name="altura" id="altura" placeholder="Ingresar altura" required>
@@ -69,19 +69,15 @@
                         <label for="peso">Peso (en kg)</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <select class="form-select" th:field="*{metaAlcanzarPeso}" name="metaAlcanzarPeso" id="metaAlcanzarPeso" required>
-                            <option th:value="'bajar'" th:selected="${metaAlcanzarPeso == 'bajar'}">Bajar de Peso</option>
-                            <option th:value="'mantener'" th:selected="${metaAlcanzarPeso == 'mantener'}">Mantener Peso</option>
-                            <option th:value="'subir'" th:selected="${metaAlcanzarPeso == 'subir'}">Subir de Peso</option>
-                        </select>
-                        <label for="metaAlcanzarPeso">Meta Establecida</label>
+                        <input class="form-control" th:field="*{metaAlcanzarPeso}" type="number" name="metaAlcanzarPeso" id="metaAlcanzarPeso" placeholder="Ingresar Peso Meta" required>
+                        <label for="metaAlcanzarPeso">Peso Meta (en kg)</label>
                     </div>
                     <div class="form-floating mb-3">
                         <select class="form-select" th:field="*{nivelDeActividad}" name="nivelDeActividad" id="nivelDeActividad" required>
-                            <option th:value="'sedentario'" th:selected="${nivelDeActividad == 'sedentario'}">Sedentario</option>
-                            <option th:value="'baja actividad'" th:selected="${nivelDeActividad == 'baja_actividad'}">Baja actividad</option>
-                            <option th:value="'activo'" th:selected="${nivelDeActividad == 'activo'}">Activo</option>
-                            <option th:value="'muy activo'" th:selected="${nivelDeActividad == 'muy_activo'}">Muy Activo</option>
+                            <option value="sedentario" th:selected="${nivelDeActividad == 'sedentario'}">Sedentario</option>
+                            <option value="baja actividad" th:selected="${nivelDeActividad == 'baja_actividad'}">Baja actividad</option>
+                            <option value="activo" th:selected="${nivelDeActividad == 'activo'}">Activo</option>
+                            <option value="muy activo" th:selected="${nivelDeActividad == 'muy_activo'}">Muy Activo</option>
                         </select>
                         <label for="nivelDeActividad">Nivel de Actividad Fisica</label>
                     </div>

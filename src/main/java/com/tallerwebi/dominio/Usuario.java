@@ -1,11 +1,9 @@
 package com.tallerwebi.dominio;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -18,19 +16,15 @@ public class Usuario {
     private String email;
     private String password;
     private Integer edad;
-
     private Integer ingestaCalorica;
     private Double metaAlcanzarPeso;
-
     private String genero;
     private Double altura;
     private Double peso;  
     private String nivelDeActividad;
     private String imagen;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idConfiguracion")
+    @OneToOne
     private ConfiguracionUsuario configuracionUsuario;
-
 
     public Usuario() {}
     
@@ -64,20 +58,13 @@ public class Usuario {
     public Integer getIngestaCalorica() {return ingestaCalorica;}
     public void setIngestaCalorica(Integer ingestaCalorica) {this.ingestaCalorica = ingestaCalorica;}
 
-
-    public Double getMetaAlcanzarPeso() {
-        return metaAlcanzarPeso;
-    }
-
-    public void setMetaAlcanzarPeso(Double metaAlcanzarPeso) {
-        this.metaAlcanzarPeso = metaAlcanzarPeso;
-    }
+    public Double getMetaAlcanzarPeso() {return metaAlcanzarPeso;}
+    public void setMetaAlcanzarPeso(Double metaAlcanzarPeso) {this.metaAlcanzarPeso = metaAlcanzarPeso;}
 
     public String getImagen() {return imagen;}
     public void setImagen(String imagen) {this.imagen = imagen;}
 
     public ConfiguracionUsuario getConfiguracionUsuario() {return configuracionUsuario;}
     public void setConfiguracionUsuario(ConfiguracionUsuario configuracionUsuario) {this.configuracionUsuario = configuracionUsuario;}
-
 
 }

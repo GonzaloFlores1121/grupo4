@@ -47,7 +47,7 @@
     </div>
 
     <!--perfil-->
-    <div class="container my-5" style="min-height: 60vh;">
+    <div class="container my-5" style="min-height: 60vh;"> 
         <div class="row d-flex align-items-center">
             <div class="col-sm-3 d-flex flex-column justify-content-center my-3">
                 <h3 class="text-center text-dark">Mi Avatar</h3>
@@ -66,7 +66,7 @@
                         <p class="card-text text-dark">Genero: <span class="badge bg-dark" th:text="${usuario.genero}"></span></p>
                         <p class="card-text text-dark">Altura: <span class="badge bg-dark" th:text="${usuario.altura}+' cm'"></span></p>
                         <p class="card-text text-dark">Peso: <span class="badge bg-dark" th:text="${usuario.peso}+' kg'"></span></p>
-                        <p class="card-text text-dark">Meta Establecida: <span class="badge bg-dark" th:text="${usuario.metaAlcanzarPeso}+' peso'"></span></p>
+                        <p class="card-text text-dark">Peso Meta: <span class="badge bg-dark" th:text="${usuario.metaAlcanzarPeso}+' kg'"></span></p>
                         <p class="card-text text-dark">Nivel de Actividad Fisica: <span class="badge bg-dark" th:text="${usuario.nivelDeActividad}"></span></p>
                         <a class="btn btn-outline-dark" th:href="@{/formularioEditarPerfil}">Editar Perfil</a>
                     </div>

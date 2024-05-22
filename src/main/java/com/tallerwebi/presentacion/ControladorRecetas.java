@@ -4,6 +4,7 @@ import com.tallerwebi.dominio.Alimento;
 import com.tallerwebi.dominio.AlimentoReceta;
 import com.tallerwebi.dominio.Receta;
 import com.tallerwebi.dominio.ServicioReceta;
+import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.excepcion.RecetaNoEncontradaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,9 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class ControladorRecetas {
 private ServicioReceta servicioRecetas;
@@ -26,8 +30,9 @@ private ServicioReceta servicioRecetas;
     }
 
     @RequestMapping(value = "/recetas",method = RequestMethod.GET)
-    public ModelAndView irARecetas() {
+    public ModelAndView irARecetas(HttpServletRequest request) {
         ModelMap model = new ModelMap();
+        obtenerUsuarioSession(request, model);
         List<Receta> recetas = servicioRecetas.obtenerTodasLasRecetas();
         model.put("recetas", recetas);
 
@@ -36,8 +41,9 @@ private ServicioReceta servicioRecetas;
 
 
     @RequestMapping(value = "/recetas/{id}",method = RequestMethod.GET)
-    public ModelAndView mostrarDescripcionRecetas(@PathVariable Long id) throws RecetaNoEncontradaException {
+    public ModelAndView mostrarDescripcionRecetas(@PathVariable Long id, HttpServletRequest request) throws RecetaNoEncontradaException {
         ModelMap model = new ModelMap();
+        obtenerUsuarioSession(request, model);
         Receta receta=servicioRecetas.obtenerRecetaPorId(id);
         List <Alimento> alimentos= receta.getAlimentoRecetas().stream()
                                    .map(AlimentoReceta::getAlimento)
@@ -46,4 +52,11 @@ private ServicioReceta servicioRecetas;
         model.put("alimentos",alimentos);
         return new ModelAndView("descripcionRecetas",model);
     }
+
+    private void obtenerUsuarioSession(HttpServletRequest request, ModelMap model) {
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuario);
+    }
+
 }

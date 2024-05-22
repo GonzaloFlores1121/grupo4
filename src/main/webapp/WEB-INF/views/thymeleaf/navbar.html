@@ -18,7 +18,7 @@
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" >Datos Usuario</a>
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" th:text="${usuario} ? ${usuario.nombre}: 'Datos Usuario'"></a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" th:href="@{/perfilUsuario}">Perfil</a></li>
                         <li><a class="dropdown-item" th:href="@{/configuracion}">Configuracion</a></li>

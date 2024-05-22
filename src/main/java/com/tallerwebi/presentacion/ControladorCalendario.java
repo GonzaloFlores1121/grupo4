@@ -14,6 +14,9 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @Controller
 @SessionAttributes("usuario")
 public class ControladorCalendario {
@@ -33,8 +36,9 @@ public class ControladorCalendario {
     }
 
     @RequestMapping(value = "/calendarioDieta",method = RequestMethod.GET)
-    public ModelAndView irAMiCalendarioDieta(){
+    public ModelAndView irAMiCalendarioDieta(HttpServletRequest request){
         ModelMap model = new ModelMap();
+        obtenerUsuarioSession(request, model);
         try {
            Map<Date,Calendario> fechas = servicioCalendarioImpl.obtenerFechasCalendario();
             model.put("listaFechas", fechas);
@@ -44,6 +48,12 @@ public class ControladorCalendario {
             return new ModelAndView("calendarioDieta", model);
         }
 
+    }
+
+    private void obtenerUsuarioSession(HttpServletRequest request, ModelMap model) {
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuario);
     }
 
 }

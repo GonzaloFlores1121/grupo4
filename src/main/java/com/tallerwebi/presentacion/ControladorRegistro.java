@@ -1,11 +1,15 @@
 package com.tallerwebi.presentacion;
 
+import com.tallerwebi.dominio.Notificacion;
 import com.tallerwebi.dominio.ServicioDatosUsuario;
 import com.tallerwebi.dominio.ServicioLogin;
+import com.tallerwebi.dominio.ServicioNotificacion;
 import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.excepcion.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,6 +19,8 @@ import org.springframework.ui.ModelMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,11 +30,13 @@ public class ControladorRegistro {
 
     private ServicioDatosUsuario servicioDatosUsuario;
     private ServicioLogin servicioLogin;
+    private ServicioNotificacion servicioNotificacion;
 
     @Autowired
-    public ControladorRegistro(ServicioDatosUsuario servicioDatosUsuario, ServicioLogin servicioLogin) {
+    public ControladorRegistro(ServicioDatosUsuario servicioDatosUsuario, ServicioLogin servicioLogin, ServicioNotificacion servicioNotificacion) {
         this.servicioDatosUsuario = servicioDatosUsuario;
         this.servicioLogin = servicioLogin;
+        this.servicioNotificacion = servicioNotificacion;
     }
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
@@ -70,13 +78,15 @@ public class ControladorRegistro {
 
 
 
-
+    @Transactional
     @RequestMapping(value = "/enviarFormulario", method = RequestMethod.POST)
     public ModelAndView enviarFormulario(@ModelAttribute("usuario") Usuario usuario, HttpServletRequest request) {
         ModelMap model = new ModelMap();
         List<String> errores = new ArrayList<>();
         try {
             servicioLogin.registrar(usuario);
+            Notificacion notificacion = servicioNotificacion.crearNotificacion( "Bienvenido a fatloss", "Nos alegra que te unas a nosotros en tu camino hacia una vida mas saludable. FatLoss es tu app de nutricion ideal para alcanzar tus objetivos de perdida de peso.");
+            servicioNotificacion.enviarNotificacion(notificacion, LocalDateTime.now(), usuario.getEmail());            
         } catch (UsuarioExistente e) {
             errores.add("El usuario ya existe");
         } catch (AlturaIncorrectaException e) {
@@ -96,4 +106,5 @@ public class ControladorRegistro {
 
         return new ModelAndView("redirect:/iniciar-sesion");
     }
+
 }

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -36,8 +35,9 @@ public class ControladorEjercicio {
     }
 
     @RequestMapping(value = "/irAEjercicio", method = RequestMethod.POST)
-    public ModelAndView irAEjercicio(@RequestParam("id") Long id) {
+    public ModelAndView irAEjercicio(@RequestParam("id") Long id, HttpServletRequest request) {
         ModelMap model = new ModelMap();
+        obtenerUsuarioSession(request, model);
         Ejercicio ejercicio = repositorioEjercicio.obtenerEjercicioPorId(id);
         model.put("ejercicio", ejercicio);
         return new ModelAndView("ejercicio", model);
@@ -81,8 +81,9 @@ public class ControladorEjercicio {
     }
 
     @RequestMapping(value = "/buscarEjercicio", method = RequestMethod.GET)
-    public ModelAndView buscarEjercicio(@RequestParam(value = "search", required = false) String search) throws EjercicioNoExistente {
+    public ModelAndView buscarEjercicio(@RequestParam(value = "search", required = false) String search, HttpServletRequest request) throws EjercicioNoExistente {
         ModelMap model = new ModelMap();
+        obtenerUsuarioSession(request, model);
         try {
             List<Ejercicio> ejercicios;
             ejercicios = servicioEjercicio.obtenerEjercicioPorNombreOIntensidad(search);
@@ -96,8 +97,9 @@ public class ControladorEjercicio {
         }
     }
     @RequestMapping(value = "/actividadesFisicas", method = RequestMethod.GET)
-    public ModelAndView irAEnForma(@RequestParam(value = "search", required = false) String search) {
+    public ModelAndView irAEnForma(@RequestParam(value = "search", required = false) String search, HttpServletRequest request) {
         ModelMap model = new ModelMap();
+        obtenerUsuarioSession(request, model);
         try {
             List<Ejercicio> ejercicios;
             if (search != null && !search.isEmpty()) {
@@ -112,4 +114,11 @@ public class ControladorEjercicio {
             return new ModelAndView("actividadesFisicas", model);
         }
     }
+
+    private void obtenerUsuarioSession(HttpServletRequest request, ModelMap model) {
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuario);
+    }
+
 }

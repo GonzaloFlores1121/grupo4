@@ -3,7 +3,6 @@ package com.tallerwebi.presentacion;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,10 +13,13 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tallerwebi.dominio.ConfiguracionUsuario;
+import com.tallerwebi.dominio.Notificacion;
 import com.tallerwebi.dominio.ServicioLogin;
+import com.tallerwebi.dominio.ServicioNotificacion;
 import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.excepcion.AlturaIncorrectaException;
 import com.tallerwebi.dominio.excepcion.DatosIncorrectos;
@@ -29,10 +31,12 @@ import com.tallerwebi.dominio.excepcion.UsuarioExistente;
 public class ControladorPerfil {
 
     ServicioLogin servicioLogin;
+    ServicioNotificacion servicioNotificacion;
 
     @Autowired
-    public ControladorPerfil(ServicioLogin servicioLogin) {
+    public ControladorPerfil(ServicioLogin servicioLogin, ServicioNotificacion servicioNotificacion) {
         this.servicioLogin = servicioLogin;
+        this.servicioNotificacion = servicioNotificacion;
     }
 
     @RequestMapping(path = "/perfilUsuario", method = RequestMethod.GET)
@@ -152,25 +156,34 @@ public class ControladorPerfil {
             usuarioBuscado.getConfiguracionUsuario().setUnidadMasa(configuracionUsuario.getUnidadMasa());
             servicioLogin.modificarPerfil(usuarioBuscado, usuarioBuscado.getEmail());
             session.setAttribute("usuario", usuarioBuscado);
-            return new ModelAndView("redirect:/perfilUsuario");
+            return new ModelAndView("redirect:/configuracion");
         }
         return new ModelAndView("redirect:/inicio");
     }
 
-    //en un rato lo cambio
     @RequestMapping(path = "/notificaciones", method = RequestMethod.GET) 
     public ModelAndView notificaciones(HttpServletRequest request) {
+        ModelMap model = new ModelMap();
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
-        ModelMap modelo = new ModelMap();
-        Map<String, String> notificaciones = new TreeMap<>();
-        notificaciones.put("Control Peso", "A las 8 a.m. debes controlar tu peso.");
-        notificaciones.put("Alimentacion", "No olvides que a las 12 a.m. debe almorzar de manera saludable.");
-        notificaciones.put("Mantenimiento", "Desde las 8 p.m. a las 10 p.m. la aplicacion se hallara en mantenimiento gracias por su comprension.");
-        notificaciones.put("Novedades", "No olvides leer el parche con las nuevas actualizaciones.");
-        modelo.addAttribute("notificaciones", notificaciones);
-        modelo.addAttribute("usuario", usuario);
-        return new ModelAndView("notificaciones", modelo);
+        if(usuario != null) {
+            model.addAttribute("usuario", usuario);
+            List<Notificacion> notificaciones = servicioNotificacion.obtenerNotificacionesPorUsuario(usuario);
+            model.addAttribute("notificaciones", notificaciones);
+            return new ModelAndView("notificaciones", model);
+        }
+        return new ModelAndView("redirect:/inicio");
+    }
+
+    @RequestMapping(path = "/eliminarNotificacion", method = RequestMethod.POST)
+    public ModelAndView eliminarNotificacion(@RequestParam("idNotificacion") Long idNotificacion, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if(usuario != null) {
+            servicioNotificacion.eliminarNotificacion(idNotificacion, usuario.getId());
+            return new ModelAndView("redirect:/notificaciones");
+        }
+        return new ModelAndView("redirect:/inicio");
     }
 
 }
