@@ -12,6 +12,18 @@
 <body>
 <div th:replace="navbar :: navbar"></div>
 
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="list-group flex-row justify-content-center">
+                <a th:href="@{/home}" class="list-group-item list-group-item-action activo">MI FATLOSS</a>
+                <a th:href="@{/categoria_alimentos}" class="list-group-item list-group-item-action ">ALIMENTOS</a>
+                <a th:href="@{/recetas}" class="list-group-item list-group-item-action">RECETAS</a>
+                <a th:href="@{/actividadesFisicas}" class="list-group-item list-group-item-action">EN FORMA</a>
+            </div>
+        </div>
+    </div>
+
 <div class="container mt-4" style="min-height: 80vh;">
     <h1 class="text-center m-5">Mi diario de comida</h1>
     <div class="row">
