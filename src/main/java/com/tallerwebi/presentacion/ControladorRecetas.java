@@ -1,5 +1,7 @@
 package com.tallerwebi.presentacion;
 
+import com.tallerwebi.dominio.Alimento;
+import com.tallerwebi.dominio.AlimentoReceta;
 import com.tallerwebi.dominio.Receta;
 import com.tallerwebi.dominio.ServicioReceta;
 import com.tallerwebi.dominio.excepcion.RecetaNoEncontradaException;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class ControladorRecetas {
@@ -36,7 +39,11 @@ private ServicioReceta servicioRecetas;
     public ModelAndView mostrarDescripcionRecetas(@PathVariable Long id) throws RecetaNoEncontradaException {
         ModelMap model = new ModelMap();
         Receta receta=servicioRecetas.obtenerRecetaPorId(id);
+        List <Alimento> alimentos= receta.getAlimentoRecetas().stream()
+                                   .map(AlimentoReceta::getAlimento)
+                                   .collect(Collectors.toList());
         model.put("receta",receta);
+        model.put("alimentos",alimentos);
         return new ModelAndView("descripcionRecetas",model);
     }
 }

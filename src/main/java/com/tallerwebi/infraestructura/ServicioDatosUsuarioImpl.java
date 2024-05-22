@@ -26,15 +26,6 @@ public class ServicioDatosUsuarioImpl implements ServicioDatosUsuario {
         this.repositorioUsuario = repositorioUsuario;
     }
 
-
-
-    private Boolean pesoValidoUsuario(Double peso) {
-        if(peso!=null && peso>=30 && peso<=700) {
-            return true;
-        }
-        return false;
-    }
-
     @Override
     public Integer calcularIngestaCalorica(Usuario usuario) throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
         if (!servicioLogin.usuarioDatosCorrecto(usuario)) {
@@ -140,7 +131,9 @@ public class ServicioDatosUsuarioImpl implements ServicioDatosUsuario {
         }
     }
 
-
+    private Boolean pesoValidoUsuario(Double peso) {
+        return peso != null && peso >= 30 && peso <= 700;
+    }
 }
 
 

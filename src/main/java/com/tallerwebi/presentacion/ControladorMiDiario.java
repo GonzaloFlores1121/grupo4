@@ -27,8 +27,8 @@ public class ControladorMiDiario {
         this.servicioDatosUsuario = servicioDatosUsuario;
     }
 
-    @RequestMapping(value = "/miDiario",method = RequestMethod.GET)
-    public ModelAndView irAMiDiario(HttpServletRequest request) throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
+    @RequestMapping(value = "/diarioAlimentos",method = RequestMethod.GET)
+    public ModelAndView irAMiDiarioAlimentos(HttpServletRequest request) throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
 
@@ -40,7 +40,7 @@ public class ControladorMiDiario {
             modelo.put("carbos", macronutrientesUsuario.getCarbohidratosAConsumir());
             modelo.put("grasas",  macronutrientesUsuario.getGrasaAConsumir());
             modelo.put("proteinas", macronutrientesUsuario.getProteinaAConsumir());
-            return new ModelAndView("miDiario",modelo);
+            return new ModelAndView("diarioAlimentos",modelo);
         }
         else {
             return new ModelAndView("redirect:/inicio");

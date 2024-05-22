@@ -2,6 +2,7 @@ package com.tallerwebi.dominio;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "Receta")
@@ -64,6 +65,9 @@ public class Receta {
 
     @Column(nullable = true)
     private String potasio;
+
+    @OneToMany(mappedBy = "receta", fetch = FetchType.EAGER)
+    private List<AlimentoReceta> alimentoRecetas;
     // Getters y Setters
 
 
@@ -220,5 +224,13 @@ public class Receta {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public List<AlimentoReceta> getAlimentoRecetas() {
+        return alimentoRecetas;
+    }
+
+    public void setAlimentoRecetas(List<AlimentoReceta> alimentoRecetas) {
+        this.alimentoRecetas = alimentoRecetas;
     }
 }

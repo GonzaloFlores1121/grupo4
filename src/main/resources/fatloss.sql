@@ -207,4 +207,8 @@ VALUES ('Fruta1', 'imagen_fruta1.jpg', '100g', '60 kcal', '15g', '10g', '1g', '0
 
  */
 
+INSERT INTO AlimentoReceta (receta_id, alimento_id) VALUES (1, 1);
+INSERT INTO AlimentoReceta (receta_id, alimento_id) VALUES (1, 2);
+INSERT INTO AlimentoReceta (receta_id, alimento_id) VALUES (1, 3);
+
 

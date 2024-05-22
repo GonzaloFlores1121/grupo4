@@ -2,6 +2,7 @@ package com.tallerwebi.dominio;
 
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Alimento {
@@ -26,6 +27,9 @@ public class Alimento {
     private String sodio;
     private String potasio;
 
+    @OneToMany(mappedBy = "alimento")
+    private List<AlimentoReceta> alimentoRecetas;
+
     @ManyToOne
     //en el insert se debe enviar el id de la categoria a la que pertenece el alimento
     @JoinColumn(name = "categoria_id")
@@ -35,6 +39,14 @@ public class Alimento {
 
 
     public Alimento() {
+    }
+
+    public List<AlimentoReceta> getAlimentoRecetas() {
+        return alimentoRecetas;
+    }
+
+    public void setAlimentoRecetas(List<AlimentoReceta> alimentoRecetas) {
+        this.alimentoRecetas = alimentoRecetas;
     }
 
     public Long getId() {

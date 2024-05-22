@@ -55,14 +55,8 @@ public class ServicioLoginImpl implements ServicioLogin {
         return configuracionUsuario;
     }
 
-    @Override
-    public Boolean usuarioDatosCorrecto(Usuario usuario) throws DatosIncorrectos {
-        if (usuario != null && usuario.getPeso() != null && usuario.getPeso() > 0.0 && usuario.getAltura() != null && usuario.getAltura() > 0
-                && usuario.getEmail() != null && usuario.getPassword() != null && usuario.getEdad() != null && usuario.getEdad() >= 18) {
-            return true;
-        } else{
-            throw new DatosIncorrectos("Datos incorrectos del usuario");
-        }
+    public Boolean usuarioDatosCorrecto(Usuario usuario) throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
+        return validarDatos(usuario);
     }
 
     @Override
