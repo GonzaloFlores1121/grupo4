@@ -1,26 +1,54 @@
 package com.tallerwebi.dominio;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-
+@Entity
 public class HistoriaPesoUsuario {
 
-  Map<Date, Double>pesoUsuario;
+    @Id
+    private Long id;
+    @ManyToOne
+    Usuario usuario;
+
+    Double peso;
+    Date fecha;
 
     public HistoriaPesoUsuario() {
-        this.pesoUsuario = new HashMap<Date, Double>();
+
     }
 
-    public Map<Date, Double> getPesoUsuario() {
-        return pesoUsuario;
+    public Long getId() {
+        return id;
     }
 
-    public void add(Date fecha, Double peso) {
-        this.pesoUsuario.put(fecha, peso);
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Double getPeso() {
+        return peso;
+    }
+
+    public void setPeso(Double peso) {
+        this.peso = peso;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
     }
 }

@@ -1,28 +1,39 @@
 package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.MacronutrientesUsuario;
-import com.tallerwebi.dominio.ServicioDatosUsuario;
-import com.tallerwebi.dominio.ServicioLogin;
-import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.*;
 import com.tallerwebi.dominio.excepcion.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 
 @Service
 @Transactional
 public class ServicioDatosUsuarioImpl implements ServicioDatosUsuario {
 
+    private final RepositorioUsuario repositorioUsuario;
     ServicioLogin  servicioLogin;
+    RepositorioHistorialPesoUsuario repositorioHistorialPesoUsuario;
 
     @Autowired
-    public ServicioDatosUsuarioImpl(ServicioLogin servicioLogin) {
+    public ServicioDatosUsuarioImpl(ServicioLogin servicioLogin , RepositorioHistorialPesoUsuario repositorioHistorialPesoUsuario, RepositorioUsuario repositorioUsuario) {
+        this.repositorioHistorialPesoUsuario=repositorioHistorialPesoUsuario;
         this.servicioLogin = servicioLogin;
+        this.repositorioUsuario = repositorioUsuario;
     }
 
+
+
+    private Boolean pesoValidoUsuario(Double peso) {
+        if(peso!=null && peso>=30 && peso<=700) {
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public Integer calcularIngestaCalorica(Usuario usuario) throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
@@ -101,6 +112,32 @@ public class ServicioDatosUsuarioImpl implements ServicioDatosUsuario {
 
         return macronutrientesUsuario;
 
+    }
+
+    @Override
+    public void agregarNuevoPeso(Double peso) throws PesoIncorrectoException {
+        if( pesoValidoUsuario(peso)) {
+            HistoriaPesoUsuario nuevoPeso = new HistoriaPesoUsuario();
+            Date fechaActual = Calendar.getInstance().getTime();
+            nuevoPeso.setPeso(peso);
+            nuevoPeso.setFecha((java.sql.Date) fechaActual);
+
+            repositorioHistorialPesoUsuario.agregarPesoYFecha(nuevoPeso);
+        }else{
+            throw new PesoIncorrectoException();
+        }
+
+    }
+
+    @Override
+    public List<HistoriaPesoUsuario> obtenerTodoElHistorialDePeso(Usuario usuario) throws UsuarioNoExistente {
+     if(repositorioUsuario.buscarUsuario(usuario.getEmail(), usuario.getPassword())!=null) {
+         Usuario usuarioEncontrado = repositorioUsuario.buscarUsuario(usuario.getEmail(), usuario.getPassword());
+        List<HistoriaPesoUsuario> historialPeso=repositorioHistorialPesoUsuario.obtenerHistorialPesoUsuario();
+        return historialPeso;
+     }{
+         throw new UsuarioNoExistente();
+        }
     }
 
 

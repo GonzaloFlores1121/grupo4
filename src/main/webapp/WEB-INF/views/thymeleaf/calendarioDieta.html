@@ -18,41 +18,64 @@
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
 </head>
 <body>
-<div th:replace="navbar :: navbar"></div>
-<div class="container mt-5">
-    <h2>Calendario de Mi Dieta - Descripción General</h2>
-
-    <table class="table table-bordered">
-        <thead class="thead-light">
-            <tr>
-                <th>Fecha</th>
-                <th>Alimentos (Cals)</th>
-                <th>% IDR</th>
-                <th>Resumen Nutricional</th>
-                <th>Ejercicio (Cals)</th>
-                <th>Netas (Cals)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="entry : ${listaFechas}">
-                <td th:text="${entry.key}"></td>
-                <td><!-- Aquí iría la información de Alimentos (Cals) --></td>
-                <td><!-- Aquí iría el % IDR --></td>
-                <td><!-- Aquí iría el Resumen Nutricional --></td>
-                <td>
-                    <ul>
-                        <li th:each="ejercicio : ${entry.value.ejercicios}">
-                            <div th:text="${ejercicio.nombre}"></div>
-                            <div th:text="'Minutos empleados: ' + ${ejercicio.minutos}"></div>
-                            <!-- Agregar más información del ejercicio si es necesario -->
-                        </li>
-                    </ul>
-                </td>
-                <td><!-- Aquí irían las Netas (Cals) --></td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+    <div th:replace="navbar :: navbar"></div>
+    <div class="container mt-5">
+        <h2>Calendario de Mi Dieta - Descripción General</h2>
+        <div class="row">
+            <!-- Columna para el cuadro de ingreso de peso -->
+            <div class="col-md-4">
+                <div class="card bg-light mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">¿Cuánto pesas el día de hoy?</h5>
+                        <form th:action="@{}" method="post">
+                            <div class="form-group">
+                                <label for="nuevoPeso">Peso:</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="nuevoPeso" name="nuevoPeso" placeholder="Ingrese su nuevo peso" required>
+                                    <span class="input-group-text">Kg</span>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Actualizar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Columna para el calendario de dieta -->
+            <div class="col-md-8">
+                <table class="table table-bordered">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Alimentos (Cals)</th>
+                            <th>% IDR</th>
+                            <th>Resumen Nutricional</th>
+                            <th>Ejercicio (Cals)</th>
+                            <th>Netas (Cals)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Contenido del calendario de dieta -->
+                        <tr th:each="entry : ${listaFechas}">
+                            <td th:text="${entry.key}"></td>
+                            <td><!-- Aquí iría la información de Alimentos (Cals) --></td>
+                            <td><!-- Aquí iría el % IDR --></td>
+                            <td><!-- Aquí iría el Resumen Nutricional --></td>
+                            <td>
+                                <ul>
+                                    <li th:each="ejercicio : ${entry.value.ejercicios}">
+                                        <div th:text="${ejercicio.nombre}"></div>
+                                        <div th:text="'Minutos empleados: ' + ${ejercicio.minutos}"></div>
+                                        <!-- Agregar más información del ejercicio si es necesario -->
+                                    </li>
+                                </ul>
+                            </td>
+                            <td><!-- Aquí irían las Netas (Cals) --></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
 
 

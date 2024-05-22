@@ -9,101 +9,116 @@
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
-<body>
+  <style>
+            .card-container {
+                  display: flex;
+                  justify-content: space-around;
+                  flex-wrap: wrap;
+                  gap: 20px;
+                  margin-top: 20px;
+              }
 
-<nav th:replace="navbar :: navbar" class="navbar navbar-expand-lg navbar-light bg-light fixed-top"></nav>
+              .card {
+                  position: relative;
+                  width: 300px;
+                  height: 200px;
+                  overflow: hidden;
+                  border-radius: 10px;
+                  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                  transition: transform 0.3s;
 
+              }
 
-<!-- Columna de opciones de la app -->
-<div class="container" style="margin-top: 70px;">
+              .card img {
+                  width: 100%;
+                  height: 100%;
+                  object-fit: cover;
+                  transition: opacity 0.3s;
+              }
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="list-group flex-row">
+              .card-text {
+                  position: absolute;
+                  top: 50%;
+                  left: 50%;
+                  transform: translate(-50%, -50%);
+                  color: black;
+                  font-size: 1.5em;
+                  font-weight: bold;
+                  text-align: center;
+                  opacity: 0;
+                  transition: opacity 0.3s, transform 0.3s;
+              }
 
-                <a th:href="@{/categoria_alimentos}" class="list-group-item list-group-item-action">ALIMENTOS</a>
-                <a th:href="@{/recetas}" class="list-group-item list-group-item-action">RECETAS</a>
-                <a th:href="@{/actividadesFisicas}" class="list-group-item list-group-item-action">EN FORMA</a>
+              .card:hover {
+                  transform: scale(1.05);
+              }
 
-            </div>
-        </div>
-    </div>
-</div>
+              .card:hover img {
+                  opacity: 0.3;
+              }
 
-<div class="container" style="min-height: 80vh;">
-    <div class="row mt-1 justify-content-center">
-        <!-- Columna de "Actividad Reciente" -->
-        <div class="col-md-6 text-center">
-            <h3>Actividad Reciente</h3>
-            <div class="container card-container">
-                <div class="row justify-content-center">
+              .card:hover .card-text {
+                  opacity: 1;
+                  transform: translate(-50%, -50%) scale(1.2);
+              }
 
-                    <div class="col-12">
-                        <div class="card mb-5">
-                            <div class="card-body text-center">
-                                <a th:href="@{/miDiario}">
-                                    <img th:src="@{/img/calorias-consumidas.jpg}" alt="icono" class="img-fluid small-img mb-3">
-                                    <span class="d-block">Calorias consumidas:<br>1000cal</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+              .section-title {
+                  text-align: center;
+                  margin-top: 40px;
+                  font-size: 2em;
+                  font-weight: bold;
+              }
 
-                    <div class="col-12">
-                        <div class="card mb-5">
-                            <div class="card-body text-center">
-                                <a th:href="@{/diarioEjercicio}">
-                                    <img th:src="@{/img/calorias-quemadas.jpg}" alt="icono" class="img-fluid small-img mb-3">
-                                    <span class="d-block">Calorias quemadas:<br>1000cal</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+              .card a {
+                  display: block;
+                  height: 100%;
+                  width: 100%;
+                  color: inherit;
+                  text-decoration: none;
+              }
+          </style>
+      </head>
+      <body>
+          <nav th:replace="navbar :: navbar" class="navbar navbar-expand-lg navbar-light bg-light fixed-top"></nav>
 
-                    <div class="col-12">
-                        <div class="card mb-5">
-                            <div class="card-body text-center">
-                                <a th:href="@{/diarioPeso}">
-                                    <img th:src="@{/img/peso-actual.jpg}" alt="icono" class="img-fluid small-img mb-3">
-                                    <span class="d-block">Peso actual:<br>99kg</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+          <div class="container">
+              <h2 class="section-title">Opciones del Menú</h2>
+              <div class="card-container">
+                  <div class="card">
+                      <a th:href="@{/actividadesFisicas}">
+                          <img th:src="@{/img/menuEjercicio.jpg}" alt="Ejercicio de Hoy">
+                          <div class="card-text">Agregar Ejercicio de Hoy</div>
+                      </a>
+                  </div>
+                  <div class="card">
+                      <a th:href="@{/calendarioDieta}">
+                          <img th:src="@{/img/menuCalendario.jpg}" alt="Calendario de Dieta">
+                          <div class="card-text">Calendario de Dieta</div>
+                      </a>
+                  </div>
+                  <div class="card">
+                      <a th:href="@{/categoria_alimentos}">
+                          <img th:src="@{/img/menuComida.jpg}" alt="Agregar Comida">
+                          <div class="card-text">Agregar tu Comida</div>
+                      </a>
+                  </div>
+                  <div class="card mb-3">
+                      <a th:href="@{/recetas}">
+                          <img th:src="@{/img/menuReceta.jpg}" alt="Receta">
+                          <div class="card-text">Recetas</div>
+                      </a>
+                  </div>
+              </div>
+          </div>
 
+          <footer th:replace="footer ::footer"></footer>
 
-        <div class="col-md-6">
-            <h3>Calendario</h3>
-            <div id="calendar-container">
-
-            </div>
-        </div>
-    </div>
-</div>
-
-<div th:replace="footer ::footer"></div>
-
-<!-- Bootstrap JavaScript and dependencies -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
-</body>
-</html>
-
-<style>
-    .small-img {
-        width: 100px; /* Puedes ajustar el tamaño según sea necesario */
-        height: auto;
-    }
-    .card-container {
-        margin-top: 20px;
-    }
-
-</style>
-
+          <!-- Bootstrap JavaScript y dependencias -->
+          <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+          <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+          <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+          <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+      </body>
+      </html>

@@ -24,6 +24,7 @@ public class ServicioDatosNutricionalesTest {
     private RepositorioConfiguracionUsuario repositorioConfiguracionUsuario;
     private ServicioDatosUsuario servicioUsuario ;
     private ServicioLogin servicioLogin;
+    private RepositorioHistorialPesoUsuario repositorioHistorialPesoUsuario;
 
     @BeforeEach
     public void init() {
@@ -31,7 +32,7 @@ public class ServicioDatosNutricionalesTest {
         repositorioUsuario = new RepositorioUsuarioImpl(sessionFactory);
         repositorioConfiguracionUsuario = new RepositorioConfiguracionUsuarioImpl(sessionFactory); 
         servicioLogin = new ServicioLoginImpl(repositorioUsuario, repositorioConfiguracionUsuario);
-        servicioUsuario = new ServicioDatosUsuarioImpl(servicioLogin);
+        servicioUsuario = new ServicioDatosUsuarioImpl(servicioLogin,repositorioHistorialPesoUsuario,repositorioUsuario);
     }
 
 
