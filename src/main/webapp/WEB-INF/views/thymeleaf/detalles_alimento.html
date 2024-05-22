@@ -29,13 +29,16 @@
     </div>
 </div>
 
-<h1 th:text="${alimento.nombre}"></h1>
-<img th:src="@{/img/{alimento.imagen}(alimento.imagen=${alimento.imagen})}" class="card-img-top w-50 mx-auto d-block"  alt="alimento" >
+<div class="container" style="min-height: 60vh;">
+    <div class="row">
 
+        <div class="col-md-8">
+            <h1 class="text-center mt-5" th:text="${alimento.nombre}"></h1>
+            <img th:src="@{'/img/alimentos/'+ ${alimento.imagen}}" class="card-img-top img-fluid mx-auto d-block" style="width: 250px; height: 250px;" alt="alimento" >        </div>
 
-<div class="col-md-4">
-    <aside>
-        <h2>Información Nutricional</h2>
+        <div class="col-md-4">
+            <aside>
+                <h2>Información Nutricional</h2>
         <table>
             <tr>
                 <th>Tamaño de la Porción</th>
@@ -90,9 +93,10 @@
                 <td th:text="${alimento.potasio}"></td>
             </tr>
         </table>
-    </aside>
+            </aside>
+        </div>
+    </div>
 </div>
-
 
 <div th:replace="footer :: footer"></div>
 </body>
@@ -106,14 +110,7 @@
         padding: 0;
         background-color: #f9f9f9;
     }
-    .container {
-        max-width: 800px;
-        margin: 20px auto;
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
+
     h2 {
         color: #007bff;
     }
@@ -153,10 +150,5 @@
         background-color: #ddd;
     }
 
-    .borde-verde {
-        border: 2px solid #4caf50;
-        border-radius: 5px;
-        margin-top: 20px;
-        margin-right: 14px;
-    }
+
 </style>

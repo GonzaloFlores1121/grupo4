@@ -20,24 +20,29 @@
 <div th:replace="navbar :: navbar"></div>
 
 <div class="container">
-    <div class="row">
+    <div class="row justify-content-center">
         <div class="col-md-12">
-            <div class="list-group flex-row">
+            <div class="list-group flex-row justify-content-center">
                 <a th:href="@{/categoria_alimentos}" class="list-group-item list-group-item-action activo">ALIMENTOS</a>
                 <a th:href="@{/recetas}" class="list-group-item list-group-item-action">RECETAS</a>
                 <a th:href="@{/actividadesFisicas}" class="list-group-item list-group-item-action">EN FORMA</a>
             </div>
         </div>
     </div>
+
+    <div class="row justify-content-center" style="min-height: 80vh;">
+        <div class="col-md-6">
+            <h1 class="text-center mt-4" th:text="${categoria.nombre}"></h1>
+            <ul class="list-group d-flex flex-column align-items-center">
+                <li th:each="alimento : ${categoria.alimentos}" class="list-group-item text-center">
+                    <img th:src="@{'/img/alimentos/' + ${alimento.imagen}}" alt="alimento-imagen" style="width: 100px; height: 100px;"/>
+                    <a th:href="@{/alimentos/{id}(id=${alimento.id})}" th:text="${alimento.nombre}" style="font-size: 1.5em;"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
 
-
-<h1 th:text="${categoria.nombre}"></h1>
-<ul>
-    <li th:each="alimento : ${categoria.alimentos}">
-        <a th:href="@{/alimentos/{id}(id=${alimento.id})}" th:text="${alimento.nombre}"></a>
-    </li>
-</ul>
 <div th:replace="footer :: footer"></div>
 </body>
 </html>

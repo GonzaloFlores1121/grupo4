@@ -37,13 +37,21 @@
     </div>
 </div>
 
-<h1>Categorías</h1>
-<ul>
-    <li th:each="categoria : ${categorias}">
-        <img th:src="@{/img/{categoria.imagen}(categoria.imagen=${categoria.imagen})}" class="card-img-top w-50 mx-auto d-block"  alt="categoria_imagen" >
-        <a th:href="@{/categorias/{id}(id=${categoria.id})}" th:text="${categoria.nombre}"></a>
-    </li>
-</ul>
+<h1 class="text-center mt-5">Categorías de Alimentos </h1>
+<div class="container" style="min-height: 60vh;">
+    <div class="row justify-content-center">
+        <div th:each="categoria : ${categorias}" class="col-md-6">
+
+            <div class="card text-center">
+                <img th:src="@{'/img/alimentos/' + ${categoria.imagen}}" class="card-img-top img-categoria mx-auto d-block" alt="categoria-imagen">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${categoria.nombre}"></h5>
+                    <a th:href="@{/categorias/{id}(id=${categoria.id})}" class="btn btn-primary">Ver Alimentos</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <!--footer-->
 <div th:replace="footer :: footer"></div>
 
@@ -51,3 +59,9 @@
 
 </body>
 </html>
+<style>
+    .img-categoria {
+        max-width: 150px;
+        max-height: 150px;
+    }
+</style>
