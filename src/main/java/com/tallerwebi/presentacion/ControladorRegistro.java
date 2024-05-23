@@ -86,7 +86,9 @@ public class ControladorRegistro {
         try {
             servicioLogin.registrar(usuario);
             Notificacion notificacion = servicioNotificacion.crearNotificacion( "Bienvenido a fatloss", "Nos alegra que te unas a nosotros en tu camino hacia una vida mas saludable. FatLoss es tu app de nutricion ideal para alcanzar tus objetivos de perdida de peso.");
-            servicioNotificacion.enviarNotificacion(notificacion, LocalDateTime.now(), usuario.getEmail());            
+            servicioNotificacion.enviarNotificacion(notificacion, LocalDateTime.now(), usuario.getEmail()); 
+            Notificacion segundaNoti = servicioNotificacion.crearNotificacion("Meta Establecida", "Para alcanzar tu peso ideal, sigue una dieta equilibrada, haz ejercicio regularmente y manten la constancia. Monitorea tu progreso y ajusta segun sea necesario. ¡Tu puedes lograrlo!");           
+            servicioNotificacion.enviarNotificacion(segundaNoti, LocalDateTime.now(), usuario.getEmail());
         } catch (UsuarioExistente e) {
             errores.add("El usuario ya existe");
         } catch (AlturaIncorrectaException e) {

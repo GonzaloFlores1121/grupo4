@@ -1,5 +1,6 @@
 package com.tallerwebi.presentacion;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -88,6 +90,7 @@ public class ControladorPerfil {
         return new ModelAndView("redirect:/inicio");
     }
 
+    @Transactional
     @RequestMapping(path = "/procesarDatos", method = RequestMethod.POST)
     public ModelAndView procesarDatos(@ModelAttribute("usuario") Usuario usuario, HttpServletRequest request) {
         ModelMap model = new ModelMap();
@@ -108,6 +111,8 @@ public class ControladorPerfil {
                 usuarioBuscado.setNivelDeActividad(usuario.getNivelDeActividad());
                 servicioLogin.modificarPerfil(usuarioBuscado, usuario.getEmail());
                 session.setAttribute("usuario", usuarioBuscado);
+                Notificacion notificacion = servicioNotificacion.crearNotificacion("Perfil Editado", "A cambiado sus datos de Perfil con exito.");           
+                servicioNotificacion.enviarNotificacion(notificacion, LocalDateTime.now(), usuarioBuscado.getEmail());
                 return new ModelAndView("redirect:/perfilUsuario");
             }
             

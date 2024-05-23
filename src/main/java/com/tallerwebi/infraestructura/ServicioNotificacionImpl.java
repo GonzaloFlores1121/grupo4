@@ -39,16 +39,18 @@ public class ServicioNotificacionImpl implements ServicioNotificacion {
     }
 
     @Override
-    public void enviarNotificacion(Notificacion notificacion, LocalDateTime fechaHora, String email) throws UsuarioNoExistente {
+    public void enviarNotificacion(Notificacion notificacion, LocalDateTime fechaHora, String email) throws UsuarioNoExistente{
         Usuario usuario = repositorioUsuario.buscar(email);
-        if(usuario != null & usuario.getConfiguracionUsuario().getRecibirNotificaciones()) {
-            NotificacionUsuario notificacionUsuario = new NotificacionUsuario();
-            notificacionUsuario.setNotificacion(notificacion);
-            notificacionUsuario.setUsuario(usuario);
-            notificacionUsuario.setFechaHora(fechaHora);
-            repositorioNotificacionUsuario.guardar(notificacionUsuario);  
+        if(usuario != null) {
+            if(usuario.getConfiguracionUsuario().getRecibirNotificaciones()) {
+                NotificacionUsuario notificacionUsuario = new NotificacionUsuario();
+                notificacionUsuario.setNotificacion(notificacion);
+                notificacionUsuario.setUsuario(usuario);
+                notificacionUsuario.setFechaHora(fechaHora);
+                repositorioNotificacionUsuario.guardar(notificacionUsuario); 
+            }
         }else {
-            throw new UsuarioNoExistente();
+            throw new  UsuarioNoExistente();
         }
     }
 
