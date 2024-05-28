@@ -1,10 +1,7 @@
 package com.tallerwebi.dominio;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Usuario {
@@ -25,6 +22,8 @@ public class Usuario {
     private String imagen;
     @OneToOne
     private ConfiguracionUsuario configuracionUsuario;
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private Set<Colacion> colaciones;
 
     public Usuario() {}
     

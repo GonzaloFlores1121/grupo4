@@ -179,13 +179,15 @@ INSERT INTO CategoriaAlimento (nombre, imagen) VALUES ('Carne', 'imagen_carne.jp
 INSERT INTO CategoriaAlimento (nombre, imagen) VALUES ('Verdura', 'imagen_verdura.jpg');
 INSERT INTO CategoriaAlimento (nombre, imagen) VALUES ('Fruta', 'imagen_fruta.jpg');
 
+INSERT INTO colacion (id, nombre) VALUES (1, 'Desayuno');
+INSERT INTO colacion (id, nombre) VALUES (2, 'Almuerzo');
+INSERT INTO colacion (id, nombre) VALUES (3, 'Cena');
 
-
-INSERT INTO Alimento (nombre, imagen, tamanoPorcion, energia, carbohidratos, azucar, proteina, grasa, grasaSaturada, grasaPoliinsaturada, grasaMonoinsaturada, colesterol, fibra, sodio, potasio, categoria_id)
-VALUES ('Cafe', 'imagen_cafe.png', '1 vaso', '50 kcal', '10g', '5g', '0g', '0g', '0g', '0g', '0g', '0mg', '0g', '10mg', '0mg', 1),
-       ('Té', 'imagen_te.jpg', '1 vaso', '50 kcal', '10g', '5g', '0g', '0g', '0g', '0g', '0g', '0mg', '0g', '10mg', '0mg', 1),
-        ('Agua', 'imagen_agua.jpg', '1 vaso', '50 kcal', '10g', '5g', '0g', '0g', '0g', '0g', '0g', '0mg', '0g', '10mg', '0mg', 1),
-        ('Coca cola', 'imagen_cocacola.jpg', '1 vaso', '50 kcal', '10g', '5g', '0g', '0g', '0g', '0g', '0g', '0mg', '0g', '10mg', '0mg', 1);
+INSERT INTO Alimento (nombre, imagen, tamanoPorcion, energia, carbohidratos, azucar, proteina, grasa, grasaSaturada, grasaPoliinsaturada, grasaMonoinsaturada, colesterol, fibra, sodio, potasio, categoria_id, colacion_id)
+VALUES ('Cafe', 'imagen_cafe.png', '1 vaso', '50 kcal', '10g', '5g', '0g', '0g', '0g', '0g', '0g', '0mg', '0g', '10mg', '0mg', 1, NULL),
+       ('Té', 'imagen_te.jpg', '1 vaso', '50 kcal', '10g', '5g', '0g', '0g', '0g', '0g', '0g', '0mg', '0g', '10mg', '0mg', 1, NULL),
+        ('Agua', 'imagen_agua.jpg', '1 vaso', '50 kcal', '10g', '5g', '0g', '0g', '0g', '0g', '0g', '0mg', '0g', '10mg', '0mg', 1, NULL),
+        ('Coca cola', 'imagen_cocacola.jpg', '1 vaso', '50 kcal', '10g', '5g', '0g', '0g', '0g', '0g', '0g', '0mg', '0g', '10mg', '0mg', 1, NULL);
 
 /*INSERT INTO Alimento (nombre, imagen, tamanoPorcion, energia, carbohidratos, azucar, proteina, grasa, grasaSaturada, grasaPoliinsaturada, grasaMonoinsaturada, colesterol, fibra, sodio, potasio, categoria_id)
 VALUES ('Carne1', 'imagen_carne1.jpg', '100g', '250 kcal', '0g', '0g', '20g', '17g', '6g', '0g', '0g', '70mg', '0g', '70mg', '300mg', 2),
