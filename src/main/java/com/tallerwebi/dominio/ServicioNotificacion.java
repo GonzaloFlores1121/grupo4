@@ -12,6 +12,6 @@ public interface ServicioNotificacion {
     void enviarNotificaciones(Notificacion notificacion, LocalDateTime fechaHora);
     void eliminarNotificacion(Long idNotificacion, Long idUsuario);
     void eliminarNotificaciones(LocalDateTime fechaHora);
-    List<Notificacion> obtenerNotificacionesPorUsuario(Usuario usuario);
+    List<Notificacion> obtenerNotificaciones(Long idUsuario);
 
 }

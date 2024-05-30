@@ -51,7 +51,7 @@ public class ServicioLoginImpl implements ServicioLogin {
         configuracionUsuario.setRecibirNotificaciones(true);
         configuracionUsuario.setUnidadEnergia("calorias");
         configuracionUsuario.setUnidadMasa("kilogramos");
-        repositorioConfiguracionUsuario.guardar(configuracionUsuario);
+        repositorioConfiguracionUsuario.save(configuracionUsuario);
         return configuracionUsuario;
     }
 
@@ -65,7 +65,7 @@ public class ServicioLoginImpl implements ServicioLogin {
             throw new UsuarioExistente();
         }
         if(validarDatos(usuario)) {
-            repositorioConfiguracionUsuario.modificar(usuario.getConfiguracionUsuario());
+            repositorioConfiguracionUsuario.save(usuario.getConfiguracionUsuario());
             repositorioUsuario.modificar(usuario);
         }
         

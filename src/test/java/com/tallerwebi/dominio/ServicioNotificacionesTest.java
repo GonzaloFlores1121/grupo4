@@ -65,7 +65,7 @@ public class ServicioNotificacionesTest {
         assertNotNull(resultado);
         assertEquals(esperaro.getTitulo(), resultado.getTitulo());
         assertEquals(esperaro.getContenido(), resultado.getContenido());
-        verify(repositorioNotificacion, times(1)).guardar(any(Notificacion.class));
+        verify(repositorioNotificacion, times(1)).save(any(Notificacion.class));
     }
 
     @Test
@@ -94,7 +94,7 @@ public class ServicioNotificacionesTest {
     } 
 
     private void thenNotificacionEnviadaExitosa() {
-        verify(repositorioNotificacionUsuario, times(1)).guardar(any(NotificacionUsuario.class));
+        verify(repositorioNotificacionUsuario, times(1)).save(any(NotificacionUsuario.class));
     }
 
     @Test
@@ -145,7 +145,7 @@ public class ServicioNotificacionesTest {
     }
 
     private void thenNotificacionesEnviadasExitosa() {
-        verify(repositorioNotificacionUsuario, times(1)).guardar(any(NotificacionUsuario.class));
+        verify(repositorioNotificacionUsuario, times(1)).save(any(NotificacionUsuario.class));
     }
 
     @Test
@@ -161,7 +161,7 @@ public class ServicioNotificacionesTest {
 
     private NotificacionUsuario givenExisteNotificacionUsuario(long idNotificacion, Long idUsuario) {
         NotificacionUsuario notificacionUsuario = new NotificacionUsuario();
-        when(repositorioNotificacionUsuario.buscar(idNotificacion, idUsuario)).thenReturn(notificacionUsuario);
+        when(repositorioNotificacionUsuario.get(idNotificacion, idUsuario)).thenReturn(notificacionUsuario);
         return notificacionUsuario;
     }
 
@@ -170,7 +170,7 @@ public class ServicioNotificacionesTest {
     }
 
     private void thenNotificacionEliminadaConExito(NotificacionUsuario notificacionUsuario) {
-        verify(repositorioNotificacionUsuario, times(1)).borrar(notificacionUsuario);
+        verify(repositorioNotificacionUsuario, times(1)).delete(notificacionUsuario);
     }
 
     
@@ -198,7 +198,7 @@ public class ServicioNotificacionesTest {
         notificacionUsuario2.setFechaHora(fechaHora.plusDays(1));
         notificacionesUsuarios.add(notificacionUsuario2);
 
-        when(repositorioNotificacionUsuario.buscarTodos()).thenReturn(notificacionesUsuarios);
+        when(repositorioNotificacionUsuario.getAll()).thenReturn(notificacionesUsuarios);
     }
 
     private void whenEliminarNotificaciones(LocalDateTime fechaHora) {
@@ -206,8 +206,8 @@ public class ServicioNotificacionesTest {
     }
 
     private void thenEliminarNotificacionesExitosa(NotificacionUsuario notificacionUsuario1, NotificacionUsuario notificacionUsuario2) {
-        verify(repositorioNotificacionUsuario, times(1)).borrar(notificacionUsuario1);
-        verify(repositorioNotificacionUsuario, never()).borrar(notificacionUsuario2);
+        verify(repositorioNotificacionUsuario, times(1)).delete(notificacionUsuario1);
+        verify(repositorioNotificacionUsuario, never()).delete(notificacionUsuario2);
     }
 
     @Test
@@ -230,8 +230,8 @@ public class ServicioNotificacionesTest {
 
     private List<Notificacion> whenObtengoNotificaciones(List<Notificacion> notificaciones) {
         Usuario usuario = new Usuario();
-        when(repositorioNotificacionUsuario.buscarPorUsuario(usuario)).thenReturn(notificaciones);
-        return servicioNotificacion.obtenerNotificacionesPorUsuario(usuario);
+        when(repositorioNotificacionUsuario.getAllNotification(usuario.getId())).thenReturn(notificaciones);
+        return servicioNotificacion.obtenerNotificaciones(usuario.getId());
     }
 
     private void thenNotificacionesObtenidasConExito(List<Notificacion> esperaro, List<Notificacion> resultado) {

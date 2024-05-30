@@ -24,31 +24,31 @@ public class RepositorioNotificacionImpl implements RepositorioNotificacion {
     }
 
     @Override
-    public void guardar(Notificacion notificacion) {
+    public void save(Notificacion notificacion) {
         Session session = sessionFactory.getCurrentSession();
         session.save(notificacion);
     }
 
     @Override
-    public Notificacion buscar(Long id) {
+    public Notificacion get(Long id) {
         Session session = sessionFactory.getCurrentSession();
         return session.get(Notificacion.class, id);
     }
 
     @Override
-    public List<Notificacion> buscarTodos() {
+    public List<Notificacion> getAll() {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("from Notificacion", Notificacion.class).list();
     }
 
     @Override
-    public void modificar(Notificacion notificacion) {
+    public void update(Notificacion notificacion) {
         Session session = sessionFactory.getCurrentSession();
         session.update(notificacion);
     }
 
     @Override
-    public void borrar(Notificacion notificacion) {
+    public void delete(Notificacion notificacion) {
         Session session = sessionFactory.getCurrentSession();
         session.delete(notificacion);
     }

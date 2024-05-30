@@ -173,7 +173,7 @@ public class ControladorPerfil {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         if(usuario != null) {
             model.addAttribute("usuario", usuario);
-            List<Notificacion> notificaciones = servicioNotificacion.obtenerNotificacionesPorUsuario(usuario);
+            List<Notificacion> notificaciones = servicioNotificacion.obtenerNotificaciones(usuario.getId());
             model.addAttribute("notificaciones", notificaciones);
             return new ModelAndView("notificaciones", model);
         }

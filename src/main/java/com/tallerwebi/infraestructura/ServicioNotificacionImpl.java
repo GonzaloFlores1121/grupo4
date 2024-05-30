@@ -34,7 +34,7 @@ public class ServicioNotificacionImpl implements ServicioNotificacion {
         Notificacion notificacion = new Notificacion();
         notificacion.setTitulo(titulo);
         notificacion.setContenido(contenido);
-        repositorioNotificacion.guardar(notificacion);
+        repositorioNotificacion.save(notificacion);
         return notificacion;
     }
 
@@ -47,7 +47,7 @@ public class ServicioNotificacionImpl implements ServicioNotificacion {
                 notificacionUsuario.setNotificacion(notificacion);
                 notificacionUsuario.setUsuario(usuario);
                 notificacionUsuario.setFechaHora(fechaHora);
-                repositorioNotificacionUsuario.guardar(notificacionUsuario); 
+                repositorioNotificacionUsuario.save(notificacionUsuario); 
             }
         }else {
             throw new  UsuarioNoExistente();
@@ -63,30 +63,30 @@ public class ServicioNotificacionImpl implements ServicioNotificacion {
                 notificacionUsuario.setNotificacion(notificacion);
                 notificacionUsuario.setUsuario(usuario);
                 notificacionUsuario.setFechaHora(fechaHora);
-                repositorioNotificacionUsuario.guardar(notificacionUsuario);                
+                repositorioNotificacionUsuario.save(notificacionUsuario);                
             }
         }
     }
 
     @Override
     public void eliminarNotificacion(Long idNotificacion, Long idUsuario) {
-        NotificacionUsuario notificacionUsuario = repositorioNotificacionUsuario.buscar(idNotificacion, idUsuario);
-        repositorioNotificacionUsuario.borrar(notificacionUsuario);
+        NotificacionUsuario notificacionUsuario = repositorioNotificacionUsuario.get(idNotificacion, idUsuario);
+        repositorioNotificacionUsuario.delete(notificacionUsuario);
     }
 
     @Override
     public void eliminarNotificaciones(LocalDateTime fechaHora) {
-        List<NotificacionUsuario> notificacioneUsuarios = repositorioNotificacionUsuario.buscarTodos();
+        List<NotificacionUsuario> notificacioneUsuarios = repositorioNotificacionUsuario.getAll();
         for (NotificacionUsuario notificacionUsuario : notificacioneUsuarios) {
             if(notificacionUsuario.getFechaHora().isBefore(fechaHora)) {
-                repositorioNotificacionUsuario.borrar(notificacionUsuario);
+                repositorioNotificacionUsuario.delete(notificacionUsuario);
             }
         }
     }
 
     @Override
-    public List<Notificacion> obtenerNotificacionesPorUsuario(Usuario usuario) {
-        return repositorioNotificacionUsuario.buscarPorUsuario(usuario);
+    public List<Notificacion> obtenerNotificaciones(Long idUsuario) {
+        return repositorioNotificacionUsuario.getAllNotification(idUsuario);
     }
 
 }

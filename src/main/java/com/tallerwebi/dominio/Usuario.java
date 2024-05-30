@@ -13,12 +13,12 @@ public class Usuario {
     private String email;
     private String password;
     private Integer edad;
-    private Integer ingestaCalorica;
-    private Double metaAlcanzarPeso;
-    private String genero;
+    private String genero;   
     private Double altura;
-    private Double peso;  
-    private String nivelDeActividad;
+    private Double peso;      
+    private Double metaAlcanzarPeso;
+    private String nivelDeActividad;    
+    private Integer ingestaCalorica;
     private String imagen;
     @OneToOne
     private ConfiguracionUsuario configuracionUsuario;
@@ -39,26 +39,26 @@ public class Usuario {
     public String getPassword() {return password;}
     public void setPassword(String password) {this.password = password;}
 
-    public void setEdad(Integer edad){this.edad=edad;}
+    public void setEdad(Integer edad){this.edad = edad;}
     public Integer getEdad(){return edad;}    
 
     public String getGenero() {return genero;}
     public void setGenero(String genero) {this.genero = genero;}
 
     public Double getAltura() {return altura;}
-    public Double setAltura(Double altura) {return this.altura=altura;} 
+    public Double setAltura(Double altura) {return this.altura = altura;} 
     
     public Double getPeso() {return peso;}
     public void setPeso(Double peso) {this.peso = peso;}  
+
+    public Double getMetaAlcanzarPeso() {return metaAlcanzarPeso;}
+    public void setMetaAlcanzarPeso(Double metaAlcanzarPeso) {this.metaAlcanzarPeso = metaAlcanzarPeso;}    
     
     public String getNivelDeActividad() {return nivelDeActividad;}
     public void setNivelDeActividad(String nivelDeActividad) {this.nivelDeActividad = nivelDeActividad;}
 
     public Integer getIngestaCalorica() {return ingestaCalorica;}
     public void setIngestaCalorica(Integer ingestaCalorica) {this.ingestaCalorica = ingestaCalorica;}
-
-    public Double getMetaAlcanzarPeso() {return metaAlcanzarPeso;}
-    public void setMetaAlcanzarPeso(Double metaAlcanzarPeso) {this.metaAlcanzarPeso = metaAlcanzarPeso;}
 
     public String getImagen() {return imagen;}
     public void setImagen(String imagen) {this.imagen = imagen;}
