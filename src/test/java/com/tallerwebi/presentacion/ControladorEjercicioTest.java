@@ -10,7 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import java.sql.Date;
 
-import static org.mockito.ArgumentMatchers.any;
+
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -36,12 +37,12 @@ public class ControladorEjercicioTest {
         controladorEjercicio = new ControladorEjercicio(repositorioEjercicio, repositorioEjercicioUsuario, repositorioUsuario, servicioEjercicio);
     }
     @Test
-    public void agregoUnEjercicioExitosamente() throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, UsuarioExistente {
+    public void agregoUnEjercicioExitosamente() throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, UsuarioExistente, EjercicioInvalido, EjercicioNoExistente {
         // Simular el registro del usuario
         Usuario usuario = givenTengoUnUsuario();
 
         // Simular la llamada al método guardarEjercicio del servicio
-        when(servicioEjercicio.guardarEjercicio(any(EjercicioUsuario.class))).thenReturn(true);
+        servicioEjercicio.guardarEjercicioUsuario(anyString(),  anyString(),  any(Ejercicio.class),  any(Usuario.class),  any(Date.class),  anyInt()  );
 
         // Simular los datos del usuario en el request
         HttpServletRequest request = new MockHttpServletRequest();

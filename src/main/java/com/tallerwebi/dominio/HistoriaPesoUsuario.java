@@ -7,17 +7,22 @@ import java.util.Map;
 
 @Entity
 public class HistoriaPesoUsuario {
-
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
     Usuario usuario;
-
     Double peso;
     Date fecha;
 
     public HistoriaPesoUsuario() {
 
+    }
+
+    public HistoriaPesoUsuario(Double peso , Usuario usuario, Date fecha) {
+   this.peso = peso;
+   this.usuario = usuario;
+   this.fecha = fecha;
     }
 
     public Long getId() {

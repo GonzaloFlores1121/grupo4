@@ -1,17 +1,20 @@
 package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.Ejercicio;
 import com.tallerwebi.dominio.HistoriaPesoUsuario;
 import com.tallerwebi.dominio.RepositorioHistorialPesoUsuario;
+import com.tallerwebi.dominio.Usuario;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.TemporalType;
+import java.sql.Date;
 import java.util.List;
 
-@Repository("RepositorioHistorialPesoUsuario")
+@Repository("RepositorioHistoriaPesoUsuario")
 public class RepositorioHistorialPesoUsuarioImpl implements RepositorioHistorialPesoUsuario {
+
     SessionFactory sessionFactory;
 
     public RepositorioHistorialPesoUsuarioImpl(SessionFactory sessionFactory) {
@@ -30,5 +33,33 @@ public class RepositorioHistorialPesoUsuarioImpl implements RepositorioHistorial
         String sql = "FROM HistoriaPesoUsuario ";
         Query<HistoriaPesoUsuario> query = session.createQuery(sql, HistoriaPesoUsuario.class);
         return query.getResultList();
+    }
+    @Override
+    public HistoriaPesoUsuario obtenerHistorialPesoUsuarioParaUnaFecha(Date fecha) {
+        Session session = sessionFactory.getCurrentSession(); // Cambia a getCurrentSession()
+        String hql = "FROM HistoriaPesoUsuario WHERE fecha = :fecha";
+        Query<HistoriaPesoUsuario> query = session.createQuery(hql, HistoriaPesoUsuario.class);
+        query.setParameter("fecha", fecha);
+        return query.getSingleResult();
+    }
+
+    @Override
+    public void modificarPeso(Double peso, Usuario usuario) {
+        Session session = sessionFactory.getCurrentSession();
+        String hql = "UPDATE Usuario SET peso = :peso WHERE email = :email";
+        session.createQuery(hql)
+                .setParameter("peso", peso)
+                .setParameter("email", usuario.getEmail())
+                .executeUpdate();
+    }
+
+    @Override
+    public void actualizarMiPesoAgregado(HistoriaPesoUsuario historial) {
+        Session session = sessionFactory.getCurrentSession();
+        String sql = "UPDATE HistoriaPesoUsuario SET peso = :peso WHERE id = :id";
+        session.createQuery(sql)
+                .setParameter("peso", historial.getPeso())
+                .setParameter("id", historial.getId())
+                .executeUpdate();
     }
 }

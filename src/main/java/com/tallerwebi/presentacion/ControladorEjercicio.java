@@ -1,5 +1,6 @@
 package com.tallerwebi.presentacion;
 import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.excepcion.EjercicioInvalido;
 import com.tallerwebi.dominio.excepcion.EjercicioNoExistente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -49,35 +50,25 @@ public class ControladorEjercicio {
                                          @RequestParam("intensidad") String intensidad,
                                          @RequestParam("fecha") Date fecha,
                                          @RequestParam("minutos") Integer minutos,
-                                         HttpServletRequest request) {
+                                         HttpServletRequest request) throws EjercicioNoExistente, EjercicioInvalido {
 
         Ejercicio ejercicio = repositorioEjercicio.obtenerEjercicioPorId(idEjercicio);
         //conseguir el id de usuario
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
 
-
-        // Aquí puedes crear un objeto EjercicioUsuario con los datos recibidos
-        EjercicioUsuario ejercicioUsuario = new EjercicioUsuario();
-        ejercicioUsuario.setNombre(ejercicio.getNombre());
-        ejercicioUsuario.setIntensidad(intensidad);
-        ejercicioUsuario.setEjercicio(ejercicio);
-        ejercicioUsuario.setUsuario(usuario);
-        ejercicioUsuario.setFecha(fecha);
-        ejercicioUsuario.setMinutos(minutos);
         ModelMap model = new ModelMap();
         model.put("ejercicio", ejercicio);
-        // Guarda el ejercicioUsuario en la base de datos
-        boolean guardadoExitoso = servicioEjercicio.guardarEjercicio(ejercicioUsuario);
-        if (guardadoExitoso) {
+
+        try {
+            servicioEjercicio.guardarEjercicioUsuario(ejercicio.getNombre(),intensidad,ejercicio,usuario,fecha,minutos);
             model.put("mensaje", "El ejercicio se ha guardado correctamente.");
-
-        } else {
-            model.put("mensaje", "El ejercicio no se ha guardado correctamente. ");
-
+            return new ModelAndView("ejercicio", model);
+        }catch (Exception EjercicioInvalido){
+            model.put("mensaje", "El ejercicio no se ha guardado correctamente.");
+            return new ModelAndView("ejercicio", model);
         }
 
-        return new ModelAndView("ejercicio", model);
     }
 
     @RequestMapping(value = "/buscarEjercicio", method = RequestMethod.GET)

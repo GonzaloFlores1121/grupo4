@@ -31,36 +31,12 @@
         </div>
     </div>
 
-<div class="container center" style="min-height: 80vh; margin-top: 50px;">
-    <div class="row justify-content-center">
-        <!-- Columna de la tarjeta -->
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Mi Diario de Ejercicios</h5>
-                    <p class="card-text">Fecha: Hoy, martes 30 de abril de 2024</p>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                 <th>Nombre del Ejercicio</th>
-                                <th>Tiempo empleado</th>
-                                <th>Cals</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                 <td>esqui</td>
-                                <td>24 hrs</td>
-                                <td>6445</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
+            <!-- Columna para el gráfico de historial de peso -->
+            <div class="col-md-4">
+                <img th:src="@{/img/chart.png}" alt="Gráfico de historial de peso" />
+            </div>
+</div>
 <div th:replace="footer ::footer"></div>
 </body>
 </html>

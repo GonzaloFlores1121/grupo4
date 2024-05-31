@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -15,9 +17,9 @@ import java.util.List;
 @Transactional
 public class ServicioDatosUsuarioImpl implements ServicioDatosUsuario {
 
-    private final RepositorioUsuario repositorioUsuario;
-    ServicioLogin  servicioLogin;
-    RepositorioHistorialPesoUsuario repositorioHistorialPesoUsuario;
+    private  RepositorioUsuario repositorioUsuario;
+    private ServicioLogin  servicioLogin;
+    private RepositorioHistorialPesoUsuario repositorioHistorialPesoUsuario;
 
     @Autowired
     public ServicioDatosUsuarioImpl(ServicioLogin servicioLogin , RepositorioHistorialPesoUsuario repositorioHistorialPesoUsuario, RepositorioUsuario repositorioUsuario) {
@@ -105,20 +107,6 @@ public class ServicioDatosUsuarioImpl implements ServicioDatosUsuario {
 
     }
 
-    @Override
-    public void agregarNuevoPeso(Double peso) throws PesoIncorrectoException {
-        if( pesoValidoUsuario(peso)) {
-            HistoriaPesoUsuario nuevoPeso = new HistoriaPesoUsuario();
-            Date fechaActual = Calendar.getInstance().getTime();
-            nuevoPeso.setPeso(peso);
-            nuevoPeso.setFecha((java.sql.Date) fechaActual);
-
-            repositorioHistorialPesoUsuario.agregarPesoYFecha(nuevoPeso);
-        }else{
-            throw new PesoIncorrectoException();
-        }
-
-    }
 
     @Override
     public List<HistoriaPesoUsuario> obtenerTodoElHistorialDePeso(Usuario usuario) throws UsuarioNoExistente {
@@ -128,6 +116,27 @@ public class ServicioDatosUsuarioImpl implements ServicioDatosUsuario {
         return historialPeso;
      }{
          throw new UsuarioNoExistente();
+        }
+    }
+
+    @Override
+    public void actualizarPeso(Usuario usuario, Double peso) throws PesoIncorrectoException {
+        if (repositorioUsuario.buscarUsuario(usuario.getEmail(), usuario.getPassword()) != null && pesoValidoUsuario(peso)) {
+            LocalDateTime fechaActualLocalDateTime = LocalDateTime.now();
+            Date fechaActual = Date.from(fechaActualLocalDateTime.atZone(ZoneId.systemDefault()).toInstant());
+            java.sql.Date sqlFechaActual = new java.sql.Date(fechaActual.getTime());
+
+            HistoriaPesoUsuario historialPeso = repositorioHistorialPesoUsuario.obtenerHistorialPesoUsuarioParaUnaFecha(sqlFechaActual);
+            if (historialPeso != null) {
+                historialPeso.setPeso(peso);
+                repositorioHistorialPesoUsuario.actualizarMiPesoAgregado(historialPeso);
+            } else {
+                historialPeso = new HistoriaPesoUsuario(peso, usuario, sqlFechaActual);
+                repositorioHistorialPesoUsuario.agregarPesoYFecha(historialPeso);
+            }
+
+        } else {
+            throw new PesoIncorrectoException();
         }
     }
 

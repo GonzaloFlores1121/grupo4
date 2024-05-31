@@ -10,50 +10,84 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 
-      <body>
-          <nav th:replace="navbar :: navbar" class="navbar navbar-expand-lg navbar-light bg-light fixed-top"></nav>
+<body>
+    <nav th:replace="navbar :: navbar" class="navbar navbar-expand-lg navbar-light bg-light fixed-top"></nav>
 
-          <div class="container" style="min-height: 80vh;">
-              <h2 class="section-title">Opciones del Menú</h2>
-              <div class="card-container">
-                  <div class="card">
-                      <a th:href="@{/actividadesFisicas}">
-                          <img th:src="@{/img/menuEjercicio.jpg}" alt="Ejercicio de Hoy">
-                          <div class="card-text">Agregar Ejercicio de Hoy</div>
-                      </a>
-                  </div>
-                  <div class="card">
-                      <a th:href="@{/calendarioDieta}">
-                          <img th:src="@{/img/menuCalendario.jpg}" alt="Calendario de Dieta">
-                          <div class="card-text">Calendario de Dieta</div>
-                      </a>
-                  </div>
-                  <div class="card">
-                      <a th:href="@{/categoria_alimentos}">
-                          <img th:src="@{/img/menuComida.jpg}" alt="Agregar Comida">
-                          <div class="card-text">Agregar tu Comida</div>
-                      </a>
-                  </div>
-                  <div class="card mb-3">
-                      <a th:href="@{/recetas}">
-                          <img th:src="@{/img/menuReceta.jpg}" alt="Receta">
-                          <div class="card-text">Recetas</div>
-                      </a>
-                  </div>
-              </div>
-          </div>
+    <div class="container" style="min-height: 80vh;">
+        <h2 class="section-title">Opciones del Menú</h2>
+        <div class="card-container">
+            <div class="card">
+                <a th:href="@{/actividadesFisicas}">
+                    <img th:src="@{/img/menuEjercicio.jpg}" alt="Ejercicio de Hoy">
+                    <div class="card-text">Agregar Ejercicio de Hoy</div>
+                </a>
+            </div>
+            <div class="card">
+                <a th:href="@{/calendarioDieta}">
+                    <img th:src="@{/img/menuCalendario.jpg}" alt="Calendario de Dieta">
+                    <div class="card-text">Calendario de Dieta</div>
+                </a>
+            </div>
+            <div class="card">
+                <a th:href="@{/categoria_alimentos}">
+                    <img th:src="@{/img/menuComida.jpg}" alt="Agregar Comida">
+                    <div class="card-text">Agregar tu Comida</div>
+                </a>
+            </div>
+            <div class="card mb-3">
+                <a th:href="@{/recetas}">
+                    <img th:src="@{/img/menuReceta.jpg}" alt="Receta">
+                    <div class="card-text">Recetas</div>
+                </a>
+            </div>
+        </div>
 
-          <footer th:replace="footer ::footer"></footer>
+        <div class="container mt-5">
+            <div class="row">
+                <!-- Columna para el cuadro de ingreso de peso -->
+                <div class="col-md-6 d-flex align-items-center justify-content-center">
+                    <div class="card bg-light mb-3 weight-form-card">
+                        <div class="card-body">
+                            <h5 class="card-title">¿Cuánto pesas el día de hoy?</h5>
+                            <form th:action="@{/cambioPeso}" method="post">
+                                <div class="form-group">
+                                    <label for="nuevoPeso">Peso:</label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" id="nuevoPeso" name="nuevoPeso" placeholder="Ingrese su nuevo peso" required>
+                                        <span class="input-group-text">Kg</span>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary mt-3">Actualizar</button>
+                            </form>
+                            <strong></strong><span th:text="${mensaje}"></span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Columna para la tarjeta de estadísticas de peso -->
+                <div class="col-md-6 d-flex align-items-center justify-content-center">
+                    <div class="card bg-light mb-3 weight-stats-card">
+                        <a th:href="@{/estadisticasUsuario}">
+                            <img th:src="@{/img/menuGrafico.jpg}" alt="Estadísticas de tu Peso">
+                            <div class="card-body">
+                                <h5 class="card-title">Estadísticas de tu Peso</h5>
+                                <p class="card-text">Aquí puedes encontrar las estadísticas de tu peso y tu progreso a lo largo del tiempo.</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer th:replace="footer ::footer"></footer>
+        <!-- Bootstrap JavaScript y dependencias -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+    </body>
+</html>
 
-          <!-- Bootstrap JavaScript y dependencias -->
-          <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-          <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-          <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-          <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
-      </body>
-      </html>
 <style>
     .card-container {
         display: flex;
@@ -71,7 +105,6 @@
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         transition: transform 0.3s;
-
     }
 
     .card img {
@@ -120,5 +153,21 @@
         width: 100%;
         color: inherit;
         text-decoration: none;
+    }
+
+    .weight-form-card {
+        height: 300px;
+        width: 500px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .weight-stats-card {
+        height: 400px;
+        width: 600px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 </style>

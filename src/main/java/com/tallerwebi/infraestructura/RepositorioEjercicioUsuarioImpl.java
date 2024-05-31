@@ -5,6 +5,7 @@ import com.tallerwebi.dominio.EjercicioUsuario;
 import com.tallerwebi.dominio.RepositorioEjercicioUsuario;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -32,10 +33,19 @@ public class RepositorioEjercicioUsuarioImpl implements RepositorioEjercicioUsua
     @Override
     public List<EjercicioUsuario> obtenerTodosLosEjercicios() {
 
-            Session session = sessionFactory.openSession();
-            String hql = "FROM EjercicioUsuario ";
-            Query<EjercicioUsuario> query = session.createQuery(hql, EjercicioUsuario.class);
-            return query.getResultList();
+        Session session = sessionFactory.openSession();
+        String hql = "FROM EjercicioUsuario ";
+        Query<EjercicioUsuario> query = session.createQuery(hql, EjercicioUsuario.class);
+        return query.getResultList();
 
     }
+
+    @Override
+    public EjercicioUsuario obtenerEjercicioPorNombre(String nombre) {
+        return (EjercicioUsuario) sessionFactory.getCurrentSession().createCriteria(EjercicioUsuario.class)
+                .add(Restrictions.eq("nombre", nombre))
+                .uniqueResult();
+}
+
+
 }

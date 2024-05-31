@@ -20,39 +20,19 @@
 <body>
     <div th:replace="navbar :: navbar"></div>
 
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-12">
-                <div class="list-group flex-row justify-content-center">
-                    <a th:href="@{/home}" class="list-group-item list-group-item-action activo">MI FATLOSS</a>
-                    <a th:href="@{/categoria_alimentos}" class="list-group-item list-group-item-action ">ALIMENTOS</a>
-                    <a th:href="@{/recetas}" class="list-group-item list-group-item-action">RECETAS</a>
-                    <a th:href="@{/actividadesFisicas}" class="list-group-item list-group-item-action">EN FORMA</a>
-                </div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="list-group flex-row justify-content-center">
+                <a th:href="@{/home}" class="list-group-item list-group-item-action activo">MI FATLOSS</a>
+                <a th:href="@{/categoria_alimentos}" class="list-group-item list-group-item-action ">ALIMENTOS</a>
+                <a th:href="@{/recetas}" class="list-group-item list-group-item-action">RECETAS</a>
+                <a th:href="@{/actividadesFisicas}" class="list-group-item list-group-item-action">EN FORMA</a>
             </div>
         </div>
+    </div>
 
-        <div class="container mt-5">
-        <h2>Calendario de Mi Dieta - Descripción General</h2>
-        <div class="row">
-            <!-- Columna para el cuadro de ingreso de peso -->
-            <div class="col-md-4">
-                <div class="card bg-light mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">¿Cuánto pesas el día de hoy?</h5>
-                        <form th:action="@{#}" method="post">
-                            <div class="form-group">
-                                <label for="nuevoPeso">Peso:</label>
-                                <div class="input-group">
-                                    <input type="number" class="form-control" id="nuevoPeso" name="nuevoPeso" placeholder="Ingrese su nuevo peso" required>
-                                    <span class="input-group-text">Kg</span>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Actualizar</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+
             <!-- Columna para el calendario de dieta -->
             <div class="col-md-8">
                 <table class="table table-bordered">
@@ -89,7 +69,7 @@
             </div>
         </div>
     </div>
-    </div>
+</div>
 
 
 

@@ -7,6 +7,7 @@ import java.util.List;
 public interface RepositorioEjercicioUsuario {
 
     void agregarEjercicio(EjercicioUsuario ejercicio);
-
+    EjercicioUsuario obtenerEjercicioPorNombre(String nombre);
     List<EjercicioUsuario> obtenerTodosLosEjercicios();
+
 }

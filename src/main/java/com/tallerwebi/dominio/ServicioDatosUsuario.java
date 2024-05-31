@@ -13,7 +13,7 @@ public interface ServicioDatosUsuario {
 
     MacronutrientesUsuario CalcularDistribucionDeMacronutrientes(Usuario usuario);
 
-    void agregarNuevoPeso(Double peso) throws PesoIncorrectoException;
+    void actualizarPeso(Usuario usuario,Double peso) throws PesoIncorrectoException;
 
     List<HistoriaPesoUsuario> obtenerTodoElHistorialDePeso(Usuario usuario) throws UsuarioNoExistente;
 

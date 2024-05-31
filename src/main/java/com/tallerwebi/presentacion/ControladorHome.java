@@ -5,9 +5,7 @@ import javax.servlet.http.HttpSession;
 import com.tallerwebi.dominio.ServicioDatosUsuario;
 import com.tallerwebi.dominio.Usuario;
 
-import java.util.TreeMap;
-import java.util.Map;
-
+import com.tallerwebi.dominio.excepcion.PesoIncorrectoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -46,7 +44,7 @@ public class ControladorHome {
     @RequestMapping(value = "/diarioEjercicio",method = RequestMethod.GET)
     public ModelAndView irADiarioEjercicio(){
 
-        return new ModelAndView("diarioEjercicio");
+        return new ModelAndView("estadisticasUsuario");
     }
     @RequestMapping(value = "/diarioPeso",method = RequestMethod.GET)
     public ModelAndView irADiarioPeso(){
@@ -64,6 +62,19 @@ public class ControladorHome {
         modelo.put("nombre", "Nombre de usuario desconocido");
     }
         return new ModelAndView("home", modelo);
+    }
+
+    @RequestMapping(value = "/cambioPeso", method = RequestMethod.POST)
+    public ModelAndView cambiarPeso(@ModelAttribute("nuevoPeso") Double nuevoPeso, HttpServletRequest request) throws PesoIncorrectoException {
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        try {
+            servicioDatosUsuario.actualizarPeso(usuario, nuevoPeso);
+            session.setAttribute("mensaje", "Su peso se ha actualizado correctamente");
+        } catch (Exception e) {
+            session.setAttribute("mensaje", "Su peso no se ha actualizado");
+        }
+        return new ModelAndView("redirect:/home");
     }
 }
 
