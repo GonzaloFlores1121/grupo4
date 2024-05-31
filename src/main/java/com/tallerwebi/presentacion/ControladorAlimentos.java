@@ -44,8 +44,12 @@ public class ControladorAlimentos {
     public ModelAndView irACategoria(@PathVariable Long id, HttpServletRequest request){
         ModelMap model = new ModelMap();
         obtenerUsuarioSession(request, model);
-        CategoriaAlimento categoria = servicioCategoriaAlimentos.obtenerCategoriaPorId(id);
-        model.put("categoria",categoria);
+        try {
+            CategoriaAlimento categoria = servicioCategoriaAlimentos.obtenerCategoriaPorId(id);
+            model.put("categoria", categoria);
+        }catch(Exception e){
+            model.put("error",e.getMessage());
+        }
         return new ModelAndView("alimentos",model);
     }
 
