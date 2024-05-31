@@ -51,7 +51,7 @@ public class ServicioLoginImpl implements ServicioLogin {
         configuracionUsuario.setRecibirNotificaciones(true);
         configuracionUsuario.setUnidadEnergia("calorias");
         configuracionUsuario.setUnidadMasa("kilogramos");
-        repositorioConfiguracionUsuario.guardar(configuracionUsuario);
+        repositorioConfiguracionUsuario.save(configuracionUsuario);
         return configuracionUsuario;
     }
 
@@ -61,11 +61,11 @@ public class ServicioLoginImpl implements ServicioLogin {
 
     @Override
     public void modificarPerfil(Usuario usuario, String nuevoEmail) throws UsuarioExistente, DatosIncorrectos, EdadInvalidaException, AlturaIncorrectaException, PesoIncorrectoException {
-        if(nuevoEmail!=usuario.getEmail() && repositorioUsuario.buscar(usuario.getEmail())!=null) {
+        if(nuevoEmail!=usuario.getEmail() && repositorioUsuario.buscarPorEmail(usuario.getEmail())!=null) {
             throw new UsuarioExistente();
         }
         if(validarDatos(usuario)) {
-            repositorioConfiguracionUsuario.modificar(usuario.getConfiguracionUsuario());
+            repositorioConfiguracionUsuario.save(usuario.getConfiguracionUsuario());
             repositorioUsuario.modificar(usuario);
         }
         
@@ -73,7 +73,7 @@ public class ServicioLoginImpl implements ServicioLogin {
 
     @Override
     public Usuario buscar(String email) {
-        return repositorioUsuario.buscar(email);
+        return repositorioUsuario.buscarPorEmail(email);
     }
 
     private Boolean validarDatos(Usuario usuario) throws DatosIncorrectos, EdadInvalidaException, AlturaIncorrectaException, PesoIncorrectoException {

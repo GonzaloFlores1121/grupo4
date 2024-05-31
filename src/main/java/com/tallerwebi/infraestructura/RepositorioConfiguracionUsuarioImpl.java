@@ -22,21 +22,27 @@ public class RepositorioConfiguracionUsuarioImpl implements RepositorioConfigura
     }
 
     @Override
-    public void guardar(ConfiguracionUsuario configuracionUsuario) {
+    public void save(ConfiguracionUsuario configuracionUsuario) {
         Session session = sessionFactory.getCurrentSession();
         session.save(configuracionUsuario);
     }
 
     @Override
-    public ConfiguracionUsuario buscar(Long id) {
+    public ConfiguracionUsuario get(Long id) {
         Session session = sessionFactory.getCurrentSession();
         return session.get(ConfiguracionUsuario.class, id);
     }
 
     @Override
-    public void modificar(ConfiguracionUsuario configuracionUsuario) {
+    public void update(ConfiguracionUsuario configuracionUsuario) {
         Session session = sessionFactory.getCurrentSession();
         session.save(configuracionUsuario);
+    }
+
+    @Override
+    public void delete(ConfiguracionUsuario configuracionUsuario) {
+        Session session = sessionFactory.getCurrentSession();
+        session.delete(configuracionUsuario);
     }
 
 }

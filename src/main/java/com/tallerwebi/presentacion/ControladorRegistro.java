@@ -1,6 +1,5 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.Notificacion;
 import com.tallerwebi.dominio.ServicioDatosUsuario;
 import com.tallerwebi.dominio.ServicioLogin;
 import com.tallerwebi.dominio.ServicioNotificacion;
@@ -76,8 +75,6 @@ public class ControladorRegistro {
         return new ModelAndView("iniciar-sesion", model);
     }
 
-
-
     @Transactional
     @RequestMapping(value = "/enviarFormulario", method = RequestMethod.POST)
     public ModelAndView enviarFormulario(@ModelAttribute("usuario") Usuario usuario, HttpServletRequest request) {
@@ -85,10 +82,12 @@ public class ControladorRegistro {
         List<String> errores = new ArrayList<>();
         try {
             servicioLogin.registrar(usuario);
-            Notificacion notificacion = servicioNotificacion.crearNotificacion( "Bienvenido a fatloss", "Nos alegra que te unas a nosotros en tu camino hacia una vida mas saludable. FatLoss es tu app de nutricion ideal para alcanzar tus objetivos de perdida de peso.");
-            servicioNotificacion.enviarNotificacion(notificacion, LocalDateTime.now(), usuario.getEmail()); 
-            Notificacion segundaNoti = servicioNotificacion.crearNotificacion("Meta Establecida", "Para alcanzar tu peso ideal, sigue una dieta equilibrada, haz ejercicio regularmente y manten la constancia. Monitorea tu progreso y ajusta segun sea necesario. ¡Tu puedes lograrlo!");           
-            servicioNotificacion.enviarNotificacion(segundaNoti, LocalDateTime.now(), usuario.getEmail());
+            String titulo1 = "Bienvenido a fatloss";
+            String contenido1 = "Nos alegra que te unas a nosotros en tu camino hacia una vida mas saludable. FatLoss es tu app de nutricion ideal para alcanzar tus objetivos de perdida de peso.";
+            servicioNotificacion.enviarNotificacion(titulo1, contenido1, LocalDateTime.now(), usuario.getId()); 
+            String titulo2 = "Meta Establecida";
+            String contenido2 = "Para alcanzar tu peso ideal, sigue una dieta equilibrada, haz ejercicio regularmente y manten la constancia. Monitorea tu progreso y ajusta segun sea necesario. ¡Tu puedes lograrlo!";       
+            servicioNotificacion.enviarNotificacion(titulo2, contenido2, LocalDateTime.now(), usuario.getId());
         } catch (UsuarioExistente e) {
             errores.add("El usuario ya existe");
         } catch (AlturaIncorrectaException e) {

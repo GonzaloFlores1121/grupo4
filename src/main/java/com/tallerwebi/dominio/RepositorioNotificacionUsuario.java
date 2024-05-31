@@ -4,10 +4,11 @@ import java.util.List;
 
 public interface RepositorioNotificacionUsuario {
 
-    void guardar(NotificacionUsuario notificacionUsuario);
-    NotificacionUsuario buscar(Long idNotificacion, Long idUsuario);
-    List<NotificacionUsuario> buscarTodos();
-    List<Notificacion> buscarPorUsuario(Usuario usuario);
-    void borrar(NotificacionUsuario notificacionUsuario);
+    void save(NotificacionUsuario notificacionUsuario);
+    NotificacionUsuario get(Long idNotificacion, Long idUsuario);
+    List<NotificacionUsuario> getAll();
+    List<Notificacion> getAllNotification(Long idUsuario);
+    void update(NotificacionUsuario notificacionUsuario);
+    void delete(NotificacionUsuario notificacionUsuario);
 
 }
