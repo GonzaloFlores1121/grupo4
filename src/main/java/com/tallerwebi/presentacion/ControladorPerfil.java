@@ -111,8 +111,9 @@ public class ControladorPerfil {
                 usuarioBuscado.setNivelDeActividad(usuario.getNivelDeActividad());
                 servicioLogin.modificarPerfil(usuarioBuscado, usuario.getEmail());
                 session.setAttribute("usuario", usuarioBuscado);
-                Notificacion notificacion = servicioNotificacion.crearNotificacion("Perfil Editado", "A cambiado sus datos de Perfil con exito.");           
-                servicioNotificacion.enviarNotificacion(notificacion, LocalDateTime.now(), usuarioBuscado.getEmail());
+                String titulo = "Perfil Editado";
+                String contenido = "A cambiado sus datos de Perfil con exito.";         
+                servicioNotificacion.enviarNotificacion(titulo, contenido, LocalDateTime.now(), usuarioBuscado.getId());
                 return new ModelAndView("redirect:/perfilUsuario");
             }
             

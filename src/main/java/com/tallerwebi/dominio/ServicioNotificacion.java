@@ -8,8 +8,9 @@ import com.tallerwebi.dominio.excepcion.UsuarioNoExistente;
 public interface ServicioNotificacion {
 
     Notificacion crearNotificacion(String titulo, String contenido);
-    void enviarNotificacion(Notificacion notificacion, LocalDateTime fechaHora, String email) throws UsuarioNoExistente;
-    void enviarNotificaciones(Notificacion notificacion, LocalDateTime fechaHora);
+    NotificacionUsuario crearNotificacionUsuario(Notificacion notificacion, Usuario usuario, LocalDateTime fechaHora);
+    void enviarNotificacion(String titulo, String contenido, LocalDateTime fechaHora, Long idUsuario) throws UsuarioNoExistente;
+    void enviarNotificaciones(String titulo, String contenido, LocalDateTime fechaHora);
     void eliminarNotificacion(Long idNotificacion, Long idUsuario);
     void eliminarNotificaciones(LocalDateTime fechaHora);
     List<Notificacion> obtenerNotificaciones(Long idUsuario);

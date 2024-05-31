@@ -39,15 +39,22 @@ public class ServicioNotificacionImpl implements ServicioNotificacion {
     }
 
     @Override
-    public void enviarNotificacion(Notificacion notificacion, LocalDateTime fechaHora, String email) throws UsuarioNoExistente{
-        Usuario usuario = repositorioUsuario.buscar(email);
+    public NotificacionUsuario crearNotificacionUsuario(Notificacion notificacion, Usuario usuario, LocalDateTime fechaHora) {
+        NotificacionUsuario notificacionUsuario = new NotificacionUsuario();
+        notificacionUsuario.setNotificacion(notificacion);
+        notificacionUsuario.setUsuario(usuario);
+        notificacionUsuario.setFechaHora(fechaHora);
+        repositorioNotificacionUsuario.save(notificacionUsuario);
+        return notificacionUsuario;
+    }
+
+    @Override
+    public void enviarNotificacion(String titulo, String contenido, LocalDateTime fechaHora, Long idUsuario) throws UsuarioNoExistente{
+        Usuario usuario = repositorioUsuario.buscarPorId(idUsuario);
         if(usuario != null) {
             if(usuario.getConfiguracionUsuario().getRecibirNotificaciones()) {
-                NotificacionUsuario notificacionUsuario = new NotificacionUsuario();
-                notificacionUsuario.setNotificacion(notificacion);
-                notificacionUsuario.setUsuario(usuario);
-                notificacionUsuario.setFechaHora(fechaHora);
-                repositorioNotificacionUsuario.save(notificacionUsuario); 
+                Notificacion notificacion = crearNotificacion(titulo, contenido);
+                crearNotificacionUsuario(notificacion, usuario, fechaHora);
             }
         }else {
             throw new  UsuarioNoExistente();
@@ -55,15 +62,12 @@ public class ServicioNotificacionImpl implements ServicioNotificacion {
     }
 
     @Override
-    public void enviarNotificaciones(Notificacion notificacion, LocalDateTime fechaHora) {
-        List<Usuario> usuarios = repositorioUsuario.buscarTodos();
+    public void enviarNotificaciones(String titulo, String contenido, LocalDateTime fechaHora) {
+        List<Usuario> usuarios = repositorioUsuario.obtenerTodos();
         for (Usuario usuario : usuarios) {
             if(usuario.getConfiguracionUsuario().getRecibirNotificaciones()) {
-                NotificacionUsuario notificacionUsuario = new NotificacionUsuario();
-                notificacionUsuario.setNotificacion(notificacion);
-                notificacionUsuario.setUsuario(usuario);
-                notificacionUsuario.setFechaHora(fechaHora);
-                repositorioNotificacionUsuario.save(notificacionUsuario);                
+                Notificacion notificacion = crearNotificacion(titulo, contenido);
+                crearNotificacionUsuario(notificacion, usuario, fechaHora);           
             }
         }
     }
