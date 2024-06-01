@@ -27,7 +27,7 @@ public class ServicioLoginTest {
     private ServicioLoginImpl servicioLogin = new ServicioLoginImpl(repositorioUsuario, repositorioConfiguracionUsuario);
 
     @Test
-    public void verificarUsuario() {
+    public void testVerificarUsuario() {
         Usuario usuario = givenExisteUsuarioLogin("admin@gmail.com", "1234abcd");
         Usuario resultado = whenBuscarUsuario(usuario.getEmail(), usuario.getPassword());
         thenUsuarioBuscadoExitoso(usuario, resultado);
@@ -51,7 +51,7 @@ public class ServicioLoginTest {
     }
 
     @Test
-    public void testRegistrarUsuario() throws Exception {
+    public void testRegistrarUsuario() throws UsuarioExistente, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
         Usuario usuario = givenExisteUsuarioNoRegistrado("admin@gmail.com", "1234abcd", "masculino", 25, 170.0, 65.0);
         whenRegistrarUsuario(usuario);
         thenRegistroUsuarioExitoso(usuario);
@@ -112,7 +112,7 @@ public class ServicioLoginTest {
     }
 
     @Test
-    public void testModificarUsuario() throws Exception {
+    public void testModificarUsuario() throws UsuarioExistente, DatosIncorrectos, EdadInvalidaException, AlturaIncorrectaException, PesoIncorrectoException {
         Usuario usuario = givenExisteUsuarioRegistrado("admin@gmail.com", "1234abcd", "masculino", 24, 155.0, 44.0);
         Usuario nuevosDatos = givenExisteUsuarioNoRegistrado("pacolo@gmail.com", "querty123", "masculino", 25, 158.0, 46.0);
         whenModificarUsuario(usuario, nuevosDatos);
@@ -198,7 +198,7 @@ public class ServicioLoginTest {
     }
 
     @Test
-    public void testValidarDatos() throws Exception {
+    public void testValidarDatos() throws DatosIncorrectos, EdadInvalidaException, AlturaIncorrectaException, PesoIncorrectoException {
         Usuario usuario = givenExisteUsuarioRegistrado("admin@gmail.com", "1234abcd", "masculino", 23, 155.0, 44.0);
         thenDatosValidados(usuario);
     }
