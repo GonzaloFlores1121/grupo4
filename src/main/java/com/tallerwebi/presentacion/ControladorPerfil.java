@@ -67,9 +67,9 @@ public class ControladorPerfil {
     @Transactional
     @RequestMapping(path = "/procesarImagen", method = RequestMethod.POST)
     public ModelAndView procesarImagen(@ModelAttribute("usuario") Usuario usuario, HttpServletRequest request) throws UsuarioExistente, DatosIncorrectos, EdadInvalidaException, AlturaIncorrectaException, PesoIncorrectoException, UsuarioNoExistente {
-        if(usuario != null) {
-            HttpSession session = request.getSession();
-            Usuario usuarioLogin = (Usuario) session.getAttribute("usuario");
+        HttpSession session = request.getSession();
+        Usuario usuarioLogin = (Usuario) session.getAttribute("usuario");        
+        if(usuario != null && usuarioLogin != null) {
             Usuario usuarioBD = servicioLogin.buscarUsuario(usuarioLogin.getEmail());
             servicioLogin.modificarImagen(usuarioBD, usuario.getImagen());
             String titulo = "Avatar Editado";
@@ -93,15 +93,15 @@ public class ControladorPerfil {
         return new ModelAndView("redirect:/inicio");
     }
 
-    @Transactional(noRollbackFor = {UsuarioExistente.class, AlturaIncorrectaException.class, EdadInvalidaException.class, PesoIncorrectoException.class})
+    @Transactional
     @RequestMapping(path = "/procesarDatos", method = RequestMethod.POST)
     public ModelAndView procesarDatos(@ModelAttribute("usuario") Usuario usuario, HttpServletRequest request) {
         ModelMap model = new ModelMap();
         String error = null;
+        HttpSession session = request.getSession();
+        Usuario usuarioLogin = (Usuario) session.getAttribute("usuario");        
         try {
-            if(usuario != null) {            
-                HttpSession session = request.getSession();
-                Usuario usuarioLogin = (Usuario) session.getAttribute("usuario");
+            if(usuario!=null && usuarioLogin!=null) {            
                 Usuario usuarioBD = servicioLogin.buscarUsuario(usuarioLogin.getEmail());
                 servicioLogin.modificarUsuario(usuarioBD, usuario);
                 String titulo = "Perfil Editado";
@@ -144,9 +144,9 @@ public class ControladorPerfil {
     @RequestMapping(path = "/guardarConfiguracion", method = RequestMethod.POST)
     public ModelAndView guardarConfiguracion(@ModelAttribute("usuario") Usuario usuario, @ModelAttribute("configuracionUsuario") ConfiguracionUsuario configuracionUsuario, 
     HttpServletRequest request) throws UsuarioExistente, DatosIncorrectos, EdadInvalidaException, AlturaIncorrectaException, PesoIncorrectoException {
-        if(usuario != null && configuracionUsuario !=null) {
-            HttpSession session = request.getSession();
-            Usuario usuarioLogin = (Usuario) session.getAttribute("usuario");
+        HttpSession session = request.getSession();
+        Usuario usuarioLogin = (Usuario) session.getAttribute("usuario");        
+        if(usuario!=null && configuracionUsuario!=null && usuarioLogin!=null) {
             Usuario usuarioBD = servicioLogin.buscarUsuario(usuarioLogin.getEmail());
             servicioLogin.modificarConfiguracion(usuarioBD, configuracionUsuario);
             session.setAttribute("usuario", usuarioBD);
