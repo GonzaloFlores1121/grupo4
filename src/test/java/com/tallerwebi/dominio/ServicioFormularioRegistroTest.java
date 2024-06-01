@@ -51,7 +51,7 @@ public class ServicioFormularioRegistroTest {
     }
 
     private Boolean thenRegistroDenegado(Usuario usuario) throws DatosIncorrectos, UsuarioExistente, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
-       if(!servicioLogin.usuarioDatosCorrecto(usuario)){
+       if(!servicioLogin.validarDatos(usuario)){
           return true;
        }
         return false;
@@ -94,7 +94,7 @@ public class ServicioFormularioRegistroTest {
 
     private boolean thenRegistroAceptado(Usuario usuario) {
         try {
-            servicioLogin.registrar(usuario);
+            servicioLogin.registrarUsuario(usuario);
             return true;
         } catch (DatosIncorrectos e) {
             return false;

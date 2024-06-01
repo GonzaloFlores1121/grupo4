@@ -1,7 +1,6 @@
 package com.tallerwebi.presentacion;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +27,7 @@ import com.tallerwebi.dominio.excepcion.DatosIncorrectos;
 import com.tallerwebi.dominio.excepcion.EdadInvalidaException;
 import com.tallerwebi.dominio.excepcion.PesoIncorrectoException;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
+import com.tallerwebi.dominio.excepcion.UsuarioNoExistente;
 
 @Controller
 public class ControladorPerfil {
@@ -64,21 +64,24 @@ public class ControladorPerfil {
         return new ModelAndView("redirect:/inicio");
     }
 
+    @Transactional
     @RequestMapping(path = "/procesarImagen", method = RequestMethod.POST)
-    public ModelAndView procesarImagen(@ModelAttribute("usuario") Usuario usuario, HttpServletRequest request) throws UsuarioExistente, DatosIncorrectos, EdadInvalidaException, AlturaIncorrectaException, PesoIncorrectoException {
+    public ModelAndView procesarImagen(@ModelAttribute("usuario") Usuario usuario, HttpServletRequest request) throws UsuarioExistente, DatosIncorrectos, EdadInvalidaException, AlturaIncorrectaException, PesoIncorrectoException, UsuarioNoExistente {
         if(usuario != null) {
             HttpSession session = request.getSession();
             Usuario usuarioLogin = (Usuario) session.getAttribute("usuario");
-            Usuario usuarioBuscado = servicioLogin.buscar(usuarioLogin.getEmail());
-            usuarioBuscado.setImagen(usuario.getImagen());
-            servicioLogin.modificarPerfil(usuarioBuscado, usuarioBuscado.getEmail());
-            session.setAttribute("usuario", usuarioBuscado);
+            Usuario usuarioBD = servicioLogin.buscarUsuario(usuarioLogin.getEmail());
+            servicioLogin.modificarImagen(usuarioBD, usuario.getImagen());
+            String titulo = "Avatar Editado";
+            String contenido = "A cambiado su Avatar.";         
+            servicioNotificacion.enviarNotificacion(titulo, contenido, LocalDateTime.now(), usuarioBD.getId());
+            session.setAttribute("usuario", usuarioBD);
             return new ModelAndView("redirect:/perfilUsuario");
         }
         return new ModelAndView("redirect:/inicio");
     }
 
-    @RequestMapping(path = "formularioEditarPerfil", method = RequestMethod.GET)
+    @RequestMapping(path = "/formularioEditarPerfil", method = RequestMethod.GET)
     public ModelAndView formularioEditarPerfil(HttpServletRequest request) {
         ModelMap model = new ModelMap();
         HttpSession session = request.getSession();
@@ -90,50 +93,38 @@ public class ControladorPerfil {
         return new ModelAndView("redirect:/inicio");
     }
 
-    @Transactional
+    @Transactional(noRollbackFor = {UsuarioExistente.class, AlturaIncorrectaException.class, EdadInvalidaException.class, PesoIncorrectoException.class})
     @RequestMapping(path = "/procesarDatos", method = RequestMethod.POST)
     public ModelAndView procesarDatos(@ModelAttribute("usuario") Usuario usuario, HttpServletRequest request) {
         ModelMap model = new ModelMap();
-        List<String> errores = new ArrayList<String>();
+        String error = null;
         try {
             if(usuario != null) {            
                 HttpSession session = request.getSession();
                 Usuario usuarioLogin = (Usuario) session.getAttribute("usuario");
-                Usuario usuarioBuscado = servicioLogin.buscar(usuarioLogin.getEmail());
-                usuarioBuscado.setNombre(usuario.getNombre());
-                usuarioBuscado.setEmail(usuario.getEmail());
-                usuarioBuscado.setPassword(usuario.getPassword());
-                usuarioBuscado.setEdad(usuario.getEdad());
-                usuarioBuscado.setGenero(usuario.getGenero());
-                usuarioBuscado.setAltura(usuario.getAltura());
-                usuarioBuscado.setPeso(usuario.getPeso());
-                usuarioBuscado.setMetaAlcanzarPeso(usuario.getMetaAlcanzarPeso());
-                usuarioBuscado.setNivelDeActividad(usuario.getNivelDeActividad());
-                servicioLogin.modificarPerfil(usuarioBuscado, usuario.getEmail());
-                session.setAttribute("usuario", usuarioBuscado);
+                Usuario usuarioBD = servicioLogin.buscarUsuario(usuarioLogin.getEmail());
+                servicioLogin.modificarUsuario(usuarioBD, usuario);
                 String titulo = "Perfil Editado";
                 String contenido = "A cambiado sus datos de Perfil con exito.";         
-                servicioNotificacion.enviarNotificacion(titulo, contenido, LocalDateTime.now(), usuarioBuscado.getId());
+                servicioNotificacion.enviarNotificacion(titulo, contenido, LocalDateTime.now(), usuarioBD.getId());
+                session.setAttribute("usuario", usuarioBD);
                 return new ModelAndView("redirect:/perfilUsuario");
-            }
-            
+            }         
         } catch (UsuarioExistente e) {
-            errores.add("El usuario ya existe.");
+            error = "El usuario ya existe.";
         } catch (AlturaIncorrectaException e) {
-            errores.add("La altura debe ser mayor a 0 y menor a 3 metros.");
+            error = "La altura debe ser mayor a 0 y menor a 3 metros.";
         } catch (EdadInvalidaException e) {
-            errores.add("La edad debe ser entre 12 y 100 años.");
+            error = "La edad debe ser entre 12 y 100 años.";
         } catch (PesoIncorrectoException e) {
-            errores.add("El peso debe ser mayor a 0 y menor a 500kg");
+            error = "El peso debe ser mayor a 0 y menor a 500kg.";
         } catch (Exception e) {
-            errores.add("Error al registrar el nuevo usuario");
+            error = "Fallo desconocida al registrar usuario.";
         }
-
-        if (!errores.isEmpty()) {
-            model.put("errores", errores);
+        if (error != null) {
+            model.addAttribute("error", error);
             return new ModelAndView("formularioEditarPerfil", model);
         }
-
         return new ModelAndView("redirect:/inicio");
     }
 
@@ -156,12 +147,9 @@ public class ControladorPerfil {
         if(usuario != null && configuracionUsuario !=null) {
             HttpSession session = request.getSession();
             Usuario usuarioLogin = (Usuario) session.getAttribute("usuario");
-            Usuario usuarioBuscado = servicioLogin.buscar(usuarioLogin.getEmail());
-            usuarioBuscado.getConfiguracionUsuario().setRecibirNotificaciones(configuracionUsuario.getRecibirNotificaciones());
-            usuarioBuscado.getConfiguracionUsuario().setUnidadEnergia(configuracionUsuario.getUnidadEnergia());
-            usuarioBuscado.getConfiguracionUsuario().setUnidadMasa(configuracionUsuario.getUnidadMasa());
-            servicioLogin.modificarPerfil(usuarioBuscado, usuarioBuscado.getEmail());
-            session.setAttribute("usuario", usuarioBuscado);
+            Usuario usuarioBD = servicioLogin.buscarUsuario(usuarioLogin.getEmail());
+            servicioLogin.modificarConfiguracion(usuarioBD, configuracionUsuario);
+            session.setAttribute("usuario", usuarioBD);
             return new ModelAndView("redirect:/configuracion");
         }
         return new ModelAndView("redirect:/inicio");

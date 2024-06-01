@@ -56,7 +56,7 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
     @Override
     public Usuario buscarPorEmail(String email) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from Usuario where email=:email", Usuario.class).setParameter("email", email).uniqueResult();
+        return session.createQuery("from Usuario u where email=:email", Usuario.class).setParameter("email", email).uniqueResult();
     }
 
     @Override

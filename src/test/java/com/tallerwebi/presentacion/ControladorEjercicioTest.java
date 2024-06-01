@@ -75,7 +75,7 @@ public class ControladorEjercicioTest {
         usuario.setNivelDeActividad(nivelActividad);
         usuario.setEdad(edad);
         usuario.setNombre(nombre);
-        servicioLogin.registrar(usuario);
+        servicioLogin.registrarUsuario(usuario);
         return usuario;
     }
 

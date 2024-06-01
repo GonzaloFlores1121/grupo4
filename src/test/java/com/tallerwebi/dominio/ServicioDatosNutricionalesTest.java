@@ -51,7 +51,7 @@ public class ServicioDatosNutricionalesTest {
 
     private Integer whenSeCalculaSuIngestaCalorica(Usuario usuario) throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
         // Verifica si los datos del usuario son válidos antes de calcular la ingesta calórica
-        if (servicioLogin.usuarioDatosCorrecto(usuario)) {
+        if (servicioLogin.validarDatos(usuario)) {
             return servicioUsuario.calcularIngestaCalorica(usuario);
 
         }
