@@ -54,7 +54,7 @@ public class ControladorRegistroTest {
     public void testInicio() {
         givenNoExisteVista();
         ModelAndView vista = whenCreoVistaInicio();
-        thenVistaExitoso("redirect:/inicio", vista);
+        thenVistaInicioExitoso("redirect:/inicio", vista);
     }
 
     private void givenNoExisteVista() {}
@@ -63,7 +63,7 @@ public class ControladorRegistroTest {
         return controladorRegistro.inicio();
     }
 
-    private void thenVistaExitoso(String esperado, ModelAndView vista) {
+    private void thenVistaInicioExitoso(String esperado, ModelAndView vista) {
         assertEquals(esperado, vista.getViewName());
     }
 
@@ -71,7 +71,7 @@ public class ControladorRegistroTest {
     public void testIrAInicio() {
         givenNoExisteVista();
         ModelAndView vista = whenCreoVistaIrAInicio();
-        thenVistaExitoso("inicio", vista);
+        thenVistaInicioExitoso("inicio", vista);
     }
 
     private ModelAndView whenCreoVistaIrAInicio() {
@@ -82,23 +82,23 @@ public class ControladorRegistroTest {
     public void testIrAFormulario() {
         givenNoExisteVista();
         ModelAndView vista = whenCreoVistaIrAFormulario();
-        thenVistaYModeloExitoso("formulario-registro", vista);
+        thenVistaFormularioExitoso(vista);
     }
 
     private ModelAndView whenCreoVistaIrAFormulario() {
         return controladorRegistro.irAFormulario();
     }
 
-    private void thenVistaYModeloExitoso(String esperado, ModelAndView vista) {
-        assertEquals(esperado, vista.getViewName());
+    private void thenVistaFormularioExitoso(ModelAndView vista) {
+        assertEquals("formulario-registro", vista.getViewName());
         assertTrue(vista.getModelMap().containsAttribute("usuario"));
     }
  
     @Test
-    public void testEnviarFormularioExitoso() throws Exception {
+    public void testEnviarFormularioExitoso() throws UsuarioExistente, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, UsuarioNoExistente  {
         Usuario usuario = givenExisteUsuarioNoRegistrado(1L, "admin@gmail.com", "1234abcd");
-        ModelAndView vista = whenCreoVistaEnviarFormulario(usuario, request);
-        thenVistaRegistroExitoso(usuario, "redirect:/iniciar-sesion", vista);
+        ModelAndView vista = whenCreoVistaEnviarFormulario(usuario);
+        thenRegistroExitoso(usuario, vista);
     }
 
     private Usuario givenExisteUsuarioNoRegistrado(Long id, String email, String password) throws UsuarioExistente, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, UsuarioNoExistente {
@@ -110,21 +110,20 @@ public class ControladorRegistroTest {
         return usuario;
     }
 
-    private ModelAndView whenCreoVistaEnviarFormulario(Usuario usuario, HttpServletRequest request) {
+    private ModelAndView whenCreoVistaEnviarFormulario(Usuario usuario) {
         return controladorRegistro.enviarFormulario(usuario, request);
     } 
 
-    private void thenVistaRegistroExitoso(Usuario usuario, String esperado, ModelAndView vista) throws UsuarioExistente, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, UsuarioNoExistente {
+    private void thenRegistroExitoso(Usuario usuario, ModelAndView vista) throws UsuarioExistente, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, UsuarioNoExistente {
         verify(servicioLogin).registrarUsuario(usuario);        
-        assertEquals(esperado, vista.getViewName());
+        assertEquals("redirect:/iniciar-sesion", vista.getViewName());
     }    
-
     
     @Test
-    public void testEnviarFormularioUsuarioExistente() throws UsuarioExistente, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException{
+    public void testEnviarFormularioUsuarioFallido() throws UsuarioExistente, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException{
         Usuario usuario = givenExisteUsuarioRegistrado(1L, "admin@gmail.com", "1234abcd");
-        ModelAndView vista = whenCreoVistaEnviarFormulario(usuario, request); 
-        thenVistaRegistroFaliida("formulario-registro", vista, "El usuario ya existe.");
+        ModelAndView vista = whenCreoVistaEnviarFormulario(usuario); 
+        thenVistaRegistroFaliida(vista);
     }
 
     private Usuario givenExisteUsuarioRegistrado(Long id, String email, String password) throws UsuarioExistente, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
@@ -136,18 +135,17 @@ public class ControladorRegistroTest {
         return usuario;
     }
 
-    private void thenVistaRegistroFaliida(String esperado, ModelAndView vista, String error) {
-        assertEquals(esperado, vista.getViewName());
+    private void thenVistaRegistroFaliida(ModelAndView vista) {
+        assertEquals("formulario-registro", vista.getViewName());
         assertTrue(vista.getModelMap().containsAttribute("error"));
-        assertEquals(error, vista.getModelMap().get("error"));        
+        assertEquals("El usuario ya existe.", vista.getModelMap().get("error"));        
     }
 
     @Test
-    public void testValidarLoginExitoso() throws Exception {
+    public void testValidarLoginExitoso() {
         Usuario usuario = givenExisteUsuario(1L, "admin@gmail.com", "1234abcd");
-        ModelAndView vista = whenCreoVistaValidarLogin(usuario, request); 
-        thenLoginExitoso("redirect:/home", vista, usuario);
-
+        ModelAndView vista = whenCreoVistaValidarLogin(usuario); 
+        thenLoginExitoso(vista, usuario);
     }
 
     private Usuario givenExisteUsuario(Long id, String email, String password) {
@@ -159,20 +157,20 @@ public class ControladorRegistroTest {
         return usuario;
     }
 
-    private ModelAndView whenCreoVistaValidarLogin(Usuario usuario, HttpServletRequest request) {
+    private ModelAndView whenCreoVistaValidarLogin(Usuario usuario) {
         return controladorRegistro.validarLogin(usuario, request);
     } 
 
-    private void thenLoginExitoso(String esperado, ModelAndView vista, Usuario usuario) {
-        assertEquals(esperado, vista.getViewName());
+    private void thenLoginExitoso(ModelAndView vista, Usuario usuario) {
+        assertEquals("redirect:/home", vista.getViewName());
         verify(session).setAttribute("usuario", usuario);
     }
 
     @Test
-    public void testValidarLoginFallido() throws Exception {
+    public void testValidarLoginFallido() {
         Usuario usuario = givenNoExisteUsuario(1L, "admin@gmail.com", "1234abcd");
-        ModelAndView vista = whenCreoVistaValidarLogin(usuario, request);
-        thenLoginFallido("iniciar-sesion", vista, "Usuario o clave incorrecta");
+        ModelAndView vista = whenCreoVistaValidarLogin(usuario);
+        thenLoginFallido(vista);
     }
 
     private Usuario givenNoExisteUsuario(Long id, String email, String password) {
@@ -184,10 +182,10 @@ public class ControladorRegistroTest {
         return usuario;
     }
 
-    private void thenLoginFallido(String esperado, ModelAndView vista, String error) {
-        assertEquals(esperado, vista.getViewName());
+    private void thenLoginFallido(ModelAndView vista) {
+        assertEquals("iniciar-sesion", vista.getViewName());
         assertTrue(vista.getModelMap().containsAttribute("error"));
-        assertEquals(error, vista.getModelMap().get("error"));
+        assertEquals("Usuario o clave incorrecta", vista.getModelMap().get("error"));
     }
     
 }

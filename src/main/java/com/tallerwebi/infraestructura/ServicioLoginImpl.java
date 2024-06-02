@@ -100,14 +100,6 @@ public class ServicioLoginImpl implements ServicioLogin {
     }
 
     @Override
-    public void eliminarUsuario(Usuario usuario) throws UsuarioNoExistente {
-        if(repositorioUsuario.buscarPorEmail(usuario.getEmail())==null) {
-            throw new UsuarioNoExistente();
-        }
-        repositorioUsuario.eliminar(usuario);
-    }
-
-    @Override
     public Boolean validarDatos(Usuario usuario) throws DatosIncorrectos, EdadInvalidaException, AlturaIncorrectaException, PesoIncorrectoException {
         validarUsuario(usuario);
         validarEdad(usuario.getEdad());

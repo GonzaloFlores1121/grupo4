@@ -1,6 +1,5 @@
 package com.tallerwebi.dominio;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -18,7 +17,6 @@ import com.tallerwebi.dominio.excepcion.DatosIncorrectos;
 import com.tallerwebi.dominio.excepcion.EdadInvalidaException;
 import com.tallerwebi.dominio.excepcion.PesoIncorrectoException;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
-import com.tallerwebi.dominio.excepcion.UsuarioNoExistente;
 import com.tallerwebi.infraestructura.ServicioLoginImpl;
 
 public class ServicioLoginTest {
@@ -164,40 +162,6 @@ public class ServicioLoginTest {
     private void thenModificacionFallida(Usuario usuario) {
         verify(repositorioUsuario, never()).modificar(usuario);
     } 
-
-    @Test
-    public void testEliminarUsuario() {
-        Usuario usuario = givenExisteUsuarioRegistrado("admin@gmail.com", "1234abcd", "masculino", 25, 155.0, 44.0);
-        whenEliminarUsuario(usuario);
-        thenEliminacionExitoso(usuario);        
-    }
-
-    private void whenEliminarUsuario(Usuario usuario) {
-        assertDoesNotThrow(() -> {
-            servicioLogin.eliminarUsuario(usuario);
-        });
-    }
-
-    private void thenEliminacionExitoso(Usuario usuario) {
-        verify(repositorioUsuario).eliminar(usuario);
-    }
-
-    @Test
-    public void testEliminarUsuarioNoExistente() {
-        Usuario usuario = givenExisteUsuarioNoRegistrado("admin@gmail.com", "1234abcd", "masculino", 25, 155.0, 44.0);
-        whenEliminarUsuarioException(usuario);
-        thenEliminacionFallida(usuario);
-    }
-
-    private void whenEliminarUsuarioException(Usuario usuario) {
-        assertThrows(UsuarioNoExistente.class, () -> {
-            servicioLogin.eliminarUsuario(usuario);
-        });       
-    }
-
-    private void thenEliminacionFallida(Usuario usuario) {
-        verify(repositorioUsuario, never()).eliminar(usuario);
-    }
 
     @Test
     public void testValidarDatos() throws DatosIncorrectos, EdadInvalidaException, AlturaIncorrectaException, PesoIncorrectoException {
