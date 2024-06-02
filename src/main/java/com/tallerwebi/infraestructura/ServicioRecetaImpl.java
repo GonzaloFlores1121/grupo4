@@ -1,23 +1,25 @@
 package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.Receta;
-import com.tallerwebi.dominio.RepositorioReceta;
-import com.tallerwebi.dominio.ServicioReceta;
+import com.tallerwebi.dominio.*;
 import com.tallerwebi.dominio.excepcion.RecetaNoEncontradaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
+
 @Service("servicioReceta")
 @Transactional
 public class ServicioRecetaImpl implements ServicioReceta {
 
     private RepositorioReceta repositorioRecetas;
+    private RepositorioRecetaFavorito repositorioRecetaFavorito;
 
     @Autowired
-    public ServicioRecetaImpl(RepositorioReceta repositorioRecetas) {
+    public ServicioRecetaImpl(RepositorioReceta repositorioRecetas, RepositorioRecetaFavorito repositorioRecetaFavorito) {
         this.repositorioRecetas = repositorioRecetas;
+        this.repositorioRecetaFavorito = repositorioRecetaFavorito;
     }
 
     @Override
@@ -31,7 +33,20 @@ public class ServicioRecetaImpl implements ServicioReceta {
         if (receta == null) {
             throw new RecetaNoEncontradaException();
         }
-    return receta;
+        return receta;
     }
 
+    @Override
+    public void agregarRecetaFavorita(Usuario usuario, Receta recetaAAgregar) {
+        RecetaFavorito recetaFavorito = repositorioRecetaFavorito.buscarPorUsuarioYReceta(usuario, recetaAAgregar);
+
+        if (recetaFavorito == null) {
+            recetaFavorito = new RecetaFavorito();
+            recetaFavorito.setUsuario(usuario);
+            recetaFavorito.setRecetasFavoritas(recetaAAgregar);
+            repositorioRecetaFavorito.agregarRecetaFavorito(recetaFavorito);
+        } else {
+            repositorioRecetaFavorito.eliminarRecetaFavorito(recetaFavorito);
+        }
+    }
 }

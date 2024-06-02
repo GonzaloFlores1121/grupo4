@@ -14,6 +14,7 @@ import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,6 +25,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class GraficoHistorialPeso extends JFrame {
+
 
     public GraficoHistorialPeso(List<HistoriaPesoUsuario> historialPesos) {
         super("Historial de Peso");

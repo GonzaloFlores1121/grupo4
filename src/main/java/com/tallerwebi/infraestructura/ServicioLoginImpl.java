@@ -1,12 +1,9 @@
 package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.ConfiguracionUsuario;
-import com.tallerwebi.dominio.RepositorioConfiguracionUsuario;
-import com.tallerwebi.dominio.RepositorioUsuario;
-import com.tallerwebi.dominio.ServicioLogin;
-import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.*;
 import com.tallerwebi.dominio.excepcion.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -17,11 +14,13 @@ public class ServicioLoginImpl implements ServicioLogin {
 
     private RepositorioUsuario repositorioUsuario;
     private RepositorioConfiguracionUsuario repositorioConfiguracionUsuario;
+    private ServicioDatosUsuario servicioDatosUsuario;
 
     @Autowired
-    public ServicioLoginImpl(RepositorioUsuario repositorioUsuario, RepositorioConfiguracionUsuario repositorioConfiguracionUsuario){
+    public ServicioLoginImpl(RepositorioUsuario repositorioUsuario, RepositorioConfiguracionUsuario repositorioConfiguracionUsuario, @Lazy ServicioDatosUsuario servicioDatosUsuario){
         this.repositorioUsuario = repositorioUsuario;
         this.repositorioConfiguracionUsuario = repositorioConfiguracionUsuario;
+        this.servicioDatosUsuario = servicioDatosUsuario;
     }
 
     @Override
@@ -35,6 +34,8 @@ public class ServicioLoginImpl implements ServicioLogin {
             throw new UsuarioExistente();
         }
         if(validarDatos(usuario)) {
+            Integer icr=servicioDatosUsuario.calcularIngestaCalorica(usuario);
+            usuario.setIngestaCalorica(icr);
             insertarAvatarPredeterminado(usuario);
             usuario.setConfiguracionUsuario(crearConfiguracionPredeterminada());
             repositorioUsuario.guardar(usuario);             
@@ -82,6 +83,7 @@ public class ServicioLoginImpl implements ServicioLogin {
             usuario.setGenero(nuevosDatos.getGenero());
             usuario.setAltura(nuevosDatos.getAltura());
             usuario.setPeso(nuevosDatos.getPeso());
+            usuario.setIngestaCalorica(servicioDatosUsuario.calcularIngestaCalorica(usuario));
             usuario.setMetaAlcanzarPeso(nuevosDatos.getMetaAlcanzarPeso());
             usuario.setNivelDeActividad(nuevosDatos.getNivelDeActividad());
             repositorioUsuario.modificar(usuario);

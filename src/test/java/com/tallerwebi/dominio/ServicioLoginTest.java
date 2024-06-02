@@ -10,6 +10,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.tallerwebi.infraestructura.ServicioDatosUsuarioImpl;
 import org.junit.jupiter.api.Test;
 
 import com.tallerwebi.dominio.excepcion.AlturaIncorrectaException;
@@ -24,7 +25,8 @@ public class ServicioLoginTest {
 
     private RepositorioConfiguracionUsuario repositorioConfiguracionUsuario = mock(RepositorioConfiguracionUsuario.class);
     private RepositorioUsuario repositorioUsuario = mock(RepositorioUsuario.class);
-    private ServicioLoginImpl servicioLogin = new ServicioLoginImpl(repositorioUsuario, repositorioConfiguracionUsuario);
+    private ServicioDatosUsuarioImpl servicioDatosUsuario = mock(ServicioDatosUsuarioImpl.class);
+    private ServicioLoginImpl servicioLogin = new ServicioLoginImpl(repositorioUsuario, repositorioConfiguracionUsuario,servicioDatosUsuario);
 
     @Test
     public void testVerificarUsuario() {

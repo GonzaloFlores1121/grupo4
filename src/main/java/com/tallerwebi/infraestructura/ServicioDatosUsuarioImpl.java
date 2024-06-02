@@ -112,7 +112,7 @@ public class ServicioDatosUsuarioImpl implements ServicioDatosUsuario {
     public List<HistoriaPesoUsuario> obtenerTodoElHistorialDePeso(Usuario usuario) throws UsuarioNoExistente {
      if(repositorioUsuario.buscarUsuario(usuario.getEmail(), usuario.getPassword())!=null) {
          Usuario usuarioEncontrado = repositorioUsuario.buscarUsuario(usuario.getEmail(), usuario.getPassword());
-        List<HistoriaPesoUsuario> historialPeso=repositorioHistorialPesoUsuario.obtenerHistorialPesoUsuario();
+        List<HistoriaPesoUsuario> historialPeso=repositorioHistorialPesoUsuario.obtenerHistorialPesoUsuario(usuario);
         return historialPeso;
      }{
          throw new UsuarioNoExistente();

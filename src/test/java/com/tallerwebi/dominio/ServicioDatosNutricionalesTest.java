@@ -31,7 +31,7 @@ public class ServicioDatosNutricionalesTest {
         sessionFactory = mock(SessionFactory.class);
         repositorioUsuario = new RepositorioUsuarioImpl(sessionFactory);
         repositorioConfiguracionUsuario = new RepositorioConfiguracionUsuarioImpl(sessionFactory); 
-        servicioLogin = new ServicioLoginImpl(repositorioUsuario, repositorioConfiguracionUsuario);
+        servicioLogin = new ServicioLoginImpl(repositorioUsuario, repositorioConfiguracionUsuario,servicioUsuario);
         servicioUsuario = new ServicioDatosUsuarioImpl(servicioLogin,repositorioHistorialPesoUsuario,repositorioUsuario);
     }
 
