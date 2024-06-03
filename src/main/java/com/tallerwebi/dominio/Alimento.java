@@ -30,9 +30,6 @@ public class Alimento {
     @OneToMany(mappedBy = "alimento")
     private List<AlimentoReceta> alimentoRecetas;
 
-    @ManyToOne(optional = true)
-    @JoinColumn(name = "colacion_id", nullable = true)
-    private Colacion colacion;
 
     @ManyToOne
     //en el insert se debe enviar el id de la categoria a la que pertenece el alimento
@@ -189,11 +186,5 @@ public class Alimento {
         this.potasio = potasio;
     }
 
-    public Colacion getColacion() {
-        return colacion;
-    }
-
-    public void setColacion(Colacion colacion) {
-        this.colacion = colacion;
-    }
 }
+

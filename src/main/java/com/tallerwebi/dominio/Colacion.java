@@ -2,6 +2,7 @@ package com.tallerwebi.dominio;
 
 import javax.persistence.*;
 import javax.persistence.Id;
+import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
@@ -9,24 +10,37 @@ public class Colacion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nombre;
+
+    @Enumerated(EnumType.STRING)
+    private TipoColacion tipo;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = true)
     private Usuario usuario;
 
-    @OneToMany(mappedBy = "colacion", cascade = CascadeType.ALL)
-    private Set<Alimento> alimentos;
+    @ManyToOne
+    @JoinColumn(name = "alimento_id", nullable = true)
+    private Alimento alimentos;
+
+    private LocalDate fecha;
 
     public Colacion() {
     }
 
-    public String getNombre() {
-        return nombre;
+    public Long getId() {
+        return id;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public TipoColacion getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoColacion tipo) {
+        this.tipo = tipo;
     }
 
     public Usuario getUsuario() {
@@ -37,19 +51,19 @@ public class Colacion {
         this.usuario = usuario;
     }
 
-    public Set<Alimento> getAlimentos() {
+    public Alimento getAlimentos() {
         return alimentos;
     }
 
-    public void setAlimentos(Set<Alimento> alimentos) {
+    public void setAlimentos(Alimento alimentos) {
         this.alimentos = alimentos;
     }
 
-    public Long getId() {
-        return id;
+    public LocalDate getFecha() {
+        return fecha;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
     }
 }

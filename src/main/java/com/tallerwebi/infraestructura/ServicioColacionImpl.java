@@ -1,55 +1,34 @@
 package com.tallerwebi.infraestructura;
-
 import com.tallerwebi.dominio.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
-@Transactional
 public class ServicioColacionImpl implements ServicioColacion {
+
     private RepositorioColacion repositorioColacion;
-    private RepositorioAlimento repositorioAlimento;
 
     @Autowired
-    public ServicioColacionImpl(RepositorioColacion repositorioColacion, RepositorioAlimento repositorioAlimento) {
+    public ServicioColacionImpl(RepositorioColacion repositorioColacion) {
         this.repositorioColacion = repositorioColacion;
-        this.repositorioAlimento = repositorioAlimento;
     }
 
     @Override
-    public void updateColacion(Colacion colacion) {
-        repositorioColacion.update(colacion);
+    public void guardarColacionUsuario(Alimento alimento, Usuario usuario, TipoColacion tipoColacion, LocalDate fecha) {
+        Colacion colacion= new Colacion();
+        colacion.setAlimentos(alimento);
+        colacion.setFecha(fecha);
+        colacion.setTipo(tipoColacion);
+        repositorioColacion.agregarColacion(colacion);
     }
 
     @Override
-    public Colacion getColacion(Long id) {
-        return repositorioColacion.buscarPorId(id);
+    public List<Alimento> obtenerAlimentosPorFechaYUsuarioYTipoColacion(LocalDate fecha, Usuario usuario, TipoColacion tipo) {
+      List <Colacion> colaciones= repositorioColacion.obtenerColacionesPorFechaYUsuarioYTipo(fecha,usuario,tipo);
+        return colaciones.stream().map(Colacion::getAlimentos).collect(Collectors.toList());
     }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<Colacion> listarColaciones() {
-        List<Colacion> colaciones = repositorioColacion.listar();
-
-        for (Colacion colacion : colaciones) {
-            colacion.getAlimentos().size();
-        }
-        return colaciones;
-    }
-
-    @Override
-    @Transactional
-    public void agregarAlimentoAColacion(Long colacionId, Long alimentoId) {
-        Colacion colacion = repositorioColacion.buscarPorId(colacionId);
-        Alimento alimento = repositorioAlimento.consultarAlimentoPorID(alimentoId);
-        if (colacion != null && alimento != null) {
-            alimento.setColacion(colacion);
-            repositorioAlimento.update(alimento);
-
-        }
-    }
-
 }
