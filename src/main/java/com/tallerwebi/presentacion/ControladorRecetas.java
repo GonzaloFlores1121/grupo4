@@ -29,15 +29,18 @@ private ServicioReceta servicioRecetas;
         this.servicioRecetas = servicioRecetas;
     }
 
-    @RequestMapping(value = "/recetas",method = RequestMethod.GET)
+    @RequestMapping(value = "/recetas", method = RequestMethod.GET)
     public ModelAndView irARecetas(HttpServletRequest request) {
         ModelMap model = new ModelMap();
         obtenerUsuarioSession(request, model);
-        List<Receta> recetas = servicioRecetas.obtenerTodasLasRecetas();
-        model.put("recetas", recetas);
+
+        List<Receta> todasLasRecetas = servicioRecetas.obtenerTodasLasRecetas();
+
+        model.put("recetas", todasLasRecetas);
 
         return new ModelAndView("recetas", model);
     }
+
 
 
     @RequestMapping(value = "/recetas/{id}",method = RequestMethod.GET)
@@ -51,6 +54,15 @@ private ServicioReceta servicioRecetas;
         model.put("receta",receta);
         model.put("alimentos",alimentos);
         return new ModelAndView("descripcionRecetas",model);
+    }
+
+    @RequestMapping(value = "/agregarAFavoritos/{id}",method = RequestMethod.GET)
+    public ModelAndView agregarAFavoritos(@PathVariable Long id, HttpServletRequest request) throws RecetaNoEncontradaException {
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Receta receta=servicioRecetas.obtenerRecetaPorId(id);
+        servicioRecetas.agregarRecetaFavorita(usuario,receta);
+        return new ModelAndView("redirect:/recetas");
     }
 
     private void obtenerUsuarioSession(HttpServletRequest request, ModelMap model) {

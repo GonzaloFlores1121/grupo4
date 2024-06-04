@@ -30,7 +30,7 @@ public class ServicioDatosUsuarioImpl implements ServicioDatosUsuario {
 
     @Override
     public Integer calcularIngestaCalorica(Usuario usuario) throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
-        if (!servicioLogin.usuarioDatosCorrecto(usuario)) {
+        if (!servicioLogin.validarDatos(usuario)) {
             throw new DatosIncorrectos("Datos incorrectos del usuario");
         }
 
@@ -59,7 +59,7 @@ public class ServicioDatosUsuarioImpl implements ServicioDatosUsuario {
 
     @Override
     public Double calcularMetabolismoBasalDelUsuario(Usuario usuario) throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
-        if (!servicioLogin.usuarioDatosCorrecto(usuario)) {
+        if (!servicioLogin.validarDatos(usuario)) {
             throw new DatosIncorrectos("Datos incorrectos del usuario");
         }
 
@@ -112,7 +112,7 @@ public class ServicioDatosUsuarioImpl implements ServicioDatosUsuario {
     public List<HistoriaPesoUsuario> obtenerTodoElHistorialDePeso(Usuario usuario) throws UsuarioNoExistente {
      if(repositorioUsuario.buscarUsuario(usuario.getEmail(), usuario.getPassword())!=null) {
          Usuario usuarioEncontrado = repositorioUsuario.buscarUsuario(usuario.getEmail(), usuario.getPassword());
-        List<HistoriaPesoUsuario> historialPeso=repositorioHistorialPesoUsuario.obtenerHistorialPesoUsuario();
+        List<HistoriaPesoUsuario> historialPeso=repositorioHistorialPesoUsuario.obtenerHistorialPesoUsuario(usuario);
         return historialPeso;
      }{
          throw new UsuarioNoExistente();

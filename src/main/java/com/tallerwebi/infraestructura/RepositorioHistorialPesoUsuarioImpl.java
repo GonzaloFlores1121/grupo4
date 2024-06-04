@@ -8,7 +8,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.TemporalType;
 import java.sql.Date;
 import java.util.List;
 
@@ -28,10 +27,11 @@ public class RepositorioHistorialPesoUsuarioImpl implements RepositorioHistorial
     }
 
     @Override
-    public List<HistoriaPesoUsuario> obtenerHistorialPesoUsuario() {
+    public List<HistoriaPesoUsuario> obtenerHistorialPesoUsuario(Usuario usuario) {
         Session session = sessionFactory.openSession();
-        String sql = "FROM HistoriaPesoUsuario ";
+        String sql = "FROM HistoriaPesoUsuario WHERE usuario = :usuario";
         Query<HistoriaPesoUsuario> query = session.createQuery(sql, HistoriaPesoUsuario.class);
+        query.setParameter("usuario", usuario);
         return query.getResultList();
     }
     @Override
