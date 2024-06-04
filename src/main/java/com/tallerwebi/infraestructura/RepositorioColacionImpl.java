@@ -1,36 +1,46 @@
 package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.Alimento;
 import com.tallerwebi.dominio.Colacion;
 import com.tallerwebi.dominio.RepositorioColacion;
+import com.tallerwebi.dominio.TipoColacion;
+import com.tallerwebi.dominio.Usuario;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
 
-@Repository("repositorioColacion")
+@Repository
 @Transactional
 public class RepositorioColacionImpl implements RepositorioColacion {
+
     private final SessionFactory sessionFactory;
 
-    public RepositorioColacionImpl(SessionFactory sessionFactory) { this.sessionFactory = sessionFactory; }
+    @Autowired
+    public RepositorioColacionImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
 
     @Override
-    public void update(Colacion colacion) {
-        sessionFactory.getCurrentSession().update(colacion);
+    public void agregarColacion(Colacion colacion) {
+        Session session = sessionFactory.getCurrentSession();
+        session.save(colacion);
     }
 
     @Override
-    public Colacion buscarPorId(Long id) {
-        Session sesion= sessionFactory.getCurrentSession();
-        return sesion.get(Colacion.class, id);
+    public List<Colacion> obtenerColacionesPorFechaYUsuarioYTipo(LocalDate fecha, Usuario user, TipoColacion tipo) {
+        return sessionFactory.getCurrentSession().createCriteria(Colacion.class)
+                .createAlias("alimentos", "alimento")
+                .createAlias("usuario", "usuario")
+                .add(Restrictions.eq("fecha", fecha))
+                .add(Restrictions.eq("usuario.id", user.getId()))
+                .add(Restrictions.eq("tipo", tipo)).list();
     }
 
-    @Override
-    public List<Colacion> listar() {
-        return sessionFactory.getCurrentSession().createQuery("from Colacion", Colacion.class).list();
-    }
 }

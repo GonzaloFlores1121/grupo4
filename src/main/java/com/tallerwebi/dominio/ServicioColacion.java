@@ -1,10 +1,10 @@
 package com.tallerwebi.dominio;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface ServicioColacion {
-    void updateColacion(Colacion colacion);
-    Colacion getColacion(Long id);
-    List<Colacion> listarColaciones();
-    void agregarAlimentoAColacion(Long colacionId, Long alimentoId);
+
+    void guardarColacionUsuario(Alimento alimento, Usuario usuario, TipoColacion tipoColacion, LocalDate fecha) throws Exception;
+    List<Alimento> obtenerAlimentosPorFechaYUsuarioYTipoColacion(LocalDate fecha, Usuario usuario, TipoColacion tipo);
 }

@@ -1,55 +1,54 @@
 package com.tallerwebi.infraestructura;
-
 import com.tallerwebi.dominio.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
-@Transactional
 public class ServicioColacionImpl implements ServicioColacion {
+
     private RepositorioColacion repositorioColacion;
-    private RepositorioAlimento repositorioAlimento;
 
     @Autowired
-    public ServicioColacionImpl(RepositorioColacion repositorioColacion, RepositorioAlimento repositorioAlimento) {
+    public ServicioColacionImpl(RepositorioColacion repositorioColacion) {
         this.repositorioColacion = repositorioColacion;
-        this.repositorioAlimento = repositorioAlimento;
     }
 
     @Override
-    public void updateColacion(Colacion colacion) {
-        repositorioColacion.update(colacion);
-    }
+    public void guardarColacionUsuario(Alimento alimento, Usuario usuario, TipoColacion tipoColacion, LocalDate fecha) throws Exception {
+        Colacion colacion= new Colacion();
+        colacion.setAlimentos(alimento);
+        colacion.setFecha(fecha);
+        colacion.setTipo(tipoColacion);
 
-    @Override
-    public Colacion getColacion(Long id) {
-        return repositorioColacion.buscarPorId(id);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<Colacion> listarColaciones() {
-        List<Colacion> colaciones = repositorioColacion.listar();
-
-        for (Colacion colacion : colaciones) {
-            colacion.getAlimentos().size();
+        if(colacion.getAlimentos() == null) {
+            throw new Exception("El alimento es nulo");
         }
-        return colaciones;
+        if(colacion.getUsuario() == null) {
+            throw new Exception("El usuario es nulo");
+        }
+        if(colacion.getFecha() == null) {
+            throw new Exception("La fecha es nula");
+        }
+        if(colacion.getTipo() == null) {
+            throw new Exception("El tipo de colación es nulo");
+        }
+
+        repositorioColacion.agregarColacion(colacion);
     }
 
     @Override
-    @Transactional
-    public void agregarAlimentoAColacion(Long colacionId, Long alimentoId) {
-        Colacion colacion = repositorioColacion.buscarPorId(colacionId);
-        Alimento alimento = repositorioAlimento.consultarAlimentoPorID(alimentoId);
-        if (colacion != null && alimento != null) {
-            alimento.setColacion(colacion);
-            repositorioAlimento.update(alimento);
+    public List<Alimento> obtenerAlimentosPorFechaYUsuarioYTipoColacion(LocalDate fecha, Usuario usuario, TipoColacion tipo) {
+      List <Colacion> colaciones= repositorioColacion.obtenerColacionesPorFechaYUsuarioYTipo(fecha,usuario,tipo);
+        if (colaciones != null) {
+            return colaciones.stream().map(Colacion::getAlimentos).collect(Collectors.toList());
+        } else {
 
+            return new ArrayList<>();
         }
     }
-
 }

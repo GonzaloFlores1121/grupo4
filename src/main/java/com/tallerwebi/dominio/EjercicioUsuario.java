@@ -19,7 +19,7 @@ public class EjercicioUsuario {
     private Usuario usuario;
 
     public EjercicioUsuario( String nombre, Integer minutos, Date fecha, String intensidad, Ejercicio ejercicio, Usuario usuario) {
-        this.id = id;
+
         this.nombre = nombre;
         this.minutos = minutos;
         this.fecha = fecha;

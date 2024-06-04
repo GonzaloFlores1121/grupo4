@@ -1,9 +1,9 @@
 package com.tallerwebi.dominio;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface RepositorioColacion {
-    void update(Colacion colacion);
-    Colacion buscarPorId(Long id);
-    List<Colacion> listar();
+  void  agregarColacion(Colacion colacion);
+  List<Colacion> obtenerColacionesPorFechaYUsuarioYTipo(LocalDate fecha, Usuario user, TipoColacion tipo);
 }
