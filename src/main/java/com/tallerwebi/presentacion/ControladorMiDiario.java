@@ -35,58 +35,74 @@ public class ControladorMiDiario {
     }
 
   @RequestMapping(value ="/diarioAlimentos", method = RequestMethod.GET)
-  public ModelAndView mostrarVista(){
+  public ModelAndView mostrarVista(HttpServletRequest request){
+      ModelMap model = new ModelMap();
+      obtenerUsuarioSession(request, model);
         return new ModelAndView("diarioAlimentos");
   }
 
     @RequestMapping(value = "/diarioAlimentos/{fecha}", method = RequestMethod.GET)
     public ModelAndView mostrarDiarioAlimentosPorFecha(@PathVariable("fecha") String fechaStr, HttpServletRequest request) {
         ModelMap model = new ModelMap();
-        HttpSession session = request.getSession();
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
 
-        // Convierte la fecha de String a LocalDate
+
+        obtenerUsuarioSession(request, model);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-d");
         LocalDate fecha = LocalDate.parse(fechaStr, formatter);
 
-        // Obtén las colaciones para la fecha seleccionada y el usuario
-        Map<TipoColacion, List<Alimento>> colacionesPorTipo = new HashMap<>();
-        for (TipoColacion tipo : TipoColacion.values()) {
-            List<Alimento> alimentos = servicioColacion.obtenerAlimentosPorFechaYUsuarioYTipoColacion(fecha, usuario, tipo);
-            colacionesPorTipo.put(tipo, alimentos);
-        }
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
 
+        List<Alimento> desayuno = servicioColacion.obtenerAlimentosPorFechaYUsuarioYTipoColacion(fecha, usuario, TipoColacion.DESAYUNO);
+        List<Alimento> snacks = servicioColacion.obtenerAlimentosPorFechaYUsuarioYTipoColacion(fecha, usuario, TipoColacion.SNACKS);
+        List<Alimento> almuerzo = servicioColacion.obtenerAlimentosPorFechaYUsuarioYTipoColacion(fecha, usuario, TipoColacion.ALMUERZO);
+        List<Alimento> merienda = servicioColacion.obtenerAlimentosPorFechaYUsuarioYTipoColacion(fecha, usuario, TipoColacion.MERIENDA);
+        List<Alimento> cena = servicioColacion.obtenerAlimentosPorFechaYUsuarioYTipoColacion(fecha, usuario, TipoColacion.CENA);
 
-        model.put("colacionesPorTipo", colacionesPorTipo);
+        model.put("desayuno", desayuno);
+        model.put("snacks", snacks);
+        model.put("almuerzo", almuerzo);
+        model.put("merienda", merienda);
+        model.put("cena", cena);
         model.put("fechaActual", fecha);
 
-        return new ModelAndView("diarioAlimentos",model);
+        return new ModelAndView("diarioAlimentos", model);
     }
 
     @RequestMapping(value = "/diarioAlimentos/agregar", method = RequestMethod.POST)
-    public ModelAndView guardarUnaColacion(@RequestParam("alimentoId") Long idAlimento, @RequestParam("tipoColacion") String tipoColacion,
-                                           @RequestParam("fecha") String fecha, @RequestParam("cantidad") Integer cantidad,
+    public ModelAndView guardarUnaColacion(@RequestParam("alimentoId") Long idAlimento, @RequestParam("tipoColacion") int tipoColacion,
+                                           @RequestParam("fecha") int fecha, @RequestParam("cantidad") Integer cantidad,
                                            @RequestParam("action") String action,
                                            HttpServletRequest request) {
 
+        ModelMap model = new ModelMap();
         Alimento alimento = servicioALimento.obtenerAlimentosPorId(idAlimento);
-        //conseguir el id de usuario
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         ModelAndView modelAndView;
+
+        TipoColacion tipo = TipoColacion.values()[tipoColacion];
+        if (usuario == null) {
+            return new ModelAndView("redirect:/login");
+        }
         switch (action) {
             case "guardar":
-
-                servicioColacion.guardarColacionUsuario(alimento,usuario,TipoColacion.valueOf(tipoColacion),
-                        calcularFechaPorString(fecha));
-                modelAndView = new ModelAndView("diarioAlimentos");
+                try {
+                    servicioColacion.guardarColacionUsuario(alimento,usuario,tipo,
+                            calcularFechaPorString(fecha));
+                    model.put("mensaje","Colacion agregada correctamente");
+                    modelAndView = new ModelAndView("diarioAlimentos",model);
+                } catch(Exception e) {
+                    model.put("mensaje","Error agregando colacion: " + e.getMessage());
+                    modelAndView = new ModelAndView("diarioAlimentos",model);
+                }
+                break;
 
             case "actualizar":
-                // Aquí va la lógica para actualizar la vista detalles_alimentos
                 modelAndView = new ModelAndView("detalles_alimento");
+                break;
 
             case "cancelar":
-                // Aquí va la lógica para volver a diario alimentos
                 modelAndView = new ModelAndView("diarioAlimentos");
                 break;
 
@@ -104,13 +120,13 @@ public class ControladorMiDiario {
         model.addAttribute("usuario", usuario);
     }
 
-    private LocalDate calcularFechaPorString(String fecha) {
+  public LocalDate calcularFechaPorString(int fecha) {
         switch (fecha) {
-            case "ayer":
+            case 1:
                 return LocalDate.now().minusDays(1);
-            case "hoy":
+            case 2:
                 return LocalDate.now();
-            case "mañana":
+            case 3:
                 return LocalDate.now().plusDays(1);
             default:
                 throw new IllegalArgumentException("Fecha no reconocida: " + fecha);

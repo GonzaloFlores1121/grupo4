@@ -15,11 +15,9 @@ public class Colacion {
     private TipoColacion tipo;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id", nullable = true)
     private Usuario usuario;
 
     @ManyToOne
-    @JoinColumn(name = "alimento_id", nullable = true)
     private Alimento alimentos;
 
     private LocalDate fecha;

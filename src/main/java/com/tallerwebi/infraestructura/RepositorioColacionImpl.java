@@ -35,16 +35,12 @@ public class RepositorioColacionImpl implements RepositorioColacion {
 
     @Override
     public List<Colacion> obtenerColacionesPorFechaYUsuarioYTipo(LocalDate fecha, Usuario user, TipoColacion tipo) {
-        Session session = sessionFactory.getCurrentSession();
-        Criteria criteria = session.createCriteria(Colacion.class, "colacion");
-
-        criteria.createAlias("colacion.alimentos", "alimento");
-        criteria.createAlias("colacion.usuario", "usuario");
-
-        criteria.add(Restrictions.eq("colacion.fecha", fecha));
-        criteria.add(Restrictions.eq("usuario.id", user.getId()));
-        criteria.add(Restrictions.eq("colacion.tipo", tipo));
-
-        return criteria.list();
+        return sessionFactory.getCurrentSession().createCriteria(Colacion.class)
+                .createAlias("alimentos", "alimento")
+                .createAlias("usuario", "usuario")
+                .add(Restrictions.eq("fecha", fecha))
+                .add(Restrictions.eq("usuario.id", user.getId()))
+                .add(Restrictions.eq("tipo", tipo)).list();
     }
+
 }

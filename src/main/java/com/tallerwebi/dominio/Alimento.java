@@ -3,6 +3,7 @@ package com.tallerwebi.dominio;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Alimento {
@@ -35,6 +36,11 @@ public class Alimento {
     //en el insert se debe enviar el id de la categoria a la que pertenece el alimento
     @JoinColumn(name = "categoria_id")
     private CategoriaAlimento categoria;
+
+
+
+    @OneToMany(mappedBy = "usuario")
+    private Set<Colacion> colaciones;
 
     // getters y setters
 
@@ -186,5 +192,12 @@ public class Alimento {
         this.potasio = potasio;
     }
 
+    public Set<Colacion> getColaciones() {
+        return colaciones;
+    }
+
+    public void setColaciones(Set<Colacion> colaciones) {
+        this.colaciones = colaciones;
+    }
 }
 

@@ -14,7 +14,7 @@
 
 <div th:replace="navbar :: navbar"></div>
 
-<div class="container">
+<div class="container" style="min-height: 100vh;">
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="list-group flex-row justify-content-center">
@@ -27,17 +27,63 @@
     </div>
 
 
-    <div th:each="tipo, alimentos : ${colacionesPorTipo}">
-        <h2 th:text="${tipo}">Tipo de Colación</h2>
-        <div th:if="${#lists.isEmpty(alimentos)}">
-            <button type="button" onclick="location.href='/rutaParaAgregarAlimento'">Agregar Alimento</button>
-        </div>
+
+
+    <div th:with="alimentos=${desayuno}">
+        <h2>Desayuno</h2>
         <div th:unless="${#lists.isEmpty(alimentos)}">
             <ul>
                 <li th:each="alimento : ${alimentos}" th:text="${alimento.nombre}">Nombre del Alimento</li>
             </ul>
         </div>
+        <button type="button" class="btn btn-primary" onclick="location.href='/rutaParaAgregarAlimento'">Agregar Alimento</button>
     </div>
+
+
+    <div th:if="${almuerzo != null}" th:with="alimentos=${almuerzo}">
+        <h2>Almuerzo</h2>
+        <div th:unless="${#lists.isEmpty(alimentos)}">
+            <ul>
+                <li th:each="alimento : ${alimentos}" th:text="${alimento.nombre}">Nombre del Alimento</li>
+            </ul>
+        </div>
+        <button type="button" class="btn btn-primary" onclick="location.href='/rutaParaAgregarAlimento'">Agregar Alimento</button>
+    </div>
+
+
+    <div th:if="${merienda != null}" th:with="alimentos=${merienda}">
+        <h2>Merienda</h2>
+        <div th:unless="${#lists.isEmpty(alimentos)}">
+            <ul>
+                <li th:each="alimento : ${alimentos}" th:text="${alimento.nombre}">Nombre del Alimento</li>
+            </ul>
+        </div>
+        <button type="button" class="btn btn-primary" onclick="location.href='/rutaParaAgregarAlimento'">Agregar Alimento</button>
+    </div>
+
+
+    <div th:if="${cena != null}" th:with="alimentos=${cena}">
+        <h2>Cena</h2>
+        <div th:unless="${#lists.isEmpty(alimentos)}">
+            <ul>
+                <li th:each="alimento : ${alimentos}" th:text="${alimento.nombre}">Nombre del Alimento</li>
+            </ul>
+        </div>
+        <button type="button" class="btn btn-primary" onclick="location.href='/rutaParaAgregarAlimento'">Agregar Alimento</button>
+    </div>
+
+
+    <div th:if="${snacks != null}" th:with="alimentos=${snacks}">
+        <h2>Snacks</h2>
+        <div th:unless="${#lists.isEmpty(alimentos)}">
+            <ul>
+                <li th:each="alimento : ${alimentos}" th:text="${alimento.nombre}">Nombre del Alimento</li>
+            </ul>
+        </div>
+        <button type="button" class="btn btn-primary" onclick="location.href='/rutaParaAgregarAlimento'">Agregar Alimento</button>
+    </div>
+
+    <p th:text="${mensaje}"></p>
 
         <div class="col-md-6">
             <div class="card border-0">
@@ -84,7 +130,7 @@
             </div>
         </div>
     </div>
-</div>
+
 
 
 
@@ -156,11 +202,10 @@
                 } else {
                     const cell = document.createElement('td');
                     const link = document.createElement('a');
-                    link.href = `/diarioAlimentos/${year}-${month + 1}-${dateNumber}`; // Asegúrate de reemplazar '/diarioAlimentos/' con la ruta correcta para tu aplicación
+                    link.href = `/spring/diarioAlimentos/${year}-${month + 1}-${dateNumber}`;
                     link.textContent = dateNumber;
                     link.addEventListener('click', function(event) {
                         event.preventDefault();
-                        // Aquí puedes hacer la solicitud al servidor con la fecha seleccionada
                         window.location.href = this.href;
                     });
                     cell.appendChild(link);
@@ -173,7 +218,7 @@
     }
     const today = new Date();
     generateCalendar(today.getMonth(), today.getFullYear());
-    window.location.href = `/diarioAlimentos/${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`; // Asegúrate de reemplazar '/diarioAlimentos/' con la ruta correcta para tu aplicación
+
 </script>
 </body>
 <style>
