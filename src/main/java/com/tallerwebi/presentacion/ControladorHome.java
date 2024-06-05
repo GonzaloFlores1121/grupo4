@@ -68,13 +68,14 @@ public class ControladorHome {
     public ModelAndView cambiarPeso(@ModelAttribute("nuevoPeso") Double nuevoPeso, HttpServletRequest request) throws PesoIncorrectoException {
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
+        ModelMap modelo = new ModelMap();
         try {
             servicioDatosUsuario.actualizarPeso(usuario, nuevoPeso);
-            session.setAttribute("mensaje", "Su peso se ha actualizado correctamente");
+            modelo.put("mensaje", "Su peso se ha actualizado correctamente");
         } catch (Exception e) {
-            session.setAttribute("mensaje", "Su peso no se ha actualizado");
+            modelo.put("mensaje", "Su peso no se ha actualizado");
         }
-        return new ModelAndView("redirect:/home");
+        return new ModelAndView("redirect:/home",modelo);
     }
 }
 

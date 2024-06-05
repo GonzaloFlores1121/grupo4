@@ -125,11 +125,13 @@ public class ServicioDatosUsuarioImpl implements ServicioDatosUsuario {
             LocalDateTime fechaActualLocalDateTime = LocalDateTime.now();
             Date fechaActual = Date.from(fechaActualLocalDateTime.atZone(ZoneId.systemDefault()).toInstant());
             java.sql.Date sqlFechaActual = new java.sql.Date(fechaActual.getTime());
-
+            repositorioHistorialPesoUsuario.modificarPeso(peso,usuario);
+            usuario.setPeso(peso);
             HistoriaPesoUsuario historialPeso = repositorioHistorialPesoUsuario.obtenerHistorialPesoUsuarioParaUnaFecha(sqlFechaActual);
             if (historialPeso != null) {
                 historialPeso.setPeso(peso);
                 repositorioHistorialPesoUsuario.actualizarMiPesoAgregado(historialPeso);
+
             } else {
                 historialPeso = new HistoriaPesoUsuario(peso, usuario, sqlFechaActual);
                 repositorioHistorialPesoUsuario.agregarPesoYFecha(historialPeso);

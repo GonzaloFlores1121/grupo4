@@ -8,6 +8,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.NoResultException;
 import java.sql.Date;
 import java.util.List;
 
@@ -29,18 +30,22 @@ public class RepositorioHistorialPesoUsuarioImpl implements RepositorioHistorial
     @Override
     public List<HistoriaPesoUsuario> obtenerHistorialPesoUsuario(Usuario usuario) {
         Session session = sessionFactory.openSession();
-        String sql = "FROM HistoriaPesoUsuario WHERE usuario = :usuario";
+        String sql = "FROM HistoriaPesoUsuario WHERE usuario.id = :usuarioId";
         Query<HistoriaPesoUsuario> query = session.createQuery(sql, HistoriaPesoUsuario.class);
-        query.setParameter("usuario", usuario);
+        query.setParameter("usuarioId", usuario.getId());
         return query.getResultList();
     }
     @Override
     public HistoriaPesoUsuario obtenerHistorialPesoUsuarioParaUnaFecha(Date fecha) {
-        Session session = sessionFactory.getCurrentSession(); // Cambia a getCurrentSession()
+        Session session = sessionFactory.getCurrentSession();
         String hql = "FROM HistoriaPesoUsuario WHERE fecha = :fecha";
         Query<HistoriaPesoUsuario> query = session.createQuery(hql, HistoriaPesoUsuario.class);
         query.setParameter("fecha", fecha);
-        return query.getSingleResult();
+        try {
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     @Override
