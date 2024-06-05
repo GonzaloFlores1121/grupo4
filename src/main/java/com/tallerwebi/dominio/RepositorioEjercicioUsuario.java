@@ -8,6 +8,6 @@ public interface RepositorioEjercicioUsuario {
 
     void agregarEjercicio(EjercicioUsuario ejercicio);
     EjercicioUsuario obtenerEjercicioPorNombre(String nombre);
-    List<EjercicioUsuario> obtenerTodosLosEjercicios();
+    List<EjercicioUsuario> obtenerTodosLosEjercicios(Usuario usuario);
 
 }

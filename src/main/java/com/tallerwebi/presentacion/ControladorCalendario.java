@@ -59,7 +59,7 @@ public class ControladorCalendario {
 
 
         try {
-            Map<Date, Calendario> fechas = servicioCalendarioImpl.obtenerFechasCalendario();
+            Map<Date, Calendario> fechas = servicioCalendarioImpl.obtenerFechasCalendario(usuario);
             model.put("listaFechas", fechas);
             return new ModelAndView("calendarioDieta", model);
         } catch (Exception e) {

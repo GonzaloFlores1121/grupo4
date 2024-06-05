@@ -6,6 +6,6 @@ import java.util.Map;
 
 public interface ServicioCalendario {
 
-    Map<Date, Calendario> obtenerFechasCalendario();
+    Map<Date, Calendario> obtenerFechasCalendario(Usuario usuario);
 
 }

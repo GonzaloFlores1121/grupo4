@@ -3,6 +3,7 @@ package com.tallerwebi.infraestructura;
 import com.tallerwebi.dominio.Ejercicio;
 import com.tallerwebi.dominio.EjercicioUsuario;
 import com.tallerwebi.dominio.RepositorioEjercicioUsuario;
+import com.tallerwebi.dominio.Usuario;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -31,13 +32,12 @@ public class RepositorioEjercicioUsuarioImpl implements RepositorioEjercicioUsua
     }
 
     @Override
-    public List<EjercicioUsuario> obtenerTodosLosEjercicios() {
-
+    public List<EjercicioUsuario> obtenerTodosLosEjercicios(Usuario usuario) {
         Session session = sessionFactory.openSession();
-        String hql = "FROM EjercicioUsuario ";
+        String hql = "FROM EjercicioUsuario eu WHERE eu.usuario = :usuario";
         Query<EjercicioUsuario> query = session.createQuery(hql, EjercicioUsuario.class);
+        query.setParameter("usuario", usuario);
         return query.getResultList();
-
     }
 
     @Override

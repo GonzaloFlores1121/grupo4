@@ -23,8 +23,8 @@ public class ServicioCalendarioImpl implements ServicioCalendario {
 
 
     @Override
-    public Map<Date, Calendario> obtenerFechasCalendario() {
-       List<EjercicioUsuario>ejercicios=repositorioEjercicioUsuario.obtenerTodosLosEjercicios();
+    public Map<Date, Calendario> obtenerFechasCalendario(Usuario usuario) {
+       List<EjercicioUsuario>ejercicios=repositorioEjercicioUsuario.obtenerTodosLosEjercicios(usuario);
         Map<Date, Calendario> reportePorFecha = new HashMap<>();
 
         for (EjercicioUsuario ejercicio: ejercicios){
