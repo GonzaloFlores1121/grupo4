@@ -45,9 +45,6 @@
     <div class="row " style="padding-left: 110px;">
         <div th:each="receta : ${recetas}" class="col-md-4 mb-4">
             <div class="card">
-                <a th:href="@{/agregarAFavoritos/{id}(id=${receta.id})}">
-                    <img th:src="@{'/img/iconoFavoritos.png'}" class="icono-favoritos" alt="estrella receta">
-                </a>
                 <img th:src="@{'/img/recetas/' + ${receta.imagen}}" class="card-img-top" alt="receta">
                 <div class="card-body">
                     <h5 class="card-title">
@@ -55,10 +52,15 @@
                     </h5>
                     <p class="card-text" th:text="${receta.descripcion}"></p>
                 </div>
+                <a th:href="@{/agregarAFavoritos/{id}(id=${receta.id})}">
+                    <button class="boton-fav"> agregar a favoritos </button>
+                </a>
             </div>
         </div>
     </div>
 </div>
+<a th:href="@{/recetasFavoritas}" class="btn btn-primary">Ver Recetas Favoritas</a>
+
 
 <div th:replace="footer :: footer"></div>
 

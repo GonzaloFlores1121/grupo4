@@ -1,13 +1,10 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.Alimento;
-import com.tallerwebi.dominio.AlimentoReceta;
-import com.tallerwebi.dominio.Receta;
-import com.tallerwebi.dominio.ServicioReceta;
-import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.*;
 import com.tallerwebi.dominio.excepcion.RecetaNoEncontradaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,6 +38,17 @@ private ServicioReceta servicioRecetas;
         return new ModelAndView("recetas", model);
     }
 
+    @RequestMapping(value = "/recetasFavoritas", method = RequestMethod.GET)
+    public ModelAndView mostrarRecetasFavoritas(HttpServletRequest request) {
+        ModelMap model = new ModelMap();
+        obtenerUsuarioSession(request, model);
+
+        List<RecetaFavorito> recetasFavoritas = servicioRecetas.obtenerRecetasFavoritas();
+
+        model.put("recetasFavoritas", recetasFavoritas);
+
+        return new ModelAndView("recetasFavoritas", model);
+    }
 
 
     @RequestMapping(value = "/recetas/{id}",method = RequestMethod.GET)
@@ -70,5 +78,4 @@ private ServicioReceta servicioRecetas;
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         model.addAttribute("usuario", usuario);
     }
-
 }

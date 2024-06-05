@@ -44,8 +44,8 @@ public class RepositorioEjercicioImpl implements RepositorioEjercicio {
     public List obtenerEjercicioPorNombreOIntensidad(String caracteristica) {
         return sessionFactory.getCurrentSession().createCriteria(Ejercicio.class)
                 .add(Restrictions.or(
-                        Restrictions.eq("nombre", caracteristica),
-                        Restrictions.eq("intensidad", caracteristica)
+                        Restrictions.ilike("nombre", caracteristica),
+                        Restrictions.ilike("intensidad", caracteristica)
                 ))
                 .list();
     }

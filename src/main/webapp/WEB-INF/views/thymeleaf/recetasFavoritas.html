@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>favoritos</title>
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{/css/main.css}">
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</head>
+<body>
+
+<div th:replace="navbar :: navbar"></div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="list-group flex-row">
+        <a th:href="@{/home}" class="list-group-item list-group-item-action ">MI FATLOSS</a>
+        <a th:href="@{/categoria_alimentos}" class="list-group-item list-group-item-action ">ALIMENTOS</a>
+        <a th:href="@{/recetas}" class="list-group-item list-group-item-action activo">RECETAS</a>
+        <a th:href="@{/actividadesFisicas}" class="list-group-item list-group-item-action">EN FORMA</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="d-flex justify-content-center align-items-center">
+  <div class="contenedor-principal-receta">
+    <div class="contenedor-descripcion-recetas">
+      <img th:src="@{/img/iconoFavoritos.png}" alt="icono-recetas" width="100px" height="100px">
+      <div class="div-parrafos-receta">
+        <p class="titulo-receta">Recetas favoritas</p>
+        <p>Aqui se encuentran sus recetas favoritas!</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid my-5" style="min-height: 60vh;">
+  <div class="row " style="padding-left: 110px;">
+    <div th:each="receta : ${recetasFavoritas}" class="col-md-4 mb-4">
+      <div class="card">
+        <img th:src="@{'/img/recetas/' + ${receta.imagen}}" class="card-img-top" alt="receta">
+        <div class="card-body">
+          <h5 class="card-title">
+            <a th:href="@{/recetas/{id}(id=${receta.id})}" th:text="${receta.nombre}"></a>
+          </h5>
+          <p class="card-text" th:text="${receta.descripcion}"></p>
+        </div>
+        <a th:href="@{/eliminarDeFavoritos/{id}(id=${receta.id})}">
+          <button class="boton-fav"> eliminar de favoritos </button>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div th:replace="footer :: footer"></div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+<style>
+  .card {
+    width: 24rem; /* Ajusta el ancho de la tarjeta */
+    height: auto; /* Ajusta la altura de la tarjeta */
+  }
+  .imagen-receta-container {
+    position: relative;
+  }
+
+  .icono-favoritos {
+    background-color: white;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 30px; /* Ajusta el tamaño según sea necesario */
+    z-index: 1; /* Asegura que el ícono esté por encima de la imagen de la receta */
+  }
+  .card-img-top {
+    position: relative; /* Agrega esta línea */
+    max-width: 100%; /* Asegura que la imagen no exceda el ancho de la tarjeta */
+    height: auto; /* Permite que la altura de la imagen se ajuste automáticamente */
+
+  }
+</style>
+</html>

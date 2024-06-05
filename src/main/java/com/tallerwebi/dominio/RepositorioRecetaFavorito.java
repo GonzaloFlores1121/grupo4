@@ -8,4 +8,5 @@ public interface RepositorioRecetaFavorito {
     RecetaFavorito buscarPorUsuario(Usuario usuario);
     void eliminarRecetaFavorito(RecetaFavorito receta);
     RecetaFavorito buscarPorUsuarioYReceta(Usuario usuario, Receta receta);
+    List<RecetaFavorito> obtenerRecetasFavoritas();
 }

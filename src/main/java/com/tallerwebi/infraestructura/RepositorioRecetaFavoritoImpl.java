@@ -56,5 +56,12 @@ public class RepositorioRecetaFavoritoImpl implements RepositorioRecetaFavorito 
                 .uniqueResult();
         return recetaFavorito;
     }
+
+    public List<RecetaFavorito> obtenerRecetasFavoritas() {
+        Session session = sessionFactory.openSession();
+        String hql = "FROM RecetaFavorito";
+        Query<RecetaFavorito> query = session.createQuery(hql, RecetaFavorito.class);
+        return query.getResultList();
+    }
 }
 
