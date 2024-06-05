@@ -31,11 +31,46 @@
 </div>
 
 <div class="container" style="min-height: 60vh;">
-    <div class="row">
 
+    <div class="row">
         <div class="col-md-8">
             <h1 class="text-center mt-5" th:text="${alimento.nombre}"></h1>
-            <img th:src="@{'/img/alimentos/'+ ${alimento.imagen}}" class="card-img-top img-fluid mx-auto d-block" style="width: 250px; height: 250px;" alt="alimento" >        </div>
+            <img th:src="@{'/img/alimentos/'+ ${alimento.imagen}}" class="card-img-top img-fluid mx-auto d-block" style="width: 250px; height: 250px;" alt="alimento" >
+
+            <div class="form-group">
+                <form th:action="@{/detalles_alimento/agregar}" method="post">
+                    <input type="hidden" th:value="${alimento.id}" name="alimentoId"/>
+
+                    <div class="form-group">
+                        <label for="tipoColacion">Comida:</label>
+                        <select id="tipoColacion" name="tipoColacion">
+                            <option value="0">Desayuno</option>
+                            <option value="1">Snacks</option>
+                            <option value="2">Almuerzo</option>
+                            <option value="3">Merienda</option>
+                            <option value="4">Cena</option>
+                        </select>
+                    </div>
+                    <label for="fecha">Fecha:</label>
+                    <select id="fecha" name="fecha">
+                        <option value="1">Ayer</option>
+                        <option value="2" selected>Hoy</option>
+                        <option value="3">Mañana</option>
+                    </select>
+
+                    <div class="form-group">
+                        <label for="cantidad">Cantidad:</label>
+                        <input type="number" id="cantidad" name="cantidad" min="1"  />
+                    </div>
+
+                    <button type="submit" name="action" value="guardar">Guardar</button>
+                    <button type="submit" name="action" value="actualizar">Actualizar</button>
+                    <button type="submit" name="action" value="cancelar">Cancelar</button>
+                </form>
+            </div>
+            <p th:text="${mensaje}"></p>
+        </div>
+
 
         <div class="col-md-4">
             <aside>
@@ -98,41 +133,6 @@
         </div>
     </div>
 </div>
-
-<form th:action="@{/diarioAlimentos/agregar}" method="post">
-    <input type="hidden" th:value="${alimento.id}" name="alimentoId" />
-
-    <div class="form-group">
-        <label for="tipoColacion">Comida:</label>
-        <select id="tipoColacion" name="tipoColacion">
-            <option value="0">Desayuno</option>
-            <option value="1">Snacks</option>
-            <option value="2">Almuerzo</option>
-            <option value="3">Merienda</option>
-            <option value="4">Cena</option>
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label for="fecha">Fecha:</label>
-        <select id="fecha" name="fecha">
-            <option value="1">Ayer</option>
-            <option value="2" selected>Hoy</option>
-            <option value="3">Mañana</option>
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label for="cantidad">Cantidad:</label>
-        <input type="number" id="cantidad" name="cantidad" min="1"  />
-    </div>
-
-    <button type="submit" name="action" value="guardar">Guardar</button>
-    <button type="submit" name="action" value="actualizar">Actualizar</button>
-    <button type="submit" name="action" value="cancelar">Cancelar</button>
-</form>
-
-
 
 <div th:replace="footer :: footer"></div>
 </body>

@@ -24,6 +24,7 @@ public class ServicioColacionImpl implements ServicioColacion {
         colacion.setAlimentos(alimento);
         colacion.setFecha(fecha);
         colacion.setTipo(tipoColacion);
+        colacion.setUsuario(usuario);
 
         if(colacion.getAlimentos() == null) {
             throw new Exception("El alimento es nulo");
