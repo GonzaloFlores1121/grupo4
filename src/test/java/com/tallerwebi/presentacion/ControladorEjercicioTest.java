@@ -5,12 +5,16 @@ import com.tallerwebi.dominio.excepcion.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -38,17 +42,16 @@ public class ControladorEjercicioTest {
     }
     @Test
     public void agregoUnEjercicioExitosamente() throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, UsuarioExistente, EjercicioInvalido, EjercicioNoExistente {
-        // Simular el registro del usuario
+
         Usuario usuario = givenTengoUnUsuario();
 
-        // Simular la llamada al método guardarEjercicio del servicio
+
         servicioEjercicio.guardarEjercicioUsuario(anyString(),  anyString(),  any(Ejercicio.class),  any(Usuario.class),  any(Date.class),  anyInt()  );
 
-        // Simular los datos del usuario en el request
+
         HttpServletRequest request = new MockHttpServletRequest();
         request.getSession().setAttribute("usuario", usuario);
 
-        // Llamar al método del controlador que queremos probar
         controladorEjercicio.guardarEjercicio(  Long.valueOf(1), "alta",  new Date(2020,04,12),  Integer.valueOf(30), request);
 
         // Verificar si se pasa el mensaje correcto al modelo
@@ -79,4 +82,25 @@ public class ControladorEjercicioTest {
         return usuario;
     }
 
+    @Test
+    public void seBuscaUnEjercicioPorNombreOIntensidad() throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, UsuarioExistente, EjercicioInvalido, EjercicioNoExistente {
+
+        Usuario usuario = givenTengoUnUsuario();
+        List<Ejercicio> ejercicios = new ArrayList<>();
+
+
+        when(servicioEjercicio.obtenerEjercicioPorNombreOIntensidad(anyString())).thenReturn(ejercicios);
+
+
+        HttpServletRequest request = new MockHttpServletRequest();
+        request.getSession().setAttribute("usuario", usuario);
+
+
+        ModelAndView modelAndView = controladorEjercicio.buscarEjercicio("testEjercicio", request);
+
+
+        assertEquals(ejercicios, modelAndView.getModel().get("listaEjercicios"));
+        assertEquals(usuario, modelAndView.getModel().get("usuario"));
+    }
+   
 }

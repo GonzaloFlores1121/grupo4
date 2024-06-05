@@ -137,7 +137,7 @@ public class ServicioDatosUsuarioTest {
 
         List<HistoriaPesoUsuario> resultado = servicioUsuario.obtenerTodoElHistorialDePeso(usuario);
 
-        // Verificación de Resultados
+
         assertEquals(historial.size(), resultado.size());
     }
 
