@@ -18,15 +18,23 @@ public class RepositorioCategoriaAlimentoImpl implements RepositorioCategoriaAli
     public RepositorioCategoriaAlimentoImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
-    @Override
-    public List<CategoriaAlimento> obtenerTodasLasCateogorias() {
-       Session sesion= sessionFactory.getCurrentSession();
-        return sesion.createQuery("from CategoriaAlimento", CategoriaAlimento.class).list();
-    }
 
     @Override
     public CategoriaAlimento obtenerCategoriaPorId(Long id) {
-        Session sesion= sessionFactory.getCurrentSession();
-    return sesion.get(CategoriaAlimento.class, id);
+        Session session = sessionFactory.getCurrentSession();
+        return session.get(CategoriaAlimento.class, id);
     }
+
+    @Override
+    public List<CategoriaAlimento> obtenerTodasLasCateogorias() {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("from CategoriaAlimento", CategoriaAlimento.class).list();
+    }
+
+    @Override
+    public List<CategoriaAlimento> obtenerCategoriasPorNombre(String nombre) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("from CategoriaAlimento where LOWER(nombre) like LOWER(:nombre)", CategoriaAlimento.class).setParameter("nombre", "%"+nombre+"%").list();
+    } 
+
 }
