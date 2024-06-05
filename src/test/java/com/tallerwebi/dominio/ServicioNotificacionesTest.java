@@ -102,12 +102,12 @@ public class ServicioNotificacionesTest {
  
     @Test
     public void enviarNotificaciones() {
-        thenExisteListaUsuarios();
+        givenExisteListaUsuarios();
         whenEnvioNotificaciones();
         thenNotificacionesEnviadasExitosa();
     }
 
-    private void thenExisteListaUsuarios() {
+    private void givenExisteListaUsuarios() {
         List<Usuario> usuarios = new ArrayList<>();
         Usuario usuario1 = new Usuario();
         ConfiguracionUsuario config1 = new ConfiguracionUsuario();
@@ -187,10 +187,8 @@ public class ServicioNotificacionesTest {
 
     private List<Notificacion> givenExistenNotificaciones(){ 
         List<Notificacion> notificaciones = new ArrayList<>();
-        Notificacion notificacion1 = new Notificacion();
-        notificaciones.add(notificacion1);
-        Notificacion notificacion2 = new Notificacion();
-        notificaciones.add(notificacion2);
+        notificaciones.add(new Notificacion());
+        notificaciones.add(new Notificacion());
         return notificaciones;        
     }
 

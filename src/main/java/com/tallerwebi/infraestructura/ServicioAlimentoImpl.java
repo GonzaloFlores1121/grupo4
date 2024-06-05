@@ -1,6 +1,5 @@
 package com.tallerwebi.infraestructura;
 
-
 import com.tallerwebi.dominio.Alimento;
 import com.tallerwebi.dominio.RepositorioAlimento;
 
@@ -11,10 +10,10 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 
-
 @Service("servicioAlimento")
 @Transactional
 public class ServicioAlimentoImpl implements ServicioAlimento {
+    
     private RepositorioAlimento repositorioAlimento;
 
     @Autowired
@@ -31,5 +30,11 @@ public class ServicioAlimentoImpl implements ServicioAlimento {
     public List<Alimento> listarAlimentos() {
         return repositorioAlimento.consultarAlimentos();
     }
+
+    @Override
+    public List<Alimento> listarAlimentosPorCategoriaYNombre(Long idCategoria, String nombre) {
+        return repositorioAlimento.consultarAlimentosPorCategoriaYNombre(idCategoria, nombre);
+    }
+
 }
 

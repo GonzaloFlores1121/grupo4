@@ -19,18 +19,25 @@ public class ServicioCategoriaAlimentoImpl implements ServicioCategoriaAlimento 
     public ServicioCategoriaAlimentoImpl(RepositorioCategoriaAlimento repositorioCategoriaAlimento) {
         this.repositorioCategoriaAlimento = repositorioCategoriaAlimento;
     }
+
+    @Override
+    @Transactional
+    public CategoriaAlimento obtenerCategoriaPorId(Long id) {
+    CategoriaAlimento categoriaAlimento = repositorioCategoriaAlimento.obtenerCategoriaPorId(id);
+        if(categoriaAlimento==null){
+            throw new RuntimeException("Categoria no encontrada");
+        }
+        return categoriaAlimento;
+    }
+
     @Override
     public List<CategoriaAlimento> obtenerTodasLasCategorias() {
         return repositorioCategoriaAlimento.obtenerTodasLasCateogorias();
     }
 
     @Override
-    @Transactional
-    public CategoriaAlimento obtenerCategoriaPorId(Long id) {
-    CategoriaAlimento categoriaAlimento= repositorioCategoriaAlimento.obtenerCategoriaPorId(id);
-        if(categoriaAlimento==null){
-            throw new RuntimeException("Categoria no encontrada");
-        }
-        return categoriaAlimento;
-    }
+    public List<CategoriaAlimento> obtenerCategoriasPorNombre(String nombre) {
+        return repositorioCategoriaAlimento.obtenerCategoriasPorNombre(nombre);
+    } 
+
 }
