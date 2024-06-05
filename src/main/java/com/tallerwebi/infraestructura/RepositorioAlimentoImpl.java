@@ -27,11 +27,23 @@ public class RepositorioAlimentoImpl implements RepositorioAlimento {
 
     @Override
     public void update(Alimento alimento) {
-        sessionFactory.getCurrentSession().update(alimento);
+        Session session = sessionFactory.getCurrentSession();
+        session.update(alimento);
     }
 
     @Override
     public List<Alimento> consultarAlimentos() {
-        return sessionFactory.getCurrentSession().createQuery("from Alimento", Alimento.class).list();
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("from Alimento", Alimento.class).list();
     }
+
+    @Override
+    public List<Alimento> consultarAlimentosPorCategoriaYNombre(Long idCategoria, String nombre) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("from Alimento al where al.categoria.id=:idCategoria and LOWER(al.nombre) like LOWER(:nombre)", Alimento.class)
+                                            .setParameter("idCategoria", idCategoria)
+                                            .setParameter("nombre", "%"+nombre+"%")
+                                            .list();
+    }
+    
 }

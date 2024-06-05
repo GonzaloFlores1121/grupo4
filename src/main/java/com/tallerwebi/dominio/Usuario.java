@@ -22,7 +22,6 @@ public class Usuario {
     private String imagen;
     @OneToOne
     private ConfiguracionUsuario configuracionUsuario;
-
     @OneToMany(mappedBy = "usuario")
     private Set<Colacion> colaciones;
 
@@ -67,12 +66,7 @@ public class Usuario {
     public ConfiguracionUsuario getConfiguracionUsuario() {return configuracionUsuario;}
     public void setConfiguracionUsuario(ConfiguracionUsuario configuracionUsuario) {this.configuracionUsuario = configuracionUsuario;}
 
+    public Set<Colacion> getColaciones() {return colaciones;}
+    public void setColaciones(Set<Colacion> colaciones) {this.colaciones = colaciones;}
 
-    public Set<Colacion> getColaciones() {
-        return colaciones;
-    }
-
-    public void setColaciones(Set<Colacion> colaciones) {
-        this.colaciones = colaciones;
-    }
 }
