@@ -34,14 +34,14 @@ public class ControladorMiDiario {
         this.servicioALimento = servicioALimento;
     }
 
-  @RequestMapping(value ="/diarioAlimentos", method = RequestMethod.GET)
-  public ModelAndView mostrarVista(HttpServletRequest request){
-      ModelMap model = new ModelMap();
-      HttpSession session = request.getSession();
-      Usuario usuario = (Usuario) session.getAttribute("usuario");
-      model.put("usuario",usuario);
-        return new ModelAndView("diarioAlimentos",model);
-  }
+    @RequestMapping(value ="/diarioAlimentos", method = RequestMethod.GET)
+    public ModelAndView mostrarVista(){
+        ModelMap model = new ModelMap();
+        LocalDate fechaActual = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String fechaStr = fechaActual.format(formatter);
+        return new ModelAndView("redirect:/diarioAlimentos/" + fechaStr, model);
+    }
 
     @RequestMapping(value = "/diarioAlimentos/{fecha}", method = RequestMethod.GET)
     public ModelAndView mostrarDiarioAlimentosPorFecha(@PathVariable("fecha") String fechaStr, HttpServletRequest request) {

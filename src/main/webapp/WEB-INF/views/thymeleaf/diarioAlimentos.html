@@ -28,61 +28,86 @@
 
 
 
-
-    <div th:with="alimentos=${desayuno}">
-        <h2>Desayuno</h2>
+<div class="row">
+    <div class="col-md-4">
+        <div class="colacion" th:if="${almuerzo != null}" th:with="alimentos=${almuerzo}">
+            <h2>Desayuno</h2>
         <div th:unless="${#lists.isEmpty(alimentos)}">
             <ul>
                 <li th:each="alimento : ${alimentos}" th:text="${alimento.nombre}">Nombre del Alimento</li>
             </ul>
         </div>
-        <button type="button" class="btn btn-primary" onclick="location.href='/rutaParaAgregarAlimento'">Agregar Alimento</button>
+        <button type="button" class="btn btn-success" th:onclick="'window.location.href=\'' + @{/categoria_alimentos} + '\''">Agregar alimento+</button>
     </div>
 
 
-    <div th:if="${almuerzo != null}" th:with="alimentos=${almuerzo}">
+    <div class="colacion" th:if="${almuerzo != null}" th:with="alimentos=${almuerzo}">
         <h2>Almuerzo</h2>
         <div th:unless="${#lists.isEmpty(alimentos)}">
             <ul>
                 <li th:each="alimento : ${alimentos}" th:text="${alimento.nombre}">Nombre del Alimento</li>
             </ul>
         </div>
-        <button type="button" class="btn btn-primary" onclick="location.href='/rutaParaAgregarAlimento'">Agregar Alimento</button>
+        <button type="button" class="btn btn-success" th:onclick="'window.location.href=\'' + @{/categoria_alimentos} + '\''">Agregar alimento+</button>
+
     </div>
 
 
-    <div th:if="${merienda != null}" th:with="alimentos=${merienda}">
+    <div class="colacion" th:if="${merienda != null}" th:with="alimentos=${merienda}">
         <h2>Merienda</h2>
         <div th:unless="${#lists.isEmpty(alimentos)}">
             <ul>
                 <li th:each="alimento : ${alimentos}" th:text="${alimento.nombre}">Nombre del Alimento</li>
             </ul>
         </div>
-        <button type="button" class="btn btn-primary" onclick="location.href='/rutaParaAgregarAlimento'">Agregar Alimento</button>
-    </div>
+        <button type="button" class="btn btn-success" th:onclick="'window.location.href=\'' + @{/categoria_alimentos} + '\''">Agregar alimento+</button>
+   </div>
 
 
-    <div th:if="${cena != null}" th:with="alimentos=${cena}">
+    <div class="colacion" th:if="${cena != null}" th:with="alimentos=${cena}">
         <h2>Cena</h2>
         <div th:unless="${#lists.isEmpty(alimentos)}">
             <ul>
                 <li th:each="alimento : ${alimentos}" th:text="${alimento.nombre}">Nombre del Alimento</li>
             </ul>
         </div>
-        <button type="button" class="btn btn-primary" onclick="location.href='/rutaParaAgregarAlimento'">Agregar Alimento</button>
+        <button type="button" class="btn btn-success" th:onclick="'window.location.href=\'' + @{/categoria_alimentos} + '\''">Agregar alimento+</button>
     </div>
 
 
-    <div th:if="${snacks != null}" th:with="alimentos=${snacks}">
+    <div class="colacion" th:if="${snacks != null}" th:with="alimentos=${snacks}">
         <h2>Snacks</h2>
         <div th:unless="${#lists.isEmpty(alimentos)}">
             <ul>
                 <li th:each="alimento : ${alimentos}" th:text="${alimento.nombre}">Nombre del Alimento</li>
             </ul>
         </div>
-        <button type="button" class="btn btn-primary" onclick="location.href='/rutaParaAgregarAlimento'">Agregar Alimento</button>
-    </div>
+        <button type="button" class="btn btn-success" th:onclick="'window.location.href=\'' + @{/categoria_alimentos} + '\''">Agregar alimento+</button>
 
+        </div>
+            </div>
+    <div class="col-md-8">
+        <div id="calendar">
+            <div id="monthAndYear"></div>
+            <button id="prevMonth">Anterior</button>
+            <button id="nextMonth">Siguiente</button>
+            <table id="calendarTable">
+                <thead>
+                <tr>
+                    <th>D</th>
+                    <th>L</th>
+                    <th>M</th>
+                    <th>M</th>
+                    <th>J</th>
+                    <th>V</th>
+                    <th>S</th>
+                </tr>
+                </thead>
+                <tbody id="calendarBody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
     <p th:text="${mensaje}"></p>
 
         <div class="col-md-6">
@@ -131,30 +156,6 @@
         </div>
     </div>
 
-
-
-
-
-
-<div id="calendar">
-    <div id="monthAndYear"></div>
-    <button id="prevMonth">Anterior</button>
-    <button id="nextMonth">Siguiente</button>
-    <table id="calendarTable">
-        <thead>
-        <tr>
-            <th>D</th>
-            <th>L</th>
-            <th>M</th>
-            <th>M</th>
-            <th>J</th>
-            <th>V</th>
-            <th>S</th>
-        </tr>
-        </thead>
-        <tbody id="calendarBody"></tbody>
-    </table>
-</div>
 
 <div th:replace="footer ::footer"></div>
 <!-- Bootstrap JS -->
@@ -222,6 +223,14 @@
 </script>
 </body>
 <style>
+
+    .colacion {
+        border: 1px solid black;
+        padding: 10px;
+        margin-bottom: 10px;
+        background-color: #000;
+        color: #fff;
+    }
     #calendar {
         width: 300px;
         margin: 0 auto;

@@ -31,8 +31,8 @@
 </div>
 
 <div class="container" style="min-height: 60vh;">
-    <div class="row">
 
+    <div class="row">
         <div class="col-md-8">
             <h1 class="text-center mt-5" th:text="${alimento.nombre}"></h1>
             <img th:src="@{'/img/alimentos/'+ ${alimento.imagen}}" class="card-img-top img-fluid mx-auto d-block" style="width: 250px; height: 250px;" alt="alimento" >        </div>
@@ -101,8 +101,9 @@
 
 
 
-    <div class="form-group"><form th:action="@{/diarioAlimentos/agregar}" method="post">
-        <input type="hidden" th:value="${alimento.id}" name="alimentoId" />
+<div class="form-group">
+    <form th:action="@{/diarioAlimentos/agregar}" method="post">
+        <input type="hidden" th:value="${alimento.id}" name="alimentoId"/>
 
         <div class="form-group">
             <label for="tipoColacion">Comida:</label>
@@ -120,18 +121,17 @@
             <option value="2" selected>Hoy</option>
             <option value="3">Mañana</option>
         </select>
-    </div>
 
-    <div class="form-group">
-        <label for="cantidad">Cantidad:</label>
-        <input type="number" id="cantidad" name="cantidad" min="1"  />
-    </div>
+        <div class="form-group">
+            <label for="cantidad">Cantidad:</label>
+            <input type="number" id="cantidad" name="cantidad" min="1"  />
+        </div>
 
-    <button type="submit" name="action" value="guardar">Guardar</button>
-    <button type="submit" name="action" value="actualizar">Actualizar</button>
-    <button type="submit" name="action" value="cancelar">Cancelar</button>
-</form>
-
+        <button type="submit" name="action" value="guardar">Guardar</button>
+        <button type="submit" name="action" value="actualizar">Actualizar</button>
+        <button type="submit" name="action" value="cancelar">Cancelar</button>
+    </form>
+</div>
 
 
 <div th:replace="footer :: footer"></div>
