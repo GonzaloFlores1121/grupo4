@@ -37,8 +37,10 @@ public class ControladorMiDiario {
   @RequestMapping(value ="/diarioAlimentos", method = RequestMethod.GET)
   public ModelAndView mostrarVista(HttpServletRequest request){
       ModelMap model = new ModelMap();
-      obtenerUsuarioSession(request, model);
-        return new ModelAndView("diarioAlimentos");
+      HttpSession session = request.getSession();
+      Usuario usuario = (Usuario) session.getAttribute("usuario");
+      model.put("usuario",usuario);
+        return new ModelAndView("diarioAlimentos",model);
   }
 
     @RequestMapping(value = "/diarioAlimentos/{fecha}", method = RequestMethod.GET)
@@ -79,6 +81,7 @@ public class ControladorMiDiario {
         Alimento alimento = servicioALimento.obtenerAlimentosPorId(idAlimento);
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
+        model.put("usuario", usuario);
         ModelAndView modelAndView;
 
         TipoColacion tipo = TipoColacion.values()[tipoColacion];

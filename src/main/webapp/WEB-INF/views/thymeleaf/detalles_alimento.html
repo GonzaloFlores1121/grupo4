@@ -99,21 +99,21 @@
     </div>
 </div>
 
-<form th:action="@{/diarioAlimentos/agregar}" method="post">
-    <input type="hidden" th:value="${alimento.id}" name="alimentoId" />
 
-    <div class="form-group">
-        <label for="tipoColacion">Comida:</label>
-        <select id="tipoColacion" name="tipoColacion">
-            <option value="0">Desayuno</option>
-            <option value="1">Snacks</option>
-            <option value="2">Almuerzo</option>
-            <option value="3">Merienda</option>
-            <option value="4">Cena</option>
-        </select>
-    </div>
 
-    <div class="form-group">
+    <div class="form-group"><form th:action="@{/diarioAlimentos/agregar}" method="post">
+        <input type="hidden" th:value="${alimento.id}" name="alimentoId" />
+
+        <div class="form-group">
+            <label for="tipoColacion">Comida:</label>
+            <select id="tipoColacion" name="tipoColacion">
+                <option value="0">Desayuno</option>
+                <option value="1">Snacks</option>
+                <option value="2">Almuerzo</option>
+                <option value="3">Merienda</option>
+                <option value="4">Cena</option>
+            </select>
+        </div>
         <label for="fecha">Fecha:</label>
         <select id="fecha" name="fecha">
             <option value="1">Ayer</option>
