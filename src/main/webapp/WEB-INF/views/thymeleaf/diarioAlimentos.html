@@ -26,11 +26,14 @@
         </div>
     </div>
 
+    <div class="text-center py-3">
+        <h1 th:text="${fechaFormateada}"></h1>
+    </div>
 
 
 <div class="row">
     <div class="col-md-4">
-        <div class="colacion" th:if="${almuerzo != null}" th:with="alimentos=${almuerzo}">
+        <div class="colacion" th:if="${almuerzo != null}" th:with="alimentos=${desayuno}">
             <h2>Desayuno</h2>
         <div th:unless="${#lists.isEmpty(alimentos)}">
             <ul>
@@ -221,6 +224,20 @@
     generateCalendar(today.getMonth(), today.getFullYear());
 
 </script>
+<script>
+    // Obtener la fecha actual
+    var today = new Date();
+
+    // Opciones para formatear la fecha
+    var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
+    // Formatear la fecha
+    var formattedDate = today.toLocaleDateString('es-ES', options);
+
+    // Mostrar la fecha en el elemento HTML
+    document.getElementById('currentDate').innerText = formattedDate;
+
+</script>
 </body>
 <style>
 
@@ -228,8 +245,7 @@
         border: 1px solid black;
         padding: 10px;
         margin-bottom: 10px;
-        background-color: #000;
-        color: #fff;
+
     }
     #calendar {
         width: 300px;
