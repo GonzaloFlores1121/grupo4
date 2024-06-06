@@ -42,8 +42,9 @@ public class ControladorRecetas {
     public ModelAndView mostrarRecetasFavoritas(HttpServletRequest request) {
         ModelMap model = new ModelMap();
         obtenerUsuarioSession(request, model);
-
-        List<RecetaFavorito> recetasFavoritas = servicioRecetas.obtenerRecetasFavoritas();
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        List<RecetaFavorito> recetasFavoritas = servicioRecetas.obtenerRecetasFavoritas(usuario);
 
         model.put("recetasFavoritas", recetasFavoritas);
 

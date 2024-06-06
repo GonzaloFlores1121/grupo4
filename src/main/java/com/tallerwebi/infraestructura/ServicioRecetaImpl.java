@@ -55,15 +55,15 @@ public class ServicioRecetaImpl implements ServicioReceta {
             recetaFavorito.setDescripcion(recetaAAgregar.getDescripcion());
             recetaFavorito.setNombre(recetaAAgregar.getNombre());
 
-            repositorioRecetaFavorito.agregarRecetaFavorito(recetaFavorito);
+            repositorioRecetaFavorito.agregarRecetaFavorito(recetaFavorito, usuario);
         } else {
             repositorioRecetaFavorito.eliminarRecetaFavorito(recetaFavorito, usuario);
         }
     }
 
     @Override
-    public List<RecetaFavorito> obtenerRecetasFavoritas() {
-        return repositorioRecetaFavorito.obtenerRecetasFavoritas();
+    public List<RecetaFavorito> obtenerRecetasFavoritas(Usuario usuario) {
+        return repositorioRecetaFavorito.obtenerRecetasFavoritas(usuario);
     }
 
     @Override

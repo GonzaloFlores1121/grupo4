@@ -28,8 +28,8 @@ public class RepositorioRecetaFavoritoImpl implements RepositorioRecetaFavorito 
     }
 
     @Override
-    public void agregarRecetaFavorito(RecetaFavorito receta) {
-        sessionFactory.getCurrentSession().save(receta);
+    public void agregarRecetaFavorito(RecetaFavorito receta, Usuario usuario) {
+        sessionFactory.getCurrentSession();
     }
 
 
@@ -66,10 +66,10 @@ public class RepositorioRecetaFavoritoImpl implements RepositorioRecetaFavorito 
         return recetaFavorito;
     }
 
-    public List<RecetaFavorito> obtenerRecetasFavoritas() {
+    public List<RecetaFavorito> obtenerRecetasFavoritas(Usuario usuario) {
         Session session = sessionFactory.openSession();
-        String hql = "FROM RecetaFavorito";
-        Query<RecetaFavorito> query = session.createQuery(hql, RecetaFavorito.class);
+        String hql = "FROM RecetaFavorito where usuario = :usuario";
+        Query<RecetaFavorito> query = session.createQuery(hql, RecetaFavorito.class) .setParameter("usuario", usuario);
         return query.getResultList();
     }
 

@@ -47,7 +47,7 @@
         <img th:src="@{'/img/recetas/' + ${receta.imagen}}" class="card-img-top" alt="receta">
         <div class="card-body">
           <h5 class="card-title">
-            <a th:href="@{/recetas/{id}(id=${receta.id})}" th:text="${receta.nombre}"></a>
+            <a th:href="@{/recetas/{id}(id=${receta.getRecetasFavoritas().getId()})}" th:text="${receta.nombre}"></a>
           </h5>
           <p class="card-text" th:text="${receta.descripcion}"></p>
         </div>

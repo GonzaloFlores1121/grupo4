@@ -261,15 +261,11 @@ font-size:1.5rem ;
     margin-left: 10px;
 }
 
-.contenedor-busqueda{
-    margin-rigth: 8rem;
-}
-
 .contenedor-principal-receta{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    aling-items: center;
+    align-items: center;
     padding: 3rem;
 }
 
