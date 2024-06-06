@@ -32,6 +32,7 @@ public class RepositorioRecetaFavoritoImpl implements RepositorioRecetaFavorito 
         sessionFactory.getCurrentSession().save(receta);
     }
 
+
     @Override
     public RecetaFavorito buscarPorUsuario(Usuario usuario) {
         Session session = sessionFactory.getCurrentSession();
@@ -41,9 +42,13 @@ public class RepositorioRecetaFavoritoImpl implements RepositorioRecetaFavorito 
     }
 
     @Override
-    public void eliminarRecetaFavorito(RecetaFavorito receta) {
+    public void eliminarRecetaFavorito(RecetaFavorito recetaFavorito, Usuario usuario) {
         Session session = sessionFactory.getCurrentSession();
-        session.delete(receta);
+        String hql = "DELETE FROM RecetaFavorito rf WHERE rf.id = :id AND rf.usuario.id = :usuarioId";
+        session.createQuery(hql)
+                .setParameter("id", recetaFavorito.getId())
+                .setParameter("usuarioId", usuario.getId())
+                .executeUpdate();
     }
 
     @Override
@@ -57,11 +62,20 @@ public class RepositorioRecetaFavoritoImpl implements RepositorioRecetaFavorito 
         return recetaFavorito;
     }
 
-    public List<RecetaFavorito> obtenerRecetasFavoritas() {
+    public List<RecetaFavorito> obtenerRecetasFavoritas(Usuario usuario) {
         Session session = sessionFactory.openSession();
-        String hql = "FROM RecetaFavorito";
-        Query<RecetaFavorito> query = session.createQuery(hql, RecetaFavorito.class);
+        String hql = "FROM RecetaFavorito where usuario = :usuario";
+        Query<RecetaFavorito> query = session.createQuery(hql, RecetaFavorito.class) .setParameter("usuario", usuario);
         return query.getResultList();
     }
-}
 
+    @Override
+    public RecetaFavorito buscarRecetaFavorita(Long id) {
+        Session session = sessionFactory.getCurrentSession();
+        RecetaFavorito recetaFavorito = (RecetaFavorito) session.createQuery(
+                        "SELECT r FROM RecetaFavorito r JOIN r.recetasFavoritas rec WHERE r.id = :id")
+                .setParameter("id", id)
+                .uniqueResult();
+        return recetaFavorito;
+    }
+}

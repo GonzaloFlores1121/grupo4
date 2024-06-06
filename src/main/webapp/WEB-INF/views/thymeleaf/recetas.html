@@ -29,7 +29,8 @@
     </div>
 </div>
 
-<div class="d-flex justify-content-center align-items-center">
+<div class="d-flex flex-row justify-content-around">
+<div class="d-flex align-items-center">
     <div class="contenedor-principal-receta">
         <div class="contenedor-descripcion-recetas">
             <img th:src="@{/img/icono-cocina.png}" alt="icono-recetas" width="100px" height="100px">
@@ -40,8 +41,23 @@
         </div>
     </div>
 </div>
+<aside>
+    <div class="d-flex align-items-center">
+        <div class="contenedor-principal-receta">
+            <div class="contenedor-descripcion-recetas">
+                <img th:src="@{/img/iconoFavoritos.png}" alt="icono-recetas" width="100px" height="100px">
+                <div class="div-parrafos-receta">
+                    <p class="titulo-receta">Recetas</p>
+                    <p>Dale un vistazo a tus recetas favoritas!</p>
+                    <a th:href="@{/recetasFavoritas}" class="btn btn-primary">Ver Recetas Favoritas</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</aside>
+</div>
 
-<div class="container-fluid my-5" style="min-height: 60vh;">
+<div class="container-fluid my-5 d-flex justify-content-center align-items-center" style="min-height: 60vh;">
     <div class="row " style="padding-left: 110px;">
         <div th:each="receta : ${recetas}" class="col-md-4 mb-4">
             <div class="card">
@@ -59,7 +75,6 @@
         </div>
     </div>
 </div>
-<a th:href="@{/recetasFavoritas}" class="btn btn-primary">Ver Recetas Favoritas</a>
 
 
 <div th:replace="footer :: footer"></div>
@@ -69,28 +84,4 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </body>
-<style>
-    .card {
-        width: 24rem; /* Ajusta el ancho de la tarjeta */
-        height: auto; /* Ajusta la altura de la tarjeta */
-    }
-    .imagen-receta-container {
-        position: relative;
-    }
-
-    .icono-favoritos {
-        background-color: white;
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 30px; /* Ajusta el tamaño según sea necesario */
-        z-index: 1; /* Asegura que el ícono esté por encima de la imagen de la receta */
-    }
-    .card-img-top {
-        position: relative; /* Agrega esta línea */
-        max-width: 100%; /* Asegura que la imagen no exceda el ancho de la tarjeta */
-        height: auto; /* Permite que la altura de la imagen se ajuste automáticamente */
-
-    }
-</style>
 </html>

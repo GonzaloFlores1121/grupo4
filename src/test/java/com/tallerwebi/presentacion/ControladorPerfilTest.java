@@ -2,6 +2,7 @@ package com.tallerwebi.presentacion;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -13,9 +14,6 @@ import javax.servlet.http.HttpSession;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -34,24 +32,15 @@ import com.tallerwebi.dominio.excepcion.UsuarioNoExistente;
 @Controller
 public class ControladorPerfilTest {
 
-    @Mock
-    private ServicioLogin servicioLogin;
-
-    @Mock
-    private ServicioNotificacion servicioNotificacion;
-
-    @Mock
-    private HttpServletRequest request;
-
-    @Mock
-    private HttpSession session;
-
-    @InjectMocks
-    private ControladorPerfil controladorPerfil;
+    private ServicioLogin servicioLogin = mock(ServicioLogin.class);
+    private ServicioNotificacion servicioNotificacion = mock(ServicioNotificacion.class);
+    private ControladorPerfil controladorPerfil = new ControladorPerfil(servicioLogin, servicioNotificacion);
+    private HttpServletRequest request = mock(HttpServletRequest.class);
+    private HttpSession session = mock(HttpSession.class);
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.openMocks(this);
+        when(request.getSession()).thenReturn(session);
     }
 
     @Test
@@ -69,7 +58,6 @@ public class ControladorPerfilTest {
         usuario.setGenero("masculino");
         usuario.setImagen("icono-perfil-1.png");
         usuario.setConfiguracionUsuario(new ConfiguracionUsuario());
-        when(request.getSession()).thenReturn(session);
         when(session.getAttribute("usuario")).thenReturn(usuario);              
         when(servicioLogin.buscarUsuario(usuario.getEmail())).thenReturn(usuario);
         when(servicioNotificacion.obtenerNotificaciones(usuario.getId())).thenReturn(List.of(new Notificacion()));
@@ -98,7 +86,6 @@ public class ControladorPerfilTest {
         usuario.setId(id);
         usuario.setEmail(email);
         usuario.setPassword(password);
-        when(request.getSession()).thenReturn(session);
         when(session.getAttribute("usuario")).thenReturn(null);
         return usuario;
     }
@@ -154,7 +141,7 @@ public class ControladorPerfilTest {
     }
 
     @Test
-    public void testFormularioEditarPerfil_RedireccionSiNoEstaLogueado() {
+    public void testFormularioEditarPerfilFallido() {
         givenExisteUsuarioNoLogueado(1L, "admin@gmail.com", "1234abcd");
         ModelAndView vista = whenCreoVistaFormularioEditarPerfil();
         thenVistaRedirigidaInicio(vista);
@@ -208,7 +195,7 @@ public class ControladorPerfilTest {
     }
 
     @Test
-    public void testConfiguracionFallida() {
+    public void testConfiguracionFallido() {
         givenExisteUsuarioNoLogueado(1L, "admin@gmail.com", "1234abcd");
         ModelAndView vista = whenCreoVistaConfiguracion();
         thenVistaRedirigidaInicio(vista);
@@ -298,7 +285,7 @@ public class ControladorPerfilTest {
     }
 
     @Test
-    public void testEliminarNotificacion_RedireccionSiNoEstaLogueado() {
+    public void testEliminarNotificacionFallido() {
         givenExisteUsuarioNoLogueado(1L, "admin@gmail.com", "1234abcd");
         Notificacion notificacion = givenExisteNotifiacion(1L, "Saludo", "Hola!");
         ModelAndView vista = whenEliminoNotifiacion(notificacion);

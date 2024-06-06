@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -12,9 +13,6 @@ import javax.servlet.http.HttpSession;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tallerwebi.dominio.ServicioLogin;
@@ -29,24 +27,14 @@ import com.tallerwebi.dominio.excepcion.UsuarioNoExistente;
 
 public class ControladorRegistroTest {
 
-    @Mock
-    private ServicioLogin servicioLogin;
-
-    @Mock
-    private ServicioNotificacion servicioNotificacion;
-
-    @InjectMocks
-    private ControladorRegistro controladorRegistro;
-
-    @Mock
-    private HttpServletRequest request;
-
-    @Mock
-    private HttpSession session;
+    private ServicioLogin servicioLogin = mock(ServicioLogin.class);
+    private ServicioNotificacion servicioNotificacion = mock(ServicioNotificacion.class);
+    private ControladorRegistro controladorRegistro = new ControladorRegistro(servicioLogin, servicioNotificacion);
+    private HttpServletRequest request = mock(HttpServletRequest.class);    
+    private HttpSession session = mock(HttpSession.class);
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.openMocks(this);
         when(request.getSession()).thenReturn(session);
     }
 
