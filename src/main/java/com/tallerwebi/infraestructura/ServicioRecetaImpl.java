@@ -2,8 +2,6 @@ package com.tallerwebi.infraestructura;
 
 import com.tallerwebi.dominio.*;
 import com.tallerwebi.dominio.excepcion.RecetaNoEncontradaException;
-import com.tallerwebi.dominio.excepcion.RecetaYaAgregadaException;
-import com.tallerwebi.dominio.excepcion.RecetaYaEliminadaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +34,14 @@ public class ServicioRecetaImpl implements ServicioReceta {
         }
         return receta;
     }
+    @Override
+    public RecetaFavorito obtenerRecetaFavoritaPorId(Long id) throws RecetaNoEncontradaException {
+        RecetaFavorito receta = repositorioRecetaFavorito.buscarRecetaFavorita(id);
+        if (receta == null) {
+            throw new RecetaNoEncontradaException();
+        }
+        return receta;
+    }
 
     @Override
     public void agregarRecetaFavorita(Usuario usuario, Receta recetaAAgregar){
@@ -51,12 +57,20 @@ public class ServicioRecetaImpl implements ServicioReceta {
 
             repositorioRecetaFavorito.agregarRecetaFavorito(recetaFavorito);
         } else {
-            repositorioRecetaFavorito.eliminarRecetaFavorito(recetaFavorito);
+            repositorioRecetaFavorito.eliminarRecetaFavorito(recetaFavorito, usuario);
         }
     }
 
     @Override
     public List<RecetaFavorito> obtenerRecetasFavoritas() {
         return repositorioRecetaFavorito.obtenerRecetasFavoritas();
+    }
+
+    @Override
+    public void eliminarReceta(Usuario usuario, RecetaFavorito receta) throws RecetaNoEncontradaException {
+        RecetaFavorito recetaEliminar = repositorioRecetaFavorito.buscarRecetaFavorita(receta.getId());
+
+        repositorioRecetaFavorito.eliminarRecetaFavorito(recetaEliminar,usuario);
+
     }
 }

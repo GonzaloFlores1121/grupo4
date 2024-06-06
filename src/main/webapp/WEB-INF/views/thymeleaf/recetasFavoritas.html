@@ -51,7 +51,7 @@
           </h5>
           <p class="card-text" th:text="${receta.descripcion}"></p>
         </div>
-        <a th:href="@{/eliminarDeFavoritos/{id}(id=${receta.id})}">
+        <a th:href="@{/eliminarReceta/{id}(id=${receta.id})}">
           <button class="boton-fav"> eliminar de favoritos </button>
         </a>
       </div>

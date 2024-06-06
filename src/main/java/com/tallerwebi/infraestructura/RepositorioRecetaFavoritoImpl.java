@@ -32,6 +32,7 @@ public class RepositorioRecetaFavoritoImpl implements RepositorioRecetaFavorito 
         sessionFactory.getCurrentSession().save(receta);
     }
 
+
     @Override
     public RecetaFavorito buscarPorUsuario(Usuario usuario) {
         Session session = sessionFactory.getCurrentSession();
@@ -41,9 +42,17 @@ public class RepositorioRecetaFavoritoImpl implements RepositorioRecetaFavorito 
     }
 
     @Override
-    public void eliminarRecetaFavorito(RecetaFavorito receta) {
+    public void eliminarRecetaFavorito(RecetaFavorito recetaFavorito, Usuario usuario) {
         Session session = sessionFactory.getCurrentSession();
-        session.delete(receta);
+        String hql = "DELETE FROM RecetaFavorito rf WHERE rf.id = :id AND rf.usuario.id = :usuarioId";
+        int result = session.createQuery(hql)
+                .setParameter("id", recetaFavorito.getId())
+                .setParameter("usuarioId", usuario.getId())
+                .executeUpdate();
+
+        if (result == 0) {
+            throw new IllegalStateException("Failed to delete favorite recipe with id: " + recetaFavorito.getId() + " for user: " + usuario.getId());
+        }
     }
 
     @Override
@@ -63,5 +72,14 @@ public class RepositorioRecetaFavoritoImpl implements RepositorioRecetaFavorito 
         Query<RecetaFavorito> query = session.createQuery(hql, RecetaFavorito.class);
         return query.getResultList();
     }
-}
 
+    @Override
+    public RecetaFavorito buscarRecetaFavorita(Long id) {
+        Session session = sessionFactory.getCurrentSession();
+        RecetaFavorito recetaFavorito = (RecetaFavorito) session.createQuery(
+                        "SELECT r FROM RecetaFavorito r JOIN r.recetasFavoritas rec WHERE r.id = :id")
+                .setParameter("id", id)
+                .uniqueResult();
+        return recetaFavorito;
+    }
+}

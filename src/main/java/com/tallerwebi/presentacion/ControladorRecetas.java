@@ -19,7 +19,7 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 public class ControladorRecetas {
-private ServicioReceta servicioRecetas;
+    private ServicioReceta servicioRecetas;
 
     @Autowired
     public ControladorRecetas(ServicioReceta servicioRecetas) {
@@ -57,8 +57,8 @@ private ServicioReceta servicioRecetas;
         obtenerUsuarioSession(request, model);
         Receta receta=servicioRecetas.obtenerRecetaPorId(id);
         List <Alimento> alimentos= receta.getAlimentoRecetas().stream()
-                                   .map(AlimentoReceta::getAlimento)
-                                   .collect(Collectors.toList());
+                .map(AlimentoReceta::getAlimento)
+                .collect(Collectors.toList());
         model.put("receta",receta);
         model.put("alimentos",alimentos);
         return new ModelAndView("descripcionRecetas",model);
@@ -71,6 +71,18 @@ private ServicioReceta servicioRecetas;
         Receta receta=servicioRecetas.obtenerRecetaPorId(id);
         servicioRecetas.agregarRecetaFavorita(usuario,receta);
         return new ModelAndView("redirect:/recetas");
+    }
+
+    @RequestMapping(value = "/eliminarReceta/{id}",method = RequestMethod.GET)
+    public ModelAndView eliminarReceta(@PathVariable Long id, HttpServletRequest request) throws RecetaNoEncontradaException {
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        RecetaFavorito receta=servicioRecetas.obtenerRecetaFavoritaPorId(id);
+        try{ servicioRecetas.eliminarReceta(usuario,receta);}
+        catch (RecetaNoEncontradaException e) {
+
+        }
+        return new ModelAndView("redirect:/recetasFavoritas");
     }
 
     private void obtenerUsuarioSession(HttpServletRequest request, ModelMap model) {
