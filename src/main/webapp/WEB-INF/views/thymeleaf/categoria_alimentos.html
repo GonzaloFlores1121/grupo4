@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Categorias Alimentos</title>
-
-
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/css/main.css}">
 
@@ -20,49 +18,52 @@
 
 </head>
 <body>
-<!--header/nav-->
 
-<div th:replace="navbar :: navbar"></div>
-
-
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="list-group flex-row">
-                <a th:href="@{/home}" class="list-group-item list-group-item-action ">MI FATLOSS</a>
-                <a th:href="@{/categoria_alimentos}" class="list-group-item list-group-item-action activo">ALIMENTOS</a>
-                <a th:href="@{/recetas}" class="list-group-item list-group-item-action">RECETAS</a>
-                <a th:href="@{/actividadesFisicas}" class="list-group-item list-group-item-action">EN FORMA</a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<h1 class="text-center mt-5">Categorías de Alimentos </h1>
-<div class="container" style="min-height: 60vh;">
-    <div class="row justify-content-center">
-        <div th:each="categoria : ${categorias}" class="col-md-6">
-
-            <div class="card text-center">
-                <img th:src="@{'/img/alimentos/' + ${categoria.imagen}}" class="card-img-top img-categoria mx-auto d-block" alt="categoria-imagen">
-                <div class="card-body">
-                    <h5 class="card-title" th:text="${categoria.nombre}"></h5>
-                    <a th:href="@{/categorias/{id}(id=${categoria.id})}" class="btn btn-primary">Ver Alimentos</a>
+    <!--header/nav-->
+    <div th:replace="navbar :: navbar"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="list-group flex-row">
+                    <a th:href="@{/home}" class="list-group-item list-group-item-action">MI FATLOSS</a>
+                    <a th:href="@{/categoria_alimentos}" class="list-group-item list-group-item-action activo">ALIMENTOS</a>
+                    <a th:href="@{/recetas}" class="list-group-item list-group-item-action">RECETAS</a>
+                    <a th:href="@{/actividadesFisicas}" class="list-group-item list-group-item-action">EN FORMA</a>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!--footer-->
-<div th:replace="footer :: footer"></div>
 
+    <!--categorias-->
+    <div class="container d-flex flex-row mt-4">
+        <h2 class="text-center">Categorias de Alimentos</h2> 
+        <form class="d-flex ms-auto" role="search" th:action="@{/buscarCategoria}" method="get">
+            <input class="form-control me-2" type="search" name="search" id="search" placeholder="Ingresar Categoria" aria-label="Ingresar Categoria">
+            <button class="btn btn-outline-success" type="submit">Buscar</button>
+        </form>
+    </div>   
+    <div class="container my-4" style="min-height: 60vh;">
+        <div class="d-flex flex-column justify-content-center my-1 mx-5">
+            <div class="alert alert-warning alert-dismissible fade show" th:if="${unknown != null}">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <strong>Unknown: </strong><span th:text="${unknown}"></span>
+            </div>
+        </div>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div th:each="categoria : ${categorias}" class="col justify-content-center">
+                <div class="card text-center">
+                    <img th:src="@{'/img/alimentos/' + ${categoria.imagen}}" class="card-img-top mx-auto d-block" alt="categoria_imagen" style="max-width:150px;min-height:150px;">
+                    <div class="card-body">
+                        <h5 th:text="${categoria.nombre}" class="card-title"></h5>
+                        <a th:href="@{/categorias/{id}(id=${categoria.id})}" class="btn btn-success">Ver Alimentos</a>
+                    </div>
+                </div>
+            </div>
+        </div>        
+    </div>
 
+    <!--footer-->
+    <div th:replace="footer :: footer"></div>
 
 </body>
 </html>
-<style>
-    .img-categoria {
-        max-width: 150px;
-        max-height: 150px;
-    }
-</style>

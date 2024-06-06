@@ -24,7 +24,7 @@ public class ServicioCategoriaAlimentoImpl implements ServicioCategoriaAlimento 
     @Transactional
     public CategoriaAlimento obtenerCategoriaPorId(Long id) {
     CategoriaAlimento categoriaAlimento = repositorioCategoriaAlimento.obtenerCategoriaPorId(id);
-        if(categoriaAlimento==null){
+        if(categoriaAlimento == null){
             throw new RuntimeException("Categoria no encontrada");
         }
         return categoriaAlimento;

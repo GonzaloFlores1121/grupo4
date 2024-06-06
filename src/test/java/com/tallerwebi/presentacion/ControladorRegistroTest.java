@@ -79,7 +79,7 @@ public class ControladorRegistroTest {
 
     private void thenVistaFormularioExitoso(ModelAndView vista) {
         assertEquals("formulario-registro", vista.getViewName());
-        assertTrue(vista.getModelMap().containsAttribute("usuario"));
+        assertTrue(vista.getModel().containsKey("usuario"));
     }
  
     @Test
@@ -125,8 +125,8 @@ public class ControladorRegistroTest {
 
     private void thenVistaRegistroFaliida(ModelAndView vista) {
         assertEquals("formulario-registro", vista.getViewName());
-        assertTrue(vista.getModelMap().containsAttribute("error"));
-        assertEquals("El usuario ya existe.", vista.getModelMap().get("error"));        
+        assertTrue(vista.getModel().containsKey("error"));
+        assertEquals("El usuario ya existe.", vista.getModel().get("error"));        
     }
 
     @Test
@@ -172,8 +172,8 @@ public class ControladorRegistroTest {
 
     private void thenLoginFallido(ModelAndView vista) {
         assertEquals("iniciar-sesion", vista.getViewName());
-        assertTrue(vista.getModelMap().containsAttribute("error"));
-        assertEquals("Usuario o clave incorrecta", vista.getModelMap().get("error"));
+        assertTrue(vista.getModel().containsKey("error"));
+        assertEquals("Usuario o clave incorrecta", vista.getModel().get("error"));
     }
     
 }

@@ -5,6 +5,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -60,8 +61,8 @@ public class ControladorAlimentosTest {
 
     private void thenObtenerVistaCategoriasAlimentos(Usuario usuario, List<CategoriaAlimento> categorias, ModelAndView vista) {
         assertEquals("categoria_alimentos", vista.getViewName());
-        assertEquals(usuario, vista.getModelMap().get("usuario"));
-        assertEquals(categorias, vista.getModelMap().get("categorias"));        
+        assertEquals(usuario, vista.getModel().get("usuario"));
+        assertEquals(categorias, vista.getModel().get("categorias"));        
     }
 
     @Test
@@ -103,8 +104,8 @@ public class ControladorAlimentosTest {
 
     private void thenObtenerVistaIrACategoria(Usuario usuario, CategoriaAlimento categoria, ModelAndView vista) {
         assertEquals("alimentos", vista.getViewName());
-        assertEquals(usuario, vista.getModelMap().get("usuario"));
-        assertEquals(categoria, vista.getModelMap().get("categoria"));        
+        assertEquals(usuario, vista.getModel().get("usuario"));
+        assertEquals(categoria, vista.getModel().get("categoria"));        
     }
  
     @Test
@@ -136,8 +137,8 @@ public class ControladorAlimentosTest {
 
     private void thenObtenerVistaIrAliemento(Usuario usuario, Alimento alimento, ModelAndView vista) {
         assertEquals("detalles_alimento", vista.getViewName());
-        assertEquals(usuario, vista.getModelMap().get("usuario"));
-        assertEquals(alimento, vista.getModelMap().get("alimento"));
+        assertEquals(usuario, vista.getModel().get("usuario"));
+        assertEquals(alimento, vista.getModel().get("alimento"));
     }
 
     @Test
@@ -146,5 +147,133 @@ public class ControladorAlimentosTest {
         ModelAndView vista = whenObtenerAlimento(1L);
         thenRedirigirAInicio(vista);
     }
+
+    @Test
+    public void testBuscarCategoriaExitoso() {
+        String busqueda = "fruta";
+        Usuario usuario = givenExisteUsuario();
+        List<CategoriaAlimento> categorias = givenExisteCategoriaBuscable(1L, "fruta", busqueda);
+        ModelAndView vista = whereObtenerCategoriasBuscable(busqueda);
+        thenObtenerVistaCategoriasPorBusquedaEncontrada(usuario, categorias, vista);
+    }
+
+    private List<CategoriaAlimento> givenExisteCategoriaBuscable(Long id, String nombre, String busqueda) {
+        CategoriaAlimento categoria = new CategoriaAlimento();
+        categoria.setId(id);
+        categoria.setNombre(nombre);
+        List<CategoriaAlimento> categorias = new ArrayList<>();
+        categorias.add(categoria);
+        when(servicioCategoriaAlimentos.obtenerCategoriasPorNombre(busqueda)).thenReturn(categorias);    
+        return categorias;
+    }
+
+    private ModelAndView whereObtenerCategoriasBuscable(String busqueda) {
+        return controladorAlimentos.buscarCategoria(busqueda, request);
+    }
+
+    private void thenObtenerVistaCategoriasPorBusquedaEncontrada(Usuario usuario, List<CategoriaAlimento> categorias, ModelAndView vista) {
+        assertEquals("categoria_alimentos",vista.getViewName());
+        assertEquals(usuario, vista.getModel().get("usuario"));
+        assertEquals(categorias, vista.getModel().get("categorias"));
+    }
+    
+    @Test
+    public void testBuscarCategoriaNoEncontrada() {
+        String busqueda = "verdura";
+        Usuario usuario = givenExisteUsuario();
+        List<CategoriaAlimento> categorias = givenNoExisteCategoriaBuscable(1L, "fruta", busqueda);
+        ModelAndView vista = whereObtenerCategoriasBuscable(busqueda);
+        thenObtenerVistaCategoriasPorBusquedaNoEncontrada(usuario, categorias, vista);
+    }
+
+    private List<CategoriaAlimento> givenNoExisteCategoriaBuscable(Long id, String nombre, String busqueda) {
+        CategoriaAlimento categoria = new CategoriaAlimento();
+        categoria.setId(id);
+        categoria.setNombre(nombre);
+        List<CategoriaAlimento> categorias = new ArrayList<>();
+        categorias.add(categoria);  
+        when(servicioCategoriaAlimentos.obtenerCategoriasPorNombre(busqueda)).thenReturn(Collections.emptyList());
+        when(servicioCategoriaAlimentos.obtenerTodasLasCategorias()).thenReturn(categorias);
+        return categorias;
+    }
+
+    private void thenObtenerVistaCategoriasPorBusquedaNoEncontrada(Usuario usuario, List<CategoriaAlimento> categorias, ModelAndView vista) {
+        assertEquals("categoria_alimentos", vista.getViewName());
+        assertEquals(usuario, vista.getModel().get("usuario"));
+        assertEquals(categorias, vista.getModel().get("categorias"));
+        assertEquals("Categoria no encontrada", vista.getModel().get("unknown"));
+    }
+    
+    @Test
+    public void testBuscarCategoriaFallido() {
+        givenNoExisteUsuario();
+        ModelAndView vista = whereObtenerCategoriasBuscable("carne");
+        thenRedirigirAInicio(vista);
+    }
+
+    @Test
+    public void testBuscarAlimentoExitoso() {
+        String busqueda = "manzana";
+        givenExisteUsuario();
+        CategoriaAlimento categoria = givenExisteCategoria(1L, "fruta");
+        List<Alimento> alimentos = givenExisteAlimentosBuscable(1L, "manzana", categoria, busqueda);
+        ModelAndView vista = whenObtenerAlimentosBuscable(categoria.getId(), busqueda);
+        thenObtenerVistaAlimentosPorBusquedaEncontrada(categoria, alimentos, vista);
+    }
+    
+    private List<Alimento> givenExisteAlimentosBuscable(Long id, String nombre, CategoriaAlimento categoria, String busqueda) {
+        Alimento alimento = new Alimento();
+        alimento.setId(id);
+        alimento.setNombre(nombre);
+        alimento.setCategoria(categoria);
+        List<Alimento> alimentos = new ArrayList<>();
+        alimentos.add(alimento);
+        when(servicioAlimento.listarAlimentosPorCategoriaYNombre(categoria.getId(), busqueda)).thenReturn(alimentos);
+        return alimentos;
+    }
+
+    private ModelAndView whenObtenerAlimentosBuscable(Long idCategoria, String busqueda) {
+        return controladorAlimentos.buscarAlimento(idCategoria, busqueda, request);
+    }
+
+    private void thenObtenerVistaAlimentosPorBusquedaEncontrada(CategoriaAlimento categoria, List<Alimento> alimentos, ModelAndView vista) {
+        assertEquals("alimentos", vista.getViewName());
+        assertEquals(alimentos, vista.getModel().get("alimentos"));
+        assertEquals(categoria, vista.getModel().get("categoria"));        
+    }
+
+    @Test
+    public void testBuscarAlimentoExitosoNoEncontrado() {
+        String busqueda = "leche";
+        givenExisteUsuario();
+        CategoriaAlimento categoria = givenExisteCategoria(1L, "verdura");
+        givenNoExisteAlimentosBuscable(1L, "zapallo", categoria, busqueda);
+        ModelAndView vista = whenObtenerAlimentosBuscable(categoria.getId(), busqueda);
+        thenObtenerVistaAlimentosPorBusquedaNoEncontrada(categoria, vista);
+    }
+
+    private List<Alimento> givenNoExisteAlimentosBuscable(Long id, String nombre, CategoriaAlimento categoria, String busqueda) {
+        Alimento alimento = new Alimento();
+        alimento.setId(id);
+        alimento.setNombre(nombre);
+        alimento.setCategoria(categoria);
+        List<Alimento> alimentos = new ArrayList<>();
+        alimentos.add(alimento);
+        when(servicioAlimento.listarAlimentosPorCategoriaYNombre(categoria.getId(), busqueda)).thenReturn(Collections.emptyList());
+        return alimentos;
+    }
+
+    private void thenObtenerVistaAlimentosPorBusquedaNoEncontrada(CategoriaAlimento categoria, ModelAndView vista) {
+        assertEquals("alimentos", vista.getViewName());
+        assertEquals("Alimento no encontrada", vista.getModel().get("unknown"));
+        assertEquals(categoria, vista.getModel().get("categoria"));        
+    }
+
+    @Test
+    public void testBuscarAlimentoFallido() {
+        givenNoExisteUsuario();
+        ModelAndView vista = whenObtenerAlimentosBuscable(3L, "pollo");
+        thenRedirigirAInicio(vista);
+    }    
 
 }
