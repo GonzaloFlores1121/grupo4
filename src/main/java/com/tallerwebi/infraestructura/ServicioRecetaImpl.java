@@ -55,7 +55,7 @@ public class ServicioRecetaImpl implements ServicioReceta {
             recetaFavorito.setDescripcion(recetaAAgregar.getDescripcion());
             recetaFavorito.setNombre(recetaAAgregar.getNombre());
 
-            repositorioRecetaFavorito.agregarRecetaFavorito(recetaFavorito, usuario);
+            repositorioRecetaFavorito.agregarRecetaFavorito(recetaFavorito);
         } else {
             repositorioRecetaFavorito.eliminarRecetaFavorito(recetaFavorito, usuario);
         }

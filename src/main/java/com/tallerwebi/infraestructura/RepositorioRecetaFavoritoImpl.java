@@ -28,8 +28,8 @@ public class RepositorioRecetaFavoritoImpl implements RepositorioRecetaFavorito 
     }
 
     @Override
-    public void agregarRecetaFavorito(RecetaFavorito receta, Usuario usuario) {
-        sessionFactory.getCurrentSession();
+    public void agregarRecetaFavorito(RecetaFavorito receta) {
+        sessionFactory.getCurrentSession().save(receta);
     }
 
 
@@ -45,14 +45,10 @@ public class RepositorioRecetaFavoritoImpl implements RepositorioRecetaFavorito 
     public void eliminarRecetaFavorito(RecetaFavorito recetaFavorito, Usuario usuario) {
         Session session = sessionFactory.getCurrentSession();
         String hql = "DELETE FROM RecetaFavorito rf WHERE rf.id = :id AND rf.usuario.id = :usuarioId";
-        int result = session.createQuery(hql)
+        session.createQuery(hql)
                 .setParameter("id", recetaFavorito.getId())
                 .setParameter("usuarioId", usuario.getId())
                 .executeUpdate();
-
-        if (result == 0) {
-            throw new IllegalStateException("Failed to delete favorite recipe with id: " + recetaFavorito.getId() + " for user: " + usuario.getId());
-        }
     }
 
     @Override

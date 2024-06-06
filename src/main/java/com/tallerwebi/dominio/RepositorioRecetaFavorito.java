@@ -4,10 +4,7 @@ import java.util.List;
 
 public interface RepositorioRecetaFavorito {
     List<RecetaFavorito> recetasFavoritos();
-   // void agregarRecetaFavorito(RecetaFavorito receta);
-
-    void agregarRecetaFavorito(RecetaFavorito receta, Usuario usuario);
-
+    void agregarRecetaFavorito(RecetaFavorito receta);
     RecetaFavorito buscarPorUsuario(Usuario usuario);
     void eliminarRecetaFavorito(RecetaFavorito receta, Usuario usuario);
     RecetaFavorito buscarPorUsuarioYReceta(Usuario usuario, Receta receta);
