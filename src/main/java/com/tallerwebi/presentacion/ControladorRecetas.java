@@ -57,11 +57,7 @@ public class ControladorRecetas {
         ModelMap model = new ModelMap();
         obtenerUsuarioSession(request, model);
         Receta receta=servicioRecetas.obtenerRecetaPorId(id);
-        List <Alimento> alimentos= receta.getAlimentoRecetas().stream()
-                .map(AlimentoReceta::getAlimento)
-                .collect(Collectors.toList());
         model.put("receta",receta);
-        model.put("alimentos",alimentos);
         return new ModelAndView("descripcionRecetas",model);
     }
 

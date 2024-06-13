@@ -27,155 +27,137 @@ public class Receta {
     @Column(nullable = false,length = 4000)
     private String instrucciones;
 
-    @Column(nullable = true)
-    private String tamanoPorcion;
+    private Integer cantidad=1; // mg
+    private Integer energia; // kcal
+    private Integer fibra; // g
+    private Integer calorias;
+    private Integer colesterol; // mg
+    private Integer sodio; // mg
+    private Integer potasio; // mg
+    private Double grasa; // g
+    private Double grasaSaturada;
+    private Double grasaPoliinsaturada;
+    private Double grasaMonoinsaturada;
+    private Double carbohidratos; // g
+    private Double azucar; // g
+    private Double proteina; // g
 
-    @Column(nullable = true)
-    private String energia;
-
-    @Column(nullable = true)
-    private String carbohidratos;
-
-    @Column(nullable = true)
-    private String azucar;
-
-    @Column(nullable = true)
-    private String proteina;
-
-    @Column(nullable = true)
-    private String grasa;
-
-    @Column(nullable = true)
-    private String grasaSaturada;
-
-    @Column(nullable = true)
-    private String grasaPoliinsaturada;
-
-    @Column(nullable = true)
-    private String grasaMonoinsaturada;
-
-    @Column(nullable = true)
-    private String colesterol;
-
-    @Column(nullable = true)
-    private String fibra;
-
-    @Column(nullable = true)
-    private String sodio;
-
-    @Column(nullable = true)
-    private String potasio;
-
-    @OneToMany(mappedBy = "receta", fetch = FetchType.EAGER)
-    private List<AlimentoReceta> alimentoRecetas;
     // Getters y Setters
 
 
     public Receta() {
     }
 
-    public String getAzucar() {
-        return azucar;
+    public Integer getCantidad() {
+        return cantidad;
     }
 
-    public void setAzucar(String azucar) {
-        this.azucar = azucar;
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
     }
 
-    public String getPotasio() {
-        return potasio;
-    }
-
-    public void setPotasio(String potasio) {
-        this.potasio = potasio;
-    }
-
-    public String getSodio() {
-        return sodio;
-    }
-
-    public void setSodio(String sodio) {
-        this.sodio = sodio;
-    }
-
-    public String getFibra() {
-        return fibra;
-    }
-
-    public void setFibra(String fibra) {
-        this.fibra = fibra;
-    }
-
-    public String getColesterol() {
-        return colesterol;
-    }
-
-    public void setColesterol(String colesterol) {
-        this.colesterol = colesterol;
-    }
-
-    public String getGrasaMonoinsaturada() {
-        return grasaMonoinsaturada;
-    }
-
-    public void setGrasaMonoinsaturada(String grasaMonoinsaturada) {
-        this.grasaMonoinsaturada = grasaMonoinsaturada;
-    }
-
-    public String getGrasaPoliinsaturada() {
-        return grasaPoliinsaturada;
-    }
-
-    public void setGrasaPoliinsaturada(String grasaPoliinsaturada) {
-        this.grasaPoliinsaturada = grasaPoliinsaturada;
-    }
-
-    public String getGrasaSaturada() {
-        return grasaSaturada;
-    }
-
-    public void setGrasaSaturada(String grasaSaturada) {
-        this.grasaSaturada = grasaSaturada;
-    }
-
-    public String getCarbohidratos() {
-        return carbohidratos;
-    }
-
-    public void setCarbohidratos(String carbohidratos) {
-        this.carbohidratos = carbohidratos;
-    }
-
-    public String getProteina() {
-        return proteina;
-    }
-
-    public void setProteina(String proteina) {
-        this.proteina = proteina;
-    }
-
-    public String getGrasa() {
-        return grasa;
-    }
-
-    public void setGrasa(String grasa) {
-        this.grasa = grasa;
-    }
-
-    public String getEnergia() {
+    public Integer getEnergia() {
         return energia;
     }
 
-    public void setEnergia(String energia) {
+    public void setEnergia(Integer energia) {
         this.energia = energia;
     }
 
-    public String getTamanoPorcion() {
-        return tamanoPorcion;
+    public Integer getFibra() {
+        return fibra;
     }
 
-    public void setTamanoPorcion(String tamanoPorcion) {
-        this.tamanoPorcion = tamanoPorcion;
+    public void setFibra(Integer fibra) {
+        this.fibra = fibra;
+    }
+
+    public Integer getCalorias() {
+        return calorias;
+    }
+
+    public void setCalorias(Integer calorias) {
+        this.calorias = calorias;
+    }
+
+    public Integer getColesterol() {
+        return colesterol;
+    }
+
+    public void setColesterol(Integer colesterol) {
+        this.colesterol = colesterol;
+    }
+
+    public Integer getSodio() {
+        return sodio;
+    }
+
+    public void setSodio(Integer sodio) {
+        this.sodio = sodio;
+    }
+
+    public Double getGrasa() {
+        return grasa;
+    }
+
+    public void setGrasa(Double grasa) {
+        this.grasa = grasa;
+    }
+
+    public Integer getPotasio() {
+        return potasio;
+    }
+
+    public void setPotasio(Integer potasio) {
+        this.potasio = potasio;
+    }
+
+    public Double getGrasaSaturada() {
+        return grasaSaturada;
+    }
+
+    public void setGrasaSaturada(Double grasaSaturada) {
+        this.grasaSaturada = grasaSaturada;
+    }
+
+    public Double getGrasaPoliinsaturada() {
+        return grasaPoliinsaturada;
+    }
+
+    public void setGrasaPoliinsaturada(Double grasaPoliinsaturada) {
+        this.grasaPoliinsaturada = grasaPoliinsaturada;
+    }
+
+    public Double getGrasaMonoinsaturada() {
+        return grasaMonoinsaturada;
+    }
+
+    public void setGrasaMonoinsaturada(Double grasaMonoinsaturada) {
+        this.grasaMonoinsaturada = grasaMonoinsaturada;
+    }
+
+    public Double getCarbohidratos() {
+        return carbohidratos;
+    }
+
+    public void setCarbohidratos(Double carbohidratos) {
+        this.carbohidratos = carbohidratos;
+    }
+
+    public Double getAzucar() {
+        return azucar;
+    }
+
+    public void setAzucar(Double azucar) {
+        this.azucar = azucar;
+    }
+
+    public Double getProteina() {
+        return proteina;
+    }
+
+    public void setProteina(Double proteina) {
+        this.proteina = proteina;
     }
 
     public String getInstrucciones() {
@@ -226,11 +208,5 @@ public class Receta {
         this.nombre = nombre;
     }
 
-    public List<AlimentoReceta> getAlimentoRecetas() {
-        return alimentoRecetas;
-    }
 
-    public void setAlimentoRecetas(List<AlimentoReceta> alimentoRecetas) {
-        this.alimentoRecetas = alimentoRecetas;
-    }
 }

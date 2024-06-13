@@ -1,6 +1,10 @@
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.excepcion.AlturaIncorrectaException;
+import com.tallerwebi.dominio.excepcion.DatosIncorrectos;
+import com.tallerwebi.dominio.excepcion.EdadInvalidaException;
+import com.tallerwebi.dominio.excepcion.PesoIncorrectoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -30,11 +34,32 @@ public class ControladorMiDiario {
 
     @RequestMapping(value ="/diarioAlimentos", method = RequestMethod.GET)
     public ModelAndView mostrarVista(){
-        ModelMap model = new ModelMap();
         LocalDate fechaActual = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String fechaStr = fechaActual.format(formatter);
-        return new ModelAndView("redirect:/diarioAlimentos/" + fechaStr, model);
+        return new ModelAndView("redirect:/diarioAlimentos/" + fechaStr);
+    }
+
+    @RequestMapping(value = "/diarioAlimentos/{fecha}", method = RequestMethod.GET)
+    public ModelAndView mostrarDiarioAlimentosPorFecha(@PathVariable("fecha") String fechaStr, HttpServletRequest request) throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
+        ModelMap model = new ModelMap();
+        obtenerUsuarioSession(request, model);
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        if(usuario==null){
+            return new ModelAndView("redirect:/inicio");
+        }
+
+        LocalDate fecha = parseFecha(fechaStr);
+        String fechaFormateada = formatFecha(fecha);
+        model.put("fechaFormateada", fechaFormateada);
+
+        obtenerLasColacionesYAgregarlasEnElModel(fecha, usuario, model);
+        agregarAlimentosBD(model);
+        calcularMacronutrientes(usuario, model);
+
+        return new ModelAndView("diarioAlimentos", model);
     }
 
     @RequestMapping(value = "/diarioAlimentos/agregarAlimentos", method = RequestMethod.POST)
@@ -67,93 +92,54 @@ public class ControladorMiDiario {
         return new ModelAndView("redirect:/diarioAlimentos");
     }
 
-    @RequestMapping(value = "/diarioAlimentos/{fecha}", method = RequestMethod.GET)
-    public ModelAndView mostrarDiarioAlimentosPorFecha(@PathVariable("fecha") String fechaStr, HttpServletRequest request) {
-        ModelMap model = new ModelMap();
-        obtenerUsuarioSession(request, model);
-        HttpSession session = request.getSession();
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-d");
-        LocalDate fecha = LocalDate.parse(fechaStr, formatter);
-
-     //Pasarle al model la fecha para visibilizarla en la vista.
-        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("EEEE d 'de' MMMM 'de' yyyy", new Locale("es", "ES"));
-        String fechaFormateada = fecha.format(outputFormatter);
-
-if(usuario==null){
-    return new ModelAndView("redirect:/inicio");
-}
-        List<Alimento> desayuno = servicioColacion.obtenerAlimentosPorFechaYUsuarioYTipoColacion(fecha, usuario, TipoColacion.DESAYUNO);
-        List<Alimento> snacks = servicioColacion.obtenerAlimentosPorFechaYUsuarioYTipoColacion(fecha, usuario, TipoColacion.SNACKS);
-        List<Alimento> almuerzo = servicioColacion.obtenerAlimentosPorFechaYUsuarioYTipoColacion(fecha, usuario, TipoColacion.ALMUERZO);
-        List<Alimento> merienda = servicioColacion.obtenerAlimentosPorFechaYUsuarioYTipoColacion(fecha, usuario, TipoColacion.MERIENDA);
-        List<Alimento> cena = servicioColacion.obtenerAlimentosPorFechaYUsuarioYTipoColacion(fecha, usuario, TipoColacion.CENA);
-        List<Alimento> alimentosbd = servicioALimento.listarAlimentos();
-
-        model.put("alimentosbd", alimentosbd);
-        model.put("desayuno", desayuno);
-        model.put("snacks", snacks);
-        model.put("almuerzo", almuerzo);
-        model.put("merienda", merienda);
-        model.put("cena", cena);
-        model.put("fechaFormateada", fechaFormateada);
-
-
-        return new ModelAndView("diarioAlimentos", model);
-    }
-
-
-
     @RequestMapping(value = "/detalles_alimento/agregar", method = RequestMethod.POST)
     public ModelAndView guardarUnaColacion(@RequestParam("alimentoId") Long idAlimento, @RequestParam("tipoColacion") int tipoColacion,
                                            @RequestParam("fecha") int fecha, @RequestParam("cantidad") Integer cantidad,
                                            @RequestParam("action") String action,
                                            HttpServletRequest request) {
-
         ModelMap model = new ModelMap();
         Alimento alimento = servicioALimento.obtenerAlimentosPorId(idAlimento);
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         model.put("usuario", usuario);
-        ModelAndView modelAndView;
 
         TipoColacion tipo = TipoColacion.values()[tipoColacion];
         if (usuario == null) {
-            return new ModelAndView("redirect:/inicio");
-        }else{
-            switch (action) {
-                case "guardar":
-                    try {
-                        servicioColacion.guardarColacionUsuario(alimento,usuario,tipo,
-                                calcularFechaPorString(fecha));
-                        model.put("mensaje","Colacion agregada correctamente");
-                        model.put("alimento", alimento); // Agregar alimento al modelo
-                        modelAndView = new ModelAndView("detalles_alimento",model); // Cambiar a detalles_alimento
-                    } catch(Exception e) {
-                        model.put("mensaje","Error agregando colacion: " + e.getMessage());
-                        modelAndView = new ModelAndView("detalles_alimento",model);
-                    }
-                    break;
-
-                case "actualizar":
-                    model.put("alimento",alimento);
-                    modelAndView = new ModelAndView("detalles_alimento",model);
-
-                    break;
-
-                case "cancelar":
-
-                    return new ModelAndView("redirect:/diarioAlimentos");
-
-
-                default:
-                    throw new IllegalArgumentException("Acción no reconocida: " + action);
-            }
-
-            return modelAndView;
+            return new ModelAndView("redirect:/login");
         }
 
+        switch (action) {
+            case "guardar":
+                return manejarLaAccionDeGuardadoColacion(alimento, usuario, tipo, fecha, model);
+            case "actualizar":
+                return manejarLaAccionDeActualizarLosDatosDeLaVistaDeAlimentos(model);
+            case "cancelar":
+                return manejarLaAccionDeCancelarElGuardadoDeColacion();
+            default:
+                throw new IllegalArgumentException("Acción no reconocida: " + action);
+        }
     }
+
+    private ModelAndView manejarLaAccionDeGuardadoColacion(Alimento alimento, Usuario usuario, TipoColacion tipo, int fecha, ModelMap model) {
+        try {
+            servicioColacion.guardarColacionUsuario(alimento, usuario, tipo, calcularFechaPorString(fecha));
+            model.put("mensaje", "Colacion agregada correctamente");
+            model.put("alimento", alimento);
+            return new ModelAndView("detalles_alimento", model);
+        } catch (Exception e) {
+            model.put("mensaje", "Error agregando colacion: " + e.getMessage());
+            return new ModelAndView("detalles_alimento", model);
+        }
+    }
+
+    private ModelAndView manejarLaAccionDeActualizarLosDatosDeLaVistaDeAlimentos(ModelMap model) {
+        return new ModelAndView("detalles_alimento", model);
+    }
+
+    private ModelAndView manejarLaAccionDeCancelarElGuardadoDeColacion() {
+        return new ModelAndView("redirect:/diarioAlimentos");
+    }
+
 
     private void obtenerUsuarioSession(HttpServletRequest request, ModelMap model) {
         HttpSession session = request.getSession();
@@ -172,6 +158,44 @@ if(usuario==null){
             default:
                 throw new IllegalArgumentException("Fecha no reconocida: " + fecha);
         }
+    }
+
+    private LocalDate parseFecha(String fechaStr) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-d");
+        return LocalDate.parse(fechaStr, formatter);
+    }
+
+    private String formatFecha(LocalDate fecha) {
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("EEEE d 'de' MMMM 'de' yyyy", new Locale("es", "ES"));
+        return fecha.format(outputFormatter);
+    }
+
+    private void  obtenerLasColacionesYAgregarlasEnElModel(LocalDate fecha, Usuario usuario, ModelMap model) {
+        List<Alimento> desayuno = servicioColacion.obtenerAlimentosPorFechaYUsuarioYTipoColacion(fecha, usuario, TipoColacion.DESAYUNO);
+        List<Alimento> snacks = servicioColacion.obtenerAlimentosPorFechaYUsuarioYTipoColacion(fecha, usuario, TipoColacion.SNACKS);
+        List<Alimento> almuerzo = servicioColacion.obtenerAlimentosPorFechaYUsuarioYTipoColacion(fecha, usuario, TipoColacion.ALMUERZO);
+        List<Alimento> merienda = servicioColacion.obtenerAlimentosPorFechaYUsuarioYTipoColacion(fecha, usuario, TipoColacion.MERIENDA);
+        List<Alimento> cena = servicioColacion.obtenerAlimentosPorFechaYUsuarioYTipoColacion(fecha, usuario, TipoColacion.CENA);
+
+        model.put("desayuno", desayuno);
+        model.put("snacks", snacks);
+        model.put("almuerzo", almuerzo);
+        model.put("merienda", merienda);
+        model.put("cena", cena);
+    }
+
+    private void agregarAlimentosBD(ModelMap model) {
+        List<Alimento> alimentosbd = servicioALimento.listarAlimentos();
+        model.put("alimentosbd", alimentosbd);
+    }
+
+    private void calcularMacronutrientes(Usuario usuario, ModelMap model) throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
+        Integer icr=servicioDatosUsuario.calcularIngestaCalorica(usuario);
+        MacronutrientesUsuario macronutrientesUsuario = servicioDatosUsuario.CalcularDistribucionDeMacronutrientes(usuario);
+        model.put("icr", icr);
+        model.put("carbos", macronutrientesUsuario.getCarbohidratosAConsumir());
+        model.put("grasas",  macronutrientesUsuario.getGrasaAConsumir());
+        model.put("proteinas", macronutrientesUsuario.getProteinaAConsumir());
     }
 }
 
