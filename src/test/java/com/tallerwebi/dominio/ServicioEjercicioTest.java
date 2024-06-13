@@ -96,7 +96,7 @@ public class ServicioEjercicioTest {
   }
     private EjercicioUsuario givenGuardoUnEjercicioUsuario(Usuario usuario) throws EjercicioInvalido {
         EjercicioUsuario ejercicioUsuario = new EjercicioUsuario();
-        Ejercicio ejercicio = new Ejercicio("Correr", 100, "Alta");
+        Ejercicio ejercicio = new Ejercicio("Correr", "Alta", 100);
 
         ejercicioUsuario.setNombre("Ejercicio1");
         ejercicioUsuario.setMinutos(30);
@@ -110,7 +110,7 @@ public class ServicioEjercicioTest {
 
     private EjercicioUsuario givenGuardoUnEjercicioUsuarioInvalido(Usuario usuario) throws EjercicioInvalido {
         EjercicioUsuario ejercicioUsuario = new EjercicioUsuario();
-        Ejercicio ejercicio = new Ejercicio("Correr", 100, "Alta");
+        Ejercicio ejercicio = new Ejercicio("Correr", "Alta", 100);
 
         ejercicioUsuario.setNombre(" ");
         ejercicioUsuario.setMinutos(30);

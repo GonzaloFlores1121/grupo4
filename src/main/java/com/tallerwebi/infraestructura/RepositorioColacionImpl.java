@@ -1,13 +1,10 @@
 package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.Colacion;
-import com.tallerwebi.dominio.RepositorioColacion;
-import com.tallerwebi.dominio.TipoColacion;
-import com.tallerwebi.dominio.Usuario;
-import org.hibernate.Criteria;
+import com.tallerwebi.dominio.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -41,6 +38,15 @@ public class RepositorioColacionImpl implements RepositorioColacion {
                 .add(Restrictions.eq("fecha", fecha))
                 .add(Restrictions.eq("usuario.id", user.getId()))
                 .add(Restrictions.eq("tipo", tipo)).list();
+    }
+
+    @Override
+    public List<Colacion> obtenerTodasLasColacionesDelUsuario(Usuario usuario) {
+        Session session = sessionFactory.openSession();
+        String hql = "FROM Colacion c WHERE c.usuario = :usuario";
+        Query<Colacion> query = session.createQuery(hql, Colacion.class);
+        query.setParameter("usuario", usuario);
+        return query.getResultList();
     }
 
 }

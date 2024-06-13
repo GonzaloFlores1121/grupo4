@@ -13,6 +13,7 @@ public class EjercicioUsuario {
     private Integer minutos;
     private Date fecha;
     private String  intensidad;
+    private Integer caloriasQuemadas;
     @ManyToOne
     private Ejercicio ejercicio;
     @ManyToOne
@@ -31,7 +32,6 @@ public class EjercicioUsuario {
     public EjercicioUsuario() {
 
     }
-
 
     public String getNombre() {
         return nombre;
@@ -72,4 +72,9 @@ public class EjercicioUsuario {
     public Usuario getUsuario() {return usuario;}
 
     public void setUsuario(Usuario usuario) {this.usuario = usuario;}
+
+    public Integer getCaloriasQuemadas() {return caloriasQuemadas;}
+
+    public void setCaloriasQuemadas(Integer caloriasQuemadas) {this.caloriasQuemadas = caloriasQuemadas;}
+
 }

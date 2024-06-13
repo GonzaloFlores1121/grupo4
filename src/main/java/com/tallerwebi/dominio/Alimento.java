@@ -13,7 +13,7 @@ public class Alimento {
     private String nombre;
     private String imagen;
     private String tamanoPorcion;
-    private String energia;
+    private Integer energia;
     private String carbohidratos;
     private String azucar;
     private String proteina;
@@ -25,6 +25,8 @@ public class Alimento {
     private String fibra;
     private String sodio;
     private String potasio;
+
+
     @OneToMany(mappedBy = "alimento")
     private List<AlimentoReceta> alimentoRecetas;
     @ManyToOne(optional = true)
@@ -48,8 +50,8 @@ public class Alimento {
     public String getTamanoPorcion() {return tamanoPorcion;}
     public void setTamanoPorcion(String tamanoPorcion) {this.tamanoPorcion = tamanoPorcion;}
 
-    public String getEnergia() {return energia;}
-    public void setEnergia(String energia) {this.energia = energia;}    
+    public Integer getEnergia() {return energia;}
+    public void setEnergia(Integer energia) {this.energia = energia;}
 
     public String getCarbohidratos() {return carbohidratos;}
     public void setCarbohidratos(String carbohidratos) {this.carbohidratos = carbohidratos;}
@@ -92,5 +94,6 @@ public class Alimento {
 
     public CategoriaAlimento getCategoria() {return categoria;}
     public void setCategoria(CategoriaAlimento categoria) {this.categoria = categoria;}
+
 
 }

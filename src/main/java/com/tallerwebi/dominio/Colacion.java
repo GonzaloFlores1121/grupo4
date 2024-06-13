@@ -15,12 +15,17 @@ public class Colacion {
     private TipoColacion tipo;
 
     @ManyToOne
+    @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
     @ManyToOne
+    @JoinColumn(name = "alimento_id")
     private Alimento alimentos;
 
+    private String cantidad;
+
     private LocalDate fecha;
+
 
     public Colacion() {
     }
@@ -64,4 +69,8 @@ public class Colacion {
     public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
+
+    public String getCantidad() {return cantidad;}
+
+    public void setCantidad(String cantidad) {this.cantidad = cantidad;}
 }

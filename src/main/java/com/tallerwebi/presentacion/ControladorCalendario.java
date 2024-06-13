@@ -57,7 +57,6 @@ public class ControladorCalendario {
             session.removeAttribute("mensaje");
         }
 
-
         try {
             Map<Date, Calendario> fechas = servicioCalendarioImpl.obtenerFechasCalendario(usuario);
             model.put("listaFechas", fechas);

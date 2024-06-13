@@ -6,4 +6,6 @@ import java.util.List;
 public interface RepositorioColacion {
   void  agregarColacion(Colacion colacion);
   List<Colacion> obtenerColacionesPorFechaYUsuarioYTipo(LocalDate fecha, Usuario user, TipoColacion tipo);
+
+    List<Colacion> obtenerTodasLasColacionesDelUsuario(Usuario user);
 }

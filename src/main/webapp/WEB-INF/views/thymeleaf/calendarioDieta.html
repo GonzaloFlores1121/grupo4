@@ -20,61 +20,61 @@
 <body>
     <div th:replace="navbar :: navbar"></div>
 
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            <div class="list-group flex-row justify-content-center">
-                <a th:href="@{/home}" class="list-group-item list-group-item-action activo">MI FATLOSS</a>
-                <a th:href="@{/categoria_alimentos}" class="list-group-item list-group-item-action ">ALIMENTOS</a>
-                <a th:href="@{/recetas}" class="list-group-item list-group-item-action">RECETAS</a>
-                <a th:href="@{/actividadesFisicas}" class="list-group-item list-group-item-action">EN FORMA</a>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="list-group flex-row justify-content-center">
+                    <a th:href="@{/home}" class="list-group-item list-group-item-action activo">MI FATLOSS</a>
+                    <a th:href="@{/categoria_alimentos}" class="list-group-item list-group-item-action ">ALIMENTOS</a>
+                    <a th:href="@{/recetas}" class="list-group-item list-group-item-action">RECETAS</a>
+                    <a th:href="@{/actividadesFisicas}" class="list-group-item list-group-item-action">EN FORMA</a>
+                </div>
             </div>
+        </div>
+
+        <div class="col-md-8">
+            <table class="table table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Alimentos (Cals)</th>
+                        <th>Calorias consumidas</th>
+                        <th>Ejercicio (Cals)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="entry : ${listaFechas}">
+                        <td th:text="${#dates.format(entry.key, 'dd/MM/yyyy')}"></td>
+                        <td>
+                            <ul>
+                                <li th:each="colacion : ${entry.value.colaciones}">
+                                    <span th:text="${colacion.alimentos.nombre}"></span>
+                                    <span th:text="'Cantidad consumida: ' + ${colacion.cantidad}"></span>
+                                </li>
+                            </ul>
+                            <div th:if="${entry.value.colaciones.size() > 0}">
+                                <button type="button" class="btn btn-sm btn-primary" th:attr="data-date=${#dates.format(entry.key, 'dd/MM/yyyy')}" onclick="showColaciones(this.getAttribute('data-date'))">Ver Comida</button>
+                            </div>
+                        </td>
+                        <td>
+                            <span th:text="${entry.value.caloriasConsumidasPorFecha[entry.key]}"></span>
+                        </td>
+                        <td>
+                            <ul>
+                                <li th:each="ejercicio : ${entry.value.ejercicios}">
+                                    <span th:text="${ejercicio.nombre}"></span>
+                                    <span th:text="'Minutos empleados: ' + ${ejercicio.minutos}"></span>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
-
-            <!-- Columna para el calendario de dieta -->
-            <div class="col-md-8">
-                <table class="table table-bordered">
-                    <thead class="thead-light">
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Alimentos (Cals)</th>
-                            <th>% IDR</th>
-                            <th>Resumen Nutricional</th>
-                            <th>Ejercicio (Cals)</th>
-                            <th>Netas (Cals)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Contenido del calendario de dieta -->
-                        <tr th:each="entry : ${listaFechas}">
-                            <td th:text="${entry.key}"></td>
-                            <td><!-- Aquí iría la información de Alimentos (Cals) --></td>
-                            <td><!-- Aquí iría el % IDR --></td>
-                            <td><!-- Aquí iría el Resumen Nutricional --></td>
-                            <td>
-                                <ul>
-                                    <li th:each="ejercicio : ${entry.value.ejercicios}">
-                                        <div th:text="${ejercicio.nombre}"></div>
-                                        <div th:text="'Minutos empleados: ' + ${ejercicio.minutos}"></div>
-                                        <!-- Agregar más información del ejercicio si es necesario -->
-                                    </li>
-                                </ul>
-                            </td>
-                            <td><!-- Aquí irían las Netas (Cals) --></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

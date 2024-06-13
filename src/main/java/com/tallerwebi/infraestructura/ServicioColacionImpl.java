@@ -52,4 +52,10 @@ public class ServicioColacionImpl implements ServicioColacion {
             return new ArrayList<>();
         }
     }
+
+    @Override
+    public List<Colacion> obtenerTodasLasColacionesDelUsuario(Usuario usuario) {
+        List <Colacion> colaciones= repositorioColacion.obtenerTodasLasColacionesDelUsuario(usuario);
+        return colaciones;
+    }
 }
