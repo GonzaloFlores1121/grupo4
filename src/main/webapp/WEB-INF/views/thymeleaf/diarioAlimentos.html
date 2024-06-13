@@ -7,19 +7,7 @@
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script>
-        function visibilidad(formid) {
-            var form = document.getElementById(formid);
-            var button = document.getElementById("button");
-            if (form.style.display === "none") {
-                form.style.display = "block";
-                button.textContent = "-";
-            } else {
-                form.style.display = "none";
-                button.textContent = "+";
-            }
-        }
-    </script>
+
 
 </head>
 <body>
@@ -42,33 +30,33 @@
         <h1 th:text="${fechaFormateada}"></h1>
     </div>
 
-
+    <p th:text="${mensajeEliminacion}"></p>
 <div class="row">
     <div class="col-md-4">
-        <div class="colacion" th:if="${almuerzo != null}" th:with="alimentos=${desayuno}">
+        <div class="colacion" th:if="${desayuno != null}" th:with="alimentos=${desayuno}">
             <h2>Desayuno</h2>
         <div th:unless="${#lists.isEmpty(alimentos)}">
             <ul>
-                <li th:each="alimento : ${alimentos}" th:text="${alimento.nombre}">Nombre del Alimento</li>
+                <li th:each="alimento : ${alimentos}">
+                    <span th:text="${alimento.nombre}">Nombre del Alimento</span>
+                    <a th:href="@{/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}(idAlimento=${alimento.id},tipoColacion=${tipoColacionDesayuno},fecha=${fecha})}" class="btn btn-danger">Eliminar</a>
+                </li>
             </ul>
         </div>
-        <button id="button" type="button" class="btn btn-success" th:onclick="|visibilidad('form1')|">+</button>
-            <form style="display:none;" id="form1" th:action="@{/diarioAlimentos/agregarAlimentos}" method="post">
-                <input type="hidden"  id="tipoColacion" value="0" name="tipoColacion" />
-                <input type="hidden"  id="fecha" value="2" name="fecha" />
-                <select multiple="" name="alimentoIds">
-                    <option id="alimentoId" th:each="alimento : ${alimentosbd}" th:value="${alimento.id}" th:text="${alimento.nombre}">Alimento</option>
-                </select>
-                <button class="btn btn-success" type="submit">Agregar Alimentos</button>
-            </form>
-    </div>
 
+    </div>
 
     <div class="colacion" th:if="${almuerzo != null}" th:with="alimentos=${almuerzo}">
         <h2>Almuerzo</h2>
         <div th:unless="${#lists.isEmpty(alimentos)}">
             <ul>
-                <li th:each="alimento : ${alimentos}" th:text="${alimento.nombre}">Nombre del Alimento</li>
+                <li th:each="alimento : ${alimentos}" th:text="${alimento.nombre}">Nombre del Alimento
+                    <a th:href="@{/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}(idAlimento=${alimento.id},
+                    tipoColacion=${tipoColacionAlmuerzo}, fecha=${fecha})}" >
+                        <button class="btn btn-danger">X</button>
+                    </a>
+                </li>
+
             </ul>
         </div>
         <button id="button" type="button" class="btn btn-success" th:onclick="|visibilidad('form2')|">+</button>
@@ -87,7 +75,12 @@
         <h2>Merienda</h2>
         <div th:unless="${#lists.isEmpty(alimentos)}">
             <ul>
-                <li th:each="alimento : ${alimentos}" th:text="${alimento.nombre}">Nombre del Alimento</li>
+                <li th:each="alimento : ${alimentos}" th:text="${alimento.nombre}">Nombre del Alimento
+                    <a th:href="@{/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}(idAlimento=${alimento.id},
+                    tipoColacion=${tipoColacionMerienda}, fecha=${fecha})}" class="btn btn-danger">X</a>
+
+                </li>
+
             </ul>
         </div>
         <button id="button" type="button" class="btn btn-success" th:onclick="|visibilidad('form3')|">+</button>
@@ -106,7 +99,11 @@
         <h2>Cena</h2>
         <div th:unless="${#lists.isEmpty(alimentos)}">
             <ul>
-                <li th:each="alimento : ${alimentos}" th:text="${alimento.nombre}">Nombre del Alimento</li>
+                <li th:each="alimento : ${alimentos}" th:text="${alimento.nombre}">Nombre del Alimento
+                    <a th:href="@{/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}(idAlimento=${alimento.id},
+                    tipoColacion=${tipoColacionCena}, fecha=${fecha})}" class="btn btn-danger">X</a>
+                </li>
+
             </ul>
         </div>
         <button id="button" type="button" class="btn btn-success" th:onclick="|visibilidad('form4')|">+</button>
@@ -125,7 +122,10 @@
         <h2>Snacks</h2>
         <div th:unless="${#lists.isEmpty(alimentos)}">
             <ul>
-                <li th:each="alimento : ${alimentos}" th:text="${alimento.nombre}">Nombre del Alimento</li>
+                <li th:each="alimento : ${alimentos}" th:text="${alimento.nombre}">Nombre del Alimento
+                    <a th:href="@{/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}(idAlimento=${alimento.id},
+                     tipoColacion=${tipoColacionSnacks}, fecha=${fecha})}" class="btn btn-danger">X</a>
+                </li>
             </ul>
         </div>
         <button id="button" type="button" class="btn btn-success" th:onclick="|visibilidad('form5')|">+</button>
@@ -167,7 +167,6 @@
             <div class="card border-0">
                 <div class="card-body">
                     <h2 class="text-center">Mi Ingesta Diaria Recomendada (IDR)</h2>
-                    <p class="lead text-center">LU. 06 MAY 2024</p>
                     <div class="row justify-content-center">
                         <div class="col-md-7">
                             <table class="table">

@@ -1,9 +1,6 @@
 package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.Colacion;
-import com.tallerwebi.dominio.RepositorioColacion;
-import com.tallerwebi.dominio.TipoColacion;
-import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.*;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -43,4 +40,30 @@ public class RepositorioColacionImpl implements RepositorioColacion {
                 .add(Restrictions.eq("tipo", tipo)).list();
     }
 
+    @Override
+    public Colacion obtenerUnaColacionUnica(Alimento alimento, Usuario usuario, TipoColacion tipoColacion, LocalDate fecha) {
+        Session session = sessionFactory.getCurrentSession();
+        // Buscar la colación existente
+        Criteria criteria = session.createCriteria(Colacion.class);
+        criteria.add(Restrictions.eq("alimentos", alimento));
+        criteria.add(Restrictions.eq("usuario", usuario));
+        criteria.add(Restrictions.eq("tipo", tipoColacion));
+        criteria.add(Restrictions.eq("fecha", fecha));
+        Colacion colacionExistente = (Colacion) criteria.uniqueResult();
+
+        return  colacionExistente;
+
+    }
+
+
+    @Override
+    public void eliminarColacion(Alimento alimento, Usuario usuario, TipoColacion tipoColacion, LocalDate fecha) {
+        Session session = sessionFactory.getCurrentSession();
+
+       Colacion colacionExistente= obtenerUnaColacionUnica(alimento, usuario, tipoColacion, fecha);
+
+        if (colacionExistente != null) {
+            session.delete(colacionExistente);
+        }
+    }
 }

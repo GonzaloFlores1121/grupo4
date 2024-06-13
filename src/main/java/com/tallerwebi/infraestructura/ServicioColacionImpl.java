@@ -52,4 +52,10 @@ public class ServicioColacionImpl implements ServicioColacion {
             return new ArrayList<>();
         }
     }
+
+    @Override
+    public void eliminarColacionUsuario(Alimento alimento, Usuario usuario, TipoColacion tipoColacion, LocalDate fecha) {
+
+        repositorioColacion.eliminarColacion(alimento,usuario,tipoColacion,fecha);
+    }
 }

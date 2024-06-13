@@ -35,13 +35,13 @@ public class ControladorMiDiario {
     @RequestMapping(value ="/diarioAlimentos", method = RequestMethod.GET)
     public ModelAndView mostrarVista(){
         LocalDate fechaActual = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-dd");
         String fechaStr = fechaActual.format(formatter);
         return new ModelAndView("redirect:/diarioAlimentos/" + fechaStr);
     }
 
     @RequestMapping(value = "/diarioAlimentos/{fecha}", method = RequestMethod.GET)
-    public ModelAndView mostrarDiarioAlimentosPorFecha(@PathVariable("fecha") String fechaStr, HttpServletRequest request) throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
+    public ModelAndView mostrarDiarioAlimentosPorFecha(@PathVariable("fecha") String fechaStr,@RequestParam(value = "mensajeEliminacion", required = false) String mensajeEliminacion, HttpServletRequest request) throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
         ModelMap model = new ModelMap();
         obtenerUsuarioSession(request, model);
         HttpSession session = request.getSession();
@@ -49,6 +49,9 @@ public class ControladorMiDiario {
 
         if(usuario==null){
             return new ModelAndView("redirect:/inicio");
+        }
+        if (mensajeEliminacion != null) {
+            model.put("mensajeEliminacion", mensajeEliminacion);
         }
 
         LocalDate fecha = parseFecha(fechaStr);
@@ -90,6 +93,25 @@ public class ControladorMiDiario {
             }
         }
         return new ModelAndView("redirect:/diarioAlimentos");
+    }
+    @RequestMapping(value = "/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}", method = RequestMethod.GET)
+    public ModelAndView eliminarAlimentoDeColacion(@PathVariable("idAlimento") Long idAlimento, @PathVariable("tipoColacion") int tipoColacion,
+                                                   @PathVariable("fecha") String fecha, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        if (usuario == null) {
+            return new ModelAndView("redirect:/inicio");
+        }
+
+        try {
+            Alimento alimento = servicioALimento.obtenerAlimentosPorId(idAlimento);
+            servicioColacion.eliminarColacionUsuario(alimento, usuario, TipoColacion.values()[tipoColacion], parseFecha(fecha));
+            return new ModelAndView("redirect:/diarioAlimentos/" + fecha + "?mensajeEliminacion=Alimento+eliminado+exitosamente");
+        } catch (Exception e) {
+
+            return new ModelAndView("redirect:/diarioAlimentos/" + fecha + "?mensajeEliminacion=Error+eliminando+alimento:+ " + e.getMessage());
+        }
     }
 
     @RequestMapping(value = "/detalles_alimento/agregar", method = RequestMethod.POST)
@@ -182,6 +204,12 @@ public class ControladorMiDiario {
         model.put("almuerzo", almuerzo);
         model.put("merienda", merienda);
         model.put("cena", cena);
+
+        model.put("tipoColacionDesayuno", TipoColacion.DESAYUNO.ordinal());
+        model.put("tipoColacionAlmuerzo", TipoColacion.ALMUERZO.ordinal());
+        model.put("tipoColacionMerienda", TipoColacion.MERIENDA.ordinal());
+        model.put("tipoColacionCena", TipoColacion.CENA.ordinal());
+        model.put("tipoColacionSnacks", TipoColacion.SNACKS.ordinal());
     }
 
     private void agregarAlimentosBD(ModelMap model) {

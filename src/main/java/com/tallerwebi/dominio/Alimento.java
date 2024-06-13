@@ -12,7 +12,9 @@ public class Alimento {
     private Long id;
     private String nombre;
     private String imagen;
-    private Integer cantidad=1; //porcion
+
+    @Column(nullable = false, columnDefinition = "integer default 1")
+    private Integer cantidad;
     private Integer energia; // kcal
     private Integer fibra; // g
     private Integer calorias;

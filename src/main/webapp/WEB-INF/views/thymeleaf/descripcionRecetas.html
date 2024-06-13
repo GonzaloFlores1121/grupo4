@@ -48,11 +48,7 @@
             </div>
             <div class="col-md-4">
                 <img th:src="@{'/img/recetas/' + ${receta.imagen}}" class="img-fluid" alt="receta">
-                <span>Alimentos relacionados con esta receta</span>
-                <br>
-                <div th:each="alimento : ${alimentos}">
-                    <a th:href="@{/alimentos/{id}(id=${alimento.id})}" th:text="${alimento.nombre}"></a>
-                </div>
+
             </div>
         </div>
     </div>
@@ -60,57 +56,62 @@
         <aside>
             <h2>Información Nutricional</h2>
             <table>
+
                 <tr>
                     <th>Tamaño de la Porción</th>
-                    <td th:text="${receta.tamanoPorcion}"></td>
+                    <td th:text="${receta.cantidad}+ 'porción' "></td>
+                </tr>
+                <tr>
+                    <th>Calorias</th>
+                    <td th:text="${receta.calorias}"></td>
                 </tr>
                 <tr>
                     <th>Energía</th>
-                    <td th:text="${receta.energia}"></td>
+                    <td th:text="${receta.energia}+' kcal'"></td>
                 </tr>
                 <tr>
                     <th>Carbohidratos</th>
-                    <td th:text="${receta.carbohidratos}"></td>
+                    <td th:text="${receta.carbohidratos}+' g'"></td>
                 </tr>
                 <tr>
                     <th>Azúcar</th>
-                    <td th:text="${receta.azucar}"></td>
+                    <td th:text="${receta.azucar}+ 'g'"></td>
                 </tr>
                 <tr>
                     <th>Proteína</th>
-                    <td th:text="${receta.proteina}"></td>
+                    <td th:text="${receta.proteina}+' g'"></td>
                 </tr>
                 <tr>
                     <th>Grasa</th>
-                    <td th:text="${receta.grasa}"></td>
+                    <td th:text="${receta.grasa}+' g'"></td>
                 </tr>
                 <tr>
                     <th>Grasa Saturada</th>
-                    <td th:text="${receta.grasaSaturada}"></td>
+                    <td th:text="${receta.grasaSaturada+ 'g'}"></td>
                 </tr>
                 <tr>
                     <th>Grasa Poliinsaturada</th>
-                    <td th:text="${receta.grasaPoliinsaturada}"></td>
+                    <td th:text="${receta.grasaPoliinsaturada}+ 'g'"></td>
                 </tr>
                 <tr>
                     <th>Grasa Monoinsaturada</th>
-                    <td th:text="${receta.grasaMonoinsaturada}"></td>
+                    <td th:text="${receta.grasaMonoinsaturada}+' g'"></td>
                 </tr>
                 <tr>
                     <th>Colesterol</th>
-                    <td th:text="${receta.colesterol}"></td>
+                    <td th:text="${receta.colesterol}+ 'mg'"></td>
                 </tr>
                 <tr>
                     <th>Fibra</th>
-                    <td th:text="${receta.fibra}"></td>
+                    <td th:text="${receta.fibra}+ 'g'"></td>
                 </tr>
                 <tr>
                     <th>Sodio</th>
-                    <td th:text="${receta.sodio}"></td>
+                    <td th:text="${receta.sodio}+' mg'"></td>
                 </tr>
                 <tr>
                     <th>Potasio</th>
-                    <td th:text="${receta.potasio}"></td>
+                    <td th:text="${receta.potasio}+' mg'"></td>
                 </tr>
             </table>
         </aside>

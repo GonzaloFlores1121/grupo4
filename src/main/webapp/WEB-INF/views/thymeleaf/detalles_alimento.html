@@ -75,60 +75,65 @@
         <div class="col-md-4">
             <aside>
                 <h2>Información Nutricional</h2>
-        <table>
-            <tr>
-                <th>Tamaño de la Porción</th>
-                <td th:text="${alimento.tamanoPorcion}"></td>
-            </tr>
-            <tr>
-                <th>Energía</th>
-                <td th:text="${alimento.energia}"></td>
-            </tr>
-            <tr>
-                <th>Carbohidratos</th>
-                <td th:text="${alimento.carbohidratos}"></td>
-            </tr>
-            <tr>
-                <th>Azúcar</th>
-                <td th:text="${alimento.azucar}"></td>
-            </tr>
-            <tr>
-                <th>Proteína</th>
-                <td th:text="${alimento.proteina}"></td>
-            </tr>
-            <tr>
-                <th>Grasa</th>
-                <td th:text="${alimento.grasa}"></td>
-            </tr>
-            <tr>
-                <th>Grasa Saturada</th>
-                <td th:text="${alimento.grasaSaturada}"></td>
-            </tr>
-            <tr>
-                <th>Grasa Poliinsaturada</th>
-                <td th:text="${alimento.grasaPoliinsaturada}"></td>
-            </tr>
-            <tr>
-                <th>Grasa Monoinsaturada</th>
-                <td th:text="${alimento.grasaMonoinsaturada}"></td>
-            </tr>
-            <tr>
-                <th>Colesterol</th>
-                <td th:text="${alimento.colesterol}"></td>
-            </tr>
-            <tr>
-                <th>Fibra</th>
-                <td th:text="${alimento.fibra}"></td>
-            </tr>
-            <tr>
-                <th>Sodio</th>
-                <td th:text="${alimento.sodio}"></td>
-            </tr>
-            <tr>
-                <th>Potasio</th>
-                <td th:text="${alimento.potasio}"></td>
-            </tr>
-        </table>
+                <table>
+
+                    <tr>
+                        <th>Tamaño de la Porción</th>
+                        <td th:text="${alimento.cantidad}+ ' porción' "></td>
+                    </tr>
+                    <tr>
+                        <th>Calorias</th>
+                        <td th:text="${alimento.calorias}"></td>
+                    </tr>
+                    <tr>
+                        <th>Energía</th>
+                        <td th:text="${alimento.energia}+' kcal'"></td>
+                    </tr>
+                    <tr>
+                        <th>Carbohidratos</th>
+                        <td th:text="${alimento.carbohidratos}+' g'"></td>
+                    </tr>
+                    <tr>
+                        <th>Azúcar</th>
+                        <td th:text="${alimento.azucar}+ 'g'"></td>
+                    </tr>
+                    <tr>
+                        <th>Proteína</th>
+                        <td th:text="${alimento.proteina}+' g'"></td>
+                    </tr>
+                    <tr>
+                        <th>Grasa</th>
+                        <td th:text="${alimento.grasa}+' g'"></td>
+                    </tr>
+                    <tr>
+                        <th>Grasa Saturada</th>
+                        <td th:text="${alimento.grasaSaturada+ 'g'}"></td>
+                    </tr>
+                    <tr>
+                        <th>Grasa Poliinsaturada</th>
+                        <td th:text="${alimento.grasaPoliinsaturada}+ 'g'"></td>
+                    </tr>
+                    <tr>
+                        <th>Grasa Monoinsaturada</th>
+                        <td th:text="${alimento.grasaMonoinsaturada}+' g'"></td>
+                    </tr>
+                    <tr>
+                        <th>Colesterol</th>
+                        <td th:text="${alimento.colesterol}+ 'mg'"></td>
+                    </tr>
+                    <tr>
+                        <th>Fibra</th>
+                        <td th:text="${alimento.fibra}+ 'g'"></td>
+                    </tr>
+                    <tr>
+                        <th>Sodio</th>
+                        <td th:text="${alimento.sodio}+' mg'"></td>
+                    </tr>
+                    <tr>
+                        <th>Potasio</th>
+                        <td th:text="${alimento.potasio}+' mg'"></td>
+                    </tr>
+                </table>
             </aside>
         </div>
     </div>
