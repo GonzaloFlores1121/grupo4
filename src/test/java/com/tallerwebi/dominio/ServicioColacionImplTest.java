@@ -18,7 +18,7 @@ public class ServicioColacionImplTest {
         RepositorioColacion repositorioColacion = Mockito.mock(RepositorioColacion.class);
 
         ServicioColacionImpl servicioColacion = new ServicioColacionImpl(repositorioColacion);
-
+    int cantidad=1;
 
         Alimento alimento = new Alimento();
         alimento.setId(1L);
@@ -27,7 +27,7 @@ public class ServicioColacionImplTest {
         TipoColacion tipoColacion = TipoColacion.DESAYUNO;
         LocalDate fecha = LocalDate.now();
 
-        servicioColacion.guardarColacionUsuario(alimento, usuario, tipoColacion, fecha);
+        servicioColacion.guardarColacionUsuario(alimento, usuario,cantidad, tipoColacion ,fecha);
 
 
         Mockito.verify(repositorioColacion, times(1)).agregarColacion(any(Colacion.class));

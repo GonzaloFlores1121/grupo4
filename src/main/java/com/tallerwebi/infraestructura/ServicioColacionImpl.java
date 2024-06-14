@@ -19,8 +19,10 @@ public class ServicioColacionImpl implements ServicioColacion {
     }
 
     @Override
-    public void guardarColacionUsuario(Alimento alimento, Usuario usuario, TipoColacion tipoColacion, LocalDate fecha) throws Exception {
-        Colacion colacion= new Colacion();
+    public void guardarColacionUsuario(Alimento alimento, Usuario usuario,int cantidad,TipoColacion tipoColacion, LocalDate fecha) throws Exception {
+        Colacion colacion = new Colacion();
+        alimento.setCantidad(cantidad);
+        alimento.actualizarValoresNutricionalesPorCantidad();
         colacion.setAlimentos(alimento);
         colacion.setFecha(fecha);
         colacion.setTipo(tipoColacion);

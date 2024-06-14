@@ -67,7 +67,7 @@ public class ControladorMiDiario {
 
     @RequestMapping(value = "/diarioAlimentos/agregarAlimentos", method = RequestMethod.POST)
     public ModelAndView agregarAlimentoAcolacion(@RequestParam List<Long> alimentoIds, @RequestParam("tipoColacion") int tipoColacion,
-                                           @RequestParam("fecha") int fecha, HttpServletRequest request) {
+                                           @RequestParam("fecha") int fecha, int cantidad,HttpServletRequest request) {
         ModelMap model = new ModelMap();
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
@@ -81,7 +81,7 @@ public class ControladorMiDiario {
 
                 for (Long alimentoId : alimentoIds) {
                     Alimento alimento = servicioALimento.obtenerAlimentosPorId(alimentoId);
-                    servicioColacion.guardarColacionUsuario(alimento, usuario, tipo,
+                    servicioColacion.guardarColacionUsuario(alimento, usuario, cantidad,tipo,
                             calcularFechaPorString(fecha));
                     model.put("alimento", alimento);
                 }
@@ -107,16 +107,16 @@ public class ControladorMiDiario {
         try {
             Alimento alimento = servicioALimento.obtenerAlimentosPorId(idAlimento);
             servicioColacion.eliminarColacionUsuario(alimento, usuario, TipoColacion.values()[tipoColacion], parseFecha(fecha));
-            return new ModelAndView("redirect:/diarioAlimentos/" + fecha + "?mensajeEliminacion=Alimento+eliminado+exitosamente");
+            return new ModelAndView("redirect:/diarioAlimentos/" + fecha);
         } catch (Exception e) {
 
-            return new ModelAndView("redirect:/diarioAlimentos/" + fecha + "?mensajeEliminacion=Error+eliminando+alimento:+ " + e.getMessage());
+            return new ModelAndView("redirect:/diarioAlimentos/" + fecha );
         }
     }
 
     @RequestMapping(value = "/detalles_alimento/agregar", method = RequestMethod.POST)
     public ModelAndView guardarUnaColacion(@RequestParam("alimentoId") Long idAlimento, @RequestParam("tipoColacion") int tipoColacion,
-                                           @RequestParam("fecha") int fecha, @RequestParam("cantidad") Integer cantidad,
+                                           @RequestParam("fecha") String fecha, @RequestParam("cantidad") Integer cantidad,
                                            @RequestParam("action") String action,
                                            HttpServletRequest request) {
         ModelMap model = new ModelMap();
@@ -132,9 +132,9 @@ public class ControladorMiDiario {
 
         switch (action) {
             case "guardar":
-                return manejarLaAccionDeGuardadoColacion(alimento, usuario, tipo, fecha, model);
+                return manejarLaAccionDeGuardadoColacion(alimento, usuario, tipo, fecha,cantidad, model);
             case "actualizar":
-                return manejarLaAccionDeActualizarLosDatosDeLaVistaDeAlimentos(model);
+                return manejarLaAccionDeActualizarLosDatosDeLaVistaDeAlimentos(model,cantidad,alimento);
             case "cancelar":
                 return manejarLaAccionDeCancelarElGuardadoDeColacion();
             default:
@@ -142,19 +142,22 @@ public class ControladorMiDiario {
         }
     }
 
-    private ModelAndView manejarLaAccionDeGuardadoColacion(Alimento alimento, Usuario usuario, TipoColacion tipo, int fecha, ModelMap model) {
+    private ModelAndView manejarLaAccionDeGuardadoColacion(Alimento alimento, Usuario usuario, TipoColacion tipo, String fechaString,int cantidad ,ModelMap model) {
+      LocalDate fecha= parseFecha(fechaString);
         try {
-            servicioColacion.guardarColacionUsuario(alimento, usuario, tipo, calcularFechaPorString(fecha));
-            model.put("mensaje", "Colacion agregada correctamente");
-            model.put("alimento", alimento);
-            return new ModelAndView("detalles_alimento", model);
+            servicioColacion.guardarColacionUsuario(alimento, usuario,cantidad,tipo,parseFecha(fechaString));
+
+            return new ModelAndView("redirect:/diarioAlimentos/"+ fecha);
         } catch (Exception e) {
             model.put("mensaje", "Error agregando colacion: " + e.getMessage());
+            model.put("alimento",alimento);
             return new ModelAndView("detalles_alimento", model);
         }
     }
 
-    private ModelAndView manejarLaAccionDeActualizarLosDatosDeLaVistaDeAlimentos(ModelMap model) {
+    private ModelAndView manejarLaAccionDeActualizarLosDatosDeLaVistaDeAlimentos(ModelMap model,int cantidad,Alimento alimento) {
+      model.put("cantidad",cantidad);
+        model.put("alimento",alimento);
         return new ModelAndView("detalles_alimento", model);
     }
 

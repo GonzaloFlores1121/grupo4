@@ -15,6 +15,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
 </head>
 <body>
+
 <div th:replace="navbar :: navbar"></div>
 
 <div class="container">
@@ -51,16 +52,15 @@
                             <option value="4">Cena</option>
                         </select>
                     </div>
+
+                    <div class="form-group">
                     <label for="fecha">Fecha:</label>
-                    <select id="fecha" name="fecha">
-                        <option value="1">Ayer</option>
-                        <option value="2" selected>Hoy</option>
-                        <option value="3">Mañana</option>
-                    </select>
+                    <input type="date" id="fecha" name="fecha" />
+                    </div>
 
                     <div class="form-group">
                         <label for="cantidad">Cantidad:</label>
-                        <input type="number" id="cantidad" name="cantidad" min="1"  />
+                        <input type="number" id="cantidad" name="cantidad" min="1"  th:value="${cantidad}" />
                     </div>
 
                     <button type="submit" name="action" value="guardar">Guardar</button>
@@ -79,59 +79,59 @@
 
                     <tr>
                         <th>Tamaño de la Porción</th>
-                        <td th:text="${alimento.cantidad}+ ' porción' "></td>
+                        <td th:text="${alimento.cantidad }+ ' porción' "></td>
                     </tr>
                     <tr>
                         <th>Calorias</th>
-                        <td th:text="${alimento.calorias}"></td>
+                        <td th:text="${alimento.calorias * (cantidad != null ? cantidad : 1)}"></td>
                     </tr>
                     <tr>
                         <th>Energía</th>
-                        <td th:text="${alimento.energia}+' kcal'"></td>
+                        <td th:text="${alimento.energia * (cantidad != null ? cantidad : 1)}+' kcal'"></td>
                     </tr>
                     <tr>
                         <th>Carbohidratos</th>
-                        <td th:text="${alimento.carbohidratos}+' g'"></td>
+                        <td th:text="${alimento.carbohidratos * (cantidad != null ? cantidad : 1)}+' g'"></td>
                     </tr>
                     <tr>
                         <th>Azúcar</th>
-                        <td th:text="${alimento.azucar}+ 'g'"></td>
+                        <td th:text="${alimento.azucar * (cantidad != null ? cantidad : 1)}+ 'g'"></td>
                     </tr>
                     <tr>
                         <th>Proteína</th>
-                        <td th:text="${alimento.proteina}+' g'"></td>
+                        <td th:text="${alimento.proteina * (cantidad != null ? cantidad : 1)}+' g'"></td>
                     </tr>
                     <tr>
                         <th>Grasa</th>
-                        <td th:text="${alimento.grasa}+' g'"></td>
+                        <td th:text="${alimento.grasa * (cantidad != null ? cantidad : 1)}+' g'"></td>
                     </tr>
                     <tr>
                         <th>Grasa Saturada</th>
-                        <td th:text="${alimento.grasaSaturada+ 'g'}"></td>
+                        <td th:text="${alimento.grasaSaturada * (cantidad != null ? cantidad : 1)}+' g'"></td>
                     </tr>
                     <tr>
                         <th>Grasa Poliinsaturada</th>
-                        <td th:text="${alimento.grasaPoliinsaturada}+ 'g'"></td>
+                        <td th:text="${alimento.grasaPoliinsaturada * (cantidad != null ? cantidad : 1)}+ 'g'"></td>
                     </tr>
                     <tr>
                         <th>Grasa Monoinsaturada</th>
-                        <td th:text="${alimento.grasaMonoinsaturada}+' g'"></td>
+                        <td th:text="${alimento.grasaMonoinsaturada * (cantidad != null ? cantidad : 1)}+' g'"></td>
                     </tr>
                     <tr>
                         <th>Colesterol</th>
-                        <td th:text="${alimento.colesterol}+ 'mg'"></td>
+                        <td th:text="${alimento.colesterol * (cantidad != null ? cantidad : 1)}+ 'mg'"></td>
                     </tr>
                     <tr>
                         <th>Fibra</th>
-                        <td th:text="${alimento.fibra}+ 'g'"></td>
+                        <td th:text="${alimento.fibra * (cantidad != null ? cantidad : 1)}+ 'g'"></td>
                     </tr>
                     <tr>
                         <th>Sodio</th>
-                        <td th:text="${alimento.sodio}+' mg'"></td>
+                        <td th:text="${alimento.sodio * (cantidad != null ? cantidad : 1)}+' mg'"></td>
                     </tr>
                     <tr>
                         <th>Potasio</th>
-                        <td th:text="${alimento.potasio}+' mg'"></td>
+                        <td th:text="${alimento.potasio * (cantidad != null ? cantidad : 1)}+' mg'"></td>
                     </tr>
                 </table>
             </aside>
@@ -140,6 +140,17 @@
 </div>
 
 <div th:replace="footer :: footer"></div>
+<script>
+    // Obtener la fecha actual
+    var today = new Date();
+
+    // Formatear la fecha al formato yyyy-MM-dd
+    var formattedDate = today.getFullYear() + '-' + (today.getMonth() + 1).toString().padStart(2, '0') + '-' + today.getDate().toString().padStart(2, '0');
+
+    // Establecer la fecha formateada como valor por defecto del input de fecha
+    document.getElementById('fecha').value = formattedDate;
+</script>
+
 </body>
 </html>
 <style>

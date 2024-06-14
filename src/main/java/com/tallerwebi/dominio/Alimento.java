@@ -39,6 +39,23 @@ public class Alimento {
 
     public Alimento() {}
 
+    public void actualizarValoresNutricionalesPorCantidad() {
+        this.calorias *= cantidad;
+        this.energia *= cantidad;
+        this.carbohidratos *= cantidad;
+        this.azucar *= cantidad;
+        this.proteina *= cantidad;
+        this.grasa *= cantidad;
+        this.grasaSaturada *= cantidad;
+        this.grasaPoliinsaturada *= cantidad;
+        this.grasaMonoinsaturada *= cantidad;
+        this.colesterol *= cantidad;
+        this.fibra *= cantidad;
+        this.sodio *= cantidad;
+        this.potasio *= cantidad;
+    }
+
+
     public Long getId() {return id;}
     public void setId(Long id) {this.id = id;}
 
@@ -51,6 +68,7 @@ public class Alimento {
     public Integer getCantidad() {
         return cantidad;
     }
+
 
     public void setCantidad(Integer cantidad) {
         this.cantidad = cantidad;
