@@ -9,13 +9,13 @@ import java.util.Map;
 public class Calendario {
     private List<EjercicioUsuario> ejercicios;
     private List<Colacion> colaciones;
-    private Map<Date, Integer> caloriasConsumidasPorFecha;
+    private Integer caloriasConsumidas;
     private Integer caloriasQuemadas;
 
     public Calendario() {
         this.ejercicios = new ArrayList<>();
         this.colaciones = new ArrayList<>();
-        this.caloriasConsumidasPorFecha = new HashMap<>();
+        this.caloriasConsumidas = 0;
         this.caloriasQuemadas = 0;
     }
 
@@ -34,15 +34,21 @@ public class Calendario {
 
     public void agregarColacion(Colacion colacion) {
         colaciones.add(colacion);
+        int calorias = colacion.getAlimentos().getEnergia();
+        caloriasConsumidas += calorias;
 
     }
 
-    public Map<Date, Integer> getCaloriasConsumidasPorFecha() {
-        return caloriasConsumidasPorFecha;
+    public Integer getCaloriasConsumidas() {
+        return caloriasConsumidas;
     }
 
-    public void setCaloriasConsumidasPorFecha(Map<Date, Integer> caloriasConsumidasPorFecha) {
-        this.caloriasConsumidasPorFecha = caloriasConsumidasPorFecha;
+    public void setCaloriasConsumidas(Integer caloriasConsumidas) {
+        this.caloriasConsumidas = caloriasConsumidas;
+    }
+
+    public void setCaloriasQuemadas(Integer caloriasQuemadas) {
+        this.caloriasQuemadas = caloriasQuemadas;
     }
 
     public Integer getCaloriasQuemadas() {

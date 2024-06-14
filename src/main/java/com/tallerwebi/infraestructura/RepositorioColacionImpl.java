@@ -49,4 +49,22 @@ public class RepositorioColacionImpl implements RepositorioColacion {
         return query.getResultList();
     }
 
+    @Override
+    public List<Colacion> obtenerTodasLasColacionesDelUsuarioPorFecha(Usuario usuario, LocalDate fecha) {
+        Session session = sessionFactory.openSession();
+        String hql = "FROM Colacion c WHERE c.usuario = :usuario AND c.fecha=:fecha";
+        Query<Colacion> query = session.createQuery(hql, Colacion.class);
+        query.setParameter("usuario", usuario);
+        query.setParameter("fecha", fecha);
+        return query.getResultList();
+    }
+
+    @Override
+    public Colacion obtenerColacionPorId(Long id) {
+        Session session = sessionFactory.openSession();
+        return (Colacion) sessionFactory.getCurrentSession().createCriteria(Colacion.class)
+                .add(Restrictions.eq("id", id))
+                .uniqueResult();
+    }
+
 }

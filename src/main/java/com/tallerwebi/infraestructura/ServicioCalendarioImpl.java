@@ -43,17 +43,7 @@ public class ServicioCalendarioImpl implements ServicioCalendario {
             Calendario calendario = reportePorFecha.computeIfAbsent(Date.valueOf(fecha), k -> new Calendario());
             calendario.agregarColacion(colacion);
         }
-        for (Calendario calendario : reportePorFecha.values()) {
-            Map<Date, Integer> caloriasPorFecha = new HashMap<>();
-            for (Colacion colacion : calendario.getColaciones()) {
-                LocalDate fecha = colacion.getFecha();
-                Date fechaSql = Date.valueOf(fecha);
-                int calorias = caloriasPorFecha.getOrDefault(fechaSql, 0);
-                calorias += colacion.getAlimentos().getEnergia();
-                caloriasPorFecha.put(fechaSql, calorias);
-            }
-            calendario.setCaloriasConsumidasPorFecha(caloriasPorFecha);
-        }
+
         return reportePorFecha;
     }
 

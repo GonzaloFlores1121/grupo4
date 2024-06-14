@@ -68,8 +68,6 @@ public class ControladorCalendario {
     }
 
 
-
-
     private void obtenerUsuarioSession(HttpServletRequest request, ModelMap model) {
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");

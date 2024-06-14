@@ -46,18 +46,13 @@
                     <tr th:each="entry : ${listaFechas}">
                         <td th:text="${#dates.format(entry.key, 'dd/MM/yyyy')}"></td>
                         <td>
-                            <ul>
-                                <li th:each="colacion : ${entry.value.colaciones}">
-                                    <span th:text="${colacion.alimentos.nombre}"></span>
-                                    <span th:text="'Cantidad consumida: ' + ${colacion.cantidad}"></span>
-                                </li>
-                            </ul>
+
                             <div th:if="${entry.value.colaciones.size() > 0}">
-                                <button type="button" class="btn btn-sm btn-primary" th:attr="data-date=${#dates.format(entry.key, 'dd/MM/yyyy')}" onclick="showColaciones(this.getAttribute('data-date'))">Ver Comida</button>
+                                <a th:href="@{/misAlimentos(fecha=${#dates.format(entry.key, 'yyyy-MM-dd')})}" class="btn btn-sm btn-primary">Ver Comida</a>
                             </div>
                         </td>
                         <td>
-                            <span th:text="${entry.value.caloriasConsumidasPorFecha[entry.key]}"></span>
+                          <span th:text="${entry.value.caloriasConsumidas}"></span>
                         </td>
                         <td>
                             <ul>

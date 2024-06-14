@@ -8,4 +8,8 @@ public interface RepositorioColacion {
   List<Colacion> obtenerColacionesPorFechaYUsuarioYTipo(LocalDate fecha, Usuario user, TipoColacion tipo);
 
     List<Colacion> obtenerTodasLasColacionesDelUsuario(Usuario user);
+
+    List<Colacion> obtenerTodasLasColacionesDelUsuarioPorFecha(Usuario usuario, LocalDate fecha);
+
+  Colacion obtenerColacionPorId(Long id);
 }
