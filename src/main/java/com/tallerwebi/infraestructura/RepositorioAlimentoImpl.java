@@ -30,6 +30,10 @@ public class RepositorioAlimentoImpl implements RepositorioAlimento {
         Session session = sessionFactory.getCurrentSession();
         session.update(alimento);
     }
+    public void save(Alimento alimento) {
+        Session session = sessionFactory.getCurrentSession();
+        session.save(alimento);
+    }
 
     @Override
     public List<Alimento> consultarAlimentos() {
@@ -40,10 +44,10 @@ public class RepositorioAlimentoImpl implements RepositorioAlimento {
     @Override
     public List<Alimento> consultarAlimentosPorCategoriaYNombre(Long idCategoria, String nombre) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from Alimento al where al.categoria.id=:idCategoria and LOWER(al.nombre) like LOWER(:nombre)", Alimento.class)
-                                            .setParameter("idCategoria", idCategoria)
-                                            .setParameter("nombre", "%"+nombre+"%")
-                                            .list();
+        return session.createQuery("from Alimento al where al.categoria.id=:idCategoria and LOWER(al.nombre) like LOWER(:nombre) and al.esPersonalizado = false", Alimento.class)
+                .setParameter("idCategoria", idCategoria)
+                .setParameter("nombre", "%"+nombre+"%")
+                .list();
     }
     
 }

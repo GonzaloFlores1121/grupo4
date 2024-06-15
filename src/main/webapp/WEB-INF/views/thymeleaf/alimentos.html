@@ -54,7 +54,8 @@
                 <div class="card text-center">
                     <img th:src="@{'/img/alimentos/' + ${alimento.imagen}}" class="card-img-top mx-auto d-block" alt="alimento_imagen" style="max-width:150px;min-height:150px;">
                     <div class="card-body">
-                        <a th:href="@{/alimentos/{id}(id=${alimento.id})}">
+                        <a th:href="@{/alimentos/{id}(id=${alimento.id}, from='alimentos')}">
+
                             <h5 th:text="${alimento.nombre}" class="card-title"></h5>
                         </a>
                     </div>

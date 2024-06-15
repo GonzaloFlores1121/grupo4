@@ -10,4 +10,7 @@ public interface RepositorioColacion {
     void eliminarColacion(Alimento alimento, Usuario usuario, TipoColacion tipoColacion, LocalDate fecha);
 
 
+    void update(Colacion colacion);
+
+    Colacion obtenerColacionPorAlimento(Alimento alimento);
 }

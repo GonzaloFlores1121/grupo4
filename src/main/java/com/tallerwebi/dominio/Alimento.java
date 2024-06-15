@@ -28,11 +28,13 @@ public class Alimento {
     private Double carbohidratos; // g
     private Double azucar; // g
     private Double proteina; // g
+    private boolean esPersonalizado;
 
 
-    @ManyToOne(optional = true)
-    @JoinColumn(name = "colacion_id", nullable = true)
-    private Colacion colacion;
+
+    @OneToMany(mappedBy = "alimentos")
+    private List<Colacion> colaciones;
+
     @ManyToOne
     @JoinColumn(name = "categoria_id")
     private CategoriaAlimento categoria;
@@ -55,6 +57,21 @@ public class Alimento {
         this.potasio *= cantidad;
     }
 
+    public List<Colacion> getColaciones() {
+        return colaciones;
+    }
+
+    public void setColaciones(List<Colacion> colaciones) {
+        this.colaciones = colaciones;
+    }
+
+    public boolean isEsPersonalizado() {
+        return esPersonalizado;
+    }
+
+    public void setEsPersonalizado(boolean esPersonalizado) {
+        this.esPersonalizado = esPersonalizado;
+    }
 
     public Long getId() {return id;}
     public void setId(Long id) {this.id = id;}
@@ -178,8 +195,7 @@ public class Alimento {
         this.proteina = proteina;
     }
 
-    public Colacion getColacion() {return colacion;}
-    public void setColacion(Colacion colacion) {this.colacion = colacion;}
+
 
     public CategoriaAlimento getCategoria() {return categoria;}
     public void setCategoria(CategoriaAlimento categoria) {this.categoria = categoria;}

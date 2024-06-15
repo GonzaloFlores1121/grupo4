@@ -66,4 +66,18 @@ public class RepositorioColacionImpl implements RepositorioColacion {
             session.delete(colacionExistente);
         }
     }
+
+    @Override
+    public void update(Colacion colacion) {
+        Session session = sessionFactory.getCurrentSession();
+        session.update(colacion);
+    }
+
+    @Override
+    public Colacion obtenerColacionPorAlimento(Alimento alimento) {
+        Session session = sessionFactory.getCurrentSession();
+        Criteria criteria = session.createCriteria(Colacion.class);
+        criteria.add(Restrictions.eq("alimentos", alimento));
+        return (Colacion) criteria.uniqueResult();
+    }
 }

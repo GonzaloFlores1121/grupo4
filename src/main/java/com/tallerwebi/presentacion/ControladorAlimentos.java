@@ -21,11 +21,13 @@ public class ControladorAlimentos {
 
     private ServicioCategoriaAlimento servicioCategoriaAlimentos;
     private ServicioAlimento servicioAlimento;
+    private ServicioColacion servicioColacion;
 
     @Autowired
-    public ControladorAlimentos(ServicioCategoriaAlimento servicioCategoriaAlimentos, ServicioAlimento servicioAlimento) {
+    public ControladorAlimentos(ServicioCategoriaAlimento servicioCategoriaAlimentos, ServicioAlimento servicioAlimento,ServicioColacion servicioColacion) {
         this.servicioCategoriaAlimentos = servicioCategoriaAlimentos;
         this.servicioAlimento = servicioAlimento;
+        this.servicioColacion = servicioColacion;
     }
 
     @RequestMapping(path = "/categoria_alimentos", method = RequestMethod.GET)
@@ -102,17 +104,22 @@ public class ControladorAlimentos {
     }
 
     @RequestMapping(path = "/alimentos/{id}", method = RequestMethod.GET)
-    public ModelAndView irALimentos(@PathVariable Long id, HttpServletRequest request) {
+    public ModelAndView irALimentos(@PathVariable Long id, HttpServletRequest request,@RequestParam(value = "from", defaultValue = "defaultFromValue") String from) {
         ModelMap model = new ModelMap();
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         if(usuario != null) {
             model.addAttribute("usuario", usuario);
             Alimento alimento = servicioAlimento.obtenerAlimentosPorId(id);
+
+            Integer cantidad= alimento.getCantidad();
             model.put("alimento", alimento);
+            model.put("from",from);
+            model.put("cantidad",cantidad);
             return new ModelAndView("detalles_alimento", model);        
         }
         return new ModelAndView("redirect:/inicio");
     }
+
 
 }

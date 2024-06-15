@@ -36,5 +36,10 @@ public class ServicioAlimentoImpl implements ServicioAlimento {
         return repositorioAlimento.consultarAlimentosPorCategoriaYNombre(idCategoria, nombre);
     }
 
+    @Override
+    public void actualizarAlimento(Alimento alimento) {
+        repositorioAlimento.update(alimento);
+    }
+
 }
 

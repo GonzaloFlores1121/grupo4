@@ -15,7 +15,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
 </head>
 <body>
-
 <div th:replace="navbar :: navbar"></div>
 
 <div class="container">
@@ -32,19 +31,22 @@
 </div>
 
 <div class="container" style="min-height: 60vh;">
-
     <div class="row">
-        <div class="col-md-8">
-            <h1 class="text-center mt-5" th:text="${alimento.nombre}"></h1>
-            <img th:src="@{'/img/alimentos/'+ ${alimento.imagen}}" class="card-img-top img-fluid mx-auto d-block" style="width: 250px; height: 250px;" alt="alimento" >
-
-            <div class="form-group">
-                <form th:action="@{/detalles_alimento/agregar}" method="post">
-                    <input type="hidden" th:value="${alimento.id}" name="alimentoId"/>
-
-                    <div class="form-group">
-                        <label for="tipoColacion">Comida:</label>
-                        <select id="tipoColacion" name="tipoColacion">
+        <div class="col-md-6">
+            <img th:src="@{'/img/alimentos/' + ${alimento.imagen}}" class="card-img-top img-fluid mx-auto d-block" style="width: 250px; height: 250px;" alt="alimento">
+            <form th:action="@{/detalles_alimento/agregar}" method="post" class="form-horizontal">
+                <input type="hidden" th:value="${alimento.id}" name="alimentoId" />
+                <input type="hidden" th:value="${from}" name="from" />
+                <div class="form-group row">
+                    <label for="nombre" class="col-sm-2 col-form-label">Nombre:</label>
+                    <div class="col-sm-10">
+                        <input type="text" th:value="${alimento.nombre}" name="nombre" id="nombre" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="tipoColacion" class="col-sm-2 col-form-label">Comida:</label>
+                    <div class="col-sm-10">
+                        <select id="tipoColacion" name="tipoColacion" class="form-control">
                             <option value="0">Desayuno</option>
                             <option value="1">Snacks</option>
                             <option value="2">Almuerzo</option>
@@ -52,86 +54,89 @@
                             <option value="4">Cena</option>
                         </select>
                     </div>
-
-                    <div class="form-group">
-                    <label for="fecha">Fecha:</label>
-                    <input type="date" id="fecha" name="fecha" />
+                </div>
+                <div class="form-group row">
+                    <label for="fecha" class="col-sm-2 col-form-label">Fecha:</label>
+                    <div class="col-sm-10">
+                        <input type="date" id="fecha" name="fecha" class="form-control" />
                     </div>
-
-                    <div class="form-group">
-                        <label for="cantidad">Cantidad:</label>
-                        <input type="number" id="cantidad" name="cantidad" min="1"  th:value="${cantidad}" />
+                </div>
+                <div class="form-group row">
+                    <label for="cantidad" class="col-sm-2 col-form-label">Cantidad:</label>
+                    <div class="col-sm-10">
+                        <input type="number" id="cantidad" name="cantidad" min="1" th:value="${cantidad != null ? cantidad : (alimento.cantidad != null ? alimento.cantidad : 1)}" class="form-control" />                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <button type="submit" name="action" value="guardar" class="btn btn-primary">Guardar</button>
+                        <button type="submit" name="action" value="actualizar" class="btn btn-primary">Actualizar</button>
+                        <button type="submit" name="action" value="cancelar" class="btn btn-primary">Cancelar</button>
                     </div>
-
-                    <button type="submit" name="action" value="guardar">Guardar</button>
-                    <button type="submit" name="action" value="actualizar">Actualizar</button>
-                    <button type="submit" name="action" value="cancelar">Cancelar</button>
-                </form>
-            </div>
+                </div>
+            </form>
             <p th:text="${mensaje}"></p>
         </div>
 
 
-        <div class="col-md-4">
+        <div class="col-md-6">
             <aside>
                 <h2>Información Nutricional</h2>
                 <table>
-
                     <tr>
                         <th>Tamaño de la Porción</th>
-                        <td th:text="${alimento.cantidad }+ ' porción' "></td>
+                        <td th:text="${cantidad} + (${cantidad} == 1 ? ' porción' : ' porciones')"></td>
                     </tr>
                     <tr>
-                        <th>Calorias</th>
+                        <th>Calorías</th>
                         <td th:text="${alimento.calorias * (cantidad != null ? cantidad : 1)}"></td>
                     </tr>
                     <tr>
                         <th>Energía</th>
-                        <td th:text="${alimento.energia * (cantidad != null ? cantidad : 1)}+' kcal'"></td>
+                        <td th:text="${alimento.energia * (cantidad != null ? cantidad : 1)} + ' kcal'"></td>
                     </tr>
                     <tr>
                         <th>Carbohidratos</th>
-                        <td th:text="${alimento.carbohidratos * (cantidad != null ? cantidad : 1)}+' g'"></td>
+                        <td th:text="${alimento.carbohidratos * (cantidad != null ? cantidad : 1)} + ' g'"></td>
                     </tr>
                     <tr>
                         <th>Azúcar</th>
-                        <td th:text="${alimento.azucar * (cantidad != null ? cantidad : 1)}+ 'g'"></td>
+                        <td th:text="${alimento.azucar * (cantidad != null ? cantidad : 1)} + ' g'"></td>
                     </tr>
                     <tr>
                         <th>Proteína</th>
-                        <td th:text="${alimento.proteina * (cantidad != null ? cantidad : 1)}+' g'"></td>
+                        <td th:text="${alimento.proteina * (cantidad != null ? cantidad : 1)} + ' g'"></td>
                     </tr>
                     <tr>
                         <th>Grasa</th>
-                        <td th:text="${alimento.grasa * (cantidad != null ? cantidad : 1)}+' g'"></td>
+                        <td th:text="${alimento.grasa * (cantidad != null ? cantidad : 1)} + ' g'"></td>
                     </tr>
                     <tr>
                         <th>Grasa Saturada</th>
-                        <td th:text="${alimento.grasaSaturada * (cantidad != null ? cantidad : 1)}+' g'"></td>
+                        <td th:text="${alimento.grasaSaturada * (cantidad != null ? cantidad : 1)} + ' g'"></td>
                     </tr>
                     <tr>
                         <th>Grasa Poliinsaturada</th>
-                        <td th:text="${alimento.grasaPoliinsaturada * (cantidad != null ? cantidad : 1)}+ 'g'"></td>
+                        <td th:text="${alimento.grasaPoliinsaturada * (cantidad != null ? cantidad : 1)} + ' g'"></td>
                     </tr>
                     <tr>
                         <th>Grasa Monoinsaturada</th>
-                        <td th:text="${alimento.grasaMonoinsaturada * (cantidad != null ? cantidad : 1)}+' g'"></td>
+                        <td th:text="${alimento.grasaMonoinsaturada * (cantidad != null ? cantidad : 1)} + ' g'"></td>
                     </tr>
                     <tr>
                         <th>Colesterol</th>
-                        <td th:text="${alimento.colesterol * (cantidad != null ? cantidad : 1)}+ 'mg'"></td>
+                        <td th:text="${alimento.colesterol * (cantidad != null ? cantidad : 1)} + ' mg'"></td>
                     </tr>
                     <tr>
                         <th>Fibra</th>
-                        <td th:text="${alimento.fibra * (cantidad != null ? cantidad : 1)}+ 'g'"></td>
+                        <td th:text="${alimento.fibra * (cantidad != null ? cantidad : 1)} + ' g'"></td>
                     </tr>
                     <tr>
                         <th>Sodio</th>
-                        <td th:text="${alimento.sodio * (cantidad != null ? cantidad : 1)}+' mg'"></td>
+                        <td th:text="${alimento.sodio * (cantidad != null ? cantidad : 1)} + ' mg'"></td>
                     </tr>
                     <tr>
                         <th>Potasio</th>
-                        <td th:text="${alimento.potasio * (cantidad != null ? cantidad : 1)}+' mg'"></td>
+                        <td th:text="${alimento.potasio * (cantidad != null ? cantidad : 1)} + ' mg'"></td>
                     </tr>
                 </table>
             </aside>
@@ -150,6 +155,7 @@
     // Establecer la fecha formateada como valor por defecto del input de fecha
     document.getElementById('fecha').value = formattedDate;
 </script>
+
 
 </body>
 </html>

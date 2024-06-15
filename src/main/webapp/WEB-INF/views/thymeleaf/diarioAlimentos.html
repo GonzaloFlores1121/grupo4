@@ -39,6 +39,8 @@
         </div>
     </div>
 
+
+
     <div class="text-center py-3">
         <h3 th:text="${fechaFormateada}"></h3>
     </div>
@@ -52,7 +54,8 @@
             <ul>
                 <li th:each="alimento : ${alimentos}">
 
-                    <a th:href="@{/alimentos/{id}(id=${alimento.id})}" th:text="${alimento.nombre}">Nombre del Alimento</a>
+                    <a th:href="@{/alimentos/{id}(id=${alimento.id}, from='diarioAlimentos')}" th:text="${alimento.nombre}">Nombre del Alimento</a>
+
                     <a th:href="@{/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}(idAlimento=${alimento.id},tipoColacion=${tipoColacionDesayuno},fecha=${fecha})}" class="btn btn-danger">x</a>
                 </li>
             </ul>
@@ -73,7 +76,7 @@
         <div th:unless="${#lists.isEmpty(alimentos)}">
             <ul>
                 <li th:each="alimento : ${alimentos}">
-                    <a th:href="@{/alimentos/{id}(id=${alimento.id})}" th:text="${alimento.nombre}">Nombre del Alimento</a>
+                    <a th:href="@{/alimentos/{id}(id=${alimento.id}, from='diarioAlimentos')}" th:text="${alimento.nombre}">Nombre del Alimento</a>
 
                     <a th:href="@{/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}(idAlimento=${alimento.id},tipoColacion=${tipoColacionAlmuerzo},fecha=${fecha})}" class="btn btn-danger">x</a>
                 </li>
@@ -96,7 +99,7 @@
         <div th:unless="${#lists.isEmpty(alimentos)}">
             <ul>
                 <li th:each="alimento : ${alimentos}">
-                    <a th:href="@{/alimentos/{id}(id=${alimento.id})}" th:text="${alimento.nombre}">Nombre del Alimento</a>
+                    <a th:href="@{/alimentos/{id}(id=${alimento.id}, from='diarioAlimentos')}" th:text="${alimento.nombre}">Nombre del Alimento</a>
 
                     <a th:href="@{/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}(idAlimento=${alimento.id},tipoColacion=${tipoColacionMerienda},fecha=${fecha})}" class="btn btn-danger">x</a>
                 </li>
@@ -120,7 +123,7 @@
             <ul>
                 <li th:each="alimento : ${alimentos}">
 
-                    <a th:href="@{/alimentos/{id}(id=${alimento.id})}" th:text="${alimento.nombre}">Nombre del Alimento</a>
+                    <a th:href="@{/alimentos/{id}(id=${alimento.id}, from='diarioAlimentos')}" th:text="${alimento.nombre}">Nombre del Alimento</a>
                     <a th:href="@{/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}(idAlimento=${alimento.id},tipoColacion=${tipoColacionCena},fecha=${fecha})}" class="btn btn-danger">x</a>
                 </li>
             </ul>
@@ -142,7 +145,7 @@
         <div th:unless="${#lists.isEmpty(alimentos)}">
             <ul>
                 <li th:each="alimento : ${alimentos}">
-                    <a th:href="@{/alimentos/{id}(id=${alimento.id})}" th:text="${alimento.nombre}">Nombre del Alimento</a>
+                    <a th:href="@{/alimentos/{id}(id=${alimento.id}, from='diarioAlimentos')}" th:text="${alimento.nombre}">Nombre del Alimento</a>
                     <a th:href="@{/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}(idAlimento=${alimento.id},tipoColacion=${tipoColacionSnacks},fecha=${fecha})}" class="btn btn-danger">x</a>
                 </li>
             </ul>
