@@ -40,6 +40,8 @@ public class ServicioEjercicioImpl implements ServicioEjercicio {
     }
 
 
+
+
     @Override
     public void guardarEjercicioUsuario(String nombre, String intensidad, Ejercicio ejercicio, Usuario usuario, Date fecha, Integer minutos) throws EjercicioInvalido {
 

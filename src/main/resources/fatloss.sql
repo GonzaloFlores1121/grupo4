@@ -1,13 +1,13 @@
-use fatloss;
--- Insertar valores en la tabla Ejercicio
+use fatLoss;
+
 
 -- Insertar valores en la tabla Ejercicio
-INSERT INTO Ejercicio (nombre, caloriasQuemadas, intensidad) VALUES
+INSERT INTO Ejercicio (nombre, caloriasQuemadasPorHora, intensidad) VALUES
                                                                  ('Caminata', 300, 'baja'),    -- Intensidad Moderada
 
                                                                  ('Correr', 600, 'alta');       -- Intensidad Alta
-
-
+select * from ejercicio;
+select * from alimento;
 select * from usuario;
 
 select * from EjercicioUsuario;
