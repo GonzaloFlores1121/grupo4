@@ -187,7 +187,8 @@ INSERT INTO CategoriaAlimento (nombre, imagen) VALUES ('Harinas', 'harinas.jpeg'
 INSERT INTO CategoriaAlimento (nombre, imagen) VALUES ('Comida rápida', 'comida_rapida.jpg');
 
 -- Inserción de alimentos
-INSERT INTO Alimento (nombre, imagen, energia, fibra, calorias, colesterol, sodio, potasio, grasa, grasaSaturada, grasaPoliinsaturada, grasaMonoinsaturada, carbohidratos, azucar, proteina, categoria_id,esPersonalizado)
+INSERT INTO Alimento (nombre, imagen, baseEnergia,baseFibra ,baseCalorias, baseColesterol, baseSodio, basePotasio,
+                      baseGrasa, baseGrasaSaturada, baseGrasaPoliinsaturada, baseGrasaMonoinsaturada, baseCarbohidratos, baseAzucar, baseProteina, categoria_id,esPersonalizado)
 VALUES
     ('Cafe', 'imagen_cafe.png', 2, 0, 2, 0, 5, 116, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 1,false),
     ('Té', 'imagen_te.jpg', 1, 0, 1, 0, 2, 88, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1,false),

@@ -77,7 +77,6 @@
             <p th:text="${mensaje}"></p>
         </div>
 
-
         <div class="col-md-6">
             <aside>
                 <h2>Información Nutricional</h2>
@@ -88,58 +87,59 @@
                     </tr>
                     <tr>
                         <th>Calorías</th>
-                        <td th:text="${alimento.calorias * (cantidad != null ? cantidad : 1)}"></td>
+                        <td th:text="${alimento.baseCalorias * (cantidad != null ? cantidad : 1)}"></td>
                     </tr>
                     <tr>
                         <th>Energía</th>
-                        <td th:text="${alimento.energia * (cantidad != null ? cantidad : 1)} + ' kcal'"></td>
+                        <td th:text="${alimento.baseEnergia * (cantidad != null ? cantidad : 1)} + ' kcal'"></td>
                     </tr>
                     <tr>
                         <th>Carbohidratos</th>
-                        <td th:text="${alimento.carbohidratos * (cantidad != null ? cantidad : 1)} + ' g'"></td>
+                        <td th:text="${alimento.baseCarbohidratos * (cantidad != null ? cantidad : 1)} + ' g'"></td>
                     </tr>
                     <tr>
                         <th>Azúcar</th>
-                        <td th:text="${alimento.azucar * (cantidad != null ? cantidad : 1)} + ' g'"></td>
+                        <td th:text="${alimento.baseAzucar * (cantidad != null ? cantidad : 1)} + ' g'"></td>
                     </tr>
                     <tr>
                         <th>Proteína</th>
-                        <td th:text="${alimento.proteina * (cantidad != null ? cantidad : 1)} + ' g'"></td>
+                        <td th:text="${alimento.baseProteina * (cantidad != null ? cantidad : 1)} + ' g'"></td>
                     </tr>
                     <tr>
                         <th>Grasa</th>
-                        <td th:text="${alimento.grasa * (cantidad != null ? cantidad : 1)} + ' g'"></td>
+                        <td th:text="${alimento.baseGrasa * (cantidad != null ? cantidad : 1)} + ' g'"></td>
                     </tr>
                     <tr>
                         <th>Grasa Saturada</th>
-                        <td th:text="${alimento.grasaSaturada * (cantidad != null ? cantidad : 1)} + ' g'"></td>
+                        <td th:text="${alimento.baseGrasaSaturada * (cantidad != null ? cantidad : 1)} + ' g'"></td>
                     </tr>
                     <tr>
                         <th>Grasa Poliinsaturada</th>
-                        <td th:text="${alimento.grasaPoliinsaturada * (cantidad != null ? cantidad : 1)} + ' g'"></td>
+                        <td th:text="${alimento.baseGrasaPoliinsaturada * (cantidad != null ? cantidad : 1)} + ' g'"></td>
                     </tr>
                     <tr>
                         <th>Grasa Monoinsaturada</th>
-                        <td th:text="${alimento.grasaMonoinsaturada * (cantidad != null ? cantidad : 1)} + ' g'"></td>
+                        <td th:text="${alimento.baseGrasaMonoinsaturada * (cantidad != null ? cantidad : 1)} + ' g'"></td>
                     </tr>
                     <tr>
                         <th>Colesterol</th>
-                        <td th:text="${alimento.colesterol * (cantidad != null ? cantidad : 1)} + ' mg'"></td>
+                        <td th:text="${alimento.baseColesterol * (cantidad != null ? cantidad : 1)} + ' mg'"></td>
                     </tr>
                     <tr>
                         <th>Fibra</th>
-                        <td th:text="${alimento.fibra * (cantidad != null ? cantidad : 1)} + ' g'"></td>
+                        <td th:text="${alimento.baseFibra * (cantidad != null ? cantidad : 1)} + ' g'"></td>
                     </tr>
                     <tr>
                         <th>Sodio</th>
-                        <td th:text="${alimento.sodio * (cantidad != null ? cantidad : 1)} + ' mg'"></td>
+                        <td th:text="${alimento.baseSodio * (cantidad != null ? cantidad : 1)} + ' mg'"></td>
                     </tr>
                     <tr>
                         <th>Potasio</th>
-                        <td th:text="${alimento.potasio * (cantidad != null ? cantidad : 1)} + ' mg'"></td>
+                        <td th:text="${alimento.basePotasio * (cantidad != null ? cantidad : 1)} + ' mg'"></td>
                     </tr>
                 </table>
             </aside>
+
         </div>
     </div>
 </div>

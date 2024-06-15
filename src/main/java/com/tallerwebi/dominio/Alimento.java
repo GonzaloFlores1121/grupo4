@@ -31,6 +31,22 @@ public class Alimento {
     private boolean esPersonalizado;
 
 
+    private Integer baseEnergia; // kcal
+    private Integer baseFibra; // g
+    private Integer baseCalorias;
+    private Integer baseColesterol; // mg
+    private Integer baseSodio; // mg
+    private Integer basePotasio; // mg
+    private Double baseGrasa; // g
+    private Double baseGrasaSaturada;
+    private Double baseGrasaPoliinsaturada;
+    private Double baseGrasaMonoinsaturada;
+    private Double baseCarbohidratos; // g
+    private Double baseAzucar; // g
+    private Double baseProteina; // g
+
+
+
 
     @OneToMany(mappedBy = "alimentos")
     private List<Colacion> colaciones;
@@ -42,20 +58,21 @@ public class Alimento {
     public Alimento() {}
 
     public void actualizarValoresNutricionalesPorCantidad() {
-        this.calorias *= cantidad;
-        this.energia *= cantidad;
-        this.carbohidratos *= cantidad;
-        this.azucar *= cantidad;
-        this.proteina *= cantidad;
-        this.grasa *= cantidad;
-        this.grasaSaturada *= cantidad;
-        this.grasaPoliinsaturada *= cantidad;
-        this.grasaMonoinsaturada *= cantidad;
-        this.colesterol *= cantidad;
-        this.fibra *= cantidad;
-        this.sodio *= cantidad;
-        this.potasio *= cantidad;
+        this.calorias = this.baseCalorias * cantidad;
+        this.energia = this.baseEnergia * cantidad;
+        this.carbohidratos = this.baseCarbohidratos * cantidad;
+        this.azucar = this.baseAzucar * cantidad;
+        this.proteina = this.baseProteina * cantidad;
+        this.grasa = this.baseGrasa * cantidad;
+        this.grasaSaturada = this.baseGrasaSaturada * cantidad;
+        this.grasaPoliinsaturada = this.baseGrasaPoliinsaturada * cantidad;
+        this.grasaMonoinsaturada = this.baseGrasaMonoinsaturada * cantidad;
+        this.colesterol = this.baseColesterol * cantidad;
+        this.fibra = this.baseFibra * cantidad;
+        this.sodio = this.baseSodio * cantidad;
+        this.potasio = this.basePotasio * cantidad;
     }
+
 
     public List<Colacion> getColaciones() {
         return colaciones;
@@ -195,7 +212,109 @@ public class Alimento {
         this.proteina = proteina;
     }
 
+    public Integer getBaseEnergia() {
+        return baseEnergia;
+    }
 
+    public void setBaseEnergia(Integer baseEnergia) {
+        this.baseEnergia = baseEnergia;
+    }
+
+    public Integer getBaseFibra() {
+        return baseFibra;
+    }
+
+    public void setBaseFibra(Integer baseFibra) {
+        this.baseFibra = baseFibra;
+    }
+
+    public Integer getBaseCalorias() {
+        return baseCalorias;
+    }
+
+    public void setBaseCalorias(Integer baseCalorias) {
+        this.baseCalorias = baseCalorias;
+    }
+
+    public Integer getBaseColesterol() {
+        return baseColesterol;
+    }
+
+    public void setBaseColesterol(Integer baseColesterol) {
+        this.baseColesterol = baseColesterol;
+    }
+
+    public Integer getBaseSodio() {
+        return baseSodio;
+    }
+
+    public void setBaseSodio(Integer baseSodio) {
+        this.baseSodio = baseSodio;
+    }
+
+    public Integer getBasePotasio() {
+        return basePotasio;
+    }
+
+    public void setBasePotasio(Integer basePotasio) {
+        this.basePotasio = basePotasio;
+    }
+
+    public Double getBaseGrasa() {
+        return baseGrasa;
+    }
+
+    public void setBaseGrasa(Double baseGrasa) {
+        this.baseGrasa = baseGrasa;
+    }
+
+    public Double getBaseGrasaSaturada() {
+        return baseGrasaSaturada;
+    }
+
+    public void setBaseGrasaSaturada(Double baseGrasaSaturada) {
+        this.baseGrasaSaturada = baseGrasaSaturada;
+    }
+
+    public Double getBaseGrasaPoliinsaturada() {
+        return baseGrasaPoliinsaturada;
+    }
+
+    public void setBaseGrasaPoliinsaturada(Double baseGrasaPoliinsaturada) {
+        this.baseGrasaPoliinsaturada = baseGrasaPoliinsaturada;
+    }
+
+    public Double getBaseGrasaMonoinsaturada() {
+        return baseGrasaMonoinsaturada;
+    }
+
+    public void setBaseGrasaMonoinsaturada(Double baseGrasaMonoinsaturada) {
+        this.baseGrasaMonoinsaturada = baseGrasaMonoinsaturada;
+    }
+
+    public Double getBaseCarbohidratos() {
+        return baseCarbohidratos;
+    }
+
+    public void setBaseCarbohidratos(Double baseCarbohidratos) {
+        this.baseCarbohidratos = baseCarbohidratos;
+    }
+
+    public Double getBaseAzucar() {
+        return baseAzucar;
+    }
+
+    public void setBaseAzucar(Double baseAzucar) {
+        this.baseAzucar = baseAzucar;
+    }
+
+    public Double getBaseProteina() {
+        return baseProteina;
+    }
+
+    public void setBaseProteina(Double baseProteina) {
+        this.baseProteina = baseProteina;
+    }
 
     public CategoriaAlimento getCategoria() {return categoria;}
     public void setCategoria(CategoriaAlimento categoria) {this.categoria = categoria;}

@@ -30,6 +30,7 @@ public class ServicioColacionImpl implements ServicioColacion {
         colacion.setTipo(tipoColacion);
         colacion.setUsuario(usuario);
 
+
         if(colacion.getAlimentos() == null) {
             throw new Exception("El alimento es nulo");
         }
@@ -42,6 +43,7 @@ public class ServicioColacionImpl implements ServicioColacion {
         if(colacion.getTipo() == null) {
             throw new Exception("El tipo de colación es nulo");
         }
+
 
         repositorioColacion.agregarColacion(colacion);
     }
@@ -79,27 +81,26 @@ public class ServicioColacionImpl implements ServicioColacion {
         return colacion;
     }
 
-    private Alimento crearNuevoAlimentoSeteandoValoresFormulario(Alimento alimento, int cantidad,String nombre) {
+    private Alimento crearNuevoAlimentoSeteandoValoresFormulario(Alimento alimento, int cantidad, String nombre) {
         Alimento alimentoNuevo = new Alimento();
         alimentoNuevo.setNombre(nombre);
-        alimentoNuevo.setAzucar(alimento.getAzucar());
-        alimentoNuevo.setCarbohidratos(alimento.getCarbohidratos());
-        alimentoNuevo.setColesterol(alimento.getColesterol());
-        alimentoNuevo.setCalorias(alimento.getCalorias());
-        alimentoNuevo.setCantidad(cantidad);
-        alimentoNuevo.setEnergia(alimento.getEnergia());
-        alimentoNuevo.setFibra(alimento.getFibra());
-        alimentoNuevo.setGrasa(alimento.getGrasa());
-        alimentoNuevo.setGrasaMonoinsaturada(alimento.getGrasaMonoinsaturada());
-        alimentoNuevo.setGrasaPoliinsaturada(alimento.getGrasaPoliinsaturada());
-        alimentoNuevo.setGrasaSaturada(alimento.getGrasaSaturada());
+        alimentoNuevo.setBaseAzucar(alimento.getAzucar());
+        alimentoNuevo.setBaseCarbohidratos(alimento.getCarbohidratos());
+        alimentoNuevo.setBaseColesterol(alimento.getColesterol());
+        alimentoNuevo.setBaseCalorias(alimento.getCalorias());
+        alimentoNuevo.setBaseEnergia(alimento.getEnergia());
+        alimentoNuevo.setBaseFibra(alimento.getFibra());
+        alimentoNuevo.setBaseGrasa(alimento.getGrasa());
+        alimentoNuevo.setBaseGrasaMonoinsaturada(alimento.getGrasaMonoinsaturada());
+        alimentoNuevo.setBaseGrasaPoliinsaturada(alimento.getGrasaPoliinsaturada());
+        alimentoNuevo.setBaseGrasaSaturada(alimento.getGrasaSaturada());
         alimentoNuevo.setImagen(alimento.getImagen());
-        alimentoNuevo.setPotasio(alimento.getPotasio());
-        alimentoNuevo.setProteina(alimento.getProteina());
-        alimentoNuevo.setSodio(alimento.getSodio());
+        alimentoNuevo.setBasePotasio(alimento.getPotasio());
+        alimentoNuevo.setBaseProteina(alimento.getProteina());
+        alimentoNuevo.setBaseSodio(alimento.getSodio());
+        alimentoNuevo.setCantidad(cantidad);
         alimentoNuevo.actualizarValoresNutricionalesPorCantidad();
         alimentoNuevo.setEsPersonalizado(true);
-
 
         return alimentoNuevo;
     }
