@@ -12,13 +12,13 @@ public class Ejercicio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nombre;
-    private Integer caloriasQuemadas;
     private String intensidad;
+    private Integer caloriasQuemadasPorHora;
 
-    public Ejercicio( String nombre, Integer caloriasQuemadas,String intensidad) {
+    public Ejercicio( String nombre,String intensidad, Integer caloriasQuemadasPorHora) {
         this.nombre = nombre;
-        this.caloriasQuemadas = caloriasQuemadas;
         this.intensidad = intensidad;
+        this.caloriasQuemadasPorHora=caloriasQuemadasPorHora;
     }
 
     public Ejercicio() {
@@ -34,13 +34,6 @@ public class Ejercicio {
         this.nombre = nombre;
     }
 
-    public Integer getCaloriasQuemadas() {
-        return caloriasQuemadas;
-    }
-
-    public void setCaloriasQuemadas(Integer caloriasQuemadas) {
-        this.caloriasQuemadas = caloriasQuemadas;
-    }
 
     public String getIntensidad() {
         return intensidad;
@@ -56,5 +49,13 @@ public class Ejercicio {
 
     public Long getId() {
         return id;
+    }
+
+    public Integer getCaloriasQuemadasPorHora() {
+        return caloriasQuemadasPorHora;
+    }
+
+    public void setCaloriasQuemadasPorHora( Integer caloriasQuemadasPorHora) {
+        this.caloriasQuemadasPorHora=caloriasQuemadasPorHora;
     }
 }

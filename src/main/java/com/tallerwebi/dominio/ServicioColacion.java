@@ -11,4 +11,7 @@ public interface ServicioColacion {
     void eliminarColacionUsuario(Alimento alimento, Usuario usuario, TipoColacion value, LocalDate localDate);
 
     Colacion obtenerColacionPorAlimento(Alimento alimento);
+    List<Colacion> obtenerTodasLasColacionesDelUsuario(Usuario usuario);
+    List<Colacion> obtenerColacionesDelUsuarioPOrFecha(Usuario usuario,LocalDate fecha);
+    Colacion obtenerColacionPorId(Long id);
 }

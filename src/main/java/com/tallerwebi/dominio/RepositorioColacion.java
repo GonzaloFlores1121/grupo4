@@ -13,4 +13,10 @@ public interface RepositorioColacion {
     void update(Colacion colacion);
 
     Colacion obtenerColacionPorAlimento(Alimento alimento);
+
+    List<Colacion> obtenerTodasLasColacionesDelUsuario(Usuario user);
+
+    List<Colacion> obtenerTodasLasColacionesDelUsuarioPorFecha(Usuario usuario, LocalDate fecha);
+
+  Colacion obtenerColacionPorId(Long id);
 }

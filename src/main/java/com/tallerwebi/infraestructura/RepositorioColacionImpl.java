@@ -2,9 +2,11 @@ package com.tallerwebi.infraestructura;
 
 import com.tallerwebi.dominio.*;
 import org.hibernate.Criteria;
+import com.tallerwebi.dominio.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -80,4 +82,31 @@ public class RepositorioColacionImpl implements RepositorioColacion {
         criteria.add(Restrictions.eq("alimentos", alimento));
         return (Colacion) criteria.uniqueResult();
     }
+    @Override
+    public List<Colacion> obtenerTodasLasColacionesDelUsuario(Usuario usuario) {
+        Session session = sessionFactory.openSession();
+        String hql = "FROM Colacion c WHERE c.usuario = :usuario";
+        Query<Colacion> query = session.createQuery(hql, Colacion.class);
+        query.setParameter("usuario", usuario);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Colacion> obtenerTodasLasColacionesDelUsuarioPorFecha(Usuario usuario, LocalDate fecha) {
+        Session session = sessionFactory.openSession();
+        String hql = "FROM Colacion c WHERE c.usuario = :usuario AND c.fecha=:fecha";
+        Query<Colacion> query = session.createQuery(hql, Colacion.class);
+        query.setParameter("usuario", usuario);
+        query.setParameter("fecha", fecha);
+        return query.getResultList();
+    }
+
+    @Override
+    public Colacion obtenerColacionPorId(Long id) {
+        Session session = sessionFactory.openSession();
+        return (Colacion) sessionFactory.getCurrentSession().createCriteria(Colacion.class)
+                .add(Restrictions.eq("id", id))
+                .uniqueResult();
+    }
+
 }

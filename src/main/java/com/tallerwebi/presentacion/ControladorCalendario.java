@@ -57,7 +57,6 @@ public class ControladorCalendario {
             session.removeAttribute("mensaje");
         }
 
-
         try {
             Map<Date, Calendario> fechas = servicioCalendarioImpl.obtenerFechasCalendario(usuario);
             model.put("listaFechas", fechas);
@@ -67,8 +66,6 @@ public class ControladorCalendario {
             return new ModelAndView("calendarioDieta", model);
         }
     }
-
-
 
 
     private void obtenerUsuarioSession(HttpServletRequest request, ModelMap model) {

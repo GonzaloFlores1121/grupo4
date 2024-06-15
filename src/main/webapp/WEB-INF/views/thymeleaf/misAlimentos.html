@@ -32,39 +32,16 @@
             </div>
         </div>
 
-        <div class="col-md-8">
-            <table class="table table-bordered">
-                <thead class="thead-light">
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Alimentos (Cals)</th>
-                        <th>Calorias consumidas</th>
-                        <th>Ejercicio (Cals)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="entry : ${listaFechas}">
-                        <td th:text="${#dates.format(entry.key, 'dd/MM/yyyy')}"></td>
-                        <td>
-
-                            <div th:if="${entry.value.colaciones.size() > 0}">
-                                <a th:href="@{/misAlimentos(fecha=${#dates.format(entry.key, 'yyyy-MM-dd')})}" class="btn btn-sm btn-primary">Ver Comida</a>
-                            </div>
-                        </td>
-                        <td>
-                          <span th:text="${entry.value.caloriasConsumidas}"></span>
-                        </td>
-                        <td>
-                            <ul>
-                                <li th:each="ejercicio : ${entry.value.ejercicios}">
-                                    <span th:text="${ejercicio.nombre}"></span>
-                                    <span th:text="'Minutos empleados: ' + ${ejercicio.minutos}"></span>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+              <h2>Alimentos consumidos el <span th:text="${fecha}"></span></h2>
+                <ul>
+                    <li th:each="colacion : ${colaciones}">
+                        <a th:href="@{verAlimento(id=${colacion.id})}"><span th:text="${colacion.alimentos.nombre}"></span> </a> - <span th:text="'Cantidad consumida: ' + ${colacion.cantidad}"></span> -<span th:text="'Calorias: ' + ${colacion.alimentos.energia}"></span>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 
