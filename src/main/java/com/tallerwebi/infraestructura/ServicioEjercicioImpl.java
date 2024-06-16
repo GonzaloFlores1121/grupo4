@@ -39,13 +39,18 @@ public class ServicioEjercicioImpl implements ServicioEjercicio {
         }
     }
 
-
+    @Override
+    public Integer calcularCaloriasQuemadas(Ejercicio ejercicio,  Integer minutos) {
+        return (ejercicio.getCaloriasQuemadasPorHora()/60)*minutos;
+    }
 
 
     @Override
     public void guardarEjercicioUsuario(String nombre, String intensidad, Ejercicio ejercicio, Usuario usuario, Date fecha, Integer minutos) throws EjercicioInvalido {
 
         EjercicioUsuario ejercicioUsuario = new EjercicioUsuario();
+        Integer calorias=calcularCaloriasQuemadas(ejercicio, minutos);
+        ejercicioUsuario.setCaloriasQuemadas(calorias);
         ejercicioUsuario.setNombre(ejercicio.getNombre());
         ejercicioUsuario.setIntensidad(intensidad);
         ejercicioUsuario.setEjercicio(ejercicio);

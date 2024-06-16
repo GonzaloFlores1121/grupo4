@@ -11,6 +11,7 @@ public class Calendario {
     private List<Colacion> colaciones;
     private Integer caloriasConsumidas;
     private Integer caloriasQuemadas;
+    private Integer caloriasNetas;
 
     public Calendario() {
         this.ejercicios = new ArrayList<>();
@@ -29,6 +30,8 @@ public class Calendario {
 
     public void agregarEjercicio(EjercicioUsuario ejercicio) {
         ejercicios.add(ejercicio);
+        int calorias = ejercicio.getCaloriasQuemadas();
+        caloriasQuemadas+= calorias;
 
     }
 
@@ -55,6 +58,12 @@ public class Calendario {
         return caloriasQuemadas;
     }
 
+    public Integer getCaloriasNetas() {
+        caloriasNetas=caloriasConsumidas-caloriasQuemadas;
+        return caloriasNetas;
+    }
+
+    public void setCaloriasNetas(Integer caloriasNetas) {this.caloriasNetas = caloriasNetas;}
 
 }
 
