@@ -45,16 +45,18 @@
         <h3 th:text="${fechaFormateada}"></h3>
     </div>
 
-
+    <h6>Calorias totales:</h6>
+    <p th:text="${caloriasTotales}"></p>
 <div class="row">
     <div class="col-md-4">
         <div class="colacion" th:if="${desayuno != null}" th:with="alimentos=${desayuno}">
             <h4>Desayuno</h4>
         <div th:unless="${#lists.isEmpty(alimentos)}">
-            <ul>
+            <ul class="list-unstyled">
                 <li th:each="alimento : ${alimentos}">
 
-                    <a th:href="@{/alimentos/{id}(id=${alimento.id}, from='diarioAlimentos')}" th:text="${alimento.nombre}">Nombre del Alimento</a>
+                    <a th:href="@{/alimentos/{id}(id=${alimento.id}, from='diarioAlimentos')}"
+                       th:text="${alimento.cantidad + 'x ' + alimento.nombre}">Nombre del Alimento</a>
 
                     <a th:href="@{/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}(idAlimento=${alimento.id},tipoColacion=${tipoColacionDesayuno},fecha=${fecha})}" class="btn btn-danger">x</a>
                 </li>
@@ -74,9 +76,12 @@
     <div class="colacion" th:if="${almuerzo != null}" th:with="alimentos=${almuerzo}">
         <h4>Almuerzo</h4>
         <div th:unless="${#lists.isEmpty(alimentos)}">
-            <ul>
+
+            <ul class="list-unstyled">
                 <li th:each="alimento : ${alimentos}">
-                    <a th:href="@{/alimentos/{id}(id=${alimento.id}, from='diarioAlimentos')}" th:text="${alimento.nombre}">Nombre del Alimento</a>
+
+                    <a th:href="@{/alimentos/{id}(id=${alimento.id}, from='diarioAlimentos')}"
+                       th:text="${alimento.cantidad + 'x ' + alimento.nombre}">Nombre del Alimento</a>
 
                     <a th:href="@{/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}(idAlimento=${alimento.id},tipoColacion=${tipoColacionAlmuerzo},fecha=${fecha})}" class="btn btn-danger">x</a>
                 </li>
@@ -97,9 +102,11 @@
     <div class="colacion" th:if="${merienda != null}" th:with="alimentos=${merienda}">
         <h4>Merienda</h4>
         <div th:unless="${#lists.isEmpty(alimentos)}">
-            <ul>
+            <ul class="list-unstyled">
                 <li th:each="alimento : ${alimentos}">
-                    <a th:href="@{/alimentos/{id}(id=${alimento.id}, from='diarioAlimentos')}" th:text="${alimento.nombre}">Nombre del Alimento</a>
+
+                    <a th:href="@{/alimentos/{id}(id=${alimento.id}, from='diarioAlimentos')}"
+                       th:text="${alimento.cantidad + 'x ' + alimento.nombre}">Nombre del Alimento</a>
 
                     <a th:href="@{/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}(idAlimento=${alimento.id},tipoColacion=${tipoColacionMerienda},fecha=${fecha})}" class="btn btn-danger">x</a>
                 </li>
@@ -120,10 +127,12 @@
     <div class="colacion" th:if="${cena != null}" th:with="alimentos=${cena}">
         <h4>Cena</h4>
         <div th:unless="${#lists.isEmpty(alimentos)}">
-            <ul>
+            <ul class="list-unstyled">
                 <li th:each="alimento : ${alimentos}">
 
-                    <a th:href="@{/alimentos/{id}(id=${alimento.id}, from='diarioAlimentos')}" th:text="${alimento.nombre}">Nombre del Alimento</a>
+                    <a th:href="@{/alimentos/{id}(id=${alimento.id}, from='diarioAlimentos')}"
+                       th:text="${alimento.cantidad + 'x ' + alimento.nombre}">Nombre del Alimento</a>
+
                     <a th:href="@{/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}(idAlimento=${alimento.id},tipoColacion=${tipoColacionCena},fecha=${fecha})}" class="btn btn-danger">x</a>
                 </li>
             </ul>
@@ -143,9 +152,12 @@
     <div class="colacion" th:if="${snacks != null}" th:with="alimentos=${snacks}">
         <h4>Snacks</h4>
         <div th:unless="${#lists.isEmpty(alimentos)}">
-            <ul>
+            <ul class="list-unstyled">
                 <li th:each="alimento : ${alimentos}">
-                    <a th:href="@{/alimentos/{id}(id=${alimento.id}, from='diarioAlimentos')}" th:text="${alimento.nombre}">Nombre del Alimento</a>
+
+                    <a th:href="@{/alimentos/{id}(id=${alimento.id}, from='diarioAlimentos')}"
+                       th:text="${alimento.cantidad + 'x ' + alimento.nombre}">Nombre del Alimento</a>
+
                     <a th:href="@{/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}(idAlimento=${alimento.id},tipoColacion=${tipoColacionSnacks},fecha=${fecha})}" class="btn btn-danger">x</a>
                 </li>
             </ul>

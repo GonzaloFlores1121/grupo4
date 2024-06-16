@@ -6,13 +6,16 @@ import com.tallerwebi.dominio.excepcion.DatosIncorrectos;
 import com.tallerwebi.dominio.excepcion.EdadInvalidaException;
 import com.tallerwebi.dominio.excepcion.PesoIncorrectoException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
@@ -54,9 +57,18 @@ public class ControladorMiDiario {
             model.put("mensajeEliminacion", mensajeEliminacion);
         }
 
-        LocalDate fecha = parseFecha(fechaStr);
+        LocalDate fecha;
+        try {
+            fecha = parseFecha(fechaStr);
+        } catch (DateTimeParseException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Fecha no válida");
+        }
+
         String fechaFormateada = formatFecha(fecha);
         model.put("fechaFormateada", fechaFormateada);
+
+        Integer caloriasTotalesPorDia = servicioColacion.obtenerCaloriasTotalesDeAlimentosPorUsuarioYFecha(usuario,fecha);
+        model.put("caloriasTotales",caloriasTotalesPorDia);
 
         obtenerLasColacionesYAgregarlasEnElModel(fecha, usuario, model);
         agregarAlimentosBD(model);

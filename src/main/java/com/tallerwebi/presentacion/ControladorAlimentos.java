@@ -2,6 +2,8 @@ package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.*;
 
+import com.tallerwebi.dominio.excepcion.AlimentoNoEncontradoException;
+import com.tallerwebi.dominio.excepcion.CategoriaAlimentoNoEncontradaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -24,7 +26,7 @@ public class ControladorAlimentos {
     private ServicioColacion servicioColacion;
 
     @Autowired
-    public ControladorAlimentos(ServicioCategoriaAlimento servicioCategoriaAlimentos, ServicioAlimento servicioAlimento,ServicioColacion servicioColacion) {
+    public ControladorAlimentos(ServicioCategoriaAlimento servicioCategoriaAlimentos, ServicioAlimento servicioAlimento, ServicioColacion servicioColacion) {
         this.servicioCategoriaAlimentos = servicioCategoriaAlimentos;
         this.servicioAlimento = servicioAlimento;
         this.servicioColacion = servicioColacion;
@@ -35,7 +37,7 @@ public class ControladorAlimentos {
         ModelMap model = new ModelMap();
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
-        if(usuario != null) {
+        if (usuario != null) {
             model.addAttribute("usuario", usuario);
             List<CategoriaAlimento> listaCategoriaAlimentos = servicioCategoriaAlimentos.obtenerTodasLasCategorias();
             model.addAttribute("categorias", listaCategoriaAlimentos);
@@ -49,77 +51,87 @@ public class ControladorAlimentos {
         ModelMap model = new ModelMap();
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
-        if(usuario !=  null) {
+        if (usuario != null) {
             model.addAttribute("usuario", usuario);
             List<CategoriaAlimento> categorias = servicioCategoriaAlimentos.obtenerCategoriasPorNombre(search);
-            if(categorias.isEmpty()) {
+            if (categorias.isEmpty()) {
                 model.addAttribute("unknown", "Categoria no encontrada");
                 categorias = servicioCategoriaAlimentos.obtenerTodasLasCategorias();
                 model.addAttribute("categorias", categorias);
                 return new ModelAndView("categoria_alimentos", model);
             }
-            model.addAttribute("categorias", categorias);   
-            return new ModelAndView("categoria_alimentos", model);                            
+            model.addAttribute("categorias", categorias);
+            return new ModelAndView("categoria_alimentos", model);
         }
         return new ModelAndView("redirect:/inicio");
     }
 
     @RequestMapping(path = "/categorias/{id}", method = RequestMethod.GET)
-    public ModelAndView irACategoria(@PathVariable Long id, HttpServletRequest request) {
+    public ModelAndView irACategoria(@PathVariable Long id, HttpServletRequest request)
+            throws CategoriaAlimentoNoEncontradaException {
         ModelMap model = new ModelMap();
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
-        if(usuario != null) {
-            model.addAttribute("usuario", usuario);
-            try {
-                CategoriaAlimento categoria = servicioCategoriaAlimentos.obtenerCategoriaPorId(id);
-                model.put("categoria", categoria);
-            } catch (Exception e) {
-                model.put("error", e.getMessage());
-            }            
-            return new ModelAndView("alimentos", model);
+
+        if (usuario == null) {
+            return new ModelAndView("redirect:/inicio");
         }
-        return new ModelAndView("redirect:/inicio");
+        model.put("usuario", usuario);
+
+        CategoriaAlimento categoria = servicioCategoriaAlimentos.obtenerCategoriaPorId(id);
+        if (categoria == null) {
+            throw new CategoriaAlimentoNoEncontradaException(id);
+        }
+        model.put("categoria", categoria);
+        return new ModelAndView("alimentos", model);
     }
+
 
     @RequestMapping(path = "/buscarAlimento/{idCategoria}", method = RequestMethod.GET)
     public ModelAndView buscarAlimento(@PathVariable Long idCategoria, @RequestParam(value = "search", required = false) String search, HttpServletRequest request) {
         ModelMap model = new ModelMap();
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
-        if(usuario !=  null) {
-            model.addAttribute("usuario", usuario);   
+        if (usuario != null) {
+            model.addAttribute("usuario", usuario);
             CategoriaAlimento categoria = servicioCategoriaAlimentos.obtenerCategoriaPorId(idCategoria);
             List<Alimento> alimentos = servicioAlimento.listarAlimentosPorCategoriaYNombre(idCategoria, search);
-            if(alimentos.isEmpty()) {
-                model.addAttribute("unknown", "Alimento no encontrada");    
+            if (alimentos.isEmpty()) {
+                model.addAttribute("unknown", "Alimento no encontrada");
                 model.addAttribute("categoria", categoria);
                 return new ModelAndView("alimentos", model);
             }
             model.addAttribute("alimentos", alimentos);
-            model.addAttribute("categoria", categoria);   
-            return new ModelAndView("alimentos", model);                 
+            model.addAttribute("categoria", categoria);
+            return new ModelAndView("alimentos", model);
         }
         return new ModelAndView("redirect:/inicio");
     }
 
     @RequestMapping(path = "/alimentos/{id}", method = RequestMethod.GET)
-    public ModelAndView irALimentos(@PathVariable Long id, HttpServletRequest request,@RequestParam(value = "from", defaultValue = "defaultFromValue") String from) {
+    public ModelAndView irALimentos(@PathVariable Long id, HttpServletRequest request, @RequestParam(value = "from", defaultValue = "defaultFromValue") String from)
+            throws AlimentoNoEncontradoException {
         ModelMap model = new ModelMap();
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
-        if(usuario != null) {
-            model.addAttribute("usuario", usuario);
-            Alimento alimento = servicioAlimento.obtenerAlimentosPorId(id);
 
-            Integer cantidad= alimento.getCantidad();
-            model.put("alimento", alimento);
-            model.put("from",from);
-            model.put("cantidad",cantidad);
-            return new ModelAndView("detalles_alimento", model);        
+        if (usuario == null) {
+            return new ModelAndView("redirect:/inicio");
         }
-        return new ModelAndView("redirect:/inicio");
+        model.put("usuario", usuario);
+        Alimento alimento = servicioAlimento.obtenerAlimentosPorId(id);
+
+        if (alimento == null) {
+            throw new AlimentoNoEncontradoException(id);
+        }
+
+        Integer cantidad = alimento.getCantidad();
+        model.put("alimento", alimento);
+        model.put("from", from);
+        model.put("cantidad", cantidad);
+        return new ModelAndView("detalles_alimento", model);
     }
-
-
 }
+
+
+

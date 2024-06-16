@@ -95,31 +95,31 @@
                     </tr>
                     <tr>
                         <th>Carbohidratos</th>
-                        <td th:text="${alimento.baseCarbohidratos * (cantidad != null ? cantidad : 1)} + ' g'"></td>
+                        <td th:text="${#numbers.formatDecimal(alimento.baseCarbohidratos * (cantidad != null ? cantidad : 1), 1, 1)} + ' g'"></td>
                     </tr>
                     <tr>
                         <th>Azúcar</th>
-                        <td th:text="${alimento.baseAzucar * (cantidad != null ? cantidad : 1)} + ' g'"></td>
+                        <td th:text="${#numbers.formatDecimal(alimento.baseAzucar * (cantidad != null ? cantidad : 1), 1, 1)} + ' g'"></td>
                     </tr>
                     <tr>
                         <th>Proteína</th>
-                        <td th:text="${alimento.baseProteina * (cantidad != null ? cantidad : 1)} + ' g'"></td>
-                    </tr>
-                    <tr>
-                        <th>Grasa</th>
-                        <td th:text="${alimento.baseGrasa * (cantidad != null ? cantidad : 1)} + ' g'"></td>
+                        <td th:text="${#numbers.formatDecimal(alimento.baseProteina * (cantidad != null ? cantidad : 1), 1, 1)} + ' g'"></td>
                     </tr>
                     <tr>
                         <th>Grasa Saturada</th>
-                        <td th:text="${alimento.baseGrasaSaturada * (cantidad != null ? cantidad : 1)} + ' g'"></td>
+                        <td th:text="${#numbers.formatDecimal(alimento.baseGrasaSaturada * (cantidad != null ? cantidad : 1), 1, 1)} + ' g'"></td>
+                    </tr>
+                    <tr>
+                        <th>Grasa Saturada</th>
+                        <td th:text="${#numbers.formatDecimal(alimento.baseGrasaSaturada * (cantidad != null ? cantidad : 1), 1, 1)} + ' g'"></td>
                     </tr>
                     <tr>
                         <th>Grasa Poliinsaturada</th>
-                        <td th:text="${alimento.baseGrasaPoliinsaturada * (cantidad != null ? cantidad : 1)} + ' g'"></td>
+                        <td th:text="${#numbers.formatDecimal(alimento.baseGrasaPoliinsaturada * (cantidad != null ? cantidad : 1), 1, 1)} + ' g'"></td>
                     </tr>
                     <tr>
                         <th>Grasa Monoinsaturada</th>
-                        <td th:text="${alimento.baseGrasaMonoinsaturada * (cantidad != null ? cantidad : 1)} + ' g'"></td>
+                        <td th:text="${#numbers.formatDecimal(alimento.baseGrasaMonoinsaturada * (cantidad != null ? cantidad : 1), 1, 1)} + ' g'"></td>
                     </tr>
                     <tr>
                         <th>Colesterol</th>

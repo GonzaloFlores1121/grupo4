@@ -14,4 +14,6 @@ public interface ServicioColacion {
     List<Colacion> obtenerTodasLasColacionesDelUsuario(Usuario usuario);
     List<Colacion> obtenerColacionesDelUsuarioPOrFecha(Usuario usuario,LocalDate fecha);
     Colacion obtenerColacionPorId(Long id);
+
+    Integer obtenerCaloriasTotalesDeAlimentosPorUsuarioYFecha(Usuario usuario, LocalDate fecha);
 }

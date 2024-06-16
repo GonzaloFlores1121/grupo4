@@ -110,6 +110,21 @@ public class ServicioColacionImpl implements ServicioColacion {
     }
 
     @Override
+    public Integer obtenerCaloriasTotalesDeAlimentosPorUsuarioYFecha(Usuario usuario, LocalDate fecha) {
+        List <Colacion> colaciones= obtenerColacionesDelUsuarioPOrFecha(usuario, fecha);
+        Integer caloriasTotales=0;
+        if(colaciones ==null){
+            return caloriasTotales;
+        }
+
+         for (Colacion c: colaciones){
+           caloriasTotales += c.getAlimentos().getCalorias();
+        }
+
+        return caloriasTotales;
+    }
+
+    @Override
     public List<Colacion> obtenerTodasLasColacionesDelUsuario(Usuario usuario) {
         List <Colacion> colaciones= repositorioColacion.obtenerTodasLasColacionesDelUsuario(usuario);
         return colaciones;
