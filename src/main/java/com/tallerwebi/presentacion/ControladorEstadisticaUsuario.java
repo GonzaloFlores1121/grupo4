@@ -38,15 +38,21 @@ public class ControladorEstadisticaUsuario {
         ModelMap model = new ModelMap();
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        if (usuario == null) {
+            // Manejar el caso en que el usuario no esté en la sesión
+            return new ModelAndView("redirect:/login");
+        }
+
         // Obtener historial de peso del usuario
         List<HistoriaPesoUsuario> historial = servicioDatosUsuario.obtenerTodoElHistorialDePeso(usuario);
 
         // Crear el gráfico de historial de peso
-        GraficoHistorialPeso grafico = new GraficoHistorialPeso(historial);
+        new GraficoHistorialPeso(historial);
 
-        // Agregar el gráfico al modelo
-        model.addAttribute("grafico", grafico);
+        // Agregar el gráfico al modelo (en caso de que se necesite en la vista)
+        model.addAttribute("grafico", "chart.png");
 
-        return new ModelAndView("estadisticasUsuario",model);
+        return new ModelAndView("estadisticasUsuario", model);
     }
 }

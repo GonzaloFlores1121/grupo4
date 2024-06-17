@@ -33,8 +33,8 @@ public class ServicioCalendarioImpl implements ServicioCalendario {
 
 
         for (EjercicioUsuario ejercicio : ejercicios) {
-            Date fecha = ejercicio.getFecha();
-            Calendario calendario = reportePorFecha.computeIfAbsent(fecha, k -> new Calendario());
+            LocalDate  fecha = ejercicio.getFecha();
+            Calendario calendario = reportePorFecha.computeIfAbsent(Date.valueOf(fecha), k -> new Calendario());
             calendario.agregarEjercicio(ejercicio);
         }
 
@@ -47,7 +47,20 @@ public class ServicioCalendarioImpl implements ServicioCalendario {
         return reportePorFecha;
     }
 
+    @Override
+    public Integer mostrarIngestaCaloricaDelDia(Usuario usuario, Date fecha) {
+        List<Colacion> colaciones = repositorioColacion.obtenerTodasLasColacionesDelUsuarioPorFecha(usuario, fecha.toLocalDate());
+        Integer ingestaCalorica = 0;
 
+        for (Colacion colacion : colaciones) {
+            // Convertir la cantidad a Integer (o Double si es decimal)
+            Integer cantidad = colacion.getCantidad();
 
-    
+            // Calcular la ingesta calórica sumando cada colación
+            ingestaCalorica += cantidad * colacion.getAlimentos().getEnergia();
+        }
+
+        return ingestaCalorica;
     }
+
+}

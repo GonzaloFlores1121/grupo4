@@ -1,6 +1,5 @@
 package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.Ejercicio;
 import com.tallerwebi.dominio.EjercicioUsuario;
 import com.tallerwebi.dominio.RepositorioEjercicioUsuario;
 import com.tallerwebi.dominio.Usuario;
@@ -12,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository("repositorioEjercicioUsuario")
@@ -46,6 +46,23 @@ public class RepositorioEjercicioUsuarioImpl implements RepositorioEjercicioUsua
                 .add(Restrictions.eq("nombre", nombre))
                 .uniqueResult();
 }
+
+    @Override
+    public List<EjercicioUsuario> obtenerEjercicioPorFecha(Usuario usuario, LocalDate fecha) {
+        Session session = sessionFactory.openSession();
+        String hql = "FROM EjercicioUsuario eu WHERE eu.usuario = :usuario AND eu.fecha = :fecha";
+        Query<EjercicioUsuario> query = session.createQuery(hql, EjercicioUsuario.class);
+        query.setParameter("usuario", usuario);
+        query.setParameter("fecha", fecha);
+        return query.getResultList();
+    }
+
+    @Override
+    public EjercicioUsuario buscarEjercicioUsuarioPorId(Long id) {
+        return (EjercicioUsuario) sessionFactory.getCurrentSession().createCriteria(EjercicioUsuario.class)
+                .add(Restrictions.eq("id", id))
+                .uniqueResult();
+    }
 
 
 }

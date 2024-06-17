@@ -3,7 +3,9 @@ import com.tallerwebi.dominio.*;
 import com.tallerwebi.dominio.excepcion.EjercicioInvalido;
 import com.tallerwebi.dominio.excepcion.EjercicioNoExistente;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -26,6 +29,7 @@ public class ControladorEjercicio {
     private RepositorioEjercicioUsuario repositorioEjercicioUsuario;
     private RepositorioUsuario repositorioUsuario;
     private ServicioEjercicio servicioEjercicio;
+
 
     @Autowired
     public ControladorEjercicio(RepositorioEjercicio repositorioEjercicio, RepositorioEjercicioUsuario repositorioEjercicioUsuario, RepositorioUsuario repositorioUsuario, ServicioEjercicio servicioEjercicio) {
@@ -105,6 +109,26 @@ public class ControladorEjercicio {
             return new ModelAndView("actividadesFisicas", model);
         }
     }
+
+    @RequestMapping(value = "/misEjercicios", method = RequestMethod.GET)
+    public ModelAndView verEjerciciosPorFecha(@RequestParam("fecha") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fecha, Model model, HttpServletRequest request) {
+        ModelMap modelo = new ModelMap();
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        List<EjercicioUsuario> ejercicios = servicioEjercicio.obtenerEjercicioUsuarioPorFecha(usuario, fecha);
+        modelo.put("ejercicios", ejercicios);
+        modelo.put("fecha", fecha);
+        return new ModelAndView("misEjercicios", modelo);
+    }
+    @RequestMapping(value = "/verEjercicio", method = RequestMethod.GET)
+    public ModelAndView verEjercicio(@RequestParam("id") Long id) {
+        ModelMap modelo = new ModelMap();
+        EjercicioUsuario ejercicioUsuario=servicioEjercicio.buscarEjercicioUsuarioPorId(id);
+        Ejercicio ejercicio=servicioEjercicio.obtenerEjercicioPorId(ejercicioUsuario.getEjercicio().getId());
+        modelo.put("ejercicio", ejercicio);
+        return new ModelAndView("ejercicio", modelo);
+    }
+
 
     private void obtenerUsuarioSession(HttpServletRequest request, ModelMap model) {
         HttpSession session = request.getSession();

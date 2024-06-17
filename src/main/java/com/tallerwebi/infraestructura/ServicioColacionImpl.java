@@ -3,6 +3,7 @@ import com.tallerwebi.dominio.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +14,12 @@ public class ServicioColacionImpl implements ServicioColacion {
 
     private RepositorioColacion repositorioColacion;
     private RepositorioAlimento repositorioAlimento;
+    private ServicioDatosUsuario servicioDatosUsuario;
     @Autowired
-    public ServicioColacionImpl(RepositorioColacion repositorioColacion, RepositorioAlimento repositorioAlimento) {
+    public ServicioColacionImpl(RepositorioColacion repositorioColacion, RepositorioAlimento repositorioAlimento, ServicioDatosUsuario servicioDatosUsuario) {
         this.repositorioColacion = repositorioColacion;
         this.repositorioAlimento= repositorioAlimento;
+        this.servicioDatosUsuario = servicioDatosUsuario;
     }
 
     @Override
@@ -29,7 +32,7 @@ public class ServicioColacionImpl implements ServicioColacion {
         colacion.setFecha(fecha);
         colacion.setTipo(tipoColacion);
         colacion.setUsuario(usuario);
-
+        colacion.setCantidad(cantidad);
 
         if(colacion.getAlimentos() == null) {
             throw new Exception("El alimento es nulo");
@@ -44,7 +47,7 @@ public class ServicioColacionImpl implements ServicioColacion {
             throw new Exception("El tipo de colación es nulo");
         }
 
-
+        servicioDatosUsuario.verificarIngestaDelDia(usuario);
         repositorioColacion.agregarColacion(colacion);
     }
 
@@ -132,7 +135,12 @@ public class ServicioColacionImpl implements ServicioColacion {
 
     @Override
     public List<Colacion> obtenerColacionesDelUsuarioPOrFecha(Usuario usuario, LocalDate fecha) {
-         List <Colacion> colaciones= repositorioColacion.obtenerTodasLasColacionesDelUsuarioPorFecha(usuario,fecha);
+        // Convertir LocalDate a Date
+        Date fechaSql = Date.valueOf(fecha);
+
+        List<Colacion> colaciones = repositorioColacion.obtenerTodasLasColacionesDelUsuarioPorFecha(usuario, fechaSql.toLocalDate());
         return colaciones;
     }
+
+
 }

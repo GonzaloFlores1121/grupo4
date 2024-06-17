@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -20,12 +20,18 @@ public class ServicioDatosUsuarioImpl implements ServicioDatosUsuario {
     private  RepositorioUsuario repositorioUsuario;
     private ServicioLogin  servicioLogin;
     private RepositorioHistorialPesoUsuario repositorioHistorialPesoUsuario;
+    private ServicioCalendario  servicioCalendario;
+    private ServicioNotificacion servicioNotificacion;
+    private RepositorioMacronutrientes repositorioMacronutrientes;
 
     @Autowired
-    public ServicioDatosUsuarioImpl(ServicioLogin servicioLogin , RepositorioHistorialPesoUsuario repositorioHistorialPesoUsuario, RepositorioUsuario repositorioUsuario) {
+    public ServicioDatosUsuarioImpl(ServicioLogin servicioLogin , RepositorioHistorialPesoUsuario repositorioHistorialPesoUsuario, RepositorioUsuario repositorioUsuario, ServicioCalendario servicioCalendario,ServicioNotificacion servicioNotificacion, RepositorioMacronutrientes repositorioMacronutrientes) {
         this.repositorioHistorialPesoUsuario=repositorioHistorialPesoUsuario;
         this.servicioLogin = servicioLogin;
         this.repositorioUsuario = repositorioUsuario;
+        this.servicioCalendario = servicioCalendario;
+        this.servicioNotificacion = servicioNotificacion;
+        this.repositorioMacronutrientes = repositorioMacronutrientes;
     }
 
     @Override
@@ -35,27 +41,34 @@ public class ServicioDatosUsuarioImpl implements ServicioDatosUsuario {
         }
 
         Double md = calcularMetabolismoBasalDelUsuario(usuario);
-        Double icr = 0.0;
+        if (md == null) {
+            throw new DatosIncorrectos("No se pudo calcular el metabolismo basal. Verifique los datos del usuario.");
+        }
 
+        Double icr = 0.0;
         switch (usuario.getNivelDeActividad()) {
             case "sedentario":
                 icr = md * 1.2;
                 break;
-            case "baja_actividad":
+            case "baja actividad":
                 icr = md * 1.375;
                 break;
             case "activo":
                 icr = md * 1.55;
                 break;
-            case "muy_activo":
+            case "muy activo":
                 icr = md * 1.725;
                 break;
+            default:
+                throw new DatosIncorrectos("Nivel de actividad no válido.");
         }
 
         Integer ingestaCalorica = (int) Math.round(icr);
         usuario.setIngestaCalorica(ingestaCalorica);
+        repositorioHistorialPesoUsuario.actualizarMiIcr(usuario, ingestaCalorica);
         return ingestaCalorica;
     }
+
 
     @Override
     public Double calcularMetabolismoBasalDelUsuario(Usuario usuario) throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
@@ -102,7 +115,7 @@ public class ServicioDatosUsuarioImpl implements ServicioDatosUsuario {
         Integer caloriasCarbohidratos = (int) (usuario.getIngestaCalorica() * 0.50);
         Integer gramosCarbohidratos = caloriasCarbohidratos / 4;
         macronutrientesUsuario.setCarbohidratosAConsumir(gramosCarbohidratos);
-
+        repositorioMacronutrientes.guardar(macronutrientesUsuario);
         return macronutrientesUsuario;
 
     }
@@ -118,22 +131,44 @@ public class ServicioDatosUsuarioImpl implements ServicioDatosUsuario {
          throw new UsuarioNoExistente();
         }
     }
+    @Override
+    public void verificarIngestaDelDia(Usuario usuario) throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, UsuarioNoExistente {
+        Integer ingestaCalorica = calcularIngestaCalorica(usuario);
+        LocalDate today = LocalDate.now();
+        java.sql.Date sqlDate = java.sql.Date.valueOf(today);
+
+        Integer ingestaCaloricaDelDia = servicioCalendario.mostrarIngestaCaloricaDelDia(usuario, sqlDate);
+
+        if (ingestaCalorica < ingestaCaloricaDelDia) {
+            String mensaje = String.format(" Tu límite diario es de %d calorías y has consumido %d calorías hasta ahora.",
+                     ingestaCalorica,ingestaCaloricaDelDia);
+            servicioNotificacion.enviarNotificacion("¡Has pasado tu ingesta calórica del día!", mensaje, today.atStartOfDay(), usuario.getId());
+        }
+    }
 
     @Override
-    public void actualizarPeso(Usuario usuario, Double peso) throws PesoIncorrectoException {
-        if (repositorioUsuario.buscarUsuario(usuario.getEmail(), usuario.getPassword()) != null && pesoValidoUsuario(peso)) {
+    public void actualizarPeso(Usuario usuario, Double peso) throws PesoIncorrectoException, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException {
+        Usuario usuarioEnSesion = repositorioUsuario.buscarUsuario(usuario.getEmail(), usuario.getPassword());
+System.out.print(calcularIngestaCalorica(usuarioEnSesion));
+        if (usuarioEnSesion != null && pesoValidoUsuario(peso)) {
             LocalDateTime fechaActualLocalDateTime = LocalDateTime.now();
             Date fechaActual = Date.from(fechaActualLocalDateTime.atZone(ZoneId.systemDefault()).toInstant());
             java.sql.Date sqlFechaActual = new java.sql.Date(fechaActual.getTime());
-            repositorioHistorialPesoUsuario.modificarPeso(peso,usuario);
-            usuario.setPeso(peso);
+
+            repositorioHistorialPesoUsuario.modificarPeso(peso, usuarioEnSesion);
+            usuarioEnSesion.setPeso(peso);
+            Integer icr = calcularIngestaCalorica(usuarioEnSesion);
+            usuarioEnSesion.setIngestaCalorica(icr);
+            repositorioHistorialPesoUsuario.actualizarMiIcr(usuarioEnSesion, icr);
+
+
             HistoriaPesoUsuario historialPeso = repositorioHistorialPesoUsuario.obtenerHistorialPesoUsuarioParaUnaFecha(sqlFechaActual);
             if (historialPeso != null) {
                 historialPeso.setPeso(peso);
                 repositorioHistorialPesoUsuario.actualizarMiPesoAgregado(historialPeso);
 
             } else {
-                historialPeso = new HistoriaPesoUsuario(peso, usuario, sqlFechaActual);
+                historialPeso = new HistoriaPesoUsuario(peso, usuarioEnSesion, sqlFechaActual);
                 repositorioHistorialPesoUsuario.agregarPesoYFecha(historialPeso);
             }
 

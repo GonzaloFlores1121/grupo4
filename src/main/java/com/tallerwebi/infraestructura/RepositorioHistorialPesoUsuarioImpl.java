@@ -67,4 +67,14 @@ public class RepositorioHistorialPesoUsuarioImpl implements RepositorioHistorial
                 .setParameter("id", historial.getId())
                 .executeUpdate();
     }
+
+    @Override
+    public void actualizarMiIcr(Usuario usuario, Integer icr) {
+        Session session = sessionFactory.getCurrentSession();
+        String sql = "UPDATE Usuario SET ingestaCalorica = :icr WHERE id = :id";
+        session.createQuery(sql)
+                .setParameter("icr", usuario.getIngestaCalorica())
+                .setParameter("id", usuario.getId())
+                .executeUpdate();
+    }
 }

@@ -14,4 +14,6 @@ public interface RepositorioHistorialPesoUsuario {
     void modificarPeso(Double peso, Usuario usuario);
 
     void actualizarMiPesoAgregado(HistoriaPesoUsuario historialPesoUsuario);
+
+    void actualizarMiIcr(Usuario usuario, Integer icr);
 }

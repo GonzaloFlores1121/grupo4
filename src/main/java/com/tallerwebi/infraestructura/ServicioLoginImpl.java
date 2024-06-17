@@ -30,17 +30,23 @@ public class ServicioLoginImpl implements ServicioLogin {
 
     @Override
     public void registrarUsuario(Usuario usuario) throws UsuarioExistente, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
-        if(repositorioUsuario.buscarPorEmail(usuario.getEmail())!=null){
+        if (repositorioUsuario.buscarPorEmail(usuario.getEmail()) != null) {
             throw new UsuarioExistente();
         }
-        if(validarDatos(usuario)) {
-            Integer icr=servicioDatosUsuario.calcularIngestaCalorica(usuario);
+        if (validarDatos(usuario)) {
+            // Calcular la ingesta calórica
+            Integer icr = servicioDatosUsuario.calcularIngestaCalorica(usuario);
             usuario.setIngestaCalorica(icr);
+System.out.print(icr);
+            // Insertar avatar predeterminado y configuración predeterminada
             insertarAvatarPredeterminado(usuario);
             usuario.setConfiguracionUsuario(crearConfiguracionPredeterminada());
-            repositorioUsuario.guardar(usuario);             
+
+            // Guardar el usuario en el repositorio
+            repositorioUsuario.guardar(usuario);
         }
     }
+
 
     private void insertarAvatarPredeterminado(Usuario usuario) {
         if(usuario.getGenero().equals("masculino")) {

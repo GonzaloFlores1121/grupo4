@@ -5,6 +5,9 @@ import javax.servlet.http.HttpSession;
 import com.tallerwebi.dominio.ServicioDatosUsuario;
 import com.tallerwebi.dominio.Usuario;
 
+import com.tallerwebi.dominio.excepcion.AlturaIncorrectaException;
+import com.tallerwebi.dominio.excepcion.DatosIncorrectos;
+import com.tallerwebi.dominio.excepcion.EdadInvalidaException;
 import com.tallerwebi.dominio.excepcion.PesoIncorrectoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -65,16 +68,14 @@ public class ControladorHome {
     }
 
     @RequestMapping(value = "/cambioPeso", method = RequestMethod.POST)
-    public ModelAndView cambiarPeso(@ModelAttribute("nuevoPeso") Double nuevoPeso, HttpServletRequest request) throws PesoIncorrectoException {
+    public ModelAndView cambiarPeso(@ModelAttribute("nuevoPeso") Double nuevoPeso, HttpServletRequest request) throws PesoIncorrectoException, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException {
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         ModelMap modelo = new ModelMap();
-        try {
+
             servicioDatosUsuario.actualizarPeso(usuario, nuevoPeso);
             modelo.put("mensaje", "Su peso se ha actualizado correctamente");
-        } catch (Exception e) {
-            modelo.put("mensaje", "Su peso no se ha actualizado");
-        }
+
         return new ModelAndView("redirect:/home",modelo);
     }
 }

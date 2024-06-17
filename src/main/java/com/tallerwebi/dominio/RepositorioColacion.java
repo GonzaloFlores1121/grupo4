@@ -1,5 +1,6 @@
 package com.tallerwebi.dominio;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -19,4 +20,5 @@ public interface RepositorioColacion {
     List<Colacion> obtenerTodasLasColacionesDelUsuarioPorFecha(Usuario usuario, LocalDate fecha);
 
   Colacion obtenerColacionPorId(Long id);
+
 }

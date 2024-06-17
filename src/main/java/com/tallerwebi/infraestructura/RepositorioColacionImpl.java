@@ -2,7 +2,6 @@ package com.tallerwebi.infraestructura;
 
 import com.tallerwebi.dominio.*;
 import org.hibernate.Criteria;
-import com.tallerwebi.dominio.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -11,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -108,5 +108,7 @@ public class RepositorioColacionImpl implements RepositorioColacion {
                 .add(Restrictions.eq("id", id))
                 .uniqueResult();
     }
+
+
 
 }

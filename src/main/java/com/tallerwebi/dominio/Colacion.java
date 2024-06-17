@@ -22,7 +22,7 @@ public class Colacion {
     @JoinColumn(name = "alimento_id")
     private Alimento alimentos;
 
-    private String cantidad;
+    private Integer cantidad;
 
     private LocalDate fecha;
 
@@ -70,7 +70,7 @@ public class Colacion {
         this.fecha = fecha;
     }
 
-    public String getCantidad() {return cantidad;}
+    public Integer getCantidad() {return cantidad;}
 
-    public void setCantidad(String cantidad) {this.cantidad = cantidad;}
+    public void setCantidad(Integer cantidad) {this.cantidad = cantidad;}
 }

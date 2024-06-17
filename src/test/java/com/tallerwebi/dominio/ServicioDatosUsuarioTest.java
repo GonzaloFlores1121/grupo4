@@ -28,7 +28,9 @@ public class ServicioDatosUsuarioTest {
     private ServicioDatosUsuario servicioUsuario;
     private ServicioLogin servicioLogin;
     private RepositorioHistorialPesoUsuario repositorioHistorialPesoUsuario;
-
+    private ServicioCalendario servicioCalendario;
+    private ServicioNotificacion servicioNotificacion;
+    private RepositorioMacronutrientes repositorioMacronutrientes;
 
 
     @BeforeEach
@@ -38,7 +40,7 @@ public class ServicioDatosUsuarioTest {
         repositorioHistorialPesoUsuario = mock(RepositorioHistorialPesoUsuarioImpl.class);
         repositorioConfiguracionUsuario =mock(RepositorioConfiguracionUsuarioImpl.class);
         servicioLogin = new ServicioLoginImpl(repositorioUsuario, repositorioConfiguracionUsuario, servicioUsuario);
-        servicioUsuario = new ServicioDatosUsuarioImpl(servicioLogin, repositorioHistorialPesoUsuario, repositorioUsuario);
+        servicioUsuario = new ServicioDatosUsuarioImpl(servicioLogin, repositorioHistorialPesoUsuario, repositorioUsuario,servicioCalendario,servicioNotificacion, repositorioMacronutrientes);
     }
 
 
@@ -162,7 +164,7 @@ public class ServicioDatosUsuarioTest {
         assertEquals(80.0, usuario.getPeso());
     }
 
-    private void whenLeCambioDePesoAlUsuario(Usuario usuario) throws PesoIncorrectoException {
+    private void whenLeCambioDePesoAlUsuario(Usuario usuario) throws PesoIncorrectoException, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException {
         servicioUsuario.actualizarPeso(usuario, 80.0);
     }
 }

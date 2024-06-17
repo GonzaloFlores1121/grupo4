@@ -4,6 +4,8 @@ package com.tallerwebi.dominio;
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
+
 @Entity
 public class EjercicioUsuario {
     @Id
@@ -11,7 +13,7 @@ public class EjercicioUsuario {
     private Long id;
     private String nombre;
     private Integer minutos;
-    private Date fecha;
+    private LocalDate fecha;
     private String  intensidad;
     private Integer caloriasQuemadas;
     @ManyToOne
@@ -19,7 +21,7 @@ public class EjercicioUsuario {
     @ManyToOne
     private Usuario usuario;
 
-    public EjercicioUsuario( String nombre, Integer minutos, Date fecha, String intensidad, Ejercicio ejercicio, Usuario usuario) {
+    public EjercicioUsuario( String nombre, Integer minutos, LocalDate  fecha, String intensidad, Ejercicio ejercicio, Usuario usuario) {
 
         this.nombre = nombre;
         this.minutos = minutos;
@@ -49,9 +51,9 @@ public class EjercicioUsuario {
         this.minutos = minutos;
     }
 
-    public Date getFecha() {return fecha;}
+    public LocalDate  getFecha() {return fecha;}
 
-    public void setFecha(Date fecha) {this.fecha = fecha;}
+    public void setFecha(LocalDate  fecha) {this.fecha = fecha;}
 
     public String getIntensidad() {
         return intensidad;

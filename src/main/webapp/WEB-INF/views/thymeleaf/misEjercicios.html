@@ -32,43 +32,21 @@
             </div>
         </div>
 
-  <div class="col-md-8">
-      <table class="table table-bordered">
-          <thead class="thead-light">
-              <tr>
-                  <th>Fecha</th>
-                  <th>Alimentos (Cals)</th>
-                  <th>Calorias consumidas</th>
-                  <th>Ejercicio</th>
-                  <th>Calorias Netas</th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr th:each="entry : ${listaFechas}">
-                  <td th:text="${#dates.format(entry.key, 'dd/MM/yyyy')}"></td>
-                  <td>
-                      <div th:if="${entry.value.colaciones.size() > 0}">
-                          <a th:href="@{/misAlimentos(fecha=${#dates.format(entry.key, 'yyyy-MM-dd')})}" class="btn btn-sm btn-primary">Ver Comida</a>
-                      </div>
-                  </td>
-                  <td>
-                      <span th:text="${entry.value.caloriasConsumidas}"></span>
-                  </td>
-                  <td>
-
-                <div th:if="${entry.value.ejercicios.size() > 0}">
-                        <a th:href="@{/misEjercicios(fecha=${#dates.format(entry.key, 'yyyy-MM-dd')})}" class="btn btn-sm btn-primary">Ver Ejercicios</a>
-                 </div>
-                  </td>
-
-
-                  </td>
-                  <td>
-                      <span th:text="${entry.value.caloriasNetas}"></span>
-                  </td>
-              </tr>
-          </tbody>
-      </table>
+  <div class="container">
+      <div class="row justify-content-center">
+          <div class="col-md-8">
+              <h2>Mis ejercicios <span th:text="${fecha}"></span></h2>
+              <ul>
+                  <li th:each="ejercicio : ${ejercicios}">
+                      <a th:href="@{verEjercicio(id=${ejercicio.id})}">
+                          <span th:text="${ejercicio.ejercicio.nombre}"></span>
+                      </a>
+                      - <span th:text="'Minutos empleados: ' + ${ejercicio.minutos}"></span>
+                      - <span th:text="'Calorias quemadas: ' + ${ejercicio.caloriasQuemadas}"></span>
+                  </li>
+              </ul>
+          </div>
+      </div>
   </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

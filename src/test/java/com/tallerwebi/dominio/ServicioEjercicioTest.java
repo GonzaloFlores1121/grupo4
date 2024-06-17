@@ -100,7 +100,7 @@ public class ServicioEjercicioTest {
 
         ejercicioUsuario.setNombre("Ejercicio1");
         ejercicioUsuario.setMinutos(30);
-        ejercicioUsuario.setFecha(new Date(2020, 4, 17));
+        ejercicioUsuario.setFecha(new Date(2020, 4, 17).toLocalDate());
         ejercicioUsuario.setIntensidad("Alta");
         ejercicioUsuario.setEjercicio(ejercicio);
         ejercicioUsuario.setUsuario(usuario);
@@ -114,7 +114,7 @@ public class ServicioEjercicioTest {
 
         ejercicioUsuario.setNombre(" ");
         ejercicioUsuario.setMinutos(30);
-        ejercicioUsuario.setFecha(new Date(2020, 4, 17));
+        ejercicioUsuario.setFecha(new Date(2020, 4, 17).toLocalDate());
         ejercicioUsuario.setIntensidad("Alta");
         ejercicioUsuario.setEjercicio(ejercicio);
         ejercicioUsuario.setUsuario(usuario);

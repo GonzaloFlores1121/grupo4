@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -44,6 +45,21 @@ public class ServicioEjercicioImpl implements ServicioEjercicio {
         return (ejercicio.getCaloriasQuemadasPorHora()/60)*minutos;
     }
 
+    @Override
+    public List<EjercicioUsuario> obtenerEjercicioUsuarioPorFecha(Usuario usuario, LocalDate fecha) {
+        return repositorioEjercicioUsuario.obtenerEjercicioPorFecha(usuario, fecha);
+    }
+
+    @Override
+    public EjercicioUsuario buscarEjercicioUsuarioPorId(Long id) {
+        return repositorioEjercicioUsuario.buscarEjercicioUsuarioPorId(id);
+    }
+
+    @Override
+    public Ejercicio obtenerEjercicioPorId(Long id) {
+        return ejercicioRepositorio.obtenerEjercicioPorId(id);
+    }
+
 
     @Override
     public void guardarEjercicioUsuario(String nombre, String intensidad, Ejercicio ejercicio, Usuario usuario, Date fecha, Integer minutos) throws EjercicioInvalido {
@@ -55,7 +71,7 @@ public class ServicioEjercicioImpl implements ServicioEjercicio {
         ejercicioUsuario.setIntensidad(intensidad);
         ejercicioUsuario.setEjercicio(ejercicio);
         ejercicioUsuario.setUsuario(usuario);
-        ejercicioUsuario.setFecha(fecha);
+        ejercicioUsuario.setFecha(fecha.toLocalDate());
         ejercicioUsuario.setMinutos(minutos);
         if (ejercicioUsuario.getNombre() == null || ejercicioUsuario.getMinutos() == null ||
                 ejercicioUsuario.getFecha() == null  || ejercicioUsuario.getIntensidad() == null ||

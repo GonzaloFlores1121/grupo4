@@ -9,4 +9,5 @@ public interface ServicioCalendario {
     Map<Date, Calendario> obtenerFechasCalendario(Usuario usuario);
 
 
+    Integer mostrarIngestaCaloricaDelDia(Usuario usuario, Date fecha);
 }
