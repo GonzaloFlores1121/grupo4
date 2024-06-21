@@ -57,7 +57,9 @@ public class ControladorRegistro {
         ModelMap model = new ModelMap();
         String error = null;
         try {
+
             servicioLogin.registrarUsuario(usuario);
+            servicioDatosUsuario.ingresarPesoInicial(usuario.getPeso(),usuario);
             String titulo = "Bienvenido a fatloss";
             String contenido = "Nos alegra que te unas a nosotros en tu camino hacia una vida mas saludable. FatLoss es tu app de nutricion ideal para alcanzar tus objetivos de perdida de peso.";
             servicioNotificacion.enviarNotificacion(titulo, contenido, LocalDateTime.now(), usuario.getId()); 
@@ -91,7 +93,7 @@ public class ControladorRegistro {
         if (usuarioBuscado != null) {
             HttpSession session = request.getSession();
             session.setAttribute("usuario", usuarioBuscado);
-            servicioDatosUsuario.ingresarPesoInicial(usuario.getPeso(),usuario);
+
             return new ModelAndView("redirect:/home");
         }
         model.addAttribute("error", "Usuario o clave incorrecta");

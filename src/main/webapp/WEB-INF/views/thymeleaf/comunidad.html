@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Comunidad</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #fafafa; /* Color de fondo similar al de Instagram */
+            font-family: Arial, sans-serif; /* Fuente similar a la de Instagram */
+        }
+
+        .center-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Ajustado para centrar contenido verticalmente */
+            background-color: #fafafa; /* Ajustado para fondo similar */
+        }
+
+        .card {
+            margin-bottom: 30px; /* Espacio entre las tarjetas de publicación */
+            border: none; /* Sin borde en las tarjetas */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+            background-color: #ffffff; /* Fondo blanco para las tarjetas */
+            border-radius: 8px; /* Bordes redondeados */
+        }
+
+        .card img {
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            max-width: 100%; /* Imagen ajustada al ancho de la tarjeta */
+            object-fit: cover; /* Para cubrir completamente el espacio */
+            height: 400px; /* Altura fija para todas las imágenes */
+        }
+
+        .card-body {
+            padding: 20px; /* Espacio interno del cuerpo de la tarjeta */
+        }
+
+        .card-title {
+            font-size: 18px; /* Tamaño del título */
+            font-weight: bold; /* Negrita */
+            margin-bottom: 10px; /* Espacio después del título */
+        }
+
+        .card-text {
+            font-size: 16px; /* Tamaño del texto */
+            color: #333; /* Color del texto más oscuro */
+        }
+
+        .btn-subir {
+            position: fixed; /* Botón fijo en la esquina inferior derecha */
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000; /* Asegura que esté por encima de otros elementos */
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="text-center">
+                    <h1 class="mb-4">Publicaciones de la Comunidad</h1>
+                </div>
+
+                <!-- Botón para subir publicación -->
+                <a th:href="@{/subirPublicacion}" class="btn btn-primary btn-subir">Subir Publicación</a>
+
+                <!-- Publicaciones -->
+                <div class="row">
+                    <div th:each="publicacion : ${publicaciones}" class="col-md-12">
+                        <div class="card">
+                            <img th:src="@{'/img/publicaciones/' + ${publicacion.rutaImagen}}" class="card-img-top" alt="imagen_publicacion">
+                            <div class="card-body">
+                               <a th:href="@{/irAPerfil}"><h5 class="card-title" th:text="${publicacion.usuario.nombre}"></h5></a>
+                                <p class="card-text" th:text="${publicacion.texto}"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS y dependencias -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
