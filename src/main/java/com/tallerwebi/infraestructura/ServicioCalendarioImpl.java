@@ -55,7 +55,7 @@ public class ServicioCalendarioImpl implements ServicioCalendario {
             Integer cantidad = colacion.getCantidad();
 
 
-            ingestaCalorica += cantidad * colacion.getAlimentos().getEnergia();
+            ingestaCalorica +=  colacion.getAlimentos().getEnergia();
         }
 
         return ingestaCalorica;
