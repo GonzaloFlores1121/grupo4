@@ -382,3 +382,43 @@ footer {
     ul {
         list-style-type: none;
     }
+
+    /*calendario*/
+    .body-calendario {
+        font-family: 'Lato', sans-serif;
+        background-color: #72a883; /* Color de fondo */
+    }
+
+    .list-group-item {
+        border-radius: 0; /* Bordes rectos para los elementos de la lista */
+    }
+
+    .card {
+        border-radius: 15px; /* Bordes redondeados para la tarjeta */
+    }
+
+    .table {
+        margin-bottom: 0; /* Eliminar margen inferior de la tabla */
+    }
+
+    .table th, .table td {
+        vertical-align: middle; /* Centrar el contenido verticalmente */
+    }
+
+    .btn-primary {
+        background-color: #28a745; /* Color verde */
+        border-color: #28a745; /* Color del borde verde */
+    }
+
+    .card-title {
+
+        color: #72a883;
+    }
+    .btn-primary:hover {
+        background-color: #72a883;
+        border-color: #72a883;
+    }
+
+    .btn-primary:disabled {
+        opacity: 0.65;
+    }
