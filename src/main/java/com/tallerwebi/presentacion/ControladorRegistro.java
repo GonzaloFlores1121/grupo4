@@ -1,5 +1,6 @@
 package com.tallerwebi.presentacion;
 
+import com.tallerwebi.dominio.ServicioDatosUsuario;
 import com.tallerwebi.dominio.ServicioLogin;
 import com.tallerwebi.dominio.ServicioNotificacion;
 import com.tallerwebi.dominio.Usuario;
@@ -24,11 +25,13 @@ public class ControladorRegistro {
 
     private ServicioLogin servicioLogin;
     private ServicioNotificacion servicioNotificacion;
+    private ServicioDatosUsuario servicioDatosUsuario;
 
     @Autowired
-    public ControladorRegistro(ServicioLogin servicioLogin, ServicioNotificacion servicioNotificacion) {
+    public ControladorRegistro(ServicioLogin servicioLogin, ServicioNotificacion servicioNotificacion, ServicioDatosUsuario servicioDatosUsuario) {
         this.servicioLogin = servicioLogin;
         this.servicioNotificacion = servicioNotificacion;
+        this.servicioDatosUsuario = servicioDatosUsuario;
     }
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
@@ -88,6 +91,7 @@ public class ControladorRegistro {
         if (usuarioBuscado != null) {
             HttpSession session = request.getSession();
             session.setAttribute("usuario", usuarioBuscado);
+            servicioDatosUsuario.ingresarPesoInicial(usuario.getPeso(),usuario);
             return new ModelAndView("redirect:/home");
         }
         model.addAttribute("error", "Usuario o clave incorrecta");

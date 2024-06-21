@@ -20,6 +20,7 @@
         <hibernate.version>5.4.24.Final</hibernate.version>
         <playwright.version>1.36.0</playwright.version>
         <hsqldb.version>2.3.2</hsqldb.version>
+
     </properties>
 
     <dependencies>
@@ -48,11 +49,14 @@
             <version>${hsqldb.version}</version>
         </dependency>
 
+
+
         <dependency>
             <groupId>org.jfree</groupId>
             <artifactId>jfreechart</artifactId>
             <version>1.5.3</version>
         </dependency>
+
         <dependency>
             <groupId>org.thymeleaf</groupId>
             <artifactId>thymeleaf-spring5</artifactId>
@@ -62,7 +66,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.28</version> <!-- Asegúrate de usar la versión adecuada -->
+            <version>8.0.28</version>
         </dependency>
 
         <dependency>
@@ -118,19 +122,7 @@
             <version>${playwright.version}</version>
             <scope>test</scope>
         </dependency>
-
-
-        <!-- compile only, deployed container will provide this -->
-        <!--
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>${servletapi.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        -->
     </dependencies>
-
     <build>
 
         <plugins>

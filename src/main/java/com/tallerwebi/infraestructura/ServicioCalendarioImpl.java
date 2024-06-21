@@ -6,9 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class ServicioCalendarioImpl implements ServicioCalendario {
@@ -29,7 +27,7 @@ public class ServicioCalendarioImpl implements ServicioCalendario {
     public Map<Date, Calendario> obtenerFechasCalendario(Usuario usuario) {
         List<EjercicioUsuario> ejercicios = repositorioEjercicioUsuario.obtenerTodosLosEjercicios(usuario);
         List<Colacion> colaciones = repositorioColacion.obtenerTodasLasColacionesDelUsuario(usuario);
-        Map<Date, Calendario> reportePorFecha = new HashMap<>();
+        Map<Date, Calendario> reportePorFecha = new TreeMap<>(Comparator.reverseOrder());
 
 
         for (EjercicioUsuario ejercicio : ejercicios) {
@@ -53,10 +51,10 @@ public class ServicioCalendarioImpl implements ServicioCalendario {
         Integer ingestaCalorica = 0;
 
         for (Colacion colacion : colaciones) {
-            // Convertir la cantidad a Integer (o Double si es decimal)
+
             Integer cantidad = colacion.getCantidad();
 
-            // Calcular la ingesta calórica sumando cada colación
+
             ingestaCalorica += cantidad * colacion.getAlimentos().getEnergia();
         }
 

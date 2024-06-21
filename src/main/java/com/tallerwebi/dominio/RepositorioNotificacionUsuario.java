@@ -10,5 +10,5 @@ public interface RepositorioNotificacionUsuario {
     List<Notificacion> getAllNotification(Long idUsuario);
     void update(NotificacionUsuario notificacionUsuario);
     void delete(NotificacionUsuario notificacionUsuario);
-
+    List<NotificacionUsuario> getNotificacionesNoLeidas(Long idUsuario);
 }

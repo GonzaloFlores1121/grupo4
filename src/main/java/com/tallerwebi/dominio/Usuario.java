@@ -15,7 +15,8 @@ public class Usuario {
     private Integer edad;
     private String genero;   
     private Double altura;
-    private Double peso;      
+    private Double peso;
+    private Double pesoInicial;
     private Double metaAlcanzarPeso;
     private String nivelDeActividad;    
     private Integer ingestaCalorica;
@@ -69,4 +70,6 @@ public class Usuario {
     public Set<Colacion> getColaciones() {return colaciones;}
     public void setColaciones(Set<Colacion> colaciones) {this.colaciones = colaciones;}
 
+    public void setPesoInicial(Double peso){this.pesoInicial = pesoInicial;}
+     public Double getPesoInicial(){return pesoInicial;}
 }

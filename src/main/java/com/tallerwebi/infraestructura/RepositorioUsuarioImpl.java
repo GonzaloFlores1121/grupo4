@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -63,6 +64,23 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
     public List<Usuario> obtenerTodos() {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("from Usuario", Usuario.class).list();
+    }
+
+    @Override
+    public void agregarPesoInicial(Double peso, Usuario usuario) {
+        Session session = sessionFactory.getCurrentSession();
+       Transaction tx = null;
+       try{
+           tx = session.beginTransaction();
+           session.get(Usuario.class, usuario.getId());
+           usuario.setPesoInicial(peso);
+           session.update(usuario);
+           tx.commit();
+       }catch(Exception e){
+           if(tx != null){
+               tx.rollback();
+           }
+       }
     }
 
 }

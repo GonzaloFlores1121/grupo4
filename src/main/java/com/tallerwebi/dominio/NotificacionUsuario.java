@@ -15,6 +15,7 @@ public class NotificacionUsuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDateTime fechaHora;
+    private boolean leida;
     @ManyToOne
     private Notificacion notificacion;
     @ManyToOne
@@ -34,4 +35,6 @@ public class NotificacionUsuario {
     public Usuario getUsuario() {return usuario;}
     public void setUsuario(Usuario usuario) {this.usuario = usuario;}
 
+    public boolean isLeida() {return leida;}
+    public void setLeida(boolean leida) {this.leida = leida;}
 }

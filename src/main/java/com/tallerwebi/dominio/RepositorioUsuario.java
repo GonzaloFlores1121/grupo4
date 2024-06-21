@@ -11,6 +11,6 @@ public interface RepositorioUsuario {
     Usuario buscarPorId(Long id);
     Usuario buscarPorEmail(String email);
     List<Usuario> obtenerTodos();
-    
+    void agregarPesoInicial(Double peso,Usuario usuario);
 }
 

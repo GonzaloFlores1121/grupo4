@@ -147,10 +147,70 @@ public class ServicioDatosUsuarioImpl implements ServicioDatosUsuario {
     }
 
     @Override
-    public void actualizarPeso(Usuario usuario, Double peso) throws PesoIncorrectoException, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException {
+    public void ingresarPesoInicial(Double peso,Usuario usuario) {
+        repositorioUsuario.agregarPesoInicial(peso,usuario);
+    }
+
+    @Override
+    public Double obtenerPesoActual(Usuario usuario) {
+        return usuario.getPeso();
+    }
+
+    @Override
+    public Double obtenerPesoInicial(Usuario usuario) {
+        return usuario.getPesoInicial();
+    }
+
+    @Override
+    public Double pesoDisminuidoALaFecha(Usuario usuario) {
+
+        Double pesoPerdido=usuario.getPesoInicial()-usuario.getPeso();
+       if(pesoPerdido<0.0) {
+          return pesoPerdido=0.0;
+       }else{
+           return pesoPerdido;
+       }
+    }
+    @Override
+    public Double pesoGanadoALaFecha(Usuario usuario) {
+
+        Double pesoGanado=usuario.getPeso()-usuario.getPesoInicial();
+        if(pesoGanado<0.0) {
+            return pesoGanado=0.0;
+        }else{
+            return pesoGanado;
+        }
+    }
+    @Override
+    public Double CantidadDePesoFaltanteParaLLegarALaMeta(Usuario usuario) {
+        Double pesoDeDiferencia=null;
+    if(usuario.getMetaAlcanzarPeso()>=usuario.getPeso()){
+        pesoDeDiferencia=usuario.getMetaAlcanzarPeso()-usuario.getPeso();
+    }else{
+        pesoDeDiferencia=usuario.getPeso()-usuario.getMetaAlcanzarPeso();
+    }
+        return pesoDeDiferencia;
+    }
+    @Override
+    public void seAlcanzoMeta(Usuario usuario, Double pesoActualizado) throws UsuarioNoExistente {
+        Double pesoDeDiferencia=null;
+        LocalDate today = LocalDate.now();
+        java.sql.Date sqlDate = java.sql.Date.valueOf(today);
+        Double meta=usuario.getMetaAlcanzarPeso();
+        Double peso=usuario.getPeso();
+        if (meta != null && pesoActualizado <= meta) {
+            String mensaje = String.format("Tu meta era de %.2f kg y tu peso actual es %.2f kg. ¡Actualiza tu meta para seguir con el progreso!",
+                    meta, pesoActualizado);
+            servicioNotificacion.enviarNotificacion("¡Felicitaciones, has alcanzado tu meta!", mensaje, today.atStartOfDay(), usuario.getId());
+        }
+    }
+    @Override
+    public void actualizarPeso(Usuario usuario, Double peso) throws PesoIncorrectoException, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, UsuarioNoExistente {
         Usuario usuarioEnSesion = repositorioUsuario.buscarUsuario(usuario.getEmail(), usuario.getPassword());
 System.out.print(calcularIngestaCalorica(usuarioEnSesion));
+
         if (usuarioEnSesion != null && pesoValidoUsuario(peso)) {
+            seAlcanzoMeta(usuario, peso);
             LocalDateTime fechaActualLocalDateTime = LocalDateTime.now();
             Date fechaActual = Date.from(fechaActualLocalDateTime.atZone(ZoneId.systemDefault()).toInstant());
             java.sql.Date sqlFechaActual = new java.sql.Date(fechaActual.getTime());

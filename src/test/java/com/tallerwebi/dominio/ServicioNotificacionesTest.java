@@ -19,13 +19,16 @@ import org.junit.jupiter.api.Test;
 
 import com.tallerwebi.dominio.excepcion.UsuarioNoExistente;
 import com.tallerwebi.infraestructura.ServicioNotificacionImpl;
+import org.springframework.context.ApplicationEventPublisher;
+
 
 public class ServicioNotificacionesTest {
     
     private RepositorioNotificacion repositorioNotificacion = mock(RepositorioNotificacion.class);
     private RepositorioNotificacionUsuario repositorioNotificacionUsuario = mock(RepositorioNotificacionUsuario.class);
     private RepositorioUsuario repositorioUsuario = mock(RepositorioUsuario.class);
-    private ServicioNotificacionImpl servicioNotificacion = new ServicioNotificacionImpl(repositorioNotificacion, repositorioNotificacionUsuario, repositorioUsuario);
+
+     ServicioNotificacionImpl servicioNotificacion = new ServicioNotificacionImpl(repositorioNotificacion, repositorioNotificacionUsuario, repositorioUsuario);
 
     @Test
     public void testCrearNotificacion() {

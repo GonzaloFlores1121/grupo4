@@ -63,4 +63,10 @@ public class RepositorioNotificacionUsuarioImpl implements RepositorioNotificaci
         session.delete(notificacionUsuario);
     }
 
+    @Override
+    public List<NotificacionUsuario> getNotificacionesNoLeidas(Long idUsuario) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("select notificacion from NotificacionUsuario nu where nu.usuario.id=:idUsuario AND nu.leida=false ", NotificacionUsuario.class).setParameter("idUsuario", idUsuario).list();
+    }
+
 }

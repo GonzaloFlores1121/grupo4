@@ -13,6 +13,9 @@ public interface ServicioNotificacion {
     void enviarNotificaciones(String titulo, String contenido, LocalDateTime fechaHora);
     void eliminarNotificacion(Long idNotificacion, Long idUsuario);
     void eliminarNotificaciones(LocalDateTime fechaHora);
+
+    List<NotificacionUsuario> obtenerNotificacionesNoLeidas(Long idUsuario);
+
     List<Notificacion> obtenerNotificaciones(Long idUsuario);
 
 }

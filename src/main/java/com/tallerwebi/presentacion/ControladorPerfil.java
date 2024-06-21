@@ -166,6 +166,7 @@ public class ControladorPerfil {
             model.addAttribute("notificaciones", notificaciones);
             return new ModelAndView("notificaciones", model);
         }
+
         return new ModelAndView("redirect:/inicio");
     }
 

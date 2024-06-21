@@ -164,7 +164,7 @@ public class ServicioDatosUsuarioTest {
         assertEquals(80.0, usuario.getPeso());
     }
 
-    private void whenLeCambioDePesoAlUsuario(Usuario usuario) throws PesoIncorrectoException, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException {
+    private void whenLeCambioDePesoAlUsuario(Usuario usuario) throws PesoIncorrectoException, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, UsuarioNoExistente {
         servicioUsuario.actualizarPeso(usuario, 80.0);
     }
 }

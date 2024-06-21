@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.tallerwebi.dominio.ServicioDatosUsuario;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,7 +30,8 @@ public class ControladorRegistroTest {
 
     private ServicioLogin servicioLogin = mock(ServicioLogin.class);
     private ServicioNotificacion servicioNotificacion = mock(ServicioNotificacion.class);
-    private ControladorRegistro controladorRegistro = new ControladorRegistro(servicioLogin, servicioNotificacion);
+    private ServicioDatosUsuario servicioDatosUsuario = mock(ServicioDatosUsuario.class);
+    private ControladorRegistro controladorRegistro = new ControladorRegistro(servicioLogin, servicioNotificacion,servicioDatosUsuario);
     private HttpServletRequest request = mock(HttpServletRequest.class);    
     private HttpSession session = mock(HttpSession.class);
 

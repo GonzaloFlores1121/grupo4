@@ -5,15 +5,14 @@ import javax.servlet.http.HttpSession;
 import com.tallerwebi.dominio.ServicioDatosUsuario;
 import com.tallerwebi.dominio.Usuario;
 
-import com.tallerwebi.dominio.excepcion.AlturaIncorrectaException;
-import com.tallerwebi.dominio.excepcion.DatosIncorrectos;
-import com.tallerwebi.dominio.excepcion.EdadInvalidaException;
-import com.tallerwebi.dominio.excepcion.PesoIncorrectoException;
+import com.tallerwebi.dominio.excepcion.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -28,6 +27,9 @@ public class ControladorHome {
     public ControladorHome(ServicioDatosUsuario servicioDatosUsuario) {
         this.servicioDatosUsuario = servicioDatosUsuario;
     }
+
+
+
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public ModelAndView irAlHome(HttpServletRequest request) {
@@ -68,7 +70,7 @@ public class ControladorHome {
     }
 
     @RequestMapping(value = "/cambioPeso", method = RequestMethod.POST)
-    public ModelAndView cambiarPeso(@ModelAttribute("nuevoPeso") Double nuevoPeso, HttpServletRequest request) throws PesoIncorrectoException, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException {
+    public ModelAndView cambiarPeso(@ModelAttribute("nuevoPeso") Double nuevoPeso, HttpServletRequest request) throws PesoIncorrectoException, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, UsuarioNoExistente {
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         ModelMap modelo = new ModelMap();

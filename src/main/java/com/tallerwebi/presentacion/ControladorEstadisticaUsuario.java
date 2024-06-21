@@ -53,6 +53,19 @@ public class ControladorEstadisticaUsuario {
         // Agregar el gráfico al modelo (en caso de que se necesite en la vista)
         model.addAttribute("grafico", "chart.png");
 
+        Double pesoDisminuido=servicioDatosUsuario.pesoDisminuidoALaFecha(usuario);
+        Double pesoGanado=servicioDatosUsuario.pesoGanadoALaFecha(usuario);
+        Double pesoFaltanteParaMeta=servicioDatosUsuario.CantidadDePesoFaltanteParaLLegarALaMeta(usuario);
+        Double pesoActual=servicioDatosUsuario.obtenerPesoActual(usuario);
+        Double pesoInicial=servicioDatosUsuario.obtenerPesoInicial(usuario);
+
+        model.addAttribute("pesoDisminuido", pesoDisminuido);
+        model.addAttribute("pesoGanado", pesoGanado);
+        model.addAttribute("pesoFaltanteParaMeta", pesoFaltanteParaMeta);
+        model.addAttribute("pesoFaltanteParaMeta", pesoFaltanteParaMeta);
+        model.addAttribute("pesoInicial", pesoInicial);
+        model.addAttribute("pesoActual", pesoActual);
+
         return new ModelAndView("estadisticasUsuario", model);
     }
 }
