@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -41,8 +42,8 @@ public class ServicioEjercicioImpl implements ServicioEjercicio {
     }
 
     @Override
-    public Integer calcularCaloriasQuemadas(Ejercicio ejercicio,  Integer minutos) {
-        return (ejercicio.getCaloriasQuemadasPorHora()/60)*minutos;
+    public Integer calcularCaloriasQuemadas(Ejercicio ejercicio, Integer minutos) {
+        return (ejercicio.getCaloriasQuemadasPorHora() / 60) * minutos;
     }
 
     @Override
@@ -60,12 +61,25 @@ public class ServicioEjercicioImpl implements ServicioEjercicio {
         return ejercicioRepositorio.obtenerEjercicioPorId(id);
     }
 
+    @Override
+    public Ejercicio obtenerEjercicioPorCalorias(Integer calorias) throws EjercicioNoExistente {
+        List<Ejercicio> ejercicios = obtenerTodosLosEjercicios();
+
+        for (Ejercicio ejercicio : ejercicios) {
+            if (ejercicio.getCaloriasQuemadasPorHora() >= calorias) {
+                return ejercicio;
+            }
+        }
+        return ejercicios.stream()
+                .min(Comparator.comparingInt(e -> Math.abs(e.getCaloriasQuemadasPorHora() - calorias)))
+                .orElse(null);
+    }
 
     @Override
     public void guardarEjercicioUsuario(String nombre, String intensidad, Ejercicio ejercicio, Usuario usuario, Date fecha, Integer minutos) throws EjercicioInvalido {
 
         EjercicioUsuario ejercicioUsuario = new EjercicioUsuario();
-        Integer calorias=calcularCaloriasQuemadas(ejercicio, minutos);
+        Integer calorias = calcularCaloriasQuemadas(ejercicio, minutos);
         ejercicioUsuario.setCaloriasQuemadas(calorias);
         ejercicioUsuario.setNombre(ejercicio.getNombre());
         ejercicioUsuario.setIntensidad(intensidad);
@@ -74,7 +88,7 @@ public class ServicioEjercicioImpl implements ServicioEjercicio {
         ejercicioUsuario.setFecha(fecha.toLocalDate());
         ejercicioUsuario.setMinutos(minutos);
         if (ejercicioUsuario.getNombre() == null || ejercicioUsuario.getMinutos() == null ||
-                ejercicioUsuario.getFecha() == null  || ejercicioUsuario.getIntensidad() == null ||
+                ejercicioUsuario.getFecha() == null || ejercicioUsuario.getIntensidad() == null ||
                 ejercicioUsuario.getEjercicio() == null || ejercicioUsuario.getUsuario() == null) {
             throw new EjercicioInvalido("Ejercicio invalido");
         } else {
@@ -83,7 +97,6 @@ public class ServicioEjercicioImpl implements ServicioEjercicio {
 
         }
     }
-
 }
 
 

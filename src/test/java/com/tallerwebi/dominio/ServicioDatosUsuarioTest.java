@@ -31,6 +31,7 @@ public class ServicioDatosUsuarioTest {
     private ServicioCalendario servicioCalendario;
     private ServicioNotificacion servicioNotificacion;
     private RepositorioMacronutrientes repositorioMacronutrientes;
+    private ServicioEjercicio servicioEjercicio;
 
 
     @BeforeEach
@@ -40,7 +41,7 @@ public class ServicioDatosUsuarioTest {
         repositorioHistorialPesoUsuario = mock(RepositorioHistorialPesoUsuarioImpl.class);
         repositorioConfiguracionUsuario =mock(RepositorioConfiguracionUsuarioImpl.class);
         servicioLogin = new ServicioLoginImpl(repositorioUsuario, repositorioConfiguracionUsuario, servicioUsuario);
-        servicioUsuario = new ServicioDatosUsuarioImpl(servicioLogin, repositorioHistorialPesoUsuario, repositorioUsuario,servicioCalendario,servicioNotificacion, repositorioMacronutrientes);
+        servicioUsuario = new ServicioDatosUsuarioImpl(servicioLogin, repositorioHistorialPesoUsuario, repositorioUsuario,servicioCalendario,servicioNotificacion, repositorioMacronutrientes, servicioEjercicio);
     }
 
 

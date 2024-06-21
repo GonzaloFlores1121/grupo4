@@ -16,4 +16,5 @@ public interface ServicioEjercicio {
     List<EjercicioUsuario> obtenerEjercicioUsuarioPorFecha(Usuario usuario, LocalDate fecha);
     EjercicioUsuario buscarEjercicioUsuarioPorId(Long id);
     Ejercicio obtenerEjercicioPorId(Long id);
+    Ejercicio obtenerEjercicioPorCalorias(Integer excesoCalorias) throws EjercicioNoExistente;
 }

@@ -23,15 +23,17 @@ public class ServicioDatosUsuarioImpl implements ServicioDatosUsuario {
     private ServicioCalendario  servicioCalendario;
     private ServicioNotificacion servicioNotificacion;
     private RepositorioMacronutrientes repositorioMacronutrientes;
+    private ServicioEjercicio servicioEjercicio;
 
     @Autowired
-    public ServicioDatosUsuarioImpl(ServicioLogin servicioLogin , RepositorioHistorialPesoUsuario repositorioHistorialPesoUsuario, RepositorioUsuario repositorioUsuario, ServicioCalendario servicioCalendario,ServicioNotificacion servicioNotificacion, RepositorioMacronutrientes repositorioMacronutrientes) {
+    public ServicioDatosUsuarioImpl(ServicioLogin servicioLogin , RepositorioHistorialPesoUsuario repositorioHistorialPesoUsuario, RepositorioUsuario repositorioUsuario, ServicioCalendario servicioCalendario,ServicioNotificacion servicioNotificacion, RepositorioMacronutrientes repositorioMacronutrientes, ServicioEjercicio servicioEjercicio) {
         this.repositorioHistorialPesoUsuario=repositorioHistorialPesoUsuario;
         this.servicioLogin = servicioLogin;
         this.repositorioUsuario = repositorioUsuario;
         this.servicioCalendario = servicioCalendario;
         this.servicioNotificacion = servicioNotificacion;
         this.repositorioMacronutrientes = repositorioMacronutrientes;
+        this.servicioEjercicio = servicioEjercicio;
     }
 
     @Override
@@ -132,16 +134,17 @@ public class ServicioDatosUsuarioImpl implements ServicioDatosUsuario {
         }
     }
     @Override
-    public void verificarIngestaDelDia(Usuario usuario) throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, UsuarioNoExistente {
+    public void verificarIngestaDelDia(Usuario usuario) throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, UsuarioNoExistente, EjercicioNoExistente {
         Integer ingestaCalorica = calcularIngestaCalorica(usuario);
         LocalDate today = LocalDate.now();
         java.sql.Date sqlDate = java.sql.Date.valueOf(today);
-
         Integer ingestaCaloricaDelDia = servicioCalendario.mostrarIngestaCaloricaDelDia(usuario, sqlDate);
+        Integer excesoCalorias = ingestaCaloricaDelDia - ingestaCalorica;
 
         if (ingestaCalorica < ingestaCaloricaDelDia) {
-            String mensaje = String.format(" Tu límite diario es de %d calorías y has consumido %d calorías hasta ahora.",
-                     ingestaCalorica,ingestaCaloricaDelDia);
+            Ejercicio ejercicioParaCompensar = servicioEjercicio.obtenerEjercicioPorCalorias(excesoCalorias);
+            String mensaje = String.format(" Tu límite diario es de %d calorías y has consumido %d calorías hasta ahora. Te recomendamos este ejercicio para compensar: %s",
+                    ingestaCalorica,ingestaCaloricaDelDia,ejercicioParaCompensar.getNombre());
             servicioNotificacion.enviarNotificacion("¡Has pasado tu ingesta calórica del día!", mensaje, today.atStartOfDay(), usuario.getId());
         }
     }
