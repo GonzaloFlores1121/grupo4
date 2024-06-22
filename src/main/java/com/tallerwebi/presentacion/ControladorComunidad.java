@@ -3,13 +3,10 @@ package com.tallerwebi.presentacion;
 import com.tallerwebi.dominio.Publicacion;
 import com.tallerwebi.dominio.ServicioComunidad;
 import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.excepcion.UsuarioNoExistente;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -18,11 +15,8 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,11 +38,8 @@ public class ControladorComunidad {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         List<Publicacion> publicaciones = servicioComunidad.todasLasPublicacionesSubidas();
 
-
-        Map<String, Object> model = new HashMap<>();
         modelo.put("publicaciones", publicaciones);
 
-        // Devolver la vista "comunidad" con el modelo
         return new ModelAndView("comunidad", modelo);
     }
 
@@ -86,5 +77,32 @@ public class ControladorComunidad {
     public ModelAndView subirPublicacion() throws IOException {
 
         return new ModelAndView("subirPublicacion");
+    }
+
+    @RequestMapping(value = "/perfilComunidad/{id}",method = RequestMethod.GET)
+    public ModelAndView mostrarPerfilComunidad(@PathVariable Long id, HttpServletRequest request) throws UsuarioNoExistente {
+        ModelMap model = new ModelMap();
+        obtenerUsuarioSession(request, model);
+        Usuario usuario = servicioComunidad.obtenerUsuarioPorId(id);
+        model.put("usuario", usuario);
+        return new ModelAndView("perfilComunidad", model);
+    }
+
+    @RequestMapping(value = "/publicacionesUsuario/{id}", method = RequestMethod.GET)
+    public ModelAndView irAPublicaciones(@PathVariable Long id, HttpServletRequest request) throws UsuarioNoExistente {
+        ModelMap model = new ModelMap();
+        Usuario usuario = servicioComunidad.obtenerUsuarioPorId(id);
+        String nombre = usuario.getNombre();
+        List<Publicacion> publicaciones = servicioComunidad.todasLasPublicacionesSubidasPorUnUsuario(id);
+        model.put("publicacionesUsuario", publicaciones);
+        model.put("nombre", nombre);
+
+        return new ModelAndView("publicacionesUsuario", model);
+    }
+
+    private void obtenerUsuarioSession(HttpServletRequest request, ModelMap model) {
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuario);
     }
 }

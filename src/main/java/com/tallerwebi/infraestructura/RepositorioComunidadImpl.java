@@ -1,8 +1,6 @@
 package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.CategoriaAlimento;
-import com.tallerwebi.dominio.Publicacion;
-import com.tallerwebi.dominio.RepositorioComunidad;
+import com.tallerwebi.dominio.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +25,24 @@ public RepositorioComunidadImpl(SessionFactory sessionFactory) {
         return session.createQuery("SELECT p FROM Publicacion p JOIN FETCH p.usuario", Publicacion.class).list();
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<Publicacion> obtenerTodasLasPublicacionesDeUnUsuario(Long id) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("SELECT p FROM Publicacion p JOIN FETCH p.usuario WHERE p.usuario.id = :id", Publicacion.class)
+                .setParameter("id", id)
+                .list();
+    }
     @Transactional
     @Override
     public void guardarPublicacion(Publicacion publicacion) {
         Session session = sessionFactory.getCurrentSession();
         session.save(publicacion);
+    }
+
+    @Override
+    public Usuario consultarUsuario(Long id) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.get(Usuario.class, id);
     }
 }

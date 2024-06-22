@@ -28,6 +28,5 @@ public class RepositorioRecetaImpl implements RepositorioReceta {
     public Receta consultarReceta(Long id) {
         Session session = sessionFactory.getCurrentSession();
         return session.get(Receta.class, id);
-
     }
 }

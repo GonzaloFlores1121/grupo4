@@ -63,16 +63,13 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="text-center">
-                    <h1 class="mb-4">Publicaciones de la Comunidad</h1>
+                    <h1 class="mb-4">Publicaciones de <span th:text="${nombre}"></span></h1>
                 </div>
-
-                <!-- Botón para subir publicación -->
-                <a th:href="@{/subirPublicacion}" class="btn btn-primary btn-subir">Subir Publicación</a>
 
                 <!-- Publicaciones -->
                 <div class="row">
-                    <div th:each="publicacion : ${publicaciones}" class="col-md-12">
-                        <div class="card">
+                            <div th:each="publicacion : ${publicacionesUsuario}" class="col-md-12">
+                            <div class="card">
                             <img th:src="@{'/img/publicaciones/' + ${publicacion.rutaImagen}}" class="card-img-top" alt="imagen_publicacion">
                             <div class="card-body">
                                <a th:href="@{/perfilComunidad/{id}(id=${publicacion.usuario.id})}"><h5 class="card-title" th:text="${publicacion.usuario.nombre}"></h5></a>

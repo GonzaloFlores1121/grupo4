@@ -1,13 +1,11 @@
 package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.Publicacion;
-import com.tallerwebi.dominio.RepositorioComunidad;
-import com.tallerwebi.dominio.ServicioComunidad;
-import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.excepcion.UsuarioNoExistente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,5 +33,23 @@ public class ServicioComunidadImpl implements ServicioComunidad {
     publicaciones=repositorioComunidad.obtenerTodasLasPublicaciones();
         publicaciones.sort((p1, p2) -> p1.getFechaHora().compareTo(p2.getFechaHora()));
    return publicaciones;
+    }
+
+    @Override
+    public List<Publicacion> todasLasPublicacionesSubidasPorUnUsuario(Long id) {
+        List<Publicacion> publicacionesUsuario = new ArrayList<>();
+        publicacionesUsuario=repositorioComunidad.obtenerTodasLasPublicacionesDeUnUsuario(id);
+        publicacionesUsuario.sort((p1, p2) -> p1.getFechaHora().compareTo(p2.getFechaHora()));
+        return publicacionesUsuario;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Usuario obtenerUsuarioPorId(Long id) throws UsuarioNoExistente {
+        Usuario usuario = repositorioComunidad.consultarUsuario(id);
+        if (usuario == null) {
+            throw new UsuarioNoExistente();
+        }
+        return usuario;
     }
 }
