@@ -22,7 +22,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ControladorComunidad {
@@ -39,8 +42,13 @@ public class ControladorComunidad {
         HttpSession session = request.getSession();
 
         Usuario usuario = (Usuario) session.getAttribute("usuario");
-      List<Publicacion> publicaciones= servicioComunidad.todasLasPublicacionesSubidas();
-       modelo.put("publicaciones",publicaciones );
+        List<Publicacion> publicaciones = servicioComunidad.todasLasPublicacionesSubidas();
+
+
+        Map<String, Object> model = new HashMap<>();
+        modelo.put("publicaciones", publicaciones);
+
+        // Devolver la vista "comunidad" con el modelo
         return new ModelAndView("comunidad", modelo);
     }
 

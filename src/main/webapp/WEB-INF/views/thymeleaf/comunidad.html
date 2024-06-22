@@ -6,7 +6,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
+        .body-comunidad {
             background-color: #fafafa; /* Color de fondo similar al de Instagram */
             font-family: Arial, sans-serif; /* Fuente similar a la de Instagram */
         }
@@ -58,7 +58,7 @@
         }
     </style>
 </head>
-<body>
+<body class="body-comunidad">
     <div class="container-fluid mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
@@ -77,6 +77,9 @@
                             <div class="card-body">
                                <a th:href="@{/irAPerfil}"><h5 class="card-title" th:text="${publicacion.usuario.nombre}"></h5></a>
                                 <p class="card-text" th:text="${publicacion.texto}"></p>
+                                 <p class="card-text">
+
+                                  </p>
                             </div>
                         </div>
                     </div>

@@ -48,10 +48,10 @@ public class ControladorEstadisticaUsuario {
         List<HistoriaPesoUsuario> historial = servicioDatosUsuario.obtenerTodoElHistorialDePeso(usuario);
 
         // Crear el gráfico de historial de peso
-        new GraficoHistorialPeso(historial);
+        GraficoHistorialPeso grafico = new GraficoHistorialPeso(historial);
 
         // Agregar el gráfico al modelo (en caso de que se necesite en la vista)
-        model.addAttribute("grafico", "chart.png");
+        model.addAttribute("grafico", grafico);
 
         Double pesoDisminuido=servicioDatosUsuario.pesoDisminuidoALaFecha(usuario);
         Double pesoGanado=servicioDatosUsuario.pesoGanadoALaFecha(usuario);

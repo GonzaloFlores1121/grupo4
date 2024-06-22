@@ -69,18 +69,10 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
     @Override
     public void agregarPesoInicial(Double peso, Usuario usuario) {
         Session session = sessionFactory.getCurrentSession();
-       Transaction tx = null;
-       try{
-           tx = session.beginTransaction();
-           session.get(Usuario.class, usuario.getId());
-           usuario.setPesoInicial(peso);
+
            session.update(usuario);
-           tx.commit();
-       }catch(Exception e){
-           if(tx != null){
-               tx.rollback();
-           }
+
        }
     }
 
-}
+

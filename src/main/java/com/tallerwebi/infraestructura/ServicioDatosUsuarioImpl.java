@@ -209,20 +209,19 @@ public class ServicioDatosUsuarioImpl implements ServicioDatosUsuario {
     }
     @Override
     public void actualizarPeso(Usuario usuario, Double peso) throws PesoIncorrectoException, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, UsuarioNoExistente {
-        Usuario usuarioEnSesion = repositorioUsuario.buscarUsuario(usuario.getEmail(), usuario.getPassword());
-System.out.print(calcularIngestaCalorica(usuarioEnSesion));
 
-        if (usuarioEnSesion != null && pesoValidoUsuario(peso)) {
+
+        if (usuario != null && pesoValidoUsuario(peso)) {
             seAlcanzoMeta(usuario, peso);
             LocalDateTime fechaActualLocalDateTime = LocalDateTime.now();
             Date fechaActual = Date.from(fechaActualLocalDateTime.atZone(ZoneId.systemDefault()).toInstant());
             java.sql.Date sqlFechaActual = new java.sql.Date(fechaActual.getTime());
 
-            repositorioHistorialPesoUsuario.modificarPeso(peso, usuarioEnSesion);
-            usuarioEnSesion.setPeso(peso);
-            Integer icr = calcularIngestaCalorica(usuarioEnSesion);
-            usuarioEnSesion.setIngestaCalorica(icr);
-            repositorioHistorialPesoUsuario.actualizarMiIcr(usuarioEnSesion, icr);
+            repositorioHistorialPesoUsuario.modificarPeso(peso, usuario);
+            usuario.setPeso(peso);
+            Integer icr = calcularIngestaCalorica(usuario);
+            usuario.setIngestaCalorica(icr);
+            repositorioHistorialPesoUsuario.actualizarMiIcr(usuario, icr);
 
 
             HistoriaPesoUsuario historialPeso = repositorioHistorialPesoUsuario.obtenerHistorialPesoUsuarioParaUnaFecha(sqlFechaActual);
@@ -231,7 +230,7 @@ System.out.print(calcularIngestaCalorica(usuarioEnSesion));
                 repositorioHistorialPesoUsuario.actualizarMiPesoAgregado(historialPeso);
 
             } else {
-                historialPeso = new HistoriaPesoUsuario(peso, usuarioEnSesion, sqlFechaActual);
+                historialPeso = new HistoriaPesoUsuario(peso, usuario, sqlFechaActual);
                 repositorioHistorialPesoUsuario.agregarPesoYFecha(historialPeso);
             }
 

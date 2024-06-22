@@ -34,15 +34,15 @@ public class ServicioLoginImpl implements ServicioLogin {
             throw new UsuarioExistente();
         }
         if (validarDatos(usuario)) {
-            // Calcular la ingesta calórica
+
             Integer icr = servicioDatosUsuario.calcularIngestaCalorica(usuario);
             usuario.setIngestaCalorica(icr);
-System.out.print(icr);
-            // Insertar avatar predeterminado y configuración predeterminada
+
+
             insertarAvatarPredeterminado(usuario);
             usuario.setConfiguracionUsuario(crearConfiguracionPredeterminada());
+            usuario.setPesoInicial(usuario.getPeso());
 
-            // Guardar el usuario en el repositorio
             repositorioUsuario.guardar(usuario);
         }
     }

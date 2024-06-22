@@ -70,6 +70,8 @@ public class Usuario {
     public Set<Colacion> getColaciones() {return colaciones;}
     public void setColaciones(Set<Colacion> colaciones) {this.colaciones = colaciones;}
 
-    public void setPesoInicial(Double peso){this.pesoInicial = pesoInicial;}
+    public void setPesoInicial(Double peso){
+        this.pesoInicial = peso;
+    }
      public Double getPesoInicial(){return pesoInicial;}
 }
