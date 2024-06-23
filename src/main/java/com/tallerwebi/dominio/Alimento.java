@@ -47,6 +47,9 @@ public class Alimento {
 
 
 
+    @ManyToOne
+    @JoinColumn(name = "alimento_original_id")
+    private Alimento alimentoOriginal;
 
     @OneToMany(mappedBy = "alimentos")
     private List<Colacion> colaciones;
@@ -54,6 +57,8 @@ public class Alimento {
     @ManyToOne
     @JoinColumn(name = "categoria_id")
     private CategoriaAlimento categoria;
+
+    private Integer vecesConsumido;
 
     public Alimento() {}
 
@@ -73,6 +78,34 @@ public class Alimento {
         this.potasio = this.basePotasio * cantidad;
     }
 
+    public void incrementarVecesConsumido() {
+        if (this.vecesConsumido == null) {
+            this.vecesConsumido = 0;
+        }
+        this.vecesConsumido++;
+    }
+
+    public void decrementarVecesConsumido() {
+        if (this.vecesConsumido == null) {
+            this.vecesConsumido = 0;
+        }
+        this.vecesConsumido--;
+    }
+
+    public int getVecesConsumido() {
+        return vecesConsumido;
+    }
+    public void setVecesConsumido(int vecesConsumido) {
+        this.vecesConsumido = vecesConsumido;
+    }
+
+    public Alimento getAlimentoOriginal() {
+        return alimentoOriginal;
+    }
+
+    public void setAlimentoOriginal(Alimento alimentoOriginal) {
+        this.alimentoOriginal = alimentoOriginal;
+    }
 
     public List<Colacion> getColaciones() {
         return colaciones;

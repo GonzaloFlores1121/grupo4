@@ -4,14 +4,15 @@ import com.tallerwebi.dominio.*;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
-import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -55,6 +56,22 @@ public class RepositorioColacionImpl implements RepositorioColacion {
 
         return  colacionExistente;
 
+    }
+    @Override
+    public List<Alimento> obtenerAlimentosRecientementeConsumidos(Usuario usuario) {
+        Session session = sessionFactory.getCurrentSession();
+        Criteria criteria = session.createCriteria(Colacion.class);
+        criteria.add(Restrictions.eq("usuario", usuario));
+        criteria.addOrder(Order.desc("fecha"));
+        criteria.setMaxResults(5);
+        List<Colacion> colaciones = criteria.list();
+
+        List<Alimento> alimentos = new ArrayList<>();
+        for (Colacion colacion : colaciones) {
+            alimentos.add(colacion.getAlimentos());
+        }
+
+        return alimentos;
     }
 
 

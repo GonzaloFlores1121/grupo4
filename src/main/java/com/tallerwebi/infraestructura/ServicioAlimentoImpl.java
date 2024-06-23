@@ -40,6 +40,10 @@ public class ServicioAlimentoImpl implements ServicioAlimento {
     public void actualizarAlimento(Alimento alimento) {
         repositorioAlimento.update(alimento);
     }
+    @Override
+    public List<Alimento> listarAlimentosMasConsumidos() {
+        return repositorioAlimento.obtenerListaAlimentosMasConsumidos();
+    }
 
 }
 

@@ -2,8 +2,10 @@ package com.tallerwebi.infraestructura;
 
 import com.tallerwebi.dominio.Alimento;
 import com.tallerwebi.dominio.RepositorioAlimento;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
@@ -49,5 +51,15 @@ public class RepositorioAlimentoImpl implements RepositorioAlimento {
                 .setParameter("nombre", "%"+nombre+"%")
                 .list();
     }
-    
+    @Override
+    public List<Alimento> obtenerListaAlimentosMasConsumidos() {
+        Session session = sessionFactory.getCurrentSession();
+        Criteria criteria = session.createCriteria(Alimento.class);
+        criteria.addOrder(Order.desc("vecesConsumido"));
+        criteria.addOrder(Order.asc("nombre"));
+        criteria.setMaxResults(5);
+        return criteria.list();
+    }
+
+
 }

@@ -46,7 +46,8 @@ public class ServicioColacionImpl implements ServicioColacion {
         if(colacion.getTipo() == null) {
             throw new Exception("El tipo de colación es nulo");
         }
-
+        alimento.incrementarVecesConsumido();
+        repositorioAlimento.update(alimento);
         servicioDatosUsuario.verificarIngestaDelDia(usuario);
         repositorioColacion.agregarColacion(colacion);
     }
@@ -70,9 +71,16 @@ public class ServicioColacionImpl implements ServicioColacion {
     }
 
     @Override
-    public void eliminarColacionUsuario(Alimento alimento, Usuario usuario, TipoColacion tipoColacion, LocalDate fecha) {
+    public List<Alimento> listarALimentosRecientementeConsumidosPorElUsuario(Usuario usuario) {
 
-        repositorioColacion.eliminarColacion(alimento,usuario,tipoColacion,fecha);
+        return   repositorioColacion.obtenerAlimentosRecientementeConsumidos(usuario);
+    }
+
+    @Override
+    public void eliminarColacionUsuario(Alimento alimentoCopia, Usuario usuario, TipoColacion tipoColacion, LocalDate fecha) {
+    alimentoCopia.setAlimentoOriginal(null);
+   repositorioAlimento.update(alimentoCopia);
+        repositorioColacion.eliminarColacion(alimentoCopia,usuario,tipoColacion,fecha);
     }
 
     @Override
@@ -104,6 +112,7 @@ public class ServicioColacionImpl implements ServicioColacion {
         alimentoNuevo.setCantidad(cantidad);
         alimentoNuevo.actualizarValoresNutricionalesPorCantidad();
         alimentoNuevo.setEsPersonalizado(true);
+        alimentoNuevo.setAlimentoOriginal(alimento);
 
         return alimentoNuevo;
     }

@@ -8,4 +8,6 @@ public interface ServicioAlimento {
     List<Alimento> listarAlimentos();
     List<Alimento> listarAlimentosPorCategoriaYNombre(Long idCategoria, String nombre);
     void actualizarAlimento(Alimento alimento);
+
+    List<Alimento> listarAlimentosMasConsumidos();
 }

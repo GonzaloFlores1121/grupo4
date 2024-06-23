@@ -10,4 +10,5 @@ public interface RepositorioAlimento {
     List<Alimento> consultarAlimentos();
     List<Alimento> consultarAlimentosPorCategoriaYNombre(Long idCategoria, String nombre);
 
+    List<Alimento> obtenerListaAlimentosMasConsumidos();
 }
