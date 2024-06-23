@@ -78,7 +78,11 @@ public class ServicioColacionImpl implements ServicioColacion {
 
     @Override
     public void eliminarColacionUsuario(Alimento alimentoCopia, Usuario usuario, TipoColacion tipoColacion, LocalDate fecha) {
+    Alimento original=alimentoCopia.getAlimentoOriginal();
+    original.decrementarVecesConsumido();
+    repositorioAlimento.update(original);
     alimentoCopia.setAlimentoOriginal(null);
+
    repositorioAlimento.update(alimentoCopia);
         repositorioColacion.eliminarColacion(alimentoCopia,usuario,tipoColacion,fecha);
     }

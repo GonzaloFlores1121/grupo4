@@ -70,7 +70,10 @@ public class ControladorMiDiario {
         Integer caloriasTotalesPorDia = servicioColacion.obtenerCaloriasTotalesDeAlimentosPorUsuarioYFecha(usuario,fecha);
         model.put("caloriasTotales",caloriasTotalesPorDia);
 
+
         obtenerLasColacionesYAgregarlasEnElModel(fecha, usuario, model);
+        obtenerAlimentosMasConsumidosPorLosUsuarios(model);
+        obtenerALimentosRecientementeConsumidosPorElUsuario(usuario, model);
         agregarAlimentosBD(model);
         calcularMacronutrientes(usuario, model);
 
@@ -285,7 +288,19 @@ public class ControladorMiDiario {
         model.put("grasas",  macronutrientesUsuario.getGrasaAConsumir());
         model.put("proteinas", macronutrientesUsuario.getProteinaAConsumir());
     }
+    private void obtenerALimentosRecientementeConsumidosPorElUsuario(Usuario usuario, ModelMap model) {
+        List<Alimento> alimentosRecientes= servicioColacion.listarALimentosRecientementeConsumidosPorElUsuario(usuario);
+
+        model.put("alimentosRecientes",alimentosRecientes);
+    }
+
+    private void obtenerAlimentosMasConsumidosPorLosUsuarios(ModelMap model) {
+        List<Alimento> alimentosMasConsumidos= servicioALimento.listarAlimentosMasConsumidos();
+        model.put("alimentosMasConsumidos",alimentosMasConsumidos);
+    }
 }
+
+
 
 
 
