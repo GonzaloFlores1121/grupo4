@@ -7,6 +7,7 @@ import com.tallerwebi.dominio.excepcion.EdadInvalidaException;
 import com.tallerwebi.dominio.excepcion.PesoIncorrectoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -80,35 +81,32 @@ public class ControladorMiDiario {
         return new ModelAndView("diarioAlimentos", model);
     }
 
-    @RequestMapping(value = "/diarioAlimentos/agregarAlimentos", method = RequestMethod.POST)
-    public ModelAndView agregarAlimentoAcolacion(@RequestParam List<Long> alimentoIds, @RequestParam("tipoColacion") int tipoColacion,
-                                                 @RequestParam("fecha") int fecha, int cantidad, @RequestParam("nombre") String nombre, HttpServletRequest request) {
-        ModelMap model = new ModelMap();
+    @PostMapping("/diarioAlimentos/agregarAlimentos")
+    public ResponseEntity<String> agregarAlimentoAColacion(@RequestParam List<Long> alimentoIds,
+                                                           @RequestParam("tipoColacion")int tipoColacion,
+                                                           @RequestParam("fecha")String fechaString,
+                                                           HttpServletRequest request){
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
-        model.put("usuario", usuario);
-        ModelAndView modelAndView;
-        TipoColacion tipo = TipoColacion.values()[tipoColacion];
-        if (usuario == null) {
-            return new ModelAndView("redirect:/inicio");
-        } else {
-            try {
+        if(usuario==null){
+            return new ResponseEntity<>("User not autenticathed", HttpStatus.UNAUTHORIZED);
+        }
+        LocalDate fecha= LocalDate.parse(fechaString);
+        TipoColacion tipo= TipoColacion.values()[tipoColacion];
 
-                for (Long alimentoId : alimentoIds) {
-                    Alimento alimento = servicioALimento.obtenerAlimentosPorId(alimentoId);
-                    servicioColacion.guardarColacionUsuario(alimento, usuario, cantidad, tipo,
-                            calcularFechaPorString(fecha), nombre);
-                    model.put("alimento", alimento);
-                }
-                model.put("mensaje", "Colacion agregada correctamente");
-                modelAndView = new ModelAndView("redirect:/diarioAlimentos", model);
-            } catch (Exception e) {
-                model.put("mensaje", "Error agregando colacion: " + e.getMessage());
-                modelAndView = new ModelAndView("redirect:/diarioAlimentos", model);
+        for(Long alimentoId: alimentoIds){
+            Alimento alimento=servicioALimento.obtenerAlimentosPorId(alimentoId);
+            try{
+                servicioColacion.guardarColacionUsuario(alimento,usuario,1,tipo,fecha,alimento.getNombre());
+            }catch(Exception e){
+                return new ResponseEntity<>("Error al guardar colacion: "+ e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
-        return new ModelAndView("redirect:/diarioAlimentos");
+
+return new ResponseEntity<>("Colacion guardada correctamente", HttpStatus.OK);
+
     }
+
 
     @RequestMapping(value = "/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}", method = RequestMethod.GET)
     public ModelAndView eliminarAlimentoDeColacion(@PathVariable("idAlimento") Long idAlimento, @PathVariable("tipoColacion") int tipoColacion,
