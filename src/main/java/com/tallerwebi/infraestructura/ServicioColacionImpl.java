@@ -23,6 +23,55 @@ public class ServicioColacionImpl implements ServicioColacion {
     }
 
     @Override
+    public void guardarColacionUsuarioDewsdeDiarioAlimentos(Alimento alimento, Usuario usuario, int cantidad, TipoColacion tipoColacion, LocalDate fecha, String nombre) throws Exception {
+        Alimento alimentoNuevo = new Alimento();
+        alimentoNuevo.setNombre(nombre);
+        alimentoNuevo.setBaseAzucar(alimento.getBaseAzucar());
+        alimentoNuevo.setBaseCarbohidratos(alimento.getBaseCarbohidratos());
+        alimentoNuevo.setBaseColesterol(alimento.getBaseColesterol());
+        alimentoNuevo.setBaseCalorias(alimento.getBaseCalorias());
+        alimentoNuevo.setBaseEnergia(alimento.getBaseEnergia());
+        alimentoNuevo.setBaseFibra(alimento.getBaseFibra());
+        alimentoNuevo.setBaseGrasa(alimento.getBaseGrasa());
+        alimentoNuevo.setBaseGrasaMonoinsaturada(alimento.getBaseGrasaMonoinsaturada());
+        alimentoNuevo.setBaseGrasaPoliinsaturada(alimento.getBaseGrasaPoliinsaturada());
+        alimentoNuevo.setBaseGrasaSaturada(alimento.getBaseGrasaSaturada());
+        alimentoNuevo.setImagen(alimento.getImagen());
+        alimentoNuevo.setBasePotasio(alimento.getBasePotasio());
+        alimentoNuevo.setBaseProteina(alimento.getBaseProteina());
+        alimentoNuevo.setBaseSodio(alimento.getBaseSodio());
+        alimentoNuevo.setCantidad(cantidad);
+        alimentoNuevo.actualizarValoresNutricionalesPorCantidad();
+        alimentoNuevo.setEsPersonalizado(true);
+        alimentoNuevo.setAlimentoOriginal(alimento.getAlimentoOriginal());
+        repositorioAlimento.save(alimentoNuevo);
+
+        Colacion colacion = new Colacion();
+        colacion.setAlimentos(alimentoNuevo);
+        colacion.setFecha(fecha);
+        colacion.setTipo(tipoColacion);
+        colacion.setUsuario(usuario);
+        colacion.setCantidad(cantidad);
+
+        if(colacion.getAlimentos() == null) {
+            throw new Exception("El alimento es nulo");
+        }
+        if(colacion.getUsuario() == null) {
+            throw new Exception("El usuario es nulo");
+        }
+        if(colacion.getFecha() == null) {
+            throw new Exception("La fecha es nula");
+        }
+        if(colacion.getTipo() == null) {
+            throw new Exception("El tipo de colación es nulo");
+        }
+        alimento.incrementarVecesConsumido();
+        repositorioAlimento.update(alimento);
+        servicioDatosUsuario.verificarIngestaDelDia(usuario);
+        repositorioColacion.agregarColacion(colacion);
+    }
+
+    @Override
     public void guardarColacionUsuario(Alimento alimento, Usuario usuario, int cantidad, TipoColacion tipoColacion, LocalDate fecha, String nombre) throws Exception {
      Alimento alimentoNuevo= crearNuevoAlimentoSeteandoValoresFormulario(alimento,cantidad,nombre);
       repositorioAlimento.save(alimentoNuevo);

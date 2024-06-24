@@ -81,7 +81,7 @@ public class ControladorMiDiario {
         return new ModelAndView("diarioAlimentos", model);
     }
 
-    @PostMapping("/diarioAlimentos/agregarAlimentos")
+    @RequestMapping(value = "/diarioAlimentos/agregarAlimentos",method = RequestMethod.POST)
     public ResponseEntity<String> agregarAlimentoAColacion(@RequestParam List<Long> alimentoIds,
                                                            @RequestParam("tipoColacion")int tipoColacion,
                                                            @RequestParam("fecha")String fechaString,
@@ -91,22 +91,21 @@ public class ControladorMiDiario {
         if(usuario==null){
             return new ResponseEntity<>("User not autenticathed", HttpStatus.UNAUTHORIZED);
         }
-        LocalDate fecha= LocalDate.parse(fechaString);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-d");
+        LocalDate fecha = LocalDate.parse(fechaString, formatter);
         TipoColacion tipo= TipoColacion.values()[tipoColacion];
 
         for(Long alimentoId: alimentoIds){
             Alimento alimento=servicioALimento.obtenerAlimentosPorId(alimentoId);
             try{
-                servicioColacion.guardarColacionUsuario(alimento,usuario,1,tipo,fecha,alimento.getNombre());
+                servicioColacion.guardarColacionUsuarioDewsdeDiarioAlimentos(alimento,usuario,1,tipo,fecha,alimento.getNombre());
             }catch(Exception e){
                 return new ResponseEntity<>("Error al guardar colacion: "+ e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
 
-return new ResponseEntity<>("Colacion guardada correctamente", HttpStatus.OK);
-
+        return new ResponseEntity<>("Colacion guardada correctamente", HttpStatus.OK);
     }
-
 
     @RequestMapping(value = "/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}", method = RequestMethod.GET)
     public ModelAndView eliminarAlimentoDeColacion(@PathVariable("idAlimento") Long idAlimento, @PathVariable("tipoColacion") int tipoColacion,
