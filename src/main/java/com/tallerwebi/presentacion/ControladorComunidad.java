@@ -2,9 +2,12 @@ package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.Publicacion;
 import com.tallerwebi.dominio.ServicioComunidad;
+import com.tallerwebi.dominio.ServicioFollow;
 import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.UsuarioFollow;
 import com.tallerwebi.dominio.excepcion.UsuarioNoExistente;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,17 +20,17 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class ControladorComunidad {
 
     ServicioComunidad servicioComunidad;
+    ServicioFollow servicioFollow;
 
-    public ControladorComunidad(ServicioComunidad servicioComunidad) {
+    public ControladorComunidad(ServicioComunidad servicioComunidad, ServicioFollow servicioFollow) {
         this.servicioComunidad = servicioComunidad;
+        this.servicioFollow = servicioFollow;
     }
 
     @RequestMapping(value = "/comunidad", method = RequestMethod.GET)
@@ -79,30 +82,70 @@ public class ControladorComunidad {
         return new ModelAndView("subirPublicacion");
     }
 
+    @Transactional
     @RequestMapping(value = "/perfilComunidad/{id}",method = RequestMethod.GET)
     public ModelAndView mostrarPerfilComunidad(@PathVariable Long id, HttpServletRequest request) throws UsuarioNoExistente {
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if(usuario == null) {return new ModelAndView("redirect:/inicio");}
         ModelMap model = new ModelMap();
-        obtenerUsuarioSession(request, model);
-        Usuario usuario = servicioComunidad.obtenerUsuarioPorId(id);
-        model.put("usuario", usuario);
+        model.addAttribute("usuario", usuario);
+        Usuario usuarioComunidad = servicioComunidad.obtenerUsuarioPorId(id);
+        model.addAttribute("usuarioComunidad", usuarioComunidad);
+        if(usuarioComunidad.getId().equals(usuario.getId())) {return new ModelAndView("redirect:/perfilUsuario");}
+        UsuarioFollow follow = servicioFollow.obtenerFollow(usuarioComunidad.getId(), usuario.getId());
+        model.put("follow", follow);
         return new ModelAndView("perfilComunidad", model);
     }
 
+    @RequestMapping(value = "/seguir/{id}", method = RequestMethod.GET)
+    public ModelAndView seguir(@PathVariable Long id, HttpServletRequest request) throws UsuarioNoExistente {
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");        
+        if(usuario == null) {return new ModelAndView("redirect:/inicio");}
+        Usuario usuarioComunidad = servicioComunidad.obtenerUsuarioPorId(id);
+        servicioFollow.follow(usuarioComunidad, usuario);
+        return new ModelAndView("redirect:/perfilComunidad/"+id);    
+    }
+
+    @Transactional
+    @RequestMapping(value = "/dejarDeSeguir/{id}", method = RequestMethod.GET)
+    public ModelAndView dejarDeSeguir(@PathVariable Long id, HttpServletRequest request) throws UsuarioNoExistente {
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");        
+        if(usuario == null) {return new ModelAndView("redirect:/inicio");}
+        UsuarioFollow follow = servicioFollow.obtenerFollow(id, usuario.getId());
+        servicioFollow.unfollow(follow);
+        return new ModelAndView("redirect:/perfilComunidad/"+id);  
+    }
+   
     @RequestMapping(value = "/publicacionesUsuario/{id}", method = RequestMethod.GET)
-    public ModelAndView irAPublicaciones(@PathVariable Long id, HttpServletRequest request) throws UsuarioNoExistente {
+    public ModelAndView irAPublicaciones(@PathVariable Long id, HttpServletRequest request) throws UsuarioNoExistente {       
+        HttpSession session = request.getSession();
+        Usuario usuarioSession = (Usuario) session.getAttribute("usuario");
+        if(usuarioSession == null) {return new ModelAndView("redirect:/inicio");}
         ModelMap model = new ModelMap();
         Usuario usuario = servicioComunidad.obtenerUsuarioPorId(id);
         String nombre = usuario.getNombre();
+        model.put("nombre", nombre);
         List<Publicacion> publicaciones = servicioComunidad.todasLasPublicacionesSubidasPorUnUsuario(id);
         model.put("publicacionesUsuario", publicaciones);
-        model.put("nombre", nombre);
-
         return new ModelAndView("publicacionesUsuario", model);
     }
 
-    private void obtenerUsuarioSession(HttpServletRequest request, ModelMap model) {
+    @Transactional
+    @RequestMapping(value = "/listaSeguidores", method = RequestMethod.GET)
+    public ModelAndView listaSeguidores(HttpServletRequest request) throws UsuarioNoExistente {
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if(usuario == null) {return new ModelAndView("redirect:/inicio");}
+        ModelMap model = new ModelMap();
         model.addAttribute("usuario", usuario);
+        List<Usuario> seguidores = servicioFollow.obtenerTodosLosFollows(usuario.getId());
+        model.addAttribute("seguidores", seguidores);
+        List<Usuario> seguidos = servicioFollow.obtenerTodosMisFollows(usuario.getId());
+        model.addAttribute("seguidos", seguidos);
+        return new ModelAndView("listaSeguidores", model);
     }
+
 }

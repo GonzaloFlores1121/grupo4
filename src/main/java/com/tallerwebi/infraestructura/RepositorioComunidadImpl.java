@@ -45,4 +45,10 @@ public RepositorioComunidadImpl(SessionFactory sessionFactory) {
         Session session = sessionFactory.getCurrentSession();
         return session.get(Usuario.class, id);
     }
+
+    @Override
+    public Publicacion consultarPublicacion(Long id) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.get(Publicacion.class, id);
+    }
 }

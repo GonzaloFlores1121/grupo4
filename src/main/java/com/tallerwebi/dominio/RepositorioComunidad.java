@@ -12,4 +12,5 @@ public interface RepositorioComunidad {
 
     void guardarPublicacion(Publicacion publicacion);
     Usuario consultarUsuario(Long id);
+    Publicacion consultarPublicacion(Long id);
 }

@@ -25,7 +25,7 @@
     <!--offcanvas-->
     <div class="offcanvas offcanvas-start" id="subir-foto">
         <div class="offcanvas-header mx-1 my-1">
-            <h3>Cambiar Avatar de Perfil</h3>
+            <h3>Cambiar Avatar</h3>
             <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="offcanvas"></button>
         </div>
         <div class="offcanvas-body mx-3">
@@ -40,7 +40,7 @@
                     </div>                    
                 </div>
                 <div class="mt-2">
-                    <input class="btn btn-outline-success" type="submit" id="guardar" name="guardar" value="Guadar Cambio">
+                    <input class="btn btn-success" type="submit" id="guardar" name="guardar" value="Guadar Cambio">
                 </div>              
             </form>
         </div>
@@ -49,26 +49,27 @@
     <!--perfil-->
     <div class="container my-5" style="min-height: 60vh;"> 
         <div class="row d-flex align-items-center">
-            <div class="col-sm-3 d-flex flex-column justify-content-center my-3">
-                <h3 class="text-center text-dark">Mi Avatar</h3>
+            <div class="col-sm-4 d-flex flex-column justify-content-center my-3">
+                <h3 class="text-center text-dark" style="font-weight: bold;">Mi Avatar</h3>
                 <img class="img-fluid" th:src="@{'/img/' + ${usuario.imagen}}" alt="avatar-perfil">
                 <div class="d-flex flex-column justify-content-center align-items-center">
-                    <button class="btn btn-outline-success" type="button" data-bs-toggle="offcanvas" data-bs-target="#subir-foto">Cambiar Avatar</button>
+                    <button class="btn btn-success" type="button" data-bs-toggle="offcanvas" data-bs-target="#subir-foto">Cambiar Avatar</button>
                 </div>
             </div>
-            <div class="col-sm-9">
-                <h2 class="text-center text-dark">Mi Perfil</h2>
+            <div class="col-sm-8">
+                <h2 class="text-center text-dark" style="font-weight: bold;">Mi Perfil</h2>
                 <div class="card" th:style="'background-image: url(\'' + @{/img/background.png} + '\'); background-size: cover;'">
                     <div class="card-body">
-                        <h4 class="card-title text-white" th:text="${usuario.nombre}"></h4>
-                        <h5 class="card-title text-white" th:text="${usuario.email}"></h5>
-                        <p class="card-text text-dark">Edad: <span class="badge bg-dark" th:text="${usuario.edad}+' anios'"></span></p>
-                        <p class="card-text text-dark">Genero: <span class="badge bg-dark" th:text="${usuario.genero}"></span></p>
-                        <p class="card-text text-dark">Altura: <span class="badge bg-dark" th:text="${usuario.altura}+' cm'"></span></p>
-                        <p class="card-text text-dark">Peso: <span class="badge bg-dark" th:text="${usuario.peso}+' kg'"></span></p>
-                        <p class="card-text text-dark">Peso Meta: <span class="badge bg-dark" th:text="${usuario.metaAlcanzarPeso}+' kg'"></span></p>
-                        <p class="card-text text-dark">Nivel de Actividad Fisica: <span class="badge bg-dark" th:text="${usuario.nivelDeActividad}"></span></p>
-                        <a class="btn btn-outline-dark" th:href="@{/formularioEditarPerfil}">Editar Perfil</a>
+                        <h4 class="card-title text-white fw-bold" th:text="${usuario.nombre}"></h4>
+                        <h4 class="card-title text-white fw-bold" th:text="${usuario.email}"></h4>
+                        <p class="card-text text-dark fw-bold">Edad: <span th:text="${usuario.edad}+' anios'"></span></p>
+                        <p class="card-text text-dark fw-bold">Genero: <span th:text="${usuario.genero}"></span></p>
+                        <p class="card-text text-dark fw-bold">Altura: <span th:text="${usuario.altura}+' cm'"></span></p>
+                        <p class="card-text text-dark fw-bold">Peso: <span th:text="${usuario.peso}+' kg'"></span></p>
+                        <p class="card-text text-dark fw-bold">Peso Meta: <span th:text="${usuario.metaAlcanzarPeso}+' kg'"></span></p>
+                        <p class="card-text text-dark fw-bold">Nivel de Actividad Fisica: <span th:text="${usuario.nivelDeActividad}"></span></p>
+                        <a class="btn btn-dark" th:href="@{/formularioEditarPerfil}">Editar Perfil</a>
+                        <a class="btn btn-dark" th:href="@{/publicacionesUsuario/{id}(id=${usuario.id})}">Mis Publicaciones</a>
                     </div>
                 </div>  
             </div>

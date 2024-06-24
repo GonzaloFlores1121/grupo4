@@ -22,46 +22,26 @@
     <!--header/nav-->
     <div th:replace="navbar :: navbar"></div>
 
-    <!--offcanvas-->
-    <div class="offcanvas offcanvas-start" id="subir-foto">
-        <div class="offcanvas-header mx-1 my-1">
-            <h3>Cambiar Avatar de Perfil</h3>
-            <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="offcanvas"></button>
-        </div>
-        <div class="offcanvas-body mx-3">
-            <form th:action="@{/procesarImagen}" method="post" th:object="${usuario}" th:inline="javascript">
-                <div class="form-floating mb-2">
-                    <select class="form-control" th:field="*{imagen}" onchange="changeImage(this)" id="imagen" name="imagen">
-                        <option th:each="imagen : ${imagenes}" th:value="${imagen.value}" th:selected="${imagen.value == usuario.imagen}" th:text="${imagen.key}"></option>
-                    </select>
-                    <label for="imagen">Elige una Avatar:</label>
-                    <div class="container p-3">
-                        <img class="img-fluid" id="mostrarImagen" name="mostrarImagen" th:src="@{'/img/' + ${usuario.imagen}}" alt="Imagen seleccionada">
-                    </div>
-                </div>
-                <div class="mt-2">
-                    <input class="btn btn-outline-success" type="submit" id="guardar" name="guardar" value="Guadar Cambio">
-                </div>
-            </form>
-        </div>
-    </div>
+    <!--Perfil-->
     <div class="container my-5" style="min-height: 60vh;">
+        <h2 class="text-center text-dark" style="font-weight: bold;">Perfil de <span th:text="${usuarioComunidad.nombre}"></span></h2>
         <div class="row d-flex align-items-center">
-            <div class="col-sm-3 d-flex flex-column justify-content-center my-3">
-                <img class="img-fluid" th:src="@{'/img/' + ${usuario.imagen}}" alt="avatar-perfil">
-                <div class="d-flex flex-column justify-content-center align-items-center">
-                </div>
+            <div class="col-sm-4 d-flex flex-column justify-content-center my-3">
+                <img class="img-fluid" th:src="@{'/img/' + ${usuarioComunidad.imagen}}" alt="avatar-perfil">
             </div>
-            <div class="col-sm-9">
-                <h2 class="text-center text-dark">Perfil de <span th:text="${usuario.nombre}"></span></h2>
+            <div class="col-sm-8">
+                <div class="card" th:style="'background-image: url(\'' + @{/img/background.png} + '\'); background-size: cover;'">
                     <div class="card-body">
-                        <p class="card-text text-dark">Edad: <span class="badge bg-dark" th:text="${usuario.edad}+' anios'"></span></p>
-                        <p class="card-text text-dark">Genero: <span class="badge bg-dark" th:text="${usuario.genero}"></span></p>
-                        <p class="card-text text-dark">Altura: <span class="badge bg-dark" th:text="${usuario.altura}+' cm'"></span></p>
-                        <p class="card-text text-dark">Peso: <span class="badge bg-dark" th:text="${usuario.peso}+' kg'"></span></p>
-                        <p class="card-text text-dark">Peso Meta: <span class="badge bg-dark" th:text="${usuario.metaAlcanzarPeso}+' kg'"></span></p>
-                        <p class="card-text text-dark">Nivel de Actividad Fisica: <span class="badge bg-dark" th:text="${usuario.nivelDeActividad}"></span></p>
-                        <a class="badge bg-dark" th:href="@{/publicacionesUsuario/{id}(id=${usuario.id})}">Ver publicaciones</a>
+                        <h4 class="card-title text-dark fw-bold" th:text="${usuarioComunidad.email}"></h4>
+                        <p class="card-text text-dark fw-bold">Edad: <span th:text="${usuarioComunidad.edad}+' anios'"></span></p>
+                        <p class="card-text text-dark fw-bold">Genero: <span th:text="${usuarioComunidad.genero}"></span></p>
+                        <p class="card-text text-dark fw-bold">Altura: <span th:text="${usuarioComunidad.altura}+' cm'"></span></p>
+                        <p class="card-text text-dark fw-bold">Peso: <span th:text="${usuarioComunidad.peso}+' kg'"></span></p>
+                        <p class="card-text text-dark fw-bold">Peso Meta: <span th:text="${usuarioComunidad.metaAlcanzarPeso}+' kg'"></span></p>
+                        <p class="card-text text-dark fw-bold">Nivel de Actividad Fisica: <span th:text="${usuarioComunidad.nivelDeActividad}"></span></p>
+                        <span th:if="${follow != null}"><a class="btn btn-dark" th:href="@{/dejarDeSeguir/{id}(id=${usuarioComunidad.id})}">Siguiendo</a></span>
+                        <span th:if="${follow == null}"><a class="btn btn-dark" th:href="@{/seguir/{id}(id=${usuarioComunidad.id})}">Seguir</a></span>
+                        <a class="btn btn-dark" th:href="@{/publicacionesUsuario/{id}(id=${usuarioComunidad.id})}">Ver Publicaciones</a>                
                     </div>
                 </div>
             </div>
