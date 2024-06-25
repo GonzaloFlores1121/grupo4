@@ -77,11 +77,8 @@ public class ServicioColacionImpl implements ServicioColacion {
 
     @Override
     public Colacion obtenerColacionPorAlimento(Alimento alimento) {
-        Colacion colacion = repositorioColacion.obtenerColacionPorAlimento(alimento);
-        if (colacion == null) {
-            throw new IllegalArgumentException("No se encontró la colación para el alimento especificado");
-        }
-        return colacion;
+
+        return repositorioColacion.obtenerColacionPorAlimento(alimento);
     }
 
     private Alimento crearNuevoAlimentoSeteandoValoresFormulario(Alimento alimento, int cantidad, String nombre) {

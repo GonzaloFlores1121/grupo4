@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -125,6 +127,16 @@ public class ControladorAlimentos {
             throw new AlimentoNoEncontradoException(id);
         }
 
+        Colacion colacion = servicioColacion.obtenerColacionPorAlimento(alimento);
+        if (colacion != null) {
+            model.put("tipoColacion", colacion.getTipo().ordinal());
+            LocalDate fechaColacion = colacion.getFecha();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String fechaFormateada = fechaColacion.format(formatter);
+            model.put("fechaColacion", fechaFormateada);
+
+
+        }
         Integer cantidad = alimento.getCantidad();
         model.put("alimento", alimento);
         model.put("from", from);

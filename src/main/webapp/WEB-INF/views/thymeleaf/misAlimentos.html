@@ -38,7 +38,8 @@
               <h2>Alimentos consumidos el <span th:text="${fecha}"></span></h2>
                 <ul>
                     <li th:each="colacion : ${colaciones}">
-                        <a th:href="@{verAlimento(id=${colacion.id})}"><span th:text="${colacion.alimentos.nombre}"></span> </a> - <span th:text="'Cantidad consumida: ' + ${colacion.cantidad}"></span> -<span th:text="'Calorias: ' + ${colacion.alimentos.energia}"></span>
+                        <a th:href="@{/alimentos/{id}(id=${colacion.alimentos.id}, from='diarioAlimentos')}"><span th:text="${colacion.alimentos.nombre}"></span> </a> - <span th:text="'Cantidad consumida: ' + ${colacion.cantidad}"></span> -<span th:text="'Calorias: ' + ${colacion.alimentos.energia}"></span>
+
                     </li>
                 </ul>
             </div>

@@ -7,39 +7,20 @@
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
-    <script>
-        function visibilidad(formid) {
-            var form = document.getElementById(formid);
-            var button = document.getElementById("button");
-            if (form.style.display === "none") {
-                form.style.display = "block";
-                button.textContent = "-";
-            } else {
-                form.style.display = "none";
-                button.textContent = "+";
-            }
-        }
-    </script>
-
 </head>
 <body>
-
 <div th:replace="navbar :: navbar"></div>
-
 <div class="container" style="min-height: 100vh;">
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="list-group flex-row justify-content-center">
                 <a th:href="@{/home}" class="list-group-item list-group-item-action activo">MI FATLOSS</a>
-                <a th:href="@{/categoria_alimentos}" class="list-group-item list-group-item-action ">ALIMENTOS</a>
+                <a th:href="@{/categoria_alimentos}" class="list-group-item list-group-item-action">ALIMENTOS</a>
                 <a th:href="@{/recetas}" class="list-group-item list-group-item-action">RECETAS</a>
                 <a th:href="@{/actividadesFisicas}" class="list-group-item list-group-item-action">EN FORMA</a>
             </div>
         </div>
     </div>
-
-
 
     <div class="text-center py-3">
         <h3 th:text="${fechaFormateada}"></h3>
@@ -47,156 +28,114 @@
 
     <h6>Calorias totales:</h6>
     <p th:text="${caloriasTotales}"></p>
-<div class="row">
-    <div class="col-md-4">
-        <div class="colacion" th:if="${desayuno != null}" th:with="alimentos=${desayuno}">
-            <h4>Desayuno</h4>
-        <div th:unless="${#lists.isEmpty(alimentos)}">
-            <ul class="list-unstyled">
-                <li th:each="alimento : ${alimentos}">
 
-                    <a th:href="@{/alimentos/{id}(id=${alimento.id}, from='diarioAlimentos')}"
-                       th:text="${alimento.cantidad + 'x ' + alimento.nombre}">Nombre del Alimento</a>
-
-                    <a th:href="@{/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}(idAlimento=${alimento.id},tipoColacion=${tipoColacionDesayuno},fecha=${fecha})}" class="btn btn-danger">x</a>
-                </li>
-            </ul>
-        </div>
-            <button id="button" type="button" class="btn btn-success" th:onclick="|visibilidad('form2')|">+</button>
-            <form style="display:none;" id="form2" th:action="@{/diarioAlimentos/agregarAlimentos}" method="post">
-                <input type="hidden"  id="tipoColacion" value="0" name="tipoColacion" />
-                <input type="hidden"  id="fecha" value="2" name="fecha" />
-                <select multiple="" name="alimentoIds">
-                    <option id="alimentoId" th:each="alimento : ${alimentosbd}" th:value="${alimento.id}" th:text="${alimento.nombre}">Alimento</option>
-                </select>
-                <button class="btn btn-success" type="submit">Agregar Alimentos</button>
-            </form>
-        </div>
-
-    <div class="colacion" th:if="${almuerzo != null}" th:with="alimentos=${almuerzo}">
-        <h4>Almuerzo</h4>
-        <div th:unless="${#lists.isEmpty(alimentos)}">
-
-            <ul class="list-unstyled">
-                <li th:each="alimento : ${alimentos}">
-
-                    <a th:href="@{/alimentos/{id}(id=${alimento.id}, from='diarioAlimentos')}"
-                       th:text="${alimento.cantidad + 'x ' + alimento.nombre}">Nombre del Alimento</a>
-
-                    <a th:href="@{/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}(idAlimento=${alimento.id},tipoColacion=${tipoColacionAlmuerzo},fecha=${fecha})}" class="btn btn-danger">x</a>
-                </li>
-            </ul>
-        </div>
-        <button id="button" type="button" class="btn btn-success" th:onclick="|visibilidad('form2')|">+</button>
-        <form style="display:none;" id="form2" th:action="@{/diarioAlimentos/agregarAlimentos}" method="post">
-            <input type="hidden"  id="tipoColacion" value="1" name="tipoColacion" />
-            <input type="hidden"  id="fecha" value="2" name="fecha" />
-            <select multiple="" name="alimentoIds">
-                <option id="alimentoId" th:each="alimento : ${alimentosbd}" th:value="${alimento.id}" th:text="${alimento.nombre}">Alimento</option>
-            </select>
-            <button class="btn btn-success" type="submit">Agregar Alimentos</button>
-        </form>
-    </div>
-
-
-    <div class="colacion" th:if="${merienda != null}" th:with="alimentos=${merienda}">
-        <h4>Merienda</h4>
-        <div th:unless="${#lists.isEmpty(alimentos)}">
-            <ul class="list-unstyled">
-                <li th:each="alimento : ${alimentos}">
-
-                    <a th:href="@{/alimentos/{id}(id=${alimento.id}, from='diarioAlimentos')}"
-                       th:text="${alimento.cantidad + 'x ' + alimento.nombre}">Nombre del Alimento</a>
-
-                    <a th:href="@{/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}(idAlimento=${alimento.id},tipoColacion=${tipoColacionMerienda},fecha=${fecha})}" class="btn btn-danger">x</a>
-                </li>
-            </ul>
-        </div>
-        <button id="button" type="button" class="btn btn-success" th:onclick="|visibilidad('form3')|">+</button>
-        <form style="display:none;" id="form3" th:action="@{/diarioAlimentos/agregarAlimentos}" method="post">
-            <input type="hidden"  id="tipoColacion" value="2" name="tipoColacion" />
-            <input type="hidden"  id="fecha" value="2" name="fecha" />
-            <select multiple="" name="alimentoIds">
-                <option id="alimentoId" th:each="alimento : ${alimentosbd}" th:value="${alimento.id}" th:text="${alimento.nombre}">Alimento</option>
-            </select>
-            <button class="btn btn-success" type="submit">Agregar Alimentos</button>
-        </form>
-   </div>
-
-
-    <div class="colacion" th:if="${cena != null}" th:with="alimentos=${cena}">
-        <h4>Cena</h4>
-        <div th:unless="${#lists.isEmpty(alimentos)}">
-            <ul class="list-unstyled">
-                <li th:each="alimento : ${alimentos}">
-
-                    <a th:href="@{/alimentos/{id}(id=${alimento.id}, from='diarioAlimentos')}"
-                       th:text="${alimento.cantidad + 'x ' + alimento.nombre}">Nombre del Alimento</a>
-
-                    <a th:href="@{/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}(idAlimento=${alimento.id},tipoColacion=${tipoColacionCena},fecha=${fecha})}" class="btn btn-danger">x</a>
-                </li>
-            </ul>
-        </div>
-        <button id="button" type="button" class="btn btn-success" th:onclick="|visibilidad('form4')|">+</button>
-        <form style="display:none;" id="form4" th:action="@{/diarioAlimentos/agregarAlimentos}" method="post">
-            <input type="hidden"  id="tipoColacion" value="3" name="tipoColacion" />
-            <input type="hidden"  id="fecha" value="2" name="fecha" />
-            <select multiple="" name="alimentoIds">
-                <option id="alimentoId" th:each="alimento : ${alimentosbd}" th:value="${alimento.id}" th:text="${alimento.nombre}">Alimento</option>
-            </select>
-            <button class="btn btn-success" type="submit">Agregar Alimentos</button>
-        </form>
-    </div>
-
-
-    <div class="colacion" th:if="${snacks != null}" th:with="alimentos=${snacks}">
-        <h4>Snacks</h4>
-        <div th:unless="${#lists.isEmpty(alimentos)}">
-            <ul class="list-unstyled">
-                <li th:each="alimento : ${alimentos}">
-
-                    <a th:href="@{/alimentos/{id}(id=${alimento.id}, from='diarioAlimentos')}"
-                       th:text="${alimento.cantidad + 'x ' + alimento.nombre}">Nombre del Alimento</a>
-
-                    <a th:href="@{/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}(idAlimento=${alimento.id},tipoColacion=${tipoColacionSnacks},fecha=${fecha})}" class="btn btn-danger">x</a>
-                </li>
-            </ul>
-        </div>
-        <button id="button" type="button" class="btn btn-success" th:onclick="|visibilidad('form5')|">+</button>
-        <form style="display:none;" id="form5" th:action="@{/diarioAlimentos/agregarAlimentos}" method="post">
-            <input type="hidden"  id="tipoColacion" value="4" name="tipoColacion" />
-            <input type="hidden"  id="fecha" value="2" name="fecha" />
-            <select multiple="" name="alimentoIds">
-                <option id="alimentoId" th:each="alimento : ${alimentosbd}" th:value="${alimento.id}" th:text="${alimento.nombre}">Alimento</option>
-            </select>
-            <button class="btn btn-success" type="submit">Agregar Alimentos</button>
-        </form>
-        </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="colacion" th:if="${desayuno != null}" th:with="alimentos=${desayuno}">
+                <h4>Desayuno</h4>
+                <div th:if="${desayuno.isEmpty()}">
+                    <p>No hay alimentos para el desayuno aún.</p>
+                </div>
+                <div th:unless="${#lists.isEmpty(alimentos)}">
+                    <ul class="list-unstyled">
+                        <li th:each="alimento : ${alimentos}">
+                            <a th:href="@{/alimentos/{id}(id=${alimento.id}, from='diarioAlimentos')}"
+                               th:text="${alimento.cantidad + 'x ' + alimento.nombre}">Nombre del Alimento</a>
+                            <a th:href="@{/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}(idAlimento=${alimento.id},tipoColacion=${tipoColacionDesayuno},fecha=${fecha})}" class="btn btn-danger">x</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-    <div class="col-md-8">
-        <div id="calendar">
-            <div id="monthAndYear"></div>
-            <button id="prevMonth">&lt;</button>
-            <button id="nextMonth">&gt;</button>
-            <table id="calendarTable">
-                <thead>
-                <tr>
-                    <th>D</th>
-                    <th>L</th>
-                    <th>M</th>
-                    <th>M</th>
-                    <th>J</th>
-                    <th>V</th>
-                    <th>S</th>
-                </tr>
-                </thead>
-                <tbody id="calendarBody"></tbody>
-            </table>
+
+            <div class="colacion" th:if="${almuerzo != null}" th:with="alimentos=${almuerzo}">
+                <h4>Almuerzo</h4>
+                <div th:if="${almuerzo.isEmpty()}">
+                    <p>No hay alimentos para el almuerzo aún.</p>
+                </div>
+                <div th:unless="${#lists.isEmpty(alimentos)}">
+                    <ul class="list-unstyled">
+                        <li th:each="alimento : ${alimentos}">
+                            <a th:href="@{/alimentos/{id}(id=${alimento.id}, from='diarioAlimentos')}"
+                               th:text="${alimento.cantidad + 'x ' + alimento.nombre}">Nombre del Alimento</a>
+                            <a th:href="@{/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}(idAlimento=${alimento.id},tipoColacion=${tipoColacionAlmuerzo},fecha=${fecha})}" class="btn btn-danger">x</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="colacion" th:if="${merienda != null}" th:with="alimentos=${merienda}">
+                <h4>Merienda</h4>
+                <div th:if="${merienda.isEmpty()}">
+                    <p>No hay alimentos para la merienda aún.</p>
+                </div>
+                <div th:unless="${#lists.isEmpty(alimentos)}">
+                    <ul class="list-unstyled">
+                        <li th:each="alimento : ${alimentos}">
+                            <a th:href="@{/alimentos/{id}(id=${alimento.id}, from='diarioAlimentos')}"
+                               th:text="${alimento.cantidad + 'x ' + alimento.nombre}">Nombre del Alimento</a>
+                            <a th:href="@{/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}(idAlimento=${alimento.id},tipoColacion=${tipoColacionMerienda},fecha=${fecha})}" class="btn btn-danger">x</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="colacion" th:if="${cena != null}" th:with="alimentos=${cena}">
+                <h4>Cena</h4>
+                <div th:if="${cena.isEmpty()}">
+                    <p>No hay alimentos para la cena aún.</p>
+                </div>
+                <div th:unless="${#lists.isEmpty(alimentos)}">
+                    <ul class="list-unstyled">
+                        <li th:each="alimento : ${alimentos}">
+                            <a th:href="@{/alimentos/{id}(id=${alimento.id}, from='diarioAlimentos')}"
+                               th:text="${alimento.cantidad + 'x ' + alimento.nombre}">Nombre del Alimento</a>
+                            <a th:href="@{/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}(idAlimento=${alimento.id},tipoColacion=${tipoColacionCena},fecha=${fecha})}" class="btn btn-danger">x</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="colacion" th:if="${snacks != null}" th:with="alimentos=${snacks}">
+                <h4>Snacks</h4>
+                <div th:if="${snacks.isEmpty()}">
+                    <p>No hay alimentos para snacks aún.</p>
+                </div>
+                <div th:unless="${#lists.isEmpty(alimentos)}">
+                    <ul class="list-unstyled">
+                        <li th:each="alimento : ${alimentos}">
+                            <a th:href="@{/alimentos/{id}(id=${alimento.id}, from='diarioAlimentos')}"
+                               th:text="${alimento.cantidad + 'x ' + alimento.nombre}">Nombre del Alimento</a>
+                            <a th:href="@{/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}(idAlimento=${alimento.id},tipoColacion=${tipoColacionSnacks},fecha=${fecha})}" class="btn btn-danger">x</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div id="calendar">
+                <div id="monthAndYear"></div>
+                <button id="prevMonth">&lt;</button>
+                <button id="nextMonth">&gt;</button>
+                <table id="calendarTable">
+                    <thead>
+                    <tr>
+                        <th>D</th>
+                        <th>L</th>
+                        <th>M</th>
+                        <th>M</th>
+                        <th>J</th>
+                        <th>V</th>
+                        <th>S</th>
+                    </tr>
+                    </thead>
+                    <tbody id="calendarBody"></tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
-    <p th:text="${mensaje}"></p>
 
+    <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card border-0">
                 <div class="card-body">
@@ -205,34 +144,41 @@
                         <div class="col-md-7">
                             <table class="table">
                                 <tbody>
-                                    <tr>
-                                        <td>IDR actual:</td>
-                                        <td>
-                                            <p th:if="${icr != null}" th:text="${icr} + ' cal'"></p>
-                                            <p th:unless="${icr != null}">Valor de IDR no disponible</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Grasa a consumir:</td>
-                                        <td>
-                                            <p th:if="${grasas != null}" th:text="${grasas} + ' g'"></p>
-                                            <p th:unless="${grasas != null}">Valor de cantidad de grasas a consumir no disponible</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Carbohidratos a consumir:</td>
-                                        <td>
-                                            <p th:if="${carbos != null}" th:text="${carbos} + ' g'"></p>
-                                            <p th:unless="${carbos != null}">Valor de cantidad de carbohidratos a consumir no disponible</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Proteínas a consumir:</td>
-                                        <td>
-                                            <p th:if="${proteinas != null}" th:text="${proteinas} + ' g'"></p>
-                                            <p th:unless="${proteinas != null}">Valor de cantidad de proteínas a consumir no disponible</p>
-                                        </td>
-                                    </tr>
+                                <tr>
+                                    <td>IDR actual:</td>
+                                    <td>
+                                        <p th:if="${icr != null}" th:text="${icr} + ' cal'"></p>
+                                        <p th:unless="${icr != null}">Valor de IDR no disponible</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Grasa a consumir:</td>
+                                    <td>
+                                        <p th:if="${grasas != null}" th:text="${grasas} + ' g'"></p>
+                                        <p th:unless="${grasas != null}">Valor de cantidad de grasas a consumir no disponible</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Carbohidratos a consumir:</td>
+                                    <td>
+                                        <p th:if="${carbohidratos != null}" th:text="${carbohidratos} + ' g'"></p>
+                                        <p th:unless="${carbohidratos != null}">Valor de cantidad de carbohidratos a consumir no disponible</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Proteínas a consumir:</td>
+                                    <td>
+                                        <p th:if="${proteinas != null}" th:text="${proteinas} + ' g'"></p>
+                                        <p th:unless="${proteinas != null}">Valor de cantidad de proteínas a consumir no disponible</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Fibra a consumir:</td>
+                                    <td>
+                                        <p th:if="${fibra != null}" th:text="${fibra} + ' g'"></p>
+                                        <p th:unless="${fibra != null}">Valor de cantidad de fibra a consumir no disponible</p>
+                                    </td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -241,6 +187,7 @@
             </div>
         </div>
     </div>
+</div>
 
 
 <div th:replace="footer ::footer"></div>
