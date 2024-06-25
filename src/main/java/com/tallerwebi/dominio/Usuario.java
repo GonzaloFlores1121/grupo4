@@ -21,8 +21,6 @@ public class Usuario {
     private String nivelDeActividad;    
     private Integer ingestaCalorica;
     private String imagen;
-    @OneToOne
-    private ConfiguracionUsuario configuracionUsuario;
     @OneToMany(mappedBy = "usuario")
     private Set<Colacion> colaciones;
 
@@ -64,14 +62,10 @@ public class Usuario {
     public String getImagen() {return imagen;}
     public void setImagen(String imagen) {this.imagen = imagen;}
 
-    public ConfiguracionUsuario getConfiguracionUsuario() {return configuracionUsuario;}
-    public void setConfiguracionUsuario(ConfiguracionUsuario configuracionUsuario) {this.configuracionUsuario = configuracionUsuario;}
-
     public Set<Colacion> getColaciones() {return colaciones;}
     public void setColaciones(Set<Colacion> colaciones) {this.colaciones = colaciones;}
-
-    public void setPesoInicial(Double peso){
-        this.pesoInicial = peso;
-    }
-     public Double getPesoInicial(){return pesoInicial;}
+    
+    public Double getPesoInicial(){return pesoInicial;}
+    public void setPesoInicial(Double peso){this.pesoInicial = peso;}
+    
 }

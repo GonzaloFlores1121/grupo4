@@ -22,7 +22,7 @@ public class PublicacionLike {
     public Long getId() {return id;}
     public void setId(Long id) {this.id = id;}
 
-    public Publicacion getuPublicacion() {return publicacion;}
+    public Publicacion getPublicacion() {return publicacion;}
     public void setPublicacion(Publicacion publicacion) {this.publicacion = publicacion;}
 
     public Usuario getUsuario() {return usuario;}

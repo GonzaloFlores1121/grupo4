@@ -1,16 +1,8 @@
 package com.tallerwebi.infraestructura;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.stereotype.Service;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.stereotype.Service;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import com.tallerwebi.dominio.Notificacion;
 import com.tallerwebi.dominio.NotificacionUsuario;
@@ -28,13 +20,11 @@ public class ServicioNotificacionImpl implements ServicioNotificacion {
     private RepositorioNotificacionUsuario repositorioNotificacionUsuario;
     private RepositorioUsuario repositorioUsuario;
 
-
     @Autowired
     public ServicioNotificacionImpl(RepositorioNotificacion repositorioNotificacion, RepositorioNotificacionUsuario repositorioNotificacionUsuario, RepositorioUsuario repositorioUsuario) {
         this.repositorioNotificacion = repositorioNotificacion;
         this.repositorioNotificacionUsuario = repositorioNotificacionUsuario;
         this.repositorioUsuario = repositorioUsuario;
-
     }
 
     @Override
@@ -59,26 +49,17 @@ public class ServicioNotificacionImpl implements ServicioNotificacion {
     @Override
     public void enviarNotificacion(String titulo, String contenido, LocalDateTime fechaHora, Long idUsuario) throws UsuarioNoExistente{
         Usuario usuario = repositorioUsuario.buscarPorId(idUsuario);
-        if(usuario != null) {
-            if(usuario.getConfiguracionUsuario().getRecibirNotificaciones()) {
-                Notificacion notificacion = crearNotificacion(titulo, contenido);
-                crearNotificacionUsuario(notificacion, usuario, fechaHora);
-
-            }
-        }else {
-            throw new  UsuarioNoExistente();
-        }
+        if(usuario == null) {throw new  UsuarioNoExistente();}
+        Notificacion notificacion = crearNotificacion(titulo, contenido);
+        crearNotificacionUsuario(notificacion, usuario, fechaHora);
     }
 
     @Override
     public void enviarNotificaciones(String titulo, String contenido, LocalDateTime fechaHora) {
         List<Usuario> usuarios = repositorioUsuario.obtenerTodos();
         for (Usuario usuario : usuarios) {
-            if(usuario.getConfiguracionUsuario().getRecibirNotificaciones()) {
-                Notificacion notificacion = crearNotificacion(titulo, contenido);
-                crearNotificacionUsuario(notificacion, usuario, fechaHora);
-
-            }
+            Notificacion notificacion = crearNotificacion(titulo, contenido);
+            crearNotificacionUsuario(notificacion, usuario, fechaHora);
         }
     }
 
@@ -92,11 +73,10 @@ public class ServicioNotificacionImpl implements ServicioNotificacion {
     public void eliminarNotificaciones(LocalDateTime fechaHora) {
         List<NotificacionUsuario> notificacioneUsuarios = repositorioNotificacionUsuario.getAll();
         for (NotificacionUsuario notificacionUsuario : notificacioneUsuarios) {
-            if(notificacionUsuario.getFechaHora().isBefore(fechaHora)) {
-                repositorioNotificacionUsuario.delete(notificacionUsuario);
-            }
+            if(notificacionUsuario.getFechaHora().isBefore(fechaHora)) {repositorioNotificacionUsuario.delete(notificacionUsuario);}
         }
     }
+
     @Override
     public List<NotificacionUsuario> obtenerNotificacionesNoLeidas(Long idUsuario) {
         List<NotificacionUsuario> notificaciones = repositorioNotificacionUsuario.getNotificacionesNoLeidas(idUsuario);
@@ -106,6 +86,7 @@ public class ServicioNotificacionImpl implements ServicioNotificacion {
         }
         return notificaciones;
     }
+
     @Override
     public List<Notificacion> obtenerNotificaciones(Long idUsuario) {
         return repositorioNotificacionUsuario.getAllNotification(idUsuario);

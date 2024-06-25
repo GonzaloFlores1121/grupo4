@@ -4,6 +4,7 @@ import com.tallerwebi.dominio.CategoriaAlimento;
 import com.tallerwebi.dominio.RepositorioCategoriaAlimento;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
@@ -15,6 +16,7 @@ public class RepositorioCategoriaAlimentoImpl implements RepositorioCategoriaAli
 
     private final SessionFactory sessionFactory;
 
+    @Autowired
     public RepositorioCategoriaAlimentoImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }

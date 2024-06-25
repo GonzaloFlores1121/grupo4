@@ -13,13 +13,11 @@ import javax.transaction.Transactional;
 public class ServicioLoginImpl implements ServicioLogin {
 
     private RepositorioUsuario repositorioUsuario;
-    private RepositorioConfiguracionUsuario repositorioConfiguracionUsuario;
     private ServicioDatosUsuario servicioDatosUsuario;
 
     @Autowired
-    public ServicioLoginImpl(RepositorioUsuario repositorioUsuario, RepositorioConfiguracionUsuario repositorioConfiguracionUsuario, @Lazy ServicioDatosUsuario servicioDatosUsuario){
+    public ServicioLoginImpl(RepositorioUsuario repositorioUsuario, @Lazy ServicioDatosUsuario servicioDatosUsuario){
         this.repositorioUsuario = repositorioUsuario;
-        this.repositorioConfiguracionUsuario = repositorioConfiguracionUsuario;
         this.servicioDatosUsuario = servicioDatosUsuario;
     }
 
@@ -30,40 +28,20 @@ public class ServicioLoginImpl implements ServicioLogin {
 
     @Override
     public void registrarUsuario(Usuario usuario) throws UsuarioExistente, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
-        if (repositorioUsuario.buscarPorEmail(usuario.getEmail()) != null) {
-            throw new UsuarioExistente();
-        }
+        if (repositorioUsuario.buscarPorEmail(usuario.getEmail()) != null) {throw new UsuarioExistente();}
         if (validarDatos(usuario)) {
-
             Integer icr = servicioDatosUsuario.calcularIngestaCalorica(usuario);
             usuario.setIngestaCalorica(icr);
-
-
             insertarAvatarPredeterminado(usuario);
-            usuario.setConfiguracionUsuario(crearConfiguracionPredeterminada());
             usuario.setPesoInicial(usuario.getPeso());
-
             repositorioUsuario.guardar(usuario);
         }
     }
 
-
     private void insertarAvatarPredeterminado(Usuario usuario) {
-        if(usuario.getGenero().equals("masculino")) {
-            usuario.setImagen("icono-perfil-1.png");
-        }else {
-            usuario.setImagen("icono-perfil-2.png");
-        }
+        if(usuario.getGenero().equals("masculino")) {usuario.setImagen("icono-perfil-1.png");}
+        else {usuario.setImagen("icono-perfil-2.png");}
     }    
-
-    private ConfiguracionUsuario crearConfiguracionPredeterminada() {
-        ConfiguracionUsuario configuracionUsuario = new ConfiguracionUsuario();
-        configuracionUsuario.setRecibirNotificaciones(true);
-        configuracionUsuario.setUnidadEnergia("calorias");
-        configuracionUsuario.setUnidadMasa("kilogramos");
-        repositorioConfiguracionUsuario.save(configuracionUsuario);
-        return configuracionUsuario;
-    }
 
     @Override
     public Usuario buscarUsuario(String email) {
@@ -78,9 +56,7 @@ public class ServicioLoginImpl implements ServicioLogin {
 
     @Override
     public void modificarUsuario(Usuario usuario, Usuario nuevosDatos) throws UsuarioExistente, DatosIncorrectos, EdadInvalidaException, AlturaIncorrectaException, PesoIncorrectoException {
-        if((repositorioUsuario.buscarPorEmail(nuevosDatos.getEmail())!=null) && (usuario.getEmail().equals(nuevosDatos.getEmail())==false)) {
-            throw new UsuarioExistente();
-        }
+        if((repositorioUsuario.buscarPorEmail(nuevosDatos.getEmail())!=null) && (usuario.getEmail().equals(nuevosDatos.getEmail())==false)) {throw new UsuarioExistente();}
         if(validarDatos(nuevosDatos)) {
             usuario.setNombre(nuevosDatos.getNombre());
             usuario.setEmail(nuevosDatos.getEmail());
@@ -94,15 +70,6 @@ public class ServicioLoginImpl implements ServicioLogin {
             usuario.setNivelDeActividad(nuevosDatos.getNivelDeActividad());
             repositorioUsuario.modificar(usuario);
         }     
-    }
-
-    @Override
-    public void modificarConfiguracion(Usuario usuario, ConfiguracionUsuario configuracionUsuario) {
-        usuario.getConfiguracionUsuario().setRecibirNotificaciones(configuracionUsuario.getRecibirNotificaciones());
-        usuario.getConfiguracionUsuario().setUnidadEnergia(configuracionUsuario.getUnidadEnergia());
-        usuario.getConfiguracionUsuario().setUnidadMasa(configuracionUsuario.getUnidadMasa());
-        repositorioConfiguracionUsuario.update(usuario.getConfiguracionUsuario());
-        repositorioUsuario.modificar(usuario);
     }
 
     @Override

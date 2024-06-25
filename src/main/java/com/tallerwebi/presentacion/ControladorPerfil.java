@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.tallerwebi.dominio.ConfiguracionUsuario;
 import com.tallerwebi.dominio.Notificacion;
 import com.tallerwebi.dominio.ServicioLogin;
 import com.tallerwebi.dominio.ServicioNotificacion;
@@ -124,33 +123,6 @@ public class ControladorPerfil {
         if (error != null) {
             model.addAttribute("error", error);
             return new ModelAndView("formularioEditarPerfil", model);
-        }
-        return new ModelAndView("redirect:/inicio");
-    }
-
-    @RequestMapping(path = "/configuracion", method = RequestMethod.GET)
-    public ModelAndView configuracion(HttpServletRequest request) {
-        ModelMap model = new ModelMap();
-        HttpSession session = request.getSession();
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-        if(usuario!=null && usuario.getConfiguracionUsuario() != null) {
-            model.addAttribute("usuario", usuario);
-            model.addAttribute("configuracionUsuario", usuario.getConfiguracionUsuario());
-            return new ModelAndView("configuracion", model);
-        }
-        return new ModelAndView("redirect:/inicio");
-    }
-
-    @RequestMapping(path = "/guardarConfiguracion", method = RequestMethod.POST)
-    public ModelAndView guardarConfiguracion(@ModelAttribute("usuario") Usuario usuario, @ModelAttribute("configuracionUsuario") ConfiguracionUsuario configuracionUsuario, 
-    HttpServletRequest request) throws UsuarioExistente, DatosIncorrectos, EdadInvalidaException, AlturaIncorrectaException, PesoIncorrectoException {
-        HttpSession session = request.getSession();
-        Usuario usuarioLogin = (Usuario) session.getAttribute("usuario");        
-        if(usuario!=null && configuracionUsuario!=null && usuarioLogin!=null) {
-            Usuario usuarioBD = servicioLogin.buscarUsuario(usuarioLogin.getEmail());
-            servicioLogin.modificarConfiguracion(usuarioBD, configuracionUsuario);
-            session.setAttribute("usuario", usuarioBD);
-            return new ModelAndView("redirect:/configuracion");
         }
         return new ModelAndView("redirect:/inicio");
     }

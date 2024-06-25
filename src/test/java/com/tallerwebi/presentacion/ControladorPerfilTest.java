@@ -17,7 +17,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.tallerwebi.dominio.ConfiguracionUsuario;
 import com.tallerwebi.dominio.Notificacion;
 import com.tallerwebi.dominio.ServicioLogin;
 import com.tallerwebi.dominio.ServicioNotificacion;
@@ -57,7 +56,6 @@ public class ControladorPerfilTest {
         usuario.setPassword(password);
         usuario.setGenero("masculino");
         usuario.setImagen("icono-perfil-1.png");
-        usuario.setConfiguracionUsuario(new ConfiguracionUsuario());
         when(session.getAttribute("usuario")).thenReturn(usuario);              
         when(servicioLogin.buscarUsuario(usuario.getEmail())).thenReturn(usuario);
         when(servicioNotificacion.obtenerNotificaciones(usuario.getId())).thenReturn(List.of(new Notificacion()));
@@ -174,64 +172,6 @@ public class ControladorPerfilTest {
     public void testProcesarDatosFallido() throws Exception {
         givenExisteUsuarioNoLogueado(1L, "admin@gmail.com", "1234abcd");
         ModelAndView vista = whenEnvioDatosUsuario(null);
-        thenVistaRedirigidaInicio(vista);
-    }
-
-    @Test
-    public void testConfiguracionExitoso() {
-        givenExisteUsuarioLogueado(1L, "admin@gmail.com", "1234abcd");
-        ModelAndView vista = whenCreoVistaConfiguracion();
-        thenVistaConfiguracionExitoso(vista);
-    }
-
-    private ModelAndView whenCreoVistaConfiguracion() {
-        return controladorPerfil.configuracion(request);
-    }
-
-    private void thenVistaConfiguracionExitoso(ModelAndView vista) {
-        assertEquals("configuracion", vista.getViewName());
-        assertNotNull(vista.getModel().get("usuario"));
-        assertNotNull(vista.getModel().get("configuracionUsuario"));
-    }
-
-    @Test
-    public void testConfiguracionFallido() {
-        givenExisteUsuarioNoLogueado(1L, "admin@gmail.com", "1234abcd");
-        ModelAndView vista = whenCreoVistaConfiguracion();
-        thenVistaRedirigidaInicio(vista);
-    }
-
-    @Test
-    public void testGuardarConfiguracionExitoso() throws Exception {
-        Usuario usuario = givenExisteUsuarioLogueado(1L, "admin@gmail.com", "1234abcd");
-        ConfiguracionUsuario config = givenExisteConfiguracionUsuario(1L, true, "calorias", "kilogramos");
-        ModelAndView vista = whenEnvioConfiguracion(usuario, config);
-        thenConfiguracionProcesada(usuario, config, vista);
-    }
-
-    private ConfiguracionUsuario givenExisteConfiguracionUsuario(long id, boolean recibirNotificaciones, String unidadEnergia, String unidadMasa) {
-        ConfiguracionUsuario config =  new ConfiguracionUsuario();
-        config.setId(id);
-        config.setRecibirNotificaciones(recibirNotificaciones);
-        config.setUnidadEnergia(unidadEnergia);
-        config.setUnidadMasa(unidadMasa);
-        return config;
-    }
-
-    private ModelAndView whenEnvioConfiguracion(Usuario usuario, ConfiguracionUsuario config) throws UsuarioExistente, DatosIncorrectos, EdadInvalidaException, AlturaIncorrectaException, PesoIncorrectoException {
-        return controladorPerfil.guardarConfiguracion(usuario, config, request);
-    }
-
-    private void thenConfiguracionProcesada(Usuario usuario, ConfiguracionUsuario config, ModelAndView vista) {
-        verify(servicioLogin, times(1)).modificarConfiguracion(usuario, config);
-        assertEquals("redirect:/configuracion", vista.getViewName());
-    }
-
-    @Test
-    public void testGuardarConfiguracionFallido() throws Exception {
-        Usuario usuario = givenExisteUsuarioNoLogueado(1L, "admin@gmail.com", "1234abcd");
-        ConfiguracionUsuario config = givenExisteConfiguracionUsuario(1L, true, "calorias", "kilogramos");
-        ModelAndView vista = whenEnvioConfiguracion(usuario, config);
         thenVistaRedirigidaInicio(vista);
     }
 

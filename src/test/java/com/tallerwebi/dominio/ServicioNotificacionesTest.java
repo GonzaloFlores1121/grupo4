@@ -19,7 +19,6 @@ import org.junit.jupiter.api.Test;
 
 import com.tallerwebi.dominio.excepcion.UsuarioNoExistente;
 import com.tallerwebi.infraestructura.ServicioNotificacionImpl;
-import org.springframework.context.ApplicationEventPublisher;
 
 
 public class ServicioNotificacionesTest {
@@ -58,9 +57,6 @@ public class ServicioNotificacionesTest {
     private Usuario givenExisteUsuario() {
         Usuario usuario= new Usuario();
         usuario.setId(1L);
-        ConfiguracionUsuario config = new ConfiguracionUsuario();
-        config.setRecibirNotificaciones(true);
-        usuario.setConfiguracionUsuario(config);
         when(repositorioUsuario.buscarPorId(1L)).thenReturn(usuario);
         return usuario;
     }
@@ -113,14 +109,8 @@ public class ServicioNotificacionesTest {
     private void givenExisteListaUsuarios() {
         List<Usuario> usuarios = new ArrayList<>();
         Usuario usuario1 = new Usuario();
-        ConfiguracionUsuario config1 = new ConfiguracionUsuario();
-        config1.setRecibirNotificaciones(true);
-        usuario1.setConfiguracionUsuario(config1);
         usuarios.add(usuario1);
         Usuario usuario2 = new Usuario();
-        ConfiguracionUsuario config2 = new ConfiguracionUsuario();
-        config2.setRecibirNotificaciones(false);
-        usuario2.setConfiguracionUsuario(config2);
         usuarios.add(usuario2);
         when(repositorioUsuario.obtenerTodos()).thenReturn(usuarios);
     }
@@ -130,7 +120,7 @@ public class ServicioNotificacionesTest {
     }
 
     private void thenNotificacionesEnviadasExitosa() {
-        verify(repositorioNotificacionUsuario, times(1)).save(any(NotificacionUsuario.class));
+        verify(repositorioNotificacionUsuario, times(2)).save(any(NotificacionUsuario.class));
     }
 
     @Test

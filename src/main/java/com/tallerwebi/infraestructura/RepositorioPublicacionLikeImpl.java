@@ -30,6 +30,15 @@ public class RepositorioPublicacionLikeImpl implements RepositorioPublicacionLik
     }
 
     @Override
+    public PublicacionLike getLike(Long idPublication, Long idUser) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("from PublicacionLike pl where pl.publicacion.id=:idPublication and pl.usuario.id=:idUser", PublicacionLike.class)
+                .setParameter("idPublication", idPublication)
+                .setParameter("idUser", idUser)
+                .uniqueResult();
+    }
+
+    @Override
     public List<PublicacionLike> getAllUserLikes(Long idUser) {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("from PublicacionLike pl where pl.usuario.id=:idUser", PublicacionLike.class)

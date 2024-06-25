@@ -1,11 +1,15 @@
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.Publicacion;
+import com.tallerwebi.dominio.PublicacionLike;
 import com.tallerwebi.dominio.ServicioComunidad;
 import com.tallerwebi.dominio.ServicioFollow;
+import com.tallerwebi.dominio.ServicioLike;
 import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.UsuarioFollow;
+import com.tallerwebi.dominio.excepcion.PublicacionNoExistente;
 import com.tallerwebi.dominio.excepcion.UsuarioNoExistente;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
@@ -20,32 +24,68 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ControladorComunidad {
 
-    ServicioComunidad servicioComunidad;
-    ServicioFollow servicioFollow;
+    private ServicioComunidad servicioComunidad;
+    private ServicioFollow servicioFollow;
+    private ServicioLike servicioLike;
 
-    public ControladorComunidad(ServicioComunidad servicioComunidad, ServicioFollow servicioFollow) {
+    public ControladorComunidad(ServicioComunidad servicioComunidad, ServicioFollow servicioFollow, ServicioLike servicioLike) {
         this.servicioComunidad = servicioComunidad;
         this.servicioFollow = servicioFollow;
+        this.servicioLike = servicioLike;
     }
 
+    @Transactional
     @RequestMapping(value = "/comunidad", method = RequestMethod.GET)
-    public ModelAndView irAComunidad(HttpServletRequest request) {
-        ModelMap modelo = new ModelMap();
+    public ModelAndView irAComunidad(HttpServletRequest request) throws UsuarioNoExistente {
         HttpSession session = request.getSession();
-
         Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if(usuario == null) {return new ModelAndView("redirect:/inicio");}
+        ModelMap model = new ModelMap();
+        model.addAttribute("usuario", usuario);
         List<Publicacion> publicaciones = servicioComunidad.todasLasPublicacionesSubidas();
-
-        modelo.put("publicaciones", publicaciones);
-
-        return new ModelAndView("comunidad", modelo);
+        model.addAttribute("publicaciones", publicaciones);
+        Map<Long, Boolean> likes = this.obtenerMapaDeLikesPorUsuario(usuario.getId());
+        model.addAttribute("likes", likes);
+        return new ModelAndView("comunidad", model);
     }
 
+    private Map<Long, Boolean> obtenerMapaDeLikesPorUsuario(Long idUsuario) throws UsuarioNoExistente {
+        List<PublicacionLike> likes = servicioLike.obtenerTodosLosLikePorUsuario(idUsuario);
+        Map<Long, Boolean> likesMap = new HashMap<>();
+        for (PublicacionLike like : likes) {
+            likesMap.put(like.getPublicacion().getId(), true);
+        }
+        return likesMap;
+    }
+
+    @Transactional
+    @RequestMapping(value = "/darMeGusta", method = RequestMethod.POST)
+    public ModelAndView darMeGusta(HttpServletRequest request, @RequestParam Long publicacionId) throws PublicacionNoExistente {
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario == null) {return new ModelAndView("redirect:/inicio");}
+        Publicacion publicacion = servicioComunidad.obtenerPublicacionPorId(publicacionId);
+        servicioLike.like(publicacion, usuario);
+        return new ModelAndView("redirect:/comunidad");
+    }
+
+    @Transactional
+    @RequestMapping(value = "/quitarMeGusta", method = RequestMethod.POST)
+    public ModelAndView quitarMeGusta(HttpServletRequest request, @RequestParam Long publicacionId) throws PublicacionNoExistente, UsuarioNoExistente {
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario == null) {return new ModelAndView("redirect:/inicio");}
+        PublicacionLike like = servicioLike.obtenerLike(publicacionId, usuario.getId());
+        servicioLike.unlike(like);
+        return new ModelAndView("redirect:/comunidad");
+    }
 
     @RequestMapping(value = "/guardarPublicacion", method = RequestMethod.POST)
     public ModelAndView guardarPublicacion(@ModelAttribute("publicacion") Publicacion publicacion,
@@ -134,8 +174,8 @@ public class ControladorComunidad {
     }
 
     @Transactional
-    @RequestMapping(value = "/listaSeguidores", method = RequestMethod.GET)
-    public ModelAndView listaSeguidores(HttpServletRequest request) throws UsuarioNoExistente {
+    @RequestMapping(value = "/favoritos", method = RequestMethod.GET)
+    public ModelAndView favoritos(HttpServletRequest request) throws UsuarioNoExistente {
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         if(usuario == null) {return new ModelAndView("redirect:/inicio");}
@@ -145,7 +185,7 @@ public class ControladorComunidad {
         model.addAttribute("seguidores", seguidores);
         List<Usuario> seguidos = servicioFollow.obtenerTodosMisFollows(usuario.getId());
         model.addAttribute("seguidos", seguidos);
-        return new ModelAndView("listaSeguidores", model);
+        return new ModelAndView("favoritos", model);
     }
 
 }

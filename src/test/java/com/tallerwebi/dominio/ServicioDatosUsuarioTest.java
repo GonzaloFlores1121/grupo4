@@ -24,7 +24,6 @@ public class ServicioDatosUsuarioTest {
 
 
     private RepositorioUsuario repositorioUsuario;
-    private RepositorioConfiguracionUsuario repositorioConfiguracionUsuario;
     private ServicioDatosUsuario servicioUsuario;
     private ServicioLogin servicioLogin;
     private RepositorioHistorialPesoUsuario repositorioHistorialPesoUsuario;
@@ -39,8 +38,7 @@ public class ServicioDatosUsuarioTest {
         Session sessionMock = mock(Session.class);
         repositorioUsuario = mock(RepositorioUsuarioImpl.class);
         repositorioHistorialPesoUsuario = mock(RepositorioHistorialPesoUsuarioImpl.class);
-        repositorioConfiguracionUsuario =mock(RepositorioConfiguracionUsuarioImpl.class);
-        servicioLogin = new ServicioLoginImpl(repositorioUsuario, repositorioConfiguracionUsuario, servicioUsuario);
+        servicioLogin = new ServicioLoginImpl(repositorioUsuario, servicioUsuario);
         servicioUsuario = new ServicioDatosUsuarioImpl(servicioLogin, repositorioHistorialPesoUsuario, repositorioUsuario,servicioCalendario,servicioNotificacion, repositorioMacronutrientes, servicioEjercicio);
     }
 

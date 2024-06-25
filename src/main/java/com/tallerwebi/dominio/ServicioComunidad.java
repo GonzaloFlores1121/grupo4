@@ -1,5 +1,6 @@
 package com.tallerwebi.dominio;
 
+import com.tallerwebi.dominio.excepcion.PublicacionNoExistente;
 import com.tallerwebi.dominio.excepcion.UsuarioNoExistente;
 
 import java.io.File;
@@ -17,4 +18,6 @@ public interface ServicioComunidad {
     List<Publicacion> todasLasPublicacionesSubidasPorUnUsuario(Long id);
 
     Usuario obtenerUsuarioPorId(Long id) throws UsuarioNoExistente;
+
+    Publicacion obtenerPublicacionPorId(Long id) throws PublicacionNoExistente;
 }

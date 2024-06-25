@@ -1,6 +1,7 @@
 package com.tallerwebi.infraestructura;
 
 import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.excepcion.PublicacionNoExistente;
 import com.tallerwebi.dominio.excepcion.UsuarioNoExistente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,5 +52,12 @@ public class ServicioComunidadImpl implements ServicioComunidad {
             throw new UsuarioNoExistente();
         }
         return usuario;
+    }
+
+    @Override
+    public Publicacion obtenerPublicacionPorId(Long id) throws PublicacionNoExistente {
+        Publicacion publicacion = repositorioComunidad.consultarPublicacion(id);
+        if(publicacion == null) {throw new PublicacionNoExistente();}
+        return publicacion;
     }
 }

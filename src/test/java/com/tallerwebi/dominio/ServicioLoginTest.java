@@ -1,7 +1,6 @@
 package com.tallerwebi.dominio;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -21,10 +20,9 @@ import com.tallerwebi.infraestructura.ServicioLoginImpl;
 
 public class ServicioLoginTest {
 
-    private RepositorioConfiguracionUsuario repositorioConfiguracionUsuario = mock(RepositorioConfiguracionUsuario.class);
     private RepositorioUsuario repositorioUsuario = mock(RepositorioUsuario.class);
     private ServicioDatosUsuarioImpl servicioDatosUsuario = mock(ServicioDatosUsuarioImpl.class);
-    private ServicioLoginImpl servicioLogin = new ServicioLoginImpl(repositorioUsuario, repositorioConfiguracionUsuario,servicioDatosUsuario);
+    private ServicioLoginImpl servicioLogin = new ServicioLoginImpl(repositorioUsuario, servicioDatosUsuario);
 
     @Test
     public void testVerificarUsuario() {
@@ -76,10 +74,6 @@ public class ServicioLoginTest {
     private void thenRegistroUsuarioExitoso(Usuario usuario) {
         verify(repositorioUsuario).guardar(usuario);
         assertEquals("icono-perfil-1.png", usuario.getImagen());
-        assertNotNull(usuario.getConfiguracionUsuario());
-        assertTrue(usuario.getConfiguracionUsuario().getRecibirNotificaciones());
-        assertEquals("calorias", usuario.getConfiguracionUsuario().getUnidadEnergia());
-        assertEquals("kilogramos", usuario.getConfiguracionUsuario().getUnidadMasa());
     }
 
     @Test

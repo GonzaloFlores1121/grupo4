@@ -9,6 +9,8 @@ public interface ServicioLike {
 
     void like(Publicacion publicacion, Usuario usuario);
 
+    PublicacionLike obtenerLike(Long idPublication, Long idUser) throws UsuarioNoExistente, PublicacionNoExistente;
+
     List<PublicacionLike> obtenerTodosLosLikePorUsuario(Long idUser) throws UsuarioNoExistente;
     
     List<PublicacionLike> obtenerTodosLosLikesPorPublicacion(Long idPublicaction) throws PublicacionNoExistente;
