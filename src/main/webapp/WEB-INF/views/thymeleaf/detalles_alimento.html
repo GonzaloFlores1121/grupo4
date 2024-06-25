@@ -47,19 +47,18 @@
                     <label for="tipoColacion" class="col-sm-2 col-form-label">Comida:</label>
                     <div class="col-sm-10">
                         <select id="tipoColacion" name="tipoColacion" class="form-control">
-                            <option value="0">Desayuno</option>
-                            <option value="1">Snacks</option>
-                            <option value="2">Almuerzo</option>
-                            <option value="3">Merienda</option>
-                            <option value="4">Cena</option>
+                            <option value="0" th:selected="${tipoColacion == 0}">Desayuno</option>
+                            <option value="1" th:selected="${tipoColacion == 1}">Snacks</option>
+                            <option value="2" th:selected="${tipoColacion == 2}">Almuerzo</option>
+                            <option value="3" th:selected="${tipoColacion == 3}">Merienda</option>
+                            <option value="4" th:selected="${tipoColacion == 4}">Cena</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="fecha" class="col-sm-2 col-form-label">Fecha:</label>
                     <div class="col-sm-10">
-                        <input type="date" id="fecha" name="fecha" class="form-control" />
-                    </div>
+                        <input type="date" id="fecha" name="fecha" th:value="${fechaColacion}" class="form-control" />                    </div>
                 </div>
                 <div class="form-group row">
                     <label for="cantidad" class="col-sm-2 col-form-label">Cantidad:</label>
@@ -147,13 +146,20 @@
 <div th:replace="footer :: footer"></div>
 <script>
     // Obtener la fecha actual
-    var today = new Date();
+    // Obtener el elemento de fecha
+    var fechaElement = document.getElementById('fecha');
 
-    // Formatear la fecha al formato yyyy-MM-dd
-    var formattedDate = today.getFullYear() + '-' + (today.getMonth() + 1).toString().padStart(2, '0') + '-' + today.getDate().toString().padStart(2, '0');
+    // Verificar si el elemento de fecha ya tiene un valor
+    if (!fechaElement.value) {
+        // Obtener la fecha actual
+        var today = new Date();
 
-    // Establecer la fecha formateada como valor por defecto del input de fecha
-    document.getElementById('fecha').value = formattedDate;
+        // Formatear la fecha al formato yyyy-MM-dd
+        var formattedDate = today.getFullYear() + '-' + (today.getMonth() + 1).toString().padStart(2, '0') + '-' + today.getDate().toString().padStart(2, '0');
+
+        // Establecer la fecha formateada como valor por defecto del input de fecha
+        fechaElement.value = formattedDate;
+    }
 </script>
 
 

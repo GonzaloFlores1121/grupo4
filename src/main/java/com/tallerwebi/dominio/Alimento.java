@@ -12,7 +12,6 @@ public class Alimento {
     private Long id;
     private String nombre;
     private String imagen;
-
     @Column(nullable = false, columnDefinition = "integer default 1")
     private Integer cantidad;
     private Integer energia; // kcal

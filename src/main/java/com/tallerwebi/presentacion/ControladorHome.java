@@ -36,11 +36,12 @@ public class ControladorHome {
         ModelMap modelo = new ModelMap();
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
-        if (usuario != null) {
-            modelo.put("nombre", usuario.getNombre());
-        } else {
-            modelo.put("nombre", "Usuario");
+
+        if(usuario==null){
+            return new ModelAndView("redirect:/inicio");
         }
+        modelo.put("nombre", usuario.getNombre());
+
         return new ModelAndView("home", modelo);
     }
 
