@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +56,11 @@ public class ControladorComunidad {
         ModelMap model = new ModelMap();
         model.addAttribute("usuario", usuario);
         List<Publicacion> publicaciones = servicioComunidad.todasLasPublicacionesSubidas();
-        model.addAttribute("publicaciones", publicaciones);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        for (Publicacion publicacion : publicaciones) {
+            publicacion.setFechaFormateada(publicacion.getFechaHora().format(formatter));
+        }
+        model.put("publicaciones", publicaciones);
         Map<Long, Boolean> likes = this.obtenerMapaDeLikesPorUsuario(usuario.getId());
         model.addAttribute("likes", likes);
         Map<Long, String> likesList = obtenerListaDeLikesPorPublicacion(publicaciones);

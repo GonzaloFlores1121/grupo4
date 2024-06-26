@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -32,6 +33,7 @@ public class ServicioComunidadImpl implements ServicioComunidad {
     public List<Publicacion> todasLasPublicacionesSubidas() {
         List<Publicacion> publicaciones = new ArrayList<>();
         publicaciones=repositorioComunidad.obtenerTodasLasPublicaciones();
+        publicaciones.sort(Comparator.comparing(Publicacion::getFechaHora).reversed());
         return publicaciones;
     }
 

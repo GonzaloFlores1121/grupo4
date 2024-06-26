@@ -35,6 +35,9 @@
                     <div class="card-body">
                         <a th:href="@{/perfilComunidad/{id}(id=${publicacion.usuario.id})}"><h5 class="card-title fw-bold" th:text="${publicacion.usuario.nombre}"></h5></a>
                         <p class="card-text" th:text="${publicacion.texto}"></p>
+                     <p class="card-text">
+                       <small class="text-muted" th:text="${publicacion.fechaFormateada}"></small>
+                       </p>
                         <span th:if="${likes[publicacion.id]}">
                             <form th:action="@{/quitarMeGusta}" method="post">
                                 <input type="hidden" name="publicacionId" th:value="${publicacion.id}">

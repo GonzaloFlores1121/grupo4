@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Entity
-public class Publicacion {
+public class Publicacion implements Comparable<Publicacion> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,6 +18,7 @@ public class Publicacion {
     private String texto;
     private String rutaImagen;
     private LocalDateTime fechaHora;
+    private String fechaFormateada;
 
     public Publicacion( Usuario usuario, String texto,    String rutaImagen  , LocalDateTime fechaHora) {
         this.usuario = usuario;
@@ -64,4 +65,18 @@ public class Publicacion {
    public void setFechaHora(LocalDateTime fechaHora) {
         this.fechaHora = fechaHora;
    }
+
+    @Override
+    public int compareTo(Publicacion otraPublicacion) {
+        return otraPublicacion.getFechaHora().compareTo(this.fechaHora);
+    }
+
+    public String getFechaFormateada() {
+
+        return fechaFormateada;
+    }
+
+    public void setFechaFormateada(String fechaFormateada) {
+        this.fechaFormateada = fechaFormateada;
+    }
 }
