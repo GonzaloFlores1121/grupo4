@@ -57,6 +57,9 @@ public class ControladorRecetas {
         ModelMap model = new ModelMap();
         obtenerUsuarioSession(request, model);
         Receta receta=servicioRecetas.obtenerRecetaPorId(id);
+        if(receta ==null){
+            throw new RecetaNoEncontradaException();
+        }
         model.put("receta",receta);
         return new ModelAndView("descripcionRecetas",model);
     }
