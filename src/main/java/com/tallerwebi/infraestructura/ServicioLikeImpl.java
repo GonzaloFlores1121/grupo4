@@ -47,14 +47,14 @@ public class ServicioLikeImpl implements ServicioLike {
     }
 
     @Override
-    public List<PublicacionLike> obtenerTodosLosLikePorUsuario(Long idUser) throws UsuarioNoExistente {
+    public List<Publicacion> obtenerTodosLosLikePorUsuario(Long idUser) throws UsuarioNoExistente {
         Usuario user = repositorioUsuario.buscarPorId(idUser);
         if(user == null) {throw new UsuarioNoExistente();}
         return repositorioPublicacionLike.getAllUserLikes(idUser);
     }
 
     @Override
-    public List<PublicacionLike> obtenerTodosLosLikesPorPublicacion(Long idPublicaction) throws PublicacionNoExistente {
+    public List<Usuario> obtenerTodosLosLikesPorPublicacion(Long idPublicaction) throws PublicacionNoExistente {
         Publicacion publication = repositorioComunidad.consultarPublicacion(idPublicaction);
         if(publication == null) {throw new PublicacionNoExistente();}
         return repositorioPublicacionLike.getAllPublicationLikes(idPublicaction);

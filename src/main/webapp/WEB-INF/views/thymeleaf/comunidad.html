@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Comunidad</title>
@@ -23,8 +23,10 @@
     <div th:replace="navbar :: navbar"></div>
 
     <div class="container my-5" style="min-height: 60vh;">
+        
         <h2 class="text-center fw-bold mb-3">Publicaciones de la Comunidad</h2>
-        <div class="card mb-5 mx-auto" th:each="publicacion : ${publicaciones}" style="max-width: 720px;">
+
+        <div class="card mb-3 mx-auto" th:each="publicacion : ${publicaciones}">
             <div class="row g-0">
                 <div class="col-md-4 d-flex justify-content-center align-items-center">
                     <img class="img-fluid rounded-start" th:src="@{'/img/publicaciones/' + ${publicacion.rutaImagen}}" alt="imagen-publicacion">
@@ -35,27 +37,38 @@
                         <p class="card-text" th:text="${publicacion.texto}"></p>
                         <span th:if="${likes[publicacion.id]}">
                             <form th:action="@{/quitarMeGusta}" method="post">
-                                <input type="hidden" name="publicacionId" th:value="${publicacion.id}" />
-                                <button type="submit" class="btn btn-warning">Quitar Me gusta</button>
+                                <input type="hidden" name="publicacionId" th:value="${publicacion.id}">
+                                <button type="submit" class="btn btn-warning" data-bs-toggle="tooltip" data-bs-html="true" th:attr="data-bs-title=${likesList[publicacion.id]}">Quitar Me gusta</button>
                             </form>
                         </span>
                         <span th:unless="${likes[publicacion.id]}">
                             <form th:action="@{/darMeGusta}" method="post">
-                                <input type="hidden" name="publicacionId" th:value="${publicacion.id}" />
-                                <button type="submit" class="btn btn-success">Dar Me gusta</button>
+                                <input type="hidden" name="publicacionId" th:value="${publicacion.id}">
+                                <button type="submit" class="btn btn-success" data-bs-toggle="tooltip" data-bs-html="true" th:attr="data-bs-title=${likesList[publicacion.id]}">Dar Me gusta</button>
                             </form>
                         </span>
                     </div>
                 </div>
             </div>
         </div>
+
         <div class="d-flex justify-content-end">
-            <a class="btn btn-success" th:href="@{/subirPublicacion}">Subir Publicacion</a>
+            <a class="btn btn-dark" th:href="@{/subirPublicacion}">Subir Publicacion</a>
         </div>
+    
     </div>
 
     <!--footer-->
     <div th:replace="footer :: footer"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        });
+    </script>
 
 </body>
 </html>

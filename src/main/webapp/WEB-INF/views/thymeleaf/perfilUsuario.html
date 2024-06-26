@@ -23,12 +23,12 @@
     <div th:replace="navbar :: navbar"></div>
 
     <!--offcanvas-->
-    <div class="offcanvas offcanvas-start" id="subir-foto">
-        <div class="offcanvas-header mx-1 my-1">
-            <h3>Cambiar Avatar</h3>
+    <div class="offcanvas offcanvas-start" id="cambiarAvatar">
+        <div class="offcanvas-header my-2 mx-2">
+            <h3 class="fw-bold">Cambiar Avatar</h3>
             <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="offcanvas"></button>
         </div>
-        <div class="offcanvas-body mx-3">
+        <div class="offcanvas-body mx-2">
             <form th:action="@{/procesarImagen}" method="post" th:object="${usuario}" th:inline="javascript"> 
                 <div class="form-floating mb-2">
                     <select class="form-control" th:field="*{imagen}" onchange="changeImage(this)" id="imagen" name="imagen">
@@ -36,7 +36,7 @@
                     </select>
                     <label for="imagen">Elige una Avatar:</label>
                     <div class="container p-3">
-                        <img class="img-fluid" id="mostrarImagen" name="mostrarImagen" th:src="@{'/img/' + ${usuario.imagen}}" alt="Imagen seleccionada">
+                        <img class="img-fluid" id="mostrarAvatar" name="mostrarAvatar" th:src="@{'/img/' + ${usuario.imagen}}" alt="img-seleccionada">
                     </div>                    
                 </div>
                 <div class="mt-2">
@@ -47,29 +47,29 @@
     </div>
 
     <!--perfil-->
-    <div class="container my-5" style="min-height: 60vh;"> 
+    <div class="container my-5" style="min-height: 75vh;"> 
         <div class="row d-flex align-items-center">
-            <div class="col-sm-4 d-flex flex-column justify-content-center my-3">
-                <h3 class="text-center text-dark" style="font-weight: bold;">Mi Avatar</h3>
-                <img class="img-fluid" th:src="@{'/img/' + ${usuario.imagen}}" alt="avatar-perfil">
+            <div class="col-md-4 d-flex flex-column justify-content-center my-3">
+                <h3 class="text-center fw-bold">Mi Avatar</h3>
+                <img class="img-fluid" th:src="@{'/img/' + ${usuario.imagen}}" alt="avatar-img">
                 <div class="d-flex flex-column justify-content-center align-items-center">
-                    <button class="btn btn-success" type="button" data-bs-toggle="offcanvas" data-bs-target="#subir-foto">Cambiar Avatar</button>
+                    <button class="btn btn-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#cambiarAvatar">Cambiar Avatar</button>
                 </div>
             </div>
-            <div class="col-sm-8">
-                <h2 class="text-center text-dark" style="font-weight: bold;">Mi Perfil</h2>
+            <div class="col-md-8">
+                <h2 class="text-center fw-bold">Mi Perfil</h2>
                 <div class="card" th:style="'background-image: url(\'' + @{/img/background.png} + '\'); background-size: cover;'">
                     <div class="card-body">
                         <h4 class="card-title text-white fw-bold" th:text="${usuario.nombre}"></h4>
                         <h4 class="card-title text-white fw-bold" th:text="${usuario.email}"></h4>
-                        <p class="card-text text-dark fw-bold">Edad: <span th:text="${usuario.edad}+' anios'"></span></p>
-                        <p class="card-text text-dark fw-bold">Genero: <span th:text="${usuario.genero}"></span></p>
-                        <p class="card-text text-dark fw-bold">Altura: <span th:text="${usuario.altura}+' cm'"></span></p>
-                        <p class="card-text text-dark fw-bold">Peso: <span th:text="${usuario.peso}+' kg'"></span></p>
-                        <p class="card-text text-dark fw-bold">Peso Meta: <span th:text="${usuario.metaAlcanzarPeso}+' kg'"></span></p>
-                        <p class="card-text text-dark fw-bold">Nivel de Actividad Fisica: <span th:text="${usuario.nivelDeActividad}"></span></p>
+                        <p class="card-text fw-bold">Edad: <span th:text="${usuario.edad}+' anios'"></span></p>
+                        <p class="card-text fw-bold">Genero: <span th:text="${usuario.genero}"></span></p>
+                        <p class="card-text fw-bold">Altura: <span th:text="${usuario.altura}+' cm'"></span></p>
+                        <p class="card-text fw-bold">Peso: <span th:text="${usuario.peso}+' kg'"></span></p>
+                        <p class="card-text fw-bold">Peso Meta: <span th:text="${usuario.metaAlcanzarPeso}+' kg'"></span></p>
+                        <p class="card-text fw-bold">Nivel de Actividad Fisica: <span th:text="${usuario.nivelDeActividad}"></span></p>
                         <a class="btn btn-dark" th:href="@{/formularioEditarPerfil}">Editar Perfil</a>
-                        <a class="btn btn-dark" th:href="@{/publicacionesUsuario/{id}(id=${usuario.id})}">Mis Publicaciones</a>
+                        <a class="btn btn-dark" th:href="@{/publicacionesUsuario/{id}(id=${usuario.id})}"> ver Mis Publicaciones</a>
                     </div>
                 </div>  
             </div>
@@ -82,8 +82,8 @@
     <script type="text/javascript">
         function changeImage(selectElement) {
             var selectedValue = selectElement.value;
-            var imageUrl = document.getElementById("mostrarImagen").getAttribute("src").slice(0, -18);
-            var imageElement = document.getElementById("mostrarImagen");
+            var imageUrl = document.getElementById("mostrarAvatar").getAttribute("src").slice(0, -18);
+            var imageElement = document.getElementById("mostrarAvatar");
             imageElement.src = imageUrl + selectedValue;
         }
     </script>

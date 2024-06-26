@@ -11,9 +11,9 @@ public interface ServicioLike {
 
     PublicacionLike obtenerLike(Long idPublication, Long idUser) throws UsuarioNoExistente, PublicacionNoExistente;
 
-    List<PublicacionLike> obtenerTodosLosLikePorUsuario(Long idUser) throws UsuarioNoExistente;
+    List<Publicacion> obtenerTodosLosLikePorUsuario(Long idUser) throws UsuarioNoExistente;
     
-    List<PublicacionLike> obtenerTodosLosLikesPorPublicacion(Long idPublicaction) throws PublicacionNoExistente;
+    List<Usuario> obtenerTodosLosLikesPorPublicacion(Long idPublicaction) throws PublicacionNoExistente;
 
     void unlike(PublicacionLike like);
 

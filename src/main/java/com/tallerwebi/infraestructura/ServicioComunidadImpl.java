@@ -30,17 +30,15 @@ public class ServicioComunidadImpl implements ServicioComunidad {
 
     @Override
     public List<Publicacion> todasLasPublicacionesSubidas() {
-    List<Publicacion> publicaciones = new ArrayList<>();
-    publicaciones=repositorioComunidad.obtenerTodasLasPublicaciones();
-        publicaciones.sort((p1, p2) -> p1.getFechaHora().compareTo(p2.getFechaHora()));
-   return publicaciones;
+        List<Publicacion> publicaciones = new ArrayList<>();
+        publicaciones=repositorioComunidad.obtenerTodasLasPublicaciones();
+        return publicaciones;
     }
 
     @Override
     public List<Publicacion> todasLasPublicacionesSubidasPorUnUsuario(Long id) {
         List<Publicacion> publicacionesUsuario = new ArrayList<>();
         publicacionesUsuario=repositorioComunidad.obtenerTodasLasPublicacionesDeUnUsuario(id);
-        publicacionesUsuario.sort((p1, p2) -> p1.getFechaHora().compareTo(p2.getFechaHora()));
         return publicacionesUsuario;
     }
 

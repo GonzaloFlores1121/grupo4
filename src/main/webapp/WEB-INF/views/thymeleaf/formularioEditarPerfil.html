@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario Editar Perfil</title>
+    <title>Editar Perfil</title>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/css/main.css}">
 
@@ -17,7 +17,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
     
-    <!--solo me anduvo en el html si lo pueden solucionar para ponerlo en el archivo css-->
     <style>
         input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
             -webkit-appearance: none;
@@ -32,11 +31,11 @@
     <div th:replace="navbar :: navbar"></div>
 
     <!--formulario-->
-    <div class="container my-5">
+    <div class="container my-5" style="min-height: 75vh;">
+        <h2 class="text-center fw-bold mb-3"> Editar Perfil</h2>
         <div class="row d-flex flex-column justify-content-center align-items-center">
-            <div class="col-sm-7 border border-1 rounded" th:style="'background-image: url(\'' + @{/img/background.png} + '\'); background-size: cover;'">
-                <form class="p-5" th:action="@{/procesarDatos}" method="post" th:object="${usuario}">
-                    <h2 class="text-center text-white mb-3">Datos Personales</h2>
+            <div class="col-md-6 border border-2 border-dark rounded" th:style="'background-image: url(\'' + @{/img/background.png} + '\'); background-size: cover;'">
+                <form class="p-5" th:action="@{/procesarDatos}" method="post" th:object="${usuario}">      
                     <div class="form-floating mb-3">
                         <input class="form-control" th:field="*{nombre}" type="text" name="nombre" id="nombre" placeholder="Ingresar nombre" required>
                         <label for="nombre">Nombre</label>
@@ -82,23 +81,26 @@
                         <label for="nivelDeActividad">Nivel de Actividad Fisica</label>
                     </div>
                     <div class="row">
-                        <div class="col-sm-6 d-flex flex-column justify-content-center align-items-center">
+                        <div class="col-md-6 d-flex flex-column justify-content-center align-items-center">
                             <div class="d-flex flex-column justify-content-center align-items-center">
-                                <input class="btn btn-outline-success" type="submit" name="enviar" id="enviar" value="Enviar">
+                                <input class="btn btn-success" type="submit" name="guardar" id="guardar" value="Guardar">
                             </div>
                         </div>
-                        <div class="col-sm-6 d-flex flex-column justify-content-center align-items-center">
+                        <div class="col-md-6 d-flex flex-column justify-content-center align-items-center">
                             <div class="d-flex flex-column justify-content-center align-items-center">
-                                <a class="btn btn-outline-success" th:href="@{/perfilUsuario}">Cancelar</a>
+                                <a class="btn btn-warning" th:href="@{/perfilUsuario}">Cancelar</a>
                             </div>
                         </div>  
                     </div>
+                    
+                    <!--errores-->
                     <div class="d-flex flex-column justify-content-center m-3">
                         <div class="alert alert-danger alert-dismissible fade show" th:if="${error != null}">
                             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                             <strong>Error: </strong><span th:text="${error}"></span>
                         </div>
                     </div>   
+
                 </form>
             </div>
         </div>

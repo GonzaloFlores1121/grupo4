@@ -8,9 +8,9 @@ public interface RepositorioPublicacionLike {
 
     PublicacionLike getLike(Long idPublication, Long idUser);
 
-    List<PublicacionLike> getAllUserLikes(Long idUser);
+    List<Publicacion> getAllUserLikes(Long idUser);
 
-    List<PublicacionLike> getAllPublicationLikes(Long idPublication);
+    List<Usuario> getAllPublicationLikes(Long idPublication);
 
     void delete(PublicacionLike like);
 

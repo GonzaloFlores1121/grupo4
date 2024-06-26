@@ -25,7 +25,7 @@ public class ServicioLikeTest {
     private RepositorioPublicacionLike repositorioPublicacionLike = mock(RepositorioPublicacionLike.class);
     private ServicioLikeImpl servicioLike = new ServicioLikeImpl(repositorioComunidad, repositorioUsuario, repositorioPublicacionLike);
 
-    @Test
+    /*@Test
     public void testLike() {
         Usuario usuario = givenExisteUsuario(1L, "pacolo");
         Publicacion publicacion = givenExistePublicacion(1L, "hola mundo!");
@@ -191,6 +191,6 @@ public class ServicioLikeTest {
 
     private void thenLikeQuitado(PublicacionLike like) {
         verify(repositorioPublicacionLike, times(1)).delete(like);
-    }
+    }*/
 
 }

@@ -22,17 +22,18 @@ public RepositorioComunidadImpl(SessionFactory sessionFactory) {
     @Transactional(readOnly = true)
     public List<Publicacion> obtenerTodasLasPublicaciones() {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("SELECT p FROM Publicacion p JOIN FETCH p.usuario", Publicacion.class).list();
+        return session.createQuery("SELECT p FROM Publicacion p JOIN FETCH p.usuario ORDER BY p.fechaHora DESC", Publicacion.class).list();
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Publicacion> obtenerTodasLasPublicacionesDeUnUsuario(Long id) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("SELECT p FROM Publicacion p JOIN FETCH p.usuario WHERE p.usuario.id = :id", Publicacion.class)
+        return session.createQuery("SELECT p FROM Publicacion p JOIN FETCH p.usuario WHERE p.usuario.id = :id ORDER BY p.fechaHora DESC", Publicacion.class)
                 .setParameter("id", id)
                 .list();
     }
+
     @Transactional
     @Override
     public void guardarPublicacion(Publicacion publicacion) {

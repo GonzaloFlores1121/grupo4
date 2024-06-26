@@ -5,11 +5,13 @@ import com.tallerwebi.dominio.PublicacionLike;
 import com.tallerwebi.dominio.ServicioComunidad;
 import com.tallerwebi.dominio.ServicioFollow;
 import com.tallerwebi.dominio.ServicioLike;
+import com.tallerwebi.dominio.ServicioNotificacion;
 import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.UsuarioFollow;
 import com.tallerwebi.dominio.excepcion.PublicacionNoExistente;
 import com.tallerwebi.dominio.excepcion.UsuarioNoExistente;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
@@ -34,16 +36,19 @@ public class ControladorComunidad {
     private ServicioComunidad servicioComunidad;
     private ServicioFollow servicioFollow;
     private ServicioLike servicioLike;
+    private ServicioNotificacion servicioNotificacion;
 
-    public ControladorComunidad(ServicioComunidad servicioComunidad, ServicioFollow servicioFollow, ServicioLike servicioLike) {
+    @Autowired
+    public ControladorComunidad(ServicioComunidad servicioComunidad, ServicioFollow servicioFollow, ServicioLike servicioLike, ServicioNotificacion servicioNotificacion) {
         this.servicioComunidad = servicioComunidad;
         this.servicioFollow = servicioFollow;
         this.servicioLike = servicioLike;
+        this.servicioNotificacion = servicioNotificacion;
     }
 
     @Transactional
     @RequestMapping(value = "/comunidad", method = RequestMethod.GET)
-    public ModelAndView irAComunidad(HttpServletRequest request) throws UsuarioNoExistente {
+    public ModelAndView irAComunidad(HttpServletRequest request) throws UsuarioNoExistente, PublicacionNoExistente {
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         if(usuario == null) {return new ModelAndView("redirect:/inicio");}
@@ -53,26 +58,45 @@ public class ControladorComunidad {
         model.addAttribute("publicaciones", publicaciones);
         Map<Long, Boolean> likes = this.obtenerMapaDeLikesPorUsuario(usuario.getId());
         model.addAttribute("likes", likes);
+        Map<Long, String> likesList = obtenerListaDeLikesPorPublicacion(publicaciones);
+        model.addAttribute("likesList", likesList);
         return new ModelAndView("comunidad", model);
     }
 
     private Map<Long, Boolean> obtenerMapaDeLikesPorUsuario(Long idUsuario) throws UsuarioNoExistente {
-        List<PublicacionLike> likes = servicioLike.obtenerTodosLosLikePorUsuario(idUsuario);
-        Map<Long, Boolean> likesMap = new HashMap<>();
-        for (PublicacionLike like : likes) {
-            likesMap.put(like.getPublicacion().getId(), true);
+        Map<Long, Boolean> likes = new HashMap<>();
+        List<Publicacion> likedPublicaciones = servicioLike.obtenerTodosLosLikePorUsuario(idUsuario);
+        for (Publicacion publicacion : likedPublicaciones) {
+            likes.put(publicacion.getId(), true);
         }
-        return likesMap;
+        return likes;
+    }
+    
+    private Map<Long, String> obtenerListaDeLikesPorPublicacion(List<Publicacion> publicaciones) throws PublicacionNoExistente {
+        Map<Long, String> likesList = new HashMap<>();
+        for (Publicacion publicacion : publicaciones) {
+            List<Usuario> likes = servicioLike.obtenerTodosLosLikesPorPublicacion(publicacion.getId());
+            String usuarios = "";
+            for (int i = 0; i < likes.size(); i++) {
+                if (i > 0) {usuarios += "</br>";}
+                usuarios += likes.get(i).getNombre();
+            }
+            likesList.put(publicacion.getId(), usuarios);
+        }
+        return likesList;
     }
 
     @Transactional
     @RequestMapping(value = "/darMeGusta", method = RequestMethod.POST)
-    public ModelAndView darMeGusta(HttpServletRequest request, @RequestParam Long publicacionId) throws PublicacionNoExistente {
+    public ModelAndView darMeGusta(HttpServletRequest request, @RequestParam Long publicacionId) throws PublicacionNoExistente, UsuarioNoExistente {
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         if (usuario == null) {return new ModelAndView("redirect:/inicio");}
         Publicacion publicacion = servicioComunidad.obtenerPublicacionPorId(publicacionId);
         servicioLike.like(publicacion, usuario);
+        String titulo = "Publicacion";
+        String contenido = usuario.getNombre() +  " le dio me gusta a tu publicacion.";         
+        servicioNotificacion.enviarNotificacion(titulo, contenido, LocalDateTime.now(), publicacion.getUsuario().getId());
         return new ModelAndView("redirect:/comunidad");
     }
 
@@ -87,39 +111,35 @@ public class ControladorComunidad {
         return new ModelAndView("redirect:/comunidad");
     }
 
+    @RequestMapping(value = "/subirPublicacion")
+    public ModelAndView subirPublicacion(HttpServletRequest request) throws IOException {
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if(usuario == null) {return new ModelAndView("redirect:/inicio");}
+        ModelMap model = new ModelMap();
+        model.addAttribute("usuario", usuario);
+        return new ModelAndView("subirPublicacion", model);
+    }
+
     @RequestMapping(value = "/guardarPublicacion", method = RequestMethod.POST)
     public ModelAndView guardarPublicacion(@ModelAttribute("publicacion") Publicacion publicacion,
                                            @RequestParam("imagen") MultipartFile imagenFile,
                                            HttpSession session) throws IOException {
-
         ModelMap modelo = new ModelMap();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
-
+        if (usuario == null) {return new ModelAndView("redirect:/inicio");}
         if (!imagenFile.isEmpty()) {
             String directorioImagenes = "src/main/webapp/resources/core/img/publicaciones";
             Files.createDirectories(Paths.get(directorioImagenes));
-
             String nombreImagen = LocalDateTime.now().toString().replaceAll("[:.]", "-") + "_" + imagenFile.getOriginalFilename();
             String rutaCompleta = Paths.get(directorioImagenes, nombreImagen).toString();
             imagenFile.transferTo(new File(rutaCompleta));
-
-
-
             servicioComunidad.subirPublicacion(usuario, nombreImagen, publicacion.getTexto());
+            return new ModelAndView("redirect:/comunidad");
         } else {
             modelo.addAttribute("error", "No se proporcionó una imagen válida");
-            return new ModelAndView("subirPublicacion", modelo); // Retornar a la vista con mensaje de error si no hay imagen
-        }
-
-
-
-        return new ModelAndView("redirect:/comunidad", modelo);
-    }
-
-    @RequestMapping(value = "/subirPublicacion")
-    public ModelAndView subirPublicacion() throws IOException {
-
-        return new ModelAndView("subirPublicacion");
+            return new ModelAndView("subirPublicacion", modelo);
+        }       
     }
 
     @Transactional
@@ -159,6 +179,7 @@ public class ControladorComunidad {
         return new ModelAndView("redirect:/perfilComunidad/"+id);  
     }
    
+    @Transactional
     @RequestMapping(value = "/publicacionesUsuario/{id}", method = RequestMethod.GET)
     public ModelAndView irAPublicaciones(@PathVariable Long id, HttpServletRequest request) throws UsuarioNoExistente {       
         HttpSession session = request.getSession();
@@ -170,6 +191,8 @@ public class ControladorComunidad {
         model.put("nombre", nombre);
         List<Publicacion> publicaciones = servicioComunidad.todasLasPublicacionesSubidasPorUnUsuario(id);
         model.put("publicacionesUsuario", publicaciones);
+        Map<Long, Boolean> likes = this.obtenerMapaDeLikesPorUsuario(usuario.getId());
+        model.addAttribute("likes", likes);
         return new ModelAndView("publicacionesUsuario", model);
     }
 

@@ -9,8 +9,10 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.tallerwebi.dominio.Publicacion;
 import com.tallerwebi.dominio.PublicacionLike;
 import com.tallerwebi.dominio.RepositorioPublicacionLike;
+import com.tallerwebi.dominio.Usuario;
 
 @Repository("repositorioPublicacionLike")
 @Transactional
@@ -39,17 +41,17 @@ public class RepositorioPublicacionLikeImpl implements RepositorioPublicacionLik
     }
 
     @Override
-    public List<PublicacionLike> getAllUserLikes(Long idUser) {
+    public List<Publicacion> getAllUserLikes(Long idUser) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from PublicacionLike pl where pl.usuario.id=:idUser", PublicacionLike.class)
+        return session.createQuery("select pl.publicacion from PublicacionLike pl where pl.usuario.id=:idUser", Publicacion.class)
                         .setParameter("idUser", idUser)
                         .list();
     }
 
     @Override
-    public List<PublicacionLike> getAllPublicationLikes(Long idPublication) {
+    public List<Usuario> getAllPublicationLikes(Long idPublication) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from PublicacionLike pl where pl.publicacion.id=:idPublication", PublicacionLike.class)
+        return session.createQuery("select pl.usuario from PublicacionLike pl where pl.publicacion.id=:idPublication", Usuario.class)
                         .setParameter("idPublication", idPublication)
                         .list();
     }

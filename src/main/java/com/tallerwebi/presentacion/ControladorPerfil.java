@@ -1,6 +1,5 @@
 package com.tallerwebi.presentacion;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -63,7 +62,6 @@ public class ControladorPerfil {
         return new ModelAndView("redirect:/inicio");
     }
 
-    @Transactional
     @RequestMapping(path = "/procesarImagen", method = RequestMethod.POST)
     public ModelAndView procesarImagen(@ModelAttribute("usuario") Usuario usuario, HttpServletRequest request) throws UsuarioExistente, DatosIncorrectos, EdadInvalidaException, AlturaIncorrectaException, PesoIncorrectoException, UsuarioNoExistente {
         HttpSession session = request.getSession();
@@ -71,9 +69,6 @@ public class ControladorPerfil {
         if(usuario != null && usuarioLogin != null) {
             Usuario usuarioBD = servicioLogin.buscarUsuario(usuarioLogin.getEmail());
             servicioLogin.modificarImagen(usuarioBD, usuario.getImagen());
-            String titulo = "Avatar Editado";
-            String contenido = "A cambiado su Avatar.";         
-            servicioNotificacion.enviarNotificacion(titulo, contenido, LocalDateTime.now(), usuarioBD.getId());
             session.setAttribute("usuario", usuarioBD);
             return new ModelAndView("redirect:/perfilUsuario");
         }
@@ -103,9 +98,6 @@ public class ControladorPerfil {
             if(usuario!=null && usuarioLogin!=null) {            
                 Usuario usuarioBD = servicioLogin.buscarUsuario(usuarioLogin.getEmail());
                 servicioLogin.modificarUsuario(usuarioBD, usuario);
-                String titulo = "Perfil Editado";
-                String contenido = "A cambiado sus datos de Perfil con exito.";         
-                servicioNotificacion.enviarNotificacion(titulo, contenido, LocalDateTime.now(), usuarioBD.getId());
                 session.setAttribute("usuario", usuarioBD);
                 return new ModelAndView("redirect:/perfilUsuario");
             }         
