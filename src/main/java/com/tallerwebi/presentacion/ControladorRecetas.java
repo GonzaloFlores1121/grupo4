@@ -20,10 +20,12 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class ControladorRecetas {
     private ServicioReceta servicioRecetas;
+    private ServicioAlimento servicioAlimento;
 
     @Autowired
-    public ControladorRecetas(ServicioReceta servicioRecetas) {
+    public ControladorRecetas(ServicioReceta servicioRecetas,ServicioAlimento servicioAlimento) {
         this.servicioRecetas = servicioRecetas;
+        this.servicioAlimento = servicioAlimento;
     }
 
     @RequestMapping(value = "/recetas", method = RequestMethod.GET)
@@ -81,7 +83,24 @@ public class ControladorRecetas {
         }
         return new ModelAndView("redirect:/recetasFavoritas");
     }
+    @RequestMapping(value = "/listaAlimentos",method = RequestMethod.GET)
+    public ModelAndView listaAlimentos( HttpServletRequest request) throws RecetaNoEncontradaException {
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
 
+        // Verificar si el usuario está autenticado
+        if (usuario == null) {
+            return new ModelAndView("redirect:/inicio");  // Redirigir al inicio si no hay usuario en sesión
+        }
+
+        // Cargar lista de alimentos desde el servicio y agregarla al modelo
+        List<Alimento> alimentos = servicioAlimento.listarAlimentos();
+        ModelMap model = new ModelMap();
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("alimentos", alimentos);  // Agregar lista de alimentos al modelo
+
+        return new ModelAndView("listaAlimentos", model);  // Retornar vista "subirReceta" con el modelo
+    }
     private void obtenerUsuarioSession(HttpServletRequest request, ModelMap model) {
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
