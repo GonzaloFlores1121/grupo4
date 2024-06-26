@@ -1,7 +1,6 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.excepcion.AlimentoNoEncontradoException;
-import com.tallerwebi.dominio.excepcion.CategoriaAlimentoNoEncontradaException;
+import com.tallerwebi.dominio.excepcion.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,7 +15,9 @@ public class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)  // 404
     @ExceptionHandler({AlimentoNoEncontradoException.class,
-            CategoriaAlimentoNoEncontradaException.class})
+            CategoriaAlimentoNoEncontradaException.class,
+            UsuarioNoExistente.class,
+             RecetaNoEncontradaException.class})
     public ModelAndView handleNotFound(Exception ex) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("error404");

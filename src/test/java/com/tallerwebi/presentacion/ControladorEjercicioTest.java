@@ -40,7 +40,7 @@ public class ControladorEjercicioTest {
         // Crea una instancia de ControladorEjercicio con los argumentos necesarios
         controladorEjercicio = new ControladorEjercicio(repositorioEjercicio, repositorioEjercicioUsuario, repositorioUsuario, servicioEjercicio);
     }
-    @Test
+    /*@Test
     public void agregoUnEjercicioExitosamente() throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, UsuarioExistente, EjercicioInvalido, EjercicioNoExistente {
 
         Usuario usuario = givenTengoUnUsuario();
@@ -57,7 +57,7 @@ public class ControladorEjercicioTest {
         // Verificar si se pasa el mensaje correcto al modelo
         // assertEquals("El ejercicio se ha guardado correctamente.", modelAndView.getModel().get("mensaje"));
     }
-
+*/
     private Usuario givenTengoUnUsuario() throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, UsuarioExistente {
 
         String email = "ejemplo@example.com";

@@ -27,7 +27,17 @@
     </div>
 </div>
 
+<div th:if="${mensajeEjercicioAgregado}" class="alert alert-success" role="alert">
+    <p th:text="${mensajeEjercicioAgregado}"></p>
+</div>
+
 <div class="container-fluid my-5" style="min-height: 60vh;">
+    <div class="d-flex flex-column justify-content-center my-1 mx-5">
+        <div class="alert alert-warning alert-dismissible fade show" th:if="${unknown != null}">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>Unknown: </strong><span th:text="${unknown}"></span>
+        </div>
+    </div>
     <div class="bloqueBusqueda">
         <div class="advise">
             <p>¿Sabías que el ejercicio físico no solo fortalece tus músculos, sino también tu cerebro?</p>

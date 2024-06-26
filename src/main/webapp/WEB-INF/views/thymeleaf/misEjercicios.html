@@ -38,9 +38,10 @@
               <h2>Mis ejercicios <span th:text="${fecha}"></span></h2>
               <ul>
                   <li th:each="ejercicio : ${ejercicios}">
-                      <a th:href="@{verEjercicio(id=${ejercicio.id})}">
+                <!--      <a th:href="@{verEjercicio(id=${ejercicio.id})}">
                           <span th:text="${ejercicio.ejercicio.nombre}"></span>
-                      </a>
+                      </a> -->
+                      <span th:text="${ejercicio.ejercicio.nombre}"></span>
                       - <span th:text="'Minutos empleados: ' + ${ejercicio.minutos}"></span>
                       - <span th:text="'Calorias quemadas: ' + ${ejercicio.caloriasQuemadas}"></span>
                   </li>

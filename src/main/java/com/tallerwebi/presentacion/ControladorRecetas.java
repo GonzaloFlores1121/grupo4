@@ -32,7 +32,10 @@ public class ControladorRecetas {
     public ModelAndView irARecetas(HttpServletRequest request) {
         ModelMap model = new ModelMap();
         obtenerUsuarioSession(request, model);
-
+        Usuario usuario = (Usuario) model.get("usuario");
+        if (usuario == null) {
+            return new ModelAndView("redirect:/inicio");
+        }
         List<Receta> todasLasRecetas = servicioRecetas.obtenerTodasLasRecetas();
 
         model.put("recetas", todasLasRecetas);
@@ -44,8 +47,10 @@ public class ControladorRecetas {
     public ModelAndView mostrarRecetasFavoritas(HttpServletRequest request) {
         ModelMap model = new ModelMap();
         obtenerUsuarioSession(request, model);
-        HttpSession session = request.getSession();
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Usuario usuario = (Usuario) model.get("usuario");
+        if (usuario == null) {
+            return new ModelAndView("redirect:/inicio");
+        }
         List<RecetaFavorito> recetasFavoritas = servicioRecetas.obtenerRecetasFavoritas(usuario);
 
         model.put("recetasFavoritas", recetasFavoritas);
@@ -58,7 +63,15 @@ public class ControladorRecetas {
     public ModelAndView mostrarDescripcionRecetas(@PathVariable Long id, HttpServletRequest request) throws RecetaNoEncontradaException {
         ModelMap model = new ModelMap();
         obtenerUsuarioSession(request, model);
+        Usuario usuario = (Usuario) model.get("usuario");
+        if (usuario == null) {
+            return new ModelAndView("redirect:/inicio");
+        }
+
         Receta receta=servicioRecetas.obtenerRecetaPorId(id);
+        if(receta ==null){
+            throw new RecetaNoEncontradaException();
+        }
         model.put("receta",receta);
         return new ModelAndView("descripcionRecetas",model);
     }
@@ -67,6 +80,11 @@ public class ControladorRecetas {
     public ModelAndView agregarAFavoritos(@PathVariable Long id, HttpServletRequest request) throws RecetaNoEncontradaException {
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        if(usuario==null){
+            return new ModelAndView("redirect:/inicio");
+
+        }
         Receta receta=servicioRecetas.obtenerRecetaPorId(id);
         servicioRecetas.agregarRecetaFavorita(usuario,receta);
         return new ModelAndView("redirect:/recetas");

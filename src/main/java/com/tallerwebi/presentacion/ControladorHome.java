@@ -48,8 +48,14 @@ public class ControladorHome {
 
 
     @RequestMapping(value = "/diarioEjercicio",method = RequestMethod.GET)
-    public ModelAndView irADiarioEjercicio(){
+    public ModelAndView irADiarioEjercicio(HttpServletRequest request){
 
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        if(usuario==null){
+            return new ModelAndView("redirect:/inicio");
+        }
         return new ModelAndView("estadisticasUsuario");
     }
     @RequestMapping(value = "/diarioPeso",method = RequestMethod.GET)

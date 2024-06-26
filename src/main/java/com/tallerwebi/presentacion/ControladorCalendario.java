@@ -51,6 +51,9 @@ public class ControladorCalendario {
         obtenerUsuarioSession(request, model);
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if(usuario==null){
+            return new ModelAndView("redirect:/inicio");
+        }
         String mensaje = (String) session.getAttribute("mensaje");
         if (mensaje != null) {
             model.put("mensaje", mensaje);
