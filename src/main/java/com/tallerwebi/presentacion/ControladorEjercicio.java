@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -43,6 +44,11 @@ public class ControladorEjercicio {
     public ModelAndView irAEjercicio(@RequestParam("id") Long id, HttpServletRequest request) {
         ModelMap model = new ModelMap();
         obtenerUsuarioSession(request, model);
+        Usuario usuario = (Usuario) model.get("usuario");
+        if (usuario == null) {
+            return new ModelAndView("redirect:/inicio");
+        }
+
         Ejercicio ejercicio = repositorioEjercicio.obtenerEjercicioPorId(id);
         model.put("ejercicio", ejercicio);
         return new ModelAndView("ejercicio", model);
@@ -54,7 +60,8 @@ public class ControladorEjercicio {
                                          @RequestParam("intensidad") String intensidad,
                                          @RequestParam("fecha") Date fecha,
                                          @RequestParam("minutos") Integer minutos,
-                                         HttpServletRequest request) throws EjercicioNoExistente, EjercicioInvalido {
+                                         HttpServletRequest request,
+                                         RedirectAttributes redirectAttributes) throws EjercicioNoExistente, EjercicioInvalido {
 
         Ejercicio ejercicio = repositorioEjercicio.obtenerEjercicioPorId(idEjercicio);
         //conseguir el id de usuario
@@ -66,8 +73,8 @@ public class ControladorEjercicio {
 
         try {
             servicioEjercicio.guardarEjercicioUsuario(ejercicio.getNombre(),intensidad,ejercicio,usuario,fecha,minutos);
-            model.put("mensaje", "El ejercicio se ha guardado correctamente.");
-            return new ModelAndView("ejercicio", model);
+            redirectAttributes.addFlashAttribute("mensajeEjercicioAgregado", "El ejercicio se ha guardado correctamente.");
+            return new ModelAndView("redirect:/actividadesFisicas");
         }catch (Exception EjercicioInvalido){
             model.put("mensaje", "El ejercicio no se ha guardado correctamente.");
             return new ModelAndView("ejercicio", model);
@@ -88,6 +95,7 @@ public class ControladorEjercicio {
             List<Ejercicio> ejercicios;
             ejercicios = servicioEjercicio.obtenerTodosLosEjercicios();
             model.put("listaEjercicios", ejercicios);
+            model.addAttribute("unknown", "Ejercicio no encontrado");
             return new ModelAndView("actividadesFisicas", model);
         }
     }
@@ -95,6 +103,10 @@ public class ControladorEjercicio {
     public ModelAndView irAEnForma(@RequestParam(value = "search", required = false) String search, HttpServletRequest request) {
         ModelMap model = new ModelMap();
         obtenerUsuarioSession(request, model);
+        Usuario usuario = (Usuario) model.get("usuario");
+        if (usuario == null) {
+            return new ModelAndView("redirect:/inicio");
+        }
         try {
             List<Ejercicio> ejercicios;
             if (search != null && !search.isEmpty()) {
@@ -115,6 +127,10 @@ public class ControladorEjercicio {
         ModelMap modelo = new ModelMap();
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if(usuario==null){
+            return new ModelAndView("redirect:/inicio");
+
+        }
         List<EjercicioUsuario> ejercicios = servicioEjercicio.obtenerEjercicioUsuarioPorFecha(usuario, fecha);
         modelo.put("ejercicios", ejercicios);
         modelo.put("fecha", fecha);

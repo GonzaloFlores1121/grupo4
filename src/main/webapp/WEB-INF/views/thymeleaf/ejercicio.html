@@ -29,7 +29,7 @@
                     <input type="Integer" class="form-control" id="minutos" name="minutos" placeholder="Minutos" min="0">
                 </div>
                 <button type="submit" class="btn btn-primary">Guardar</button>
-                <button type="button" class="btn btn-secondary">Cancelar</button>
+                <button type="button" class="btn btn-secondary" th:href="@{actividadesFisicas}">Cancelar</button>
             </form>
             <p th:text="${mensaje}"></p>
         </div>
@@ -41,5 +41,10 @@
 <script th:src="@{https://code.jquery.com/jquery-3.5.1.slim.min.js}"></script>
 <script th:src="@{https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js}"></script>
 <script th:src="@{https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js}"></script>
+<script>
+    document.getElementById('ejercicioForm').addEventListener('submit', function() {
+        alert('El ejercicio se ha guardado correctamente.');
+    });
+</script>
 </body>
 </html>

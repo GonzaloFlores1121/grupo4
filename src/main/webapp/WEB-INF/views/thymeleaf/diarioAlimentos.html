@@ -38,7 +38,7 @@
                         <li th:each="alimento : ${alimentos}">
                             <a th:href="@{/alimentos/{id}(id=${alimento.id}, from='diarioAlimentos')}"
                                th:text="${alimento.cantidad + 'x ' + alimento.nombre}">Nombre del Alimento</a>
-                            <a th:href="@{/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}(idAlimento=${alimento.id},tipoColacion=${tipoColacionDesayuno},fecha=${fecha})}" class="btn btn-danger">x</a>
+                            <a th:href="@{/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}(idAlimento=${alimento.id},tipoColacion=${tipoColacionDesayuno},fecha=${fecha})}" class="btn btn-danger eliminarAlimento">x</a>
                         </li>
                     </ul>
                 </div>
@@ -53,7 +53,7 @@
                         <li th:each="alimento : ${alimentos}">
                             <a th:href="@{/alimentos/{id}(id=${alimento.id}, from='diarioAlimentos')}"
                                th:text="${alimento.cantidad + 'x ' + alimento.nombre}">Nombre del Alimento</a>
-                            <a th:href="@{/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}(idAlimento=${alimento.id},tipoColacion=${tipoColacionAlmuerzo},fecha=${fecha})}" class="btn btn-danger">x</a>
+                            <a th:href="@{/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}(idAlimento=${alimento.id},tipoColacion=${tipoColacionAlmuerzo},fecha=${fecha})}" class="btn btn-danger eliminarAlimento">x</a>
                         </li>
                     </ul>
                 </div>
@@ -69,7 +69,7 @@
                         <li th:each="alimento : ${alimentos}">
                             <a th:href="@{/alimentos/{id}(id=${alimento.id}, from='diarioAlimentos')}"
                                th:text="${alimento.cantidad + 'x ' + alimento.nombre}">Nombre del Alimento</a>
-                            <a th:href="@{/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}(idAlimento=${alimento.id},tipoColacion=${tipoColacionMerienda},fecha=${fecha})}" class="btn btn-danger">x</a>
+                            <a th:href="@{/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}(idAlimento=${alimento.id},tipoColacion=${tipoColacionMerienda},fecha=${fecha})}" class="btn btn-danger eliminarAlimento">x</a>
                         </li>
                     </ul>
                 </div>
@@ -85,7 +85,7 @@
                         <li th:each="alimento : ${alimentos}">
                             <a th:href="@{/alimentos/{id}(id=${alimento.id}, from='diarioAlimentos')}"
                                th:text="${alimento.cantidad + 'x ' + alimento.nombre}">Nombre del Alimento</a>
-                            <a th:href="@{/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}(idAlimento=${alimento.id},tipoColacion=${tipoColacionCena},fecha=${fecha})}" class="btn btn-danger">x</a>
+                            <a th:href="@{/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}(idAlimento=${alimento.id},tipoColacion=${tipoColacionCena},fecha=${fecha})}" class="btn btn-danger eliminarAlimento" >x</a>
                         </li>
                     </ul>
                 </div>
@@ -101,7 +101,7 @@
                         <li th:each="alimento : ${alimentos}">
                             <a th:href="@{/alimentos/{id}(id=${alimento.id}, from='diarioAlimentos')}"
                                th:text="${alimento.cantidad + 'x ' + alimento.nombre}">Nombre del Alimento</a>
-                            <a th:href="@{/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}(idAlimento=${alimento.id},tipoColacion=${tipoColacionSnacks},fecha=${fecha})}" class="btn btn-danger">x</a>
+                            <a th:href="@{/diarioAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}(idAlimento=${alimento.id},tipoColacion=${tipoColacionSnacks},fecha=${fecha})}" class="btn btn-danger eliminarAlimento">x</a>
                         </li>
                     </ul>
                 </div>
@@ -130,67 +130,23 @@
             </div>
         </div>
     </div>
-
-
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card border-0">
-                <div class="card-body">
-                    <h2 class="text-center">Mi Ingesta Diaria Recomendada (IDR)</h2>
-                    <div class="row justify-content-center">
-                        <div class="col-md-7">
-                            <table class="table">
-                                <tbody>
-                                <tr>
-                                    <td>IDR actual:</td>
-                                    <td>
-                                        <p th:if="${icr != null}" th:text="${icr} + ' cal'"></p>
-                                        <p th:unless="${icr != null}">Valor de IDR no disponible</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Grasa a consumir:</td>
-                                    <td>
-                                        <p th:if="${grasas != null}" th:text="${grasas} + ' g'"></p>
-                                        <p th:unless="${grasas != null}">Valor de cantidad de grasas a consumir no disponible</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Carbohidratos a consumir:</td>
-                                    <td>
-                                        <p th:if="${carbohidratos != null}" th:text="${carbohidratos} + ' g'"></p>
-                                        <p th:unless="${carbohidratos != null}">Valor de cantidad de carbohidratos a consumir no disponible</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Proteínas a consumir:</td>
-                                    <td>
-                                        <p th:if="${proteinas != null}" th:text="${proteinas} + ' g'"></p>
-                                        <p th:unless="${proteinas != null}">Valor de cantidad de proteínas a consumir no disponible</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Fibra a consumir:</td>
-                                    <td>
-                                        <p th:if="${fibra != null}" th:text="${fibra} + ' g'"></p>
-                                        <p th:unless="${fibra != null}">Valor de cantidad de fibra a consumir no disponible</p>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
 
 <div th:replace="footer ::footer"></div>
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
+<script>
+    var eliminarAlimentoButtons = document.getElementsByClassName('eliminarAlimento');
+    for (var i = 0; i < eliminarAlimentoButtons.length; i++) {
+        eliminarAlimentoButtons[i].addEventListener('click', function(event) {
+            var confirmar = confirm('¿Está seguro de que desea eliminar este alimento?');
+            if (!confirmar) {
+                event.preventDefault();
+            }
+        });
+    }
+</script>
 <script>
     let currentMonth = new Date().getMonth();
     let currentYear = new Date().getFullYear();

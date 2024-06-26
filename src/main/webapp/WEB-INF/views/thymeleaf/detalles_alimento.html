@@ -34,7 +34,7 @@
     <div class="row">
         <div class="col-md-6">
             <img th:src="@{'/img/alimentos/' + ${alimento.imagen}}" class="card-img-top img-fluid mx-auto d-block" style="width: 250px; height: 250px;" alt="alimento">
-            <form th:action="@{/detalles_alimento/agregar}" method="post" class="form-horizontal">
+            <form th:action="@{/detalles_alimento/agregar}" method="post" class="form-horizontal" id="alimentoForm">
                 <input type="hidden" th:value="${alimento.id}" name="alimentoId" />
                 <input type="hidden" th:value="${from}" name="from" />
                 <div class="form-group row">
@@ -144,6 +144,17 @@
 </div>
 
 <div th:replace="footer :: footer"></div>
+<script>
+    document.getElementById('alimentoForm').addEventListener('submit', function(event) {
+        var cantidad = document.getElementById('cantidad').value;
+        if (cantidad > 15) {
+            var confirmar = confirm('La cantidad es mayor a 15. ¿Desea proceder?');
+            if (!confirmar) {
+                event.preventDefault();
+            }
+        }
+    });
+</script>
 <script>
     // Obtener la fecha actual
     // Obtener el elemento de fecha

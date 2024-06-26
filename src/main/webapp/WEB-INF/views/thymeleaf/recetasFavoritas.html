@@ -56,6 +56,9 @@
         </a>
       </div>
     </div>
+    <div th:unless="${recetasFavoritas.size() > 0}" class="col-md-12">
+      <p>No hay recetas favoritas aún.</p>
+    </div>
   </div>
 </div>
 
