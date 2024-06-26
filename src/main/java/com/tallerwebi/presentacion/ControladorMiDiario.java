@@ -68,6 +68,9 @@ public class ControladorMiDiario {
         model.put("fechaFormateada", fechaFormateada);
 
         Integer caloriasTotalesPorDia = servicioColacion.obtenerCaloriasTotalesDeAlimentosPorUsuarioYFecha(usuario,fecha);
+        Integer icr=servicioDatosUsuario.calcularIngestaCalorica(usuario);
+        Double porcentaje = (double) caloriasTotalesPorDia / icr * 100;
+        model.put("porcentaje", porcentaje);
         model.put("caloriasTotales",caloriasTotalesPorDia);
 
         obtenerLasColacionesYAgregarlasEnElModel(fecha, usuario, model);
