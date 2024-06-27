@@ -127,6 +127,11 @@ public class ControladorAlimentos {
             throw new AlimentoNoEncontradoException(id);
         }
 
+        // Obtiene la categoría del alimento
+        CategoriaAlimento categoria = alimento.getCategoria();
+        model.put("categoriaId", categoria.getId()); // Pasa el ID de la categoría a la vista
+        model.put("categoriaNombre", categoria.getNombre()); // Pasa el nombre de la categoría a la vista
+
         Colacion colacion = servicioColacion.obtenerColacionPorAlimento(alimento);
         if (colacion != null) {
             model.put("tipoColacion", colacion.getTipo().ordinal());
@@ -134,14 +139,13 @@ public class ControladorAlimentos {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             String fechaFormateada = fechaColacion.format(formatter);
             model.put("fechaColacion", fechaFormateada);
-
-
         }
+
         Integer cantidad = alimento.getCantidad();
         model.put("alimento", alimento);
         model.put("from", from);
         model.put("cantidad", cantidad);
-        return new ModelAndView("detalles_alimento", model);
+        return new ModelAndView("detalles_alimento",model);
     }
 }
 
