@@ -44,6 +44,8 @@ import java.util.List;
             private Double azucar; // g
             private Double proteina; // g
 
+            @ManyToOne
+            private Usuario usuario;
             // Getters y Setters
 
 
@@ -210,5 +212,11 @@ import java.util.List;
         this.nombre = nombre;
     }
 
+            public Usuario getUsuario() {
+                return usuario;
+            }
 
-}
+            public void setUsuario(Usuario usuario) {
+                this.usuario = usuario;
+            }
+        }

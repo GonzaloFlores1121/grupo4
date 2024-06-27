@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <title>Diario De Ejercicio</title>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/css/main.css}">
@@ -17,6 +16,27 @@
 
 <div th:replace="navbar :: navbar"></div>
 
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="list-group flex-row">
+                <a th:href="@{/home}" class="list-group-item list-group-item-action ">MI FATLOSS</a>
+                <a th:href="@{/categoria_alimentos}" class="list-group-item list-group-item-action">ALIMENTOS</a>
+                <a th:href="@{/recetas}" class="list-group-item list-group-item-action">RECETAS</a>
+                <a th:href="@{/actividadesFisicas}" class="list-group-item list-group-item-action">EN FORMA</a>
+                <a th:href="@{/estadisticasUsuario}" class="list-group-item list-group-item-action activo">ESTADISTICAS</a>
+                <a th:href="@{/calendarioDieta}" class="list-group-item list-group-item-action">CALENDARIO</a>
+                <a th:href="@{/comunidad}" class="list-group-item list-group-item-action">COMUNIDAD</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="margin-left: 20px; padding: 10px;">
+    <p>
+        <span><a th:href="@{/home}" style="color: green;">Home</a></span> > Estadisticas
+    </p>
+</div>
 <div class="row mt-4 justify-content-center">
     <!-- Columna para el gráfico de historial de peso -->
     <div class="col-md-7">

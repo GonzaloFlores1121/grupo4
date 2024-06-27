@@ -25,23 +25,31 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="list-group flex-row">
-                    <a th:href="@{/home}" class="list-group-item list-group-item-action">MI FATLOSS</a>
+                    <a th:href="@{/home}" class="list-group-item list-group-item-action ">MI FATLOSS</a>
                     <a th:href="@{/categoria_alimentos}" class="list-group-item list-group-item-action activo">ALIMENTOS</a>
                     <a th:href="@{/recetas}" class="list-group-item list-group-item-action">RECETAS</a>
                     <a th:href="@{/actividadesFisicas}" class="list-group-item list-group-item-action">EN FORMA</a>
+                    <a th:href="@{/estadisticasUsuario}" class="list-group-item list-group-item-action">ESTADISTICAS</a>
+                    <a th:href="@{/calendarioDieta}" class="list-group-item list-group-item-action">CALENDARIO</a>
+                    <a th:href="@{/comunidad}" class="list-group-item list-group-item-action">COMUNIDAD</a>
                 </div>
             </div>
         </div>
     </div>
 
+    <div style="margin-left: 20px; padding: 10px;">
+        <p>
+            <span><a th:href="@{/home}" style="color: green;">Home</a></span> > Alimentos
+        </p>
+    </div>
     <!--categorias-->
     <div class="container d-flex flex-row mt-4">
-        <h2 class="text-center">Categorias de Alimentos</h2> 
+        <h2 class="text-center">Categorias de Alimentos</h2>
         <form class="d-flex ms-auto" role="search" th:action="@{/buscarCategoria}" method="get">
             <input class="form-control me-2" type="search" name="search" id="search" placeholder="Ingresar Categoria" aria-label="Ingresar Categoria">
             <button class="btn btn-outline-success" type="submit">Buscar</button>
         </form>
-    </div>   
+    </div>
     <div class="container my-4" style="min-height: 60vh;">
         <div class="d-flex flex-column justify-content-center my-1 mx-5">
             <div class="alert alert-warning alert-dismissible fade show" th:if="${unknown != null}">
@@ -59,7 +67,7 @@
                     </div>
                 </div>
             </div>
-        </div>        
+        </div>
     </div>
 
     <!--footer-->

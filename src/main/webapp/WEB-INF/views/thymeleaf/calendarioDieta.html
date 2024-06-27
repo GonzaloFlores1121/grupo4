@@ -19,11 +19,29 @@
 </head>
 <body class="body-calendario">
     <div th:replace="navbar :: navbar"></div>
-
     <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="list-group flex-row justify-content-center">
+                    <a th:href="@{/home}" class="list-group-item list-group-item-action ">MI FATLOSS</a>
+                    <a th:href="@{/categoria_alimentos}" class="list-group-item list-group-item-action">ALIMENTOS</a>
+                    <a th:href="@{/recetas}" class="list-group-item list-group-item-action">RECETAS</a>
+                    <a th:href="@{/actividadesFisicas}" class="list-group-item list-group-item-action">EN FORMA</a>
+                    <a th:href="@{/estadisticasUsuario}" class="list-group-item list-group-item-action">ESTADISTICAS</a>
+                    <a th:href="@{/calendarioDieta}" class="list-group-item list-group-item-action activo">CALENDARIO</a>
+                    <a th:href="@{/comunidad}" class="list-group-item list-group-item-action">COMUNIDAD</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <div style="margin-left: 20px; padding: 10px;">
+        <p>
+            <span><a th:href="@{/home}" style="color: green;">Home</a></span> > Calendario
+        </p>
+    </div>
 
-    <div class="row justify-content-center">
+    <div class="row justify-content-center mt-4">
               <div class="col-md-10">
                   <div class="card shadow">
                       <div class=" text-center">

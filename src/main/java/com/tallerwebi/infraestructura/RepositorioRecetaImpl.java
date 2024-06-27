@@ -4,8 +4,6 @@ import com.tallerwebi.dominio.Receta;
 import com.tallerwebi.dominio.RepositorioReceta;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
-import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
@@ -18,7 +16,8 @@ public class RepositorioRecetaImpl implements RepositorioReceta {
     public RepositorioRecetaImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
-@Override
+
+    @Override
     public List<Receta> obtenerTodasLasRecetas() {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("from Receta", Receta.class).list();
