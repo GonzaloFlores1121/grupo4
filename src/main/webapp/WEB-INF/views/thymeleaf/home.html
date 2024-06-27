@@ -11,81 +11,77 @@
 </head>
 <body>
     <nav th:replace="navbar :: navbar" class="navbar navbar-expand-lg navbar-light bg-light fixed-top"></nav>
-  <div class="container">
 
+    <div class="container">
         <div id="notificaciones"></div>
     </div>
-    <div class="container" style="min-height: 80vh;">
-        <h2 class="section-title">Opciones del Menú</h2>
-        <div class="card-container">
-            <div class="card">
-                <a th:href="@{/actividadesFisicas}">
-                    <img th:src="@{/img/menuEjercicio.jpg}" alt="Ejercicio de Hoy">
-                    <div class="card-text">Agregar Ejercicio de Hoy</div>
-                </a>
-            </div>
 
-            <div class="card">
-                <a th:href="@{/calendarioDieta}">
-                    <img th:src="@{/img/menuCalendario.jpg}" alt="Calendario de Dieta">
-                    <div class="card-text">Calendario de Dieta</div>
-                </a>
-            </div>
-            <div class="card">
-                <a th:href="@{/categoria_alimentos}">
-                    <img th:src="@{/img/menuComida.jpg}" alt="Agregar Comida">
-                    <div class="card-text">Agregar tu Comida</div>
-                </a>
-            </div>
-            <div class="card mb-3">
-                <a th:href="@{/recetas}">
-                    <img th:src="@{/img/menuReceta.jpg}" alt="Receta">
-                    <div class="card-text">Recetas</div>
-                </a>
-            </div>
-         <div class="card mb-3">
-                        <a th:href="@{/comunidad}">
-                            <img th:src="@{/img/menuComunidad.jpg}" alt="Receta">
-                            <div class="card-text">Comunidad</div>
-                        </a>
-                    </div>
-        </div>
-    </div>
-
-    <div class="container mt-5">
-        <div class="row">
-            <!-- Columna para el cuadro de ingreso de peso -->
-            <div class="col-md-6 d-flex align-items-center justify-content-center">
-                <div class="card bg-light mb-3 weight-form-card">
-                    <div class="card-body">
-                        <h5 class="card-title">¿Cuánto pesas el día de hoy?</h5>
-                        <form th:action="@{/cambioPeso}" method="post">
-                            <div class="form-group">
-                                <label for="nuevoPeso">Peso:</label>
-                                <div class="input-group">
-                                    <input type="number" class="form-control" id="nuevoPeso" name="nuevoPeso" placeholder="Ingrese su nuevo peso" required>
-                                    <span class="input-group-text">Kg</span>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-primary mt-3">Actualizar</button>
-                        </form>
-                        <strong th:text="${mensaje}"></strong>
-                    </div>
+    <div class="bodyContainer">
+        <div class="container">
+            <h2 class="section-title">Opciones del Menú</h2>
+            <div class="card-container">
+                <div class="card">
+                    <a th:href="@{/actividadesFisicas}">
+                        <img th:src="@{/img/menuEjercicio.jpg}" alt="Ejercicio de Hoy">
+                        <div class="card-text">Agregar Ejercicio de Hoy</div>
+                    </a>
                 </div>
-            </div>
-
-            <!-- Columna para la tarjeta de estadísticas de peso -->
-            <div class="col-md-6 d-flex align-items-center justify-content-center">
-                <div class="card bg-light mb-3 weight-stats-card">
-                    <a th:href="@{/estadisticasUsuario}">
-                        <img th:src="@{/img/menuGrafico.jpg}" alt="Estadísticas de tu Peso">
-                        <div class="card-body">
-                            <h5 class="card-title">Estadísticas de tu Peso</h5>
-                            <p class="card-text">Aquí puedes encontrar las estadísticas de tu peso y tu progreso a lo largo del tiempo.</p>
-                        </div>
+                <div class="card">
+                    <a th:href="@{/calendarioDieta}">
+                        <img th:src="@{/img/menuCalendario.jpg}" alt="Calendario de Dieta">
+                        <div class="card-text">Calendario de Dieta</div>
+                    </a>
+                </div>
+                <div class="card">
+                    <a th:href="@{/categoria_alimentos}">
+                        <img th:src="@{/img/menuComida.jpg}" alt="Agregar Comida">
+                        <div class="card-text">Agregar tu Comida</div>
+                    </a>
+                </div>
+                <div class="card mb-3">
+                    <a th:href="@{/recetas}">
+                        <img th:src="@{/img/menuReceta.jpg}" alt="Receta">
+                        <div class="card-text">Recetas</div>
+                    </a>
+                </div>
+                <div class="card mb-3">
+                    <a th:href="@{/comunidad}">
+                        <img th:src="@{/img/menuComunidad.jpg}" alt="Receta">
+                        <div class="card-text">Comunidad</div>
                     </a>
                 </div>
             </div>
+        </div>
+        <div class="container menu2">
+                <div class="col-md-6 d-flex align-items-center justify-content-center">
+                    <div class="card bg-light mb-3 weight-form-card">
+                        <div class="card-body">
+                            <h5 class="card-title">¿Cuánto pesas el día de hoy?</h5>
+                            <form th:action="@{/cambioPeso}" method="post">
+                                <div class="form-group">
+                                    <label for="nuevoPeso">Peso:</label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" id="nuevoPeso" name="nuevoPeso" placeholder="Ingrese su nuevo peso" required>
+                                        <span class="input-group-text">Kg</span>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary mt-3">Actualizar</button>
+                            </form>
+                            <strong th:text="${mensaje}"></strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 d-flex align-items-center justify-content-center">
+                    <div class="card bg-light mb-3 weight-stats-card">
+                        <a th:href="@{/estadisticasUsuario}">
+                            <img th:src="@{/img/menuGrafico.jpg}" alt="Estadísticas de tu Peso">
+                            <div class="card-body">
+                                <h5 class="card-title">Estadísticas de tu Peso</h5>
+                                <p class="card-text">Aquí puedes encontrar las estadísticas de tu peso y tu progreso a lo largo del tiempo.</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
         </div>
     </div>
 

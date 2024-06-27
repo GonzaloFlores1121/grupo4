@@ -386,7 +386,6 @@ footer {
     /*calendario*/
     .body-calendario {
         font-family: 'Lato', sans-serif;
-        background-color: #72a883; /* Color de fondo */
     }
 
     .list-group-item {
@@ -418,7 +417,24 @@ footer {
         background-color: #72a883;
         border-color: #72a883;
     }
-
+    .lightgreen{
+        background-color: lightgreen !important;
+    }
     .btn-primary:disabled {
         opacity: 0.65;
+    }
+
+    .height{
+        height: 70vh !important;
+    }
+
+    .bodyContainer{
+        display: flex;
+        align-items: flex-end;
+    }
+
+    .menu2{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
