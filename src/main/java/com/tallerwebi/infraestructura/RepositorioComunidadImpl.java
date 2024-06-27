@@ -12,11 +12,12 @@ import java.util.List;
 @Repository("repositorioComunidad")
 public class RepositorioComunidadImpl implements RepositorioComunidad {
 
-SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
+    
     @Autowired
-public RepositorioComunidadImpl(SessionFactory sessionFactory) {
-    this.sessionFactory = sessionFactory;
-}
+    public RepositorioComunidadImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     @Override
     @Transactional(readOnly = true)
@@ -52,4 +53,5 @@ public RepositorioComunidadImpl(SessionFactory sessionFactory) {
         Session session = sessionFactory.getCurrentSession();
         return session.get(Publicacion.class, id);
     }
+    
 }

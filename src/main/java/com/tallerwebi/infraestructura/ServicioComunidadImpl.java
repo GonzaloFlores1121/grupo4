@@ -15,8 +15,8 @@ import java.util.List;
 @Service
 public class ServicioComunidadImpl implements ServicioComunidad {
 
-
     private RepositorioComunidad repositorioComunidad;
+
     @Autowired
     public ServicioComunidadImpl(RepositorioComunidad repositorioComunidad) {
         this.repositorioComunidad = repositorioComunidad;
@@ -25,14 +25,14 @@ public class ServicioComunidadImpl implements ServicioComunidad {
     @Override
     public void subirPublicacion(Usuario usuario, String imagen, String mensaje) {
         LocalDateTime fechaHoraActual = LocalDateTime.now();
-        Publicacion publicacion = new Publicacion(usuario, mensaje,imagen, fechaHoraActual);
+        Publicacion publicacion = new Publicacion(usuario, mensaje, imagen, fechaHoraActual);
         repositorioComunidad.guardarPublicacion(publicacion);
     }
 
     @Override
     public List<Publicacion> todasLasPublicacionesSubidas() {
         List<Publicacion> publicaciones = new ArrayList<>();
-        publicaciones=repositorioComunidad.obtenerTodasLasPublicaciones();
+        publicaciones = repositorioComunidad.obtenerTodasLasPublicaciones();
         publicaciones.sort(Comparator.comparing(Publicacion::getFechaHora).reversed());
         return publicaciones;
     }
@@ -40,7 +40,7 @@ public class ServicioComunidadImpl implements ServicioComunidad {
     @Override
     public List<Publicacion> todasLasPublicacionesSubidasPorUnUsuario(Long id) {
         List<Publicacion> publicacionesUsuario = new ArrayList<>();
-        publicacionesUsuario=repositorioComunidad.obtenerTodasLasPublicacionesDeUnUsuario(id);
+        publicacionesUsuario = repositorioComunidad.obtenerTodasLasPublicacionesDeUnUsuario(id);
         return publicacionesUsuario;
     }
 
@@ -48,9 +48,7 @@ public class ServicioComunidadImpl implements ServicioComunidad {
     @Transactional(readOnly = true)
     public Usuario obtenerUsuarioPorId(Long id) throws UsuarioNoExistente {
         Usuario usuario = repositorioComunidad.consultarUsuario(id);
-        if (usuario == null) {
-            throw new UsuarioNoExistente();
-        }
+        if (usuario == null) {throw new UsuarioNoExistente();}
         return usuario;
     }
 
@@ -60,4 +58,5 @@ public class ServicioComunidadImpl implements ServicioComunidad {
         if(publicacion == null) {throw new PublicacionNoExistente();}
         return publicacion;
     }
+    
 }

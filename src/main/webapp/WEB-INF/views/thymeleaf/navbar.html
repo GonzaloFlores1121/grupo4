@@ -21,7 +21,6 @@
                     <a class="nav-link dropdown-toggle fw-bold" href="#" role="button" data-bs-toggle="dropdown" th:text="${usuario} ? ${usuario.nombre}: 'Datos Usuario'"></a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" th:href="@{/perfilUsuario}">Perfil</a></li>
-                        <li><a class="dropdown-item" th:href="@{/publicacionesUsuario/{id}(id=${usuario.id})}">Publicaciones</a></li>
                         <li><a class="dropdown-item" th:href="@{/seguidores}">Seguidores</a></li>
                         <li><a class="dropdown-item" th:href="@{/notificaciones}">Notificaciones</a></li>
                     </ul>

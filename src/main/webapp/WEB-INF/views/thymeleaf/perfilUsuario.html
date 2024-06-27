@@ -85,6 +85,7 @@
                         <p class="card-text fw-bold">Peso Meta: <span th:text="${usuario.metaAlcanzarPeso}+' kg'"></span></p>
                         <p class="card-text fw-bold">Nivel de Actividad Fisica: <span th:text="${usuario.nivelDeActividad}"></span></p>
                         <a class="btn btn-warning" th:href="@{/formularioEditarPerfil}">Editar Perfil</a>
+                        <a class="btn btn-success" th:href="@{/publicacionesUsuario/{id}(id=${usuario.id})}">Ver Publicaciones</a>  
                     </div>
                 </div>  
             </div>
