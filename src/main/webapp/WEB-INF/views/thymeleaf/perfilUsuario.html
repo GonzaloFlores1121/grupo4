@@ -9,7 +9,6 @@
 
     <!--bootstrap-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     
     <!--google-fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,14 +18,13 @@
 </head>
 <body>
 
-    <!--header/nav-->
     <div th:replace="navbar :: navbar"></div>
 
     <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <div class="list-group flex-row">
-                    <a th:href="@{/home}" class="list-group-item list-group-item-action ">MI FATLOSS</a>
+                    <a th:href="@{/home}" class="list-group-item list-group-item-action">MI FATLOSS</a>
                     <a th:href="@{/categoria_alimentos}" class="list-group-item list-group-item-action ">ALIMENTOS</a>
                     <a th:href="@{/recetas}" class="list-group-item list-group-item-action">RECETAS</a>
                     <a th:href="@{/actividadesFisicas}" class="list-group-item list-group-item-action">EN FORMA</a>
@@ -38,12 +36,10 @@
         </div>
     </div>
 
-    <div style="margin-left: 20px; padding: 10px;">
-        <p>
-            <span><a th:href="@{/home}" style="color: green;">Home</a></span> > Mi perfil
-        </p>
+    <div class="ms-2 p-2">
+        <h6 class="fw-bold"><a th:href="@{/home}" style="color: #5FB92E;">Home</a> > Mi perfil</h6>
     </div>
-    <!--offcanvas-->
+
     <div class="offcanvas offcanvas-start" id="cambiarAvatar">
         <div class="offcanvas-header my-2 mx-2">
             <h3 class="fw-bold">Cambiar Avatar</h3>
@@ -56,30 +52,29 @@
                         <option th:each="imagen : ${imagenes}" th:value="${imagen.value}" th:selected="${imagen.value == usuario.imagen}" th:text="${imagen.key}"></option>
                     </select>
                     <label for="imagen">Elige una Avatar:</label>
-                    <div class="container p-3">
+                    <div class="container p-4">
                         <img class="img-fluid" id="mostrarAvatar" name="mostrarAvatar" th:src="@{'/img/' + ${usuario.imagen}}" alt="img-seleccionada">
                     </div>                    
                 </div>
-                <div class="mt-2">
+                <div class="my-2">
                     <input class="btn btn-success" type="submit" id="guardar" name="guardar" value="Guadar Cambio">
                 </div>              
             </form>
         </div>
     </div>
 
-    <!--perfil-->
-    <div class="container my-5" style="min-height: 75vh;"> 
+    <div class="container my-5" style="min-height: 60vh;"> 
         <div class="row d-flex align-items-center">
             <div class="col-md-4 d-flex flex-column justify-content-center my-3">
                 <h3 class="text-center fw-bold">Mi Avatar</h3>
                 <img class="img-fluid" th:src="@{'/img/' + ${usuario.imagen}}" alt="avatar-img">
                 <div class="d-flex flex-column justify-content-center align-items-center">
-                    <button class="btn btn-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#cambiarAvatar">Cambiar Avatar</button>
+                    <button class="btn btn-warning" type="button" data-bs-toggle="offcanvas" data-bs-target="#cambiarAvatar">Cambiar Avatar</button>
                 </div>
             </div>
             <div class="col-md-8">
                 <h2 class="text-center fw-bold">Mi Perfil</h2>
-                <div class="card" th:style="'background-image: url(\'' + @{/img/background.png} + '\'); background-size: cover;'">
+                <div class="card border border-1 border-dark rounded" th:style="'background-image: url(\'' + @{/img/background.png} + '\'); background-size: cover;'">
                     <div class="card-body">
                         <h4 class="card-title text-white fw-bold" th:text="${usuario.nombre}"></h4>
                         <h4 class="card-title text-white fw-bold" th:text="${usuario.email}"></h4>
@@ -89,15 +84,13 @@
                         <p class="card-text fw-bold">Peso: <span th:text="${usuario.peso}+' kg'"></span></p>
                         <p class="card-text fw-bold">Peso Meta: <span th:text="${usuario.metaAlcanzarPeso}+' kg'"></span></p>
                         <p class="card-text fw-bold">Nivel de Actividad Fisica: <span th:text="${usuario.nivelDeActividad}"></span></p>
-                        <a class="btn btn-dark" th:href="@{/formularioEditarPerfil}">Editar Perfil</a>
-                        <a class="btn btn-dark" th:href="@{/publicacionesUsuario/{id}(id=${usuario.id})}"> ver Mis Publicaciones</a>
+                        <a class="btn btn-warning" th:href="@{/formularioEditarPerfil}">Editar Perfil</a>
                     </div>
                 </div>  
             </div>
         </div>        
     </div>
     
-    <!--footer-->
     <div th:replace="footer :: footer"></div>
 
     <script type="text/javascript">
@@ -108,6 +101,8 @@
             imageElement.src = imageUrl + selectedValue;
         }
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

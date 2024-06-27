@@ -113,6 +113,10 @@ public class ControladorComunidad {
         if (usuario == null) {return new ModelAndView("redirect:/inicio");}
         PublicacionLike like = servicioLike.obtenerLike(publicacionId, usuario.getId());
         servicioLike.unlike(like);
+        Publicacion publicacion = servicioComunidad.obtenerPublicacionPorId(publicacionId);
+        String titulo = "Publicacion";
+        String contenido = usuario.getNombre() +  " le quito el me gusta a tu publicacion.";         
+        servicioNotificacion.enviarNotificacion(titulo, contenido, LocalDateTime.now(), publicacion.getUsuario().getId());
         return new ModelAndView("redirect:/comunidad");
     }
 
@@ -163,47 +167,91 @@ public class ControladorComunidad {
         return new ModelAndView("perfilComunidad", model);
     }
 
-    @RequestMapping(value = "/seguir/{id}", method = RequestMethod.GET)
-    public ModelAndView seguir(@PathVariable Long id, HttpServletRequest request) throws UsuarioNoExistente {
+    @Transactional
+    @RequestMapping(value = "/seguir", method = RequestMethod.POST)
+    public ModelAndView seguir(HttpServletRequest request, @RequestParam Long usuarioId) throws UsuarioNoExistente {
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");        
         if(usuario == null) {return new ModelAndView("redirect:/inicio");}
-        Usuario usuarioComunidad = servicioComunidad.obtenerUsuarioPorId(id);
+        Usuario usuarioComunidad = servicioComunidad.obtenerUsuarioPorId(usuarioId);
         servicioFollow.follow(usuarioComunidad, usuario);
-        return new ModelAndView("redirect:/perfilComunidad/"+id);    
+        String titulo = "Seguidores";
+        String contenido = usuario.getNombre() +  " te esta siguiendo.";         
+        servicioNotificacion.enviarNotificacion(titulo, contenido, LocalDateTime.now(), usuarioComunidad.getId());
+        return new ModelAndView("redirect:/perfilComunidad/"+usuarioId);    
     }
 
     @Transactional
-    @RequestMapping(value = "/dejarDeSeguir/{id}", method = RequestMethod.GET)
-    public ModelAndView dejarDeSeguir(@PathVariable Long id, HttpServletRequest request) throws UsuarioNoExistente {
+    @RequestMapping(value = "/dejarDeSeguir", method = RequestMethod.POST)
+    public ModelAndView dejarDeSeguir(HttpServletRequest request, @RequestParam Long usuarioId) throws UsuarioNoExistente {
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");        
         if(usuario == null) {return new ModelAndView("redirect:/inicio");}
-        UsuarioFollow follow = servicioFollow.obtenerFollow(id, usuario.getId());
+        UsuarioFollow follow = servicioFollow.obtenerFollow(usuarioId, usuario.getId());
         servicioFollow.unfollow(follow);
-        return new ModelAndView("redirect:/perfilComunidad/"+id);  
+        Usuario usuarioComunidad = servicioComunidad.obtenerUsuarioPorId(usuarioId);
+        String titulo = "Seguidores";
+        String contenido = usuario.getNombre() +  " dejo de seguirte.";         
+        servicioNotificacion.enviarNotificacion(titulo, contenido, LocalDateTime.now(), usuarioComunidad.getId());
+        return new ModelAndView("redirect:/perfilComunidad/"+usuarioId);  
     }
    
     @Transactional
     @RequestMapping(value = "/publicacionesUsuario/{id}", method = RequestMethod.GET)
-    public ModelAndView irAPublicaciones(@PathVariable Long id, HttpServletRequest request) throws UsuarioNoExistente {       
+    public ModelAndView irAPublicaciones(@PathVariable Long id, HttpServletRequest request) throws UsuarioNoExistente, PublicacionNoExistente {       
         HttpSession session = request.getSession();
         Usuario usuarioSession = (Usuario) session.getAttribute("usuario");
         if(usuarioSession == null) {return new ModelAndView("redirect:/inicio");}
         ModelMap model = new ModelMap();
+        model.addAttribute("usuario", usuarioSession);
         Usuario usuario = servicioComunidad.obtenerUsuarioPorId(id);
         String nombre = usuario.getNombre();
-        model.put("nombre", nombre);
+        model.put("nombre", nombre);        
         List<Publicacion> publicaciones = servicioComunidad.todasLasPublicacionesSubidasPorUnUsuario(id);
-        model.put("publicacionesUsuario", publicaciones);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        for (Publicacion publicacion : publicaciones) {
+            publicacion.setFechaFormateada(publicacion.getFechaHora().format(formatter));
+        }       
+        model.put("publicacionesUsuario", publicaciones);        
         Map<Long, Boolean> likes = this.obtenerMapaDeLikesPorUsuario(usuario.getId());
         model.addAttribute("likes", likes);
+        Map<Long, String> likesList = obtenerListaDeLikesPorPublicacion(publicaciones);
+        model.addAttribute("likesList", likesList);
         return new ModelAndView("publicacionesUsuario", model);
     }
 
     @Transactional
-    @RequestMapping(value = "/favoritos", method = RequestMethod.GET)
-    public ModelAndView favoritos(HttpServletRequest request) throws UsuarioNoExistente {
+    @RequestMapping(value = "/darMeGustaDesdeUsuario", method = RequestMethod.POST)
+    public ModelAndView darMeGustaDesdeUsuario(HttpServletRequest request, @RequestParam Long publicacionId) throws PublicacionNoExistente, UsuarioNoExistente {
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario == null) {return new ModelAndView("redirect:/inicio");}
+        Publicacion publicacion = servicioComunidad.obtenerPublicacionPorId(publicacionId);
+        servicioLike.like(publicacion, usuario);
+        String titulo = "Publicacion";
+        String contenido = usuario.getNombre() +  " le dio me gusta a tu publicacion.";         
+        servicioNotificacion.enviarNotificacion(titulo, contenido, LocalDateTime.now(), publicacion.getUsuario().getId());
+        return new ModelAndView("redirect:/publicacionesUsuario/"+publicacion.getUsuario().getId());
+    }
+
+    @Transactional
+    @RequestMapping(value = "/quitarMeGustaDesdeUsuario", method = RequestMethod.POST)
+    public ModelAndView quitarMeGustaDesdeUsuario(HttpServletRequest request, @RequestParam Long publicacionId) throws PublicacionNoExistente, UsuarioNoExistente {
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario == null) {return new ModelAndView("redirect:/inicio");}
+        PublicacionLike like = servicioLike.obtenerLike(publicacionId, usuario.getId());
+        servicioLike.unlike(like);
+        Publicacion publicacion = servicioComunidad.obtenerPublicacionPorId(publicacionId);
+        String titulo = "Publicacion";
+        String contenido = usuario.getNombre() +  " le quito el me gusta a tu publicacion.";         
+        servicioNotificacion.enviarNotificacion(titulo, contenido, LocalDateTime.now(), publicacion.getUsuario().getId());
+        return new ModelAndView("redirect:/publicacionesUsuario/"+publicacion.getUsuario().getId());
+    }
+
+    @Transactional
+    @RequestMapping(value = "/seguidores", method = RequestMethod.GET)
+    public ModelAndView seguidores(HttpServletRequest request) throws UsuarioNoExistente {
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         if(usuario == null) {return new ModelAndView("redirect:/inicio");}
@@ -213,7 +261,7 @@ public class ControladorComunidad {
         model.addAttribute("seguidores", seguidores);
         List<Usuario> seguidos = servicioFollow.obtenerTodosMisFollows(usuario.getId());
         model.addAttribute("seguidos", seguidos);
-        return new ModelAndView("favoritos", model);
+        return new ModelAndView("seguidores", model);
     }
 
 }

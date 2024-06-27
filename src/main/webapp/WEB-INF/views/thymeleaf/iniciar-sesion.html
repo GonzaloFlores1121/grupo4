@@ -9,7 +9,6 @@
 
     <!--bootstrap-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     
     <!--google-fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,20 +20,19 @@
 <body>
 
     <!--header-->
-    <nav class="navbar navbar-expand-sm" style="background-color: #ffffff;">
+    <nav class="navbar navbar-expand" style="background-color: #ffffff;">
         <div class="container-fluid">
             <a class="navbar-brand" th:href="@{/inicio}">
-                <h1 class="display-3" style="color: #5FB92E; font-weight: bold;"><img th:src="@{/img/logo.png}" alt="logo" height="120px">   fatloss</h1>
+                <h1 class="display-3 fw-bold" style="color: #5FB92E;"><img th:src="@{/img/logo.png}" alt="logo" height="100px">   fatloss</h1>
             </a>
         </div>
     </nav>
 
-    <!--iniciar-sesion-->
-    <div class="container my-5">
+    <div class="container my-5" style="min-height: 60vh;">
         <div class="row d-flex flex-column justify-content-center align-items-center">
-            <div class="col-sm-5 border border-1 rounded" th:style="'background-image: url(\'' + @{/img/background.png} + '\'); background-size: cover;'">
+            <div class="col-md-6 border border-1 border-dark rounded" th:style="'background-image: url(\'' + @{/img/background.png} + '\'); background-size: cover;'">
                 <form class="p-5" th:action="@{/validarLogin}" method="POST" th:object="${usuario}">
-                    <h2 class="text-center text-white mb-3">Iniciar Sesion</h2>
+                    <h2 class="text-center fw-bold mb-3">Iniciar Sesion</h2>
                     <div class="form-floating mb-3">
                         <input class="form-control" type="email" name="email" id="email" placeholder="Ingresar" required>
                         <label for="email">Email</label>
@@ -43,49 +41,30 @@
                         <input class="form-control" type="password" name="password" id="password" placeholder="Ingresar Password" required>
                         <label for="password">Password</label>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-6 d-flex flex-column justify-content-center align-items-center">
-                            <div class="d-flex flex-column justify-content-center align-items-center">
-                                <input class="btn btn-outline-dark" type="submit" name="enviar" id="enviar" value="Ingresar">
-                            </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6 d-flex flex-column justify-content-center align-items-center">
+                            <input class="btn btn-success" type="submit" name="ingresar" id="ingresar" value="Ingresar">
                         </div>
-                        <div class="col-sm-6 d-flex flex-column justify-content-center align-items-center">
-                            <div class="d-flex flex-column justify-content-center align-items-center">
-                                <a class="btn btn-outline-dark" th:href="@{/inicio}">Cancelar</a>
-                            </div>
+                        <div class="col-md-6 d-flex flex-column justify-content-center align-items-center">
+                            <a class="btn btn-warning" th:href="@{/inicio}">Cancelar</a>
                         </div>
                     </div>
-                    <div class="d-flex flex-column justify-content-center m-3">
-                        <div class="alert alert-danger alert-dismissible fade show" th:if="${error != null}">
+
+                    <div class="d-flex flex-column justify-content-center" th:if="${error != null}">
+                        <div class="alert alert-danger alert-dismissible fade show">
                             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                             <strong>Error: </strong><span th:text="${error}"></span>
                         </div>
                     </div>
+                
                 </form>
             </div>
         </div>
     </div>  
 
-    <!--footer-->
-    <footer class="container-fluid mt-auto py-2">
-        <div class="row d-flex align-items-center">
-            <div class="col-sm-2 d-flex justify-content-center justify-content-sm-end justify-content-md-end
-            justify-content-lg-end justify-content-xl-end justify-content-xxl-end py-2">
-                <img th:src="@{/img/logo-mono_bg-color.png}" alt="logo" height="140px">
-            </div>
-            <div class="col-sm-5 d-flex flex-column justify-content-star">
-                <h4>TP Taller Web I: fatloss</h4>
-                <p><img th:src="@{/img/github.png}" alt="logo-github"> Github:  <a class="text-break" href="https://github.com/GonzaloFlores1121/grupo4" target="_blank">https://github.com/GonzaloFlores1121/grupo4</a></p>
-                <p><img th:src="@{/img/trello.png}" alt="logo-trello"> Trello:  <a class="text-break" href="https://trello.com/w/grupo4tallerweb" target="_blank">https://trello.com/w/grupo4tallerweb</a></p>
-            </div>
-            <div class="col-sm-5 d-flex flex-column justify-content-star">
-                <h5>Integrantes: </h5>
-                <p>Rodolfo Gutierrez - Gonzalo Flores</p>
-                <p>Milagros Chavez - Kevin Llombart</p>
-                <p>Joaquin Paiva</p>
-            </div>
-        </div>
-    </footer>
+    <div th:replace="footer :: footer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     
 </body>
 </html>
