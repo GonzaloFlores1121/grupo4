@@ -41,7 +41,7 @@ public class ControladorEstadisticaUsuario {
 
         if (usuario == null) {
             // Manejar el caso en que el usuario no esté en la sesión
-            return new ModelAndView("redirect:/login");
+            return new ModelAndView("redirect:/inicio");
         }
 
         // Obtener historial de peso del usuario
