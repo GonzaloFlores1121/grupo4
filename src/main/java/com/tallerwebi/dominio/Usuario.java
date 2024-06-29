@@ -21,6 +21,7 @@ public class Usuario {
     private String nivelDeActividad;    
     private Integer ingestaCalorica;
     private String imagen;
+    private Boolean premium;
     @OneToMany(mappedBy = "usuario")
     private Set<Colacion> colaciones;
 
@@ -67,5 +68,9 @@ public class Usuario {
     
     public Double getPesoInicial(){return pesoInicial;}
     public void setPesoInicial(Double peso){this.pesoInicial = peso;}
-    
+
+    public void setPremium(Boolean premium) {
+        this.premium = premium;
+    }
+    public Boolean getPremium() {return premium;}
 }
