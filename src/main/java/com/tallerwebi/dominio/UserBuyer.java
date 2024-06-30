@@ -11,4 +11,6 @@ private String title;
 private int quantity;
     @Getter @Setter
 private int unit_price;
+    @Getter @Setter
+    private String email;
 }

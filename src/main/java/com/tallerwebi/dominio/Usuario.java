@@ -25,7 +25,9 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario")
     private Set<Colacion> colaciones;
 
-    public Usuario() {}
+    public Usuario() {
+        this.premium = false;
+    }
     
     public Long getId() {return id;}
     public void setId(Long id) {this.id = id;}
