@@ -100,6 +100,7 @@ public class ServicioColacionImpl implements ServicioColacion {
         alimentoNuevo.setBaseSodio(alimento.getBaseSodio());
         alimentoNuevo.setCantidad(cantidad);
         alimentoNuevo.actualizarValoresNutricionalesPorCantidad();
+        alimentoNuevo.setCategoria(alimento.getCategoria());
         alimentoNuevo.setEsPersonalizado(true);
 
         return alimentoNuevo;

@@ -61,19 +61,20 @@
             </div>
         </div>
         <div class="row row-cols-1 row-cols-md-3 g-4">
-            <div th:if="${alimentos !=null}" th:each="alimento: ${alimentos}" class="col justify-content-center">
+            <div th:if="${alimentos !=null }" th:each="alimento: ${alimentos}" class="col justify-content-center">
                 <div class="card text-center">
                     <img th:src="@{'/img/alimentos/' + ${alimento.imagen}}" class="card-img-top mx-auto d-block" alt="alimento_imagen" style="max-width:150px;min-height:150px;">
                     <div class="card-body">
-                        <a th:href="@{/alimentos/{id}(id=${alimento.id}, from='alimentos')}">
+                        <a th:href="@{/alimentos/{id}(id=${alimento.id})}">
 
                             <h5 th:text="${alimento.nombre}" class="card-title"></h5>
                         </a>
                     </div>
                 </div>
             </div>
-            <div th:if="${alimentos == null}" th:each="alimento : ${categoria.alimentos}" class="col justify-content-center">
-                <div class="card text-center">
+
+            <div th:each="alimento : ${categoria.alimentos}" class="col justify-content-center">
+                <div th:if="${!alimento.esPersonalizado}" class="card text-center">
                     <img th:src="@{'/img/alimentos/' + ${alimento.imagen}}" class="card-img-top mx-auto d-block" alt="alimento_imagen" style="max-width:150px;min-height:150px;">
                     <div class="card-body">
                         <a th:href="@{/alimentos/{id}(id=${alimento.id})}">
@@ -82,7 +83,6 @@
                     </div>
                 </div>
             </div>
-        </div>        
     </div>
 
     <!--footer-->
