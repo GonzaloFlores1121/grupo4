@@ -39,6 +39,7 @@ public class ControladorMisAlimentos {
         if(usuario==null){
             return new ModelAndView("redirect:/inicio");
         }
+        modelo.put("usuario", usuario);
         List<Colacion> colaciones = servicioColacion.obtenerColacionesDelUsuarioPOrFecha(usuario, fecha);
         modelo.put("colaciones", colaciones);
         modelo.put("fecha", fecha);
