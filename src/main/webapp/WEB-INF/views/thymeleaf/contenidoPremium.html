@@ -56,6 +56,11 @@
 <div class="ms-2 p-2">
     <h6 class="fw-bold"><a th:href="@{/home}" style="color: #5FB92E;">Home</a> > Rutinas</h6>
 </div>
+
+<div th:if="${mensajePagoRealizado}" class="alert alert-success" role="alert">
+    <p th:text="${mensajePagoRealizado}"></p>
+</div>
+
 <div class="container">
     <h1 class="text-center my-4">Rutinas de Ejercicio</h1>
     <div class="row">

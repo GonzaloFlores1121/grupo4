@@ -1,5 +1,4 @@
 package com.tallerwebi.presentacion;
-
 import com.mercadopago.MercadoPagoConfig;
 import com.mercadopago.client.preference.PreferenceBackUrlsRequest;
 import com.mercadopago.client.preference.PreferenceClient;
@@ -9,17 +8,20 @@ import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.preference.Preference;
 import com.tallerwebi.dominio.*;
-import lombok.Value;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
+
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
 public class ControladorPago {
@@ -37,10 +39,10 @@ public class ControladorPago {
         ModelMap model = new ModelMap();
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Boolean pagoCompletado = (Boolean) session.getAttribute("pagoCompletado");
 
-        if (usuario != null) {
+        if (usuario != null && Boolean.TRUE.equals(pagoCompletado)) {
             model.put("usuario", usuario);
-            servicioPago.cambiarEstado(usuario.getEmail());
             return new ModelAndView("premium", model);
         }else {
             return new ModelAndView("redirect:/home");
@@ -71,7 +73,7 @@ public class ControladorPago {
             items.add(itemRequest);
 
             PreferenceBackUrlsRequest backUrls = PreferenceBackUrlsRequest.builder()
-                    .success("http://localhost:8080/spring/premium")
+                    .success("http://localhost:8080/spring/pago-completado")
                     .pending("https://youtube.com")
                     .failure("https://youtube.com")
                     .build();
@@ -84,9 +86,30 @@ public class ControladorPago {
             PreferenceClient client = new PreferenceClient();
             Preference preference = client.create(preferenceRequest);
 
+            HttpSession session = request.getSession();
+            session.setAttribute("pagoEnProceso", true);
+
             return preference.getId();
         } catch (MPException | MPApiException e) {
             return e.toString();
+        }
+    }
+
+    @RequestMapping(value = "/pago-completado", method = RequestMethod.GET)
+    public ModelAndView pagoCompletado(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Boolean pagoEnProceso = (Boolean) session.getAttribute("pagoEnProceso");
+        ModelMap model = new ModelMap();
+
+        if (usuario != null && Boolean.TRUE.equals(pagoEnProceso)) {
+            session.removeAttribute("pagoEnProceso");
+            session.setAttribute("pagoCompletado", true);
+            servicioPago.cambiarEstado(usuario.getEmail());
+            redirectAttributes.addFlashAttribute("mensajePagoRealizado", "¡Pago realizado con éxito! Ahora puedes acceder al contenido premium.");
+            return new ModelAndView("redirect:/contenidoPremium", model);
+        } else {
+            return new ModelAndView("redirect:/home");
         }
     }
 }
