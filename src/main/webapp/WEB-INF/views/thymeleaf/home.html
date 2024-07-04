@@ -16,10 +16,6 @@
         <div id="notificaciones"></div>
     </div>
 <div class="row justify-content-center mt-4">
-            <div class="col-md-6 d-flex align-items-center justify-content-center">
-                <a th:href="@{/premium}" class="btn btn-warning btn-lg">Ser Premium</a>
-            </div>
-        </div>
     <div class="bodyContainer">
         <div class="container">
             <h2 class="section-title">Opciones del Menú</h2>
@@ -52,6 +48,12 @@
                     <a th:href="@{/comunidad}">
                         <img th:src="@{/img/menuComunidad.jpg}" alt="Receta">
                         <div class="card-text">Comunidad</div>
+                    </a>
+                </div>
+                <div class="card mb-3">
+                    <a th:href="@{/contenidoPremium}">
+                        <img th:src="@{/img/rutinas.jpg}" alt="Receta">
+                        <div class="card-text">Rutinas de ejercicio</div>
                     </a>
                 </div>
             </div>

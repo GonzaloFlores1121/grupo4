@@ -34,8 +34,17 @@ public class ControladorPago {
 
     @RequestMapping(value = "/premium", method = RequestMethod.GET)
     public ModelAndView irApremium(HttpServletRequest request) {
+        ModelMap model = new ModelMap();
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
 
-        return new ModelAndView("premium");
+        if (usuario != null) {
+            model.put("usuario", usuario);
+            servicioPago.cambiarEstado(usuario.getEmail());
+            return new ModelAndView("premium", model);
+        }else {
+            return new ModelAndView("redirect:/home");
+        }
     }
 
 
@@ -48,7 +57,6 @@ public class ControladorPago {
         String title = userBuyer.getTitle();
         int quantity = userBuyer.getQuantity();
         int price = userBuyer.getUnit_price();
-        String email = userBuyer.getEmail();
 
         try {
             MercadoPagoConfig.setAccessToken("TEST-4626193547107194-062716-e5936344f95bd7d8a79be74b6d33bbca-637766730");
@@ -63,7 +71,7 @@ public class ControladorPago {
             items.add(itemRequest);
 
             PreferenceBackUrlsRequest backUrls = PreferenceBackUrlsRequest.builder()
-                    .success("https://youtube.com")
+                    .success("http://localhost:8080/spring/premium")
                     .pending("https://youtube.com")
                     .failure("https://youtube.com")
                     .build();
@@ -76,24 +84,9 @@ public class ControladorPago {
             PreferenceClient client = new PreferenceClient();
             Preference preference = client.create(preferenceRequest);
 
-            // Guardar el email en la sesión
-            HttpSession session = request.getSession();
-            Usuario usuario= (Usuario) session.getAttribute("usuario");
-           servicioPago.cambiarEstado(usuario.getEmail());
-
             return preference.getId();
         } catch (MPException | MPApiException e) {
             return e.toString();
         }
-    }
-
-    @RequestMapping(value = "/api/mp/success", method = RequestMethod.GET)
-    public ModelAndView paymentSuccess(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        String email = (String) session.getAttribute("userEmail");
-        if (email != null) {
-            servicioPago.cambiarEstado(email);
-        }
-        return new ModelAndView("paymentSuccess");
     }
 }
