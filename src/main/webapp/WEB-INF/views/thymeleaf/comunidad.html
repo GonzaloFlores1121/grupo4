@@ -105,6 +105,23 @@
             <a class="btn btn-success" th:href="@{/subirPublicacion}">Subir Publicacion</a>
         </div>
     </div>
+    <hr>
+    <h2 class="text-center fw-bold mb-3">Desafíos Disponibles</h2>
+    <div th:if="${#lists.isEmpty(desafios)}" class="container mx-3 my-3">
+        <h4 class="text-center text-warning fw-bold my-2">No hay desafíos disponibles en este momento.</h4>
+    </div>
+    <div th:each="desafio : ${desafios}" class="card mb-4">
+        <div class="card-header">
+            <h5 class="card-title" th:text="${desafio.nombre}"></h5>
+        </div>
+        <div class="card-body">
+            <p class="card-text" th:text="${desafio.descripcion}"></p>
+            <form th:action="@{/unirseDesafio}" method="post">
+                <input type="hidden" name="desafioId" th:value="${desafio.id}">
+                <button type="submit" class="btn btn-primary">Unirse al desafío</button>
+            </form>
+        </div>
+    </div>
 
     <div th:replace="footer :: footer"></div>
 

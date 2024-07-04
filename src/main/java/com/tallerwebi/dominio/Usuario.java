@@ -1,7 +1,9 @@
 package com.tallerwebi.dominio;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Set;
+import java.util.List;
 
 @Entity
 public class Usuario {
@@ -22,13 +24,31 @@ public class Usuario {
     private Integer ingestaCalorica;
     private String imagen;
     private Boolean premium;
+    private int puntos;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<DesafioUsuario> desafiosCompletados = new ArrayList<>();
+
     @OneToMany(mappedBy = "usuario")
     private Set<Colacion> colaciones;
 
     public Usuario() {
         this.premium = false;
     }
-    
+
+    public int getPuntos() {
+        return puntos;
+    }
+
+    public void actualizarPuntos() {
+        this.puntos = 0;
+        for (DesafioUsuario du : desafiosCompletados) {
+            if (du.isCompletado()) {
+                this.puntos += du.getDesafio().getPuntos();
+            }
+        }
+    }
+
     public Long getId() {return id;}
     public void setId(Long id) {this.id = id;}
 

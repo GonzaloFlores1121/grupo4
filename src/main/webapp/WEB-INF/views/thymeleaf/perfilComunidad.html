@@ -57,6 +57,7 @@
                         <p class="card-text fw-bold">Peso: <span th:text="${usuarioComunidad.peso}+' kg'"></span></p>
                         <p class="card-text fw-bold">Peso Meta: <span th:text="${usuarioComunidad.metaAlcanzarPeso}+' kg'"></span></p>
                         <p class="card-text fw-bold">Nivel de Actividad Fisica: <span th:text="${usuarioComunidad.nivelDeActividad}"></span></p>
+                        <p class="card-text fw-bold">Puntos: <span th:text="${usuarioComunidad.puntos}"></span></p>
                         <div class="row d-flex align-items-center">
                             <div class="col-2">
                                 <form th:action="@{/dejarDeSeguir}" method="post" th:object="${usuarioComunidad}" th:if="${follow != null}">
@@ -69,7 +70,8 @@
                                 </form>                                
                             </div>
                             <div class="col-10">
-                                <a class="btn btn-success" th:href="@{/publicacionesUsuario/{id}(id=${usuarioComunidad.id})}">Ver Publicaciones</a>                                  
+                                <a class="btn btn-success" th:href="@{/publicacionesUsuario/{id}(id=${usuarioComunidad.id})}">Ver Publicaciones</a>
+                                <a class="btn btn-success" th:href="@{/desafiosUsuarios/{id}(id=${usuario.id})}">Ver Desafios</a>
                             </div>         
                         </div>
                     </div>

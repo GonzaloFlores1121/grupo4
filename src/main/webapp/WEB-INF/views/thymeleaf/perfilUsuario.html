@@ -84,8 +84,10 @@
                         <p class="card-text fw-bold">Peso: <span th:text="${usuario.peso}+' kg'"></span></p>
                         <p class="card-text fw-bold">Peso Meta: <span th:text="${usuario.metaAlcanzarPeso}+' kg'"></span></p>
                         <p class="card-text fw-bold">Nivel de Actividad Fisica: <span th:text="${usuario.nivelDeActividad}"></span></p>
+                        <p class="card-text fw-bold">Puntos: <span th:text="${usuario.puntos}"></span></p>
                         <a class="btn btn-warning" th:href="@{/formularioEditarPerfil}">Editar Perfil</a>
-                        <a class="btn btn-success" th:href="@{/publicacionesUsuario/{id}(id=${usuario.id})}">Ver Publicaciones</a>  
+                        <a class="btn btn-success" th:href="@{/publicacionesUsuario/{id}(id=${usuario.id})}">Ver Publicaciones</a>
+                        <a class="btn btn-success" th:href="@{/desafiosUsuario/{id}(id=${usuario.id})}">Ver Desafios</a>
                     </div>
                 </div>  
             </div>
