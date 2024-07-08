@@ -34,22 +34,6 @@ public class ControladorPago {
         this.servicioPago  = servicioPago;
     }
 
-    @RequestMapping(value = "/premium", method = RequestMethod.GET)
-    public ModelAndView irApremium(HttpServletRequest request) {
-        ModelMap model = new ModelMap();
-        HttpSession session = request.getSession();
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-        Boolean pagoCompletado = (Boolean) session.getAttribute("pagoCompletado");
-
-        if (usuario != null && Boolean.TRUE.equals(pagoCompletado)) {
-            model.put("usuario", usuario);
-            return new ModelAndView("premium", model);
-        }else {
-            return new ModelAndView("redirect:/home");
-        }
-    }
-
-
     @RequestMapping(value = "/api/mp", method = RequestMethod.POST)
     public String getList(@RequestBody UserBuyer userBuyer, HttpServletRequest request) {
         if (userBuyer == null) {
@@ -74,8 +58,8 @@ public class ControladorPago {
 
             PreferenceBackUrlsRequest backUrls = PreferenceBackUrlsRequest.builder()
                     .success("http://localhost:8080/spring/pago-completado")
-                    .pending("https://youtube.com")
-                    .failure("https://youtube.com")
+                    .pending("http://localhost:8080/spring/accesoDenegado")
+                    .failure("http://localhost:8080/spring/accesoDenegado")
                     .build();
 
             PreferenceRequest preferenceRequest = PreferenceRequest.builder()
@@ -107,7 +91,7 @@ public class ControladorPago {
             session.setAttribute("pagoCompletado", true);
             servicioPago.cambiarEstado(usuario.getEmail());
             redirectAttributes.addFlashAttribute("mensajePagoRealizado", "¡Pago realizado con éxito! Ahora puedes acceder al contenido premium.");
-            return new ModelAndView("redirect:/contenidoPremium", model);
+            return new ModelAndView("redirect:/estadisticasUsuario", model);
         } else {
             return new ModelAndView("redirect:/home");
         }

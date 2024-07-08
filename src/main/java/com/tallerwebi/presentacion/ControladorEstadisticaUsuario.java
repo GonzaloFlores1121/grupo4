@@ -22,14 +22,14 @@ import java.util.Map;
 public class ControladorEstadisticaUsuario {
 
 
-
     private ServicioDatosUsuario servicioDatosUsuario;
+    private ServicioPago servicioPago;
 
 
     @Autowired
-    public ControladorEstadisticaUsuario( ServicioDatosUsuario servicioDatosUsuarioImpl) {
+    public ControladorEstadisticaUsuario(ServicioDatosUsuario servicioDatosUsuarioImpl, ServicioPago servicioPagoImpl) {
 
-
+        this.servicioPago = servicioPagoImpl;
         this.servicioDatosUsuario = servicioDatosUsuarioImpl;
     }
 
@@ -39,33 +39,31 @@ public class ControladorEstadisticaUsuario {
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
 
-        if (usuario == null) {
+        if (usuario != null && servicioPago.isPremiumUser(usuario.getEmail())) {
             // Manejar el caso en que el usuario no esté en la sesión
-            return new ModelAndView("redirect:/inicio");
+            List<HistoriaPesoUsuario> historial = servicioDatosUsuario.obtenerTodoElHistorialDePeso(usuario);
+
+            // Crear el gráfico de historial de peso
+            GraficoHistorialPeso grafico = new GraficoHistorialPeso(historial);
+
+            // Agregar el gráfico al modelo (en caso de que se necesite en la vista)
+            model.addAttribute("grafico", grafico);
+
+            Double pesoDisminuido = servicioDatosUsuario.pesoDisminuidoALaFecha(usuario);
+            Double pesoGanado = servicioDatosUsuario.pesoGanadoALaFecha(usuario);
+            Double pesoFaltanteParaMeta = servicioDatosUsuario.CantidadDePesoFaltanteParaLLegarALaMeta(usuario);
+            Double pesoActual = servicioDatosUsuario.obtenerPesoActual(usuario);
+            Double pesoInicial = servicioDatosUsuario.obtenerPesoInicial(usuario);
+
+            model.addAttribute("pesoDisminuido", pesoDisminuido);
+            model.addAttribute("pesoGanado", pesoGanado);
+            model.addAttribute("pesoFaltanteParaMeta", pesoFaltanteParaMeta);
+            model.addAttribute("pesoFaltanteParaMeta", pesoFaltanteParaMeta);
+            model.addAttribute("pesoInicial", pesoInicial);
+            model.addAttribute("pesoActual", pesoActual);
+
+            return new ModelAndView("estadisticasUsuario", model);
         }
-
-        // Obtener historial de peso del usuario
-        List<HistoriaPesoUsuario> historial = servicioDatosUsuario.obtenerTodoElHistorialDePeso(usuario);
-
-        // Crear el gráfico de historial de peso
-        GraficoHistorialPeso grafico = new GraficoHistorialPeso(historial);
-
-        // Agregar el gráfico al modelo (en caso de que se necesite en la vista)
-        model.addAttribute("grafico", grafico);
-
-        Double pesoDisminuido=servicioDatosUsuario.pesoDisminuidoALaFecha(usuario);
-        Double pesoGanado=servicioDatosUsuario.pesoGanadoALaFecha(usuario);
-        Double pesoFaltanteParaMeta=servicioDatosUsuario.CantidadDePesoFaltanteParaLLegarALaMeta(usuario);
-        Double pesoActual=servicioDatosUsuario.obtenerPesoActual(usuario);
-        Double pesoInicial=servicioDatosUsuario.obtenerPesoInicial(usuario);
-
-        model.addAttribute("pesoDisminuido", pesoDisminuido);
-        model.addAttribute("pesoGanado", pesoGanado);
-        model.addAttribute("pesoFaltanteParaMeta", pesoFaltanteParaMeta);
-        model.addAttribute("pesoFaltanteParaMeta", pesoFaltanteParaMeta);
-        model.addAttribute("pesoInicial", pesoInicial);
-        model.addAttribute("pesoActual", pesoActual);
-
-        return new ModelAndView("estadisticasUsuario", model);
-    }
+            return new ModelAndView("accesoDenegado", model);
+        }
 }

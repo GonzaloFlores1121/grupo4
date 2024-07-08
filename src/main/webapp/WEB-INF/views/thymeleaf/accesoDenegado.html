@@ -58,11 +58,11 @@
     <div class="row">
         <div class="col-md-12">
             <div class="list-group flex-row">
-                <a th:href="@{/home}" class="list-group-item list-group-item-action">MI FATLOSS</a>
-                <a th:href="@{/categoria_alimentos}" class="list-group-item list-group-item-action ">ALIMENTOS</a>
+                <a th:href="@{/home}" class="list-group-item list-group-item-action ">MI FATLOSS</a>
+                <a th:href="@{/categoria_alimentos}" class="list-group-item list-group-item-action">ALIMENTOS</a>
                 <a th:href="@{/recetas}" class="list-group-item list-group-item-action">RECETAS</a>
                 <a th:href="@{/actividadesFisicas}" class="list-group-item list-group-item-action">EN FORMA</a>
-                <a th:href="@{/estadisticasUsuario}" class="list-group-item list-group-item-action">ESTADISTICAS</a>
+                <a th:href="@{/estadisticasUsuario}" class="list-group-item list-group-item-action activo">ESTADISTICAS</a>
                 <a th:href="@{/calendarioDieta}" class="list-group-item list-group-item-action">CALENDARIO</a>
                 <a th:href="@{/comunidad}" class="list-group-item list-group-item-action">COMUNIDAD</a>
             </div>
@@ -70,130 +70,42 @@
     </div>
 </div>
 
-<div class="ms-2 p-2">
-    <h6 class="fw-bold"><a th:href="@{/home}" style="color: #5FB92E;">Home</a> > Rutinas</h6>
+<div style="margin-left: 20px; padding: 10px;">
+    <p>
+        <span><a th:href="@{/home}" style="color: green;">Home</a></span> > Estadisticas
+    </p>
 </div>
+
 <div class="container mt-5">
     <div class="premium-content">
-        <h1>Rutinas de Ejercicio</h1>
-        <div class="row">
-            <div class="col-md-6">
-                <h2>Principiantes</h2>
-                <div class="routine">
-                    <div class="day-header">Lunes - Pecho</div>
-                    <ul class="routine-list">
-                        <li>5 minutos de calentamiento (trotar en el lugar)</li>
-                        <li>10 flexiones (flexiones de rodillas si es necesario)</li>
-                        <li>10 aperturas con mancuernas</li>
-                        <li>10 fondos en banco</li>
-                        <li>20 segundos de plancha</li>
-                        <li>5 minutos de enfriamiento (estiramiento)</li>
-                    </ul>
+        <div class="row mt-4 justify-content-center">
+            <!-- Columna para el gráfico de historial de peso -->
+                <div class="col-md-7">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Gráfico de Mi Historial de Peso</h5>
+                            <!-- Ajusta el tamaño del gráfico -->
+                            <div class="overflow-hidden" style="max-height: 800px;">
+                                <img class="img-fluid rounded w-100" th:src="@{/img/chart.png}" alt="Gráfico de historial de peso" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="routine">
-                    <div class="day-header">Martes - Piernas</div>
-                    <ul class="routine-list">
-                        <li>5 minutos de calentamiento (saltos de tijera)</li>
-                        <li>15 sentadillas</li>
-                        <li>10 estocadas (cada pierna)</li>
-                        <li>10 elevaciones de talones</li>
-                        <li>30 segundos de plancha</li>
-                        <li>5 minutos de enfriamiento (estiramiento)</li>
-                    </ul>
-                </div>
-                <div class="routine">
-                    <div class="day-header">Miércoles - Espalda</div>
-                    <ul class="routine-list">
-                        <li>5 minutos de calentamiento (rotación de brazos)</li>
-                        <li>10 remo con mancuernas</li>
-                        <li>10 jalones en polea</li>
-                        <li>10 supermans</li>
-                        <li>30 segundos de plancha</li>
-                        <li>5 minutos de enfriamiento (estiramiento)</li>
-                    </ul>
-                </div>
-                <div class="routine">
-                    <div class="day-header">Jueves - Hombros</div>
-                    <ul class="routine-list">
-                        <li>5 minutos de calentamiento (rotación de brazos)</li>
-                        <li>10 press militar con mancuernas</li>
-                        <li>10 elevaciones laterales</li>
-                        <li>10 elevaciones frontales</li>
-                        <li>30 segundos de plancha</li>
-                        <li>5 minutos de enfriamiento (estiramiento)</li>
-                    </ul>
-                </div>
-                <div class="routine">
-                    <div class="day-header">Viernes - Brazos</div>
-                    <ul class="routine-list">
-                        <li>5 minutos de calentamiento (rotación de muñecas)</li>
-                        <li>10 curl de bíceps con mancuernas</li>
-                        <li>10 extensiones de tríceps</li>
-                        <li>10 curl de martillo</li>
-                        <li>30 segundos de plancha</li>
-                        <li>5 minutos de enfriamiento (estiramiento)</li>
-                    </ul>
+
+                <!-- Columna para el cuadro de estadísticas de peso -->
+                <div class="col-md-5 d-flex align-items-center justify-content-center">
+                    <div class="card w-100"> <!-- Ajusta el ancho al 100% -->
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Estadísticas de Mi Peso</h5>
+                            <p class="card-text">Peso Inicial: <span th:text="${pesoInicial}"></span></p>
+                            <p class="card-text">Peso Actual: <span th:text="${pesoActual}"></span></p>
+                            <p class="card-text">Peso Disminuido: <span th:text="${pesoDisminuido}"></span></p>
+                            <p class="card-text">Peso Ganado: <span th:text="${pesoGanado}"></span></p>
+                            <p class="card-text">Peso Faltante para Meta: <span th:text="${pesoFaltanteParaMeta}"></span></p>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <h2>Avanzados</h2>
-                <div class="routine">
-                    <div class="day-header">Lunes - Pecho</div>
-                    <ul class="routine-list">
-                        <li>10 minutos de calentamiento (correr)</li>
-                        <li>20 flexiones</li>
-                        <li>15 aperturas con mancuernas</li>
-                        <li>15 fondos en banco</li>
-                        <li>1 minuto de plancha</li>
-                        <li>10 minutos de enfriamiento (estiramiento)</li>
-                    </ul>
-                </div>
-                <div class="routine">
-                    <div class="day-header">Martes - Piernas</div>
-                    <ul class="routine-list">
-                        <li>10 minutos de calentamiento (saltos de tijera)</li>
-                        <li>25 sentadillas</li>
-                        <li>20 estocadas (cada pierna)</li>
-                        <li>20 elevaciones de talones</li>
-                        <li>1 minuto de plancha</li>
-                        <li>10 minutos de enfriamiento (estiramiento)</li>
-                    </ul>
-                </div>
-                <div class="routine">
-                    <div class="day-header">Miércoles - Espalda</div>
-                    <ul class="routine-list">
-                        <li>10 minutos de calentamiento (rotación de brazos)</li>
-                        <li>20 remo con mancuernas</li>
-                        <li>15 jalones en polea</li>
-                        <li>15 supermans</li>
-                        <li>1 minuto de plancha</li>
-                        <li>10 minutos de enfriamiento (estiramiento)</li>
-                    </ul>
-                </div>
-                <div class="routine">
-                    <div class="day-header">Jueves - Hombros</div>
-                    <ul class="routine-list">
-                        <li>10 minutos de calentamiento (rotación de brazos)</li>
-                        <li>20 press militar con mancuernas</li>
-                        <li>20 elevaciones laterales</li>
-                        <li>20 elevaciones frontales</li>
-                        <li>1 minuto de plancha</li>
-                        <li>10 minutos de enfriamiento (estiramiento)</li>
-                    </ul>
-                </div>
-                <div class="routine">
-                    <div class="day-header">Viernes - Brazos</div>
-                    <ul class="routine-list">
-                        <li>10 minutos de calentamiento (rotación de muñecas)</li>
-                        <li>20 curl de bíceps con mancuernas</li>
-                        <li>20 extensiones de tríceps</li>
-                        <li>20 curl de martillo</li>
-                        <li>1 minuto de plancha</li>
-                        <li>10 minutos de enfriamiento (estiramiento)</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
     </div>
     <div class="overlay">
         <p>Para acceder a nuestra rutina de ejercicios debes de adquirir una miembresia premium.</p>

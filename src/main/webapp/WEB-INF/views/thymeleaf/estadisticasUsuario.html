@@ -36,6 +36,11 @@
         <span><a th:href="@{/home}" style="color: green;">Home</a></span> > Estadisticas
     </p>
 </div>
+
+<div th:if="${mensajePagoRealizado}" class="alert alert-success" role="alert">
+    <p th:text="${mensajePagoRealizado}"></p>
+</div>
+
 <div class="row mt-4 justify-content-center">
     <!-- Columna para el gráfico de historial de peso -->
     <div class="col-md-7">
