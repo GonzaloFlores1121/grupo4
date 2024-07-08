@@ -1,7 +1,7 @@
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.*;
-import com.tallerwebi.dominio.excepcion.UsuarioNoExistente;
+import com.tallerwebi.dominio.excepcion.*;
 import com.tallerwebi.infraestructura.ServicioCalendarioImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,19 +34,19 @@ public class ControladorEstadisticaUsuario {
     }
 
     @RequestMapping(value = "/estadisticasUsuario", method = RequestMethod.GET)
-    public ModelAndView irAlasEstadisticas(HttpServletRequest request) throws UsuarioNoExistente {
+    public ModelAndView irAlasEstadisticas(HttpServletRequest request) throws UsuarioNoExistente, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
         ModelMap model = new ModelMap();
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
 
         if (usuario != null && servicioPago.isPremiumUser(usuario.getEmail())) {
-            // Manejar el caso en que el usuario no esté en la sesión
+
             List<HistoriaPesoUsuario> historial = servicioDatosUsuario.obtenerTodoElHistorialDePeso(usuario);
 
-            // Crear el gráfico de historial de peso
+
             GraficoHistorialPeso grafico = new GraficoHistorialPeso(historial);
 
-            // Agregar el gráfico al modelo (en caso de que se necesite en la vista)
+
             model.addAttribute("grafico", grafico);
 
             Double pesoDisminuido = servicioDatosUsuario.pesoDisminuidoALaFecha(usuario);
@@ -54,6 +54,13 @@ public class ControladorEstadisticaUsuario {
             Double pesoFaltanteParaMeta = servicioDatosUsuario.CantidadDePesoFaltanteParaLLegarALaMeta(usuario);
             Double pesoActual = servicioDatosUsuario.obtenerPesoActual(usuario);
             Double pesoInicial = servicioDatosUsuario.obtenerPesoInicial(usuario);
+
+                Integer icr=servicioDatosUsuario.calcularIngestaCalorica(usuario);
+                MacronutrientesUsuario macronutrientesUsuario = servicioDatosUsuario.CalcularDistribucionDeMacronutrientes(usuario);
+                model.put("icr", icr);
+                model.put("carbos", macronutrientesUsuario.getCarbohidratosAConsumir());
+                model.put("grasas",  macronutrientesUsuario.getGrasaAConsumir());
+                model.put("proteinas", macronutrientesUsuario.getProteinaAConsumir());
 
             model.addAttribute("pesoDisminuido", pesoDisminuido);
             model.addAttribute("pesoGanado", pesoGanado);
