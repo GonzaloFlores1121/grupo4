@@ -55,9 +55,10 @@
         </div>
     </div>
 
-    <!-- Columna para el cuadro de estadísticas de peso -->
-    <div class="col-md-5 d-flex align-items-center justify-content-center">
-        <div class="card w-100"> <!-- Ajusta el ancho al 100% -->
+    <!-- Columna para el cuadro de estadísticas de peso y Mi Ingesta Diaria Recomendada (IDR) -->
+    <div class="col-md-5 d-flex flex-column align-items-center justify-content-center">
+        <!-- Cuadro de estadísticas de peso -->
+        <div class="card w-100 mb-4">
             <div class="card-body text-center">
                 <h5 class="card-title">Estadísticas de Mi Peso</h5>
                 <p class="card-text">Peso Inicial: <span th:text="${pesoInicial}"></span></p>
@@ -65,6 +66,45 @@
                 <p class="card-text">Peso Disminuido: <span th:text="${pesoDisminuido}"></span></p>
                 <p class="card-text">Peso Ganado: <span th:text="${pesoGanado}"></span></p>
                 <p class="card-text">Peso Faltante para Meta: <span th:text="${pesoFaltanteParaMeta}"></span></p>
+            </div>
+        </div>
+
+        <!-- Cuadro de Mi Ingesta Diaria Recomendada (IDR) -->
+        <div class="card w-100">
+            <div class="card-body text-center">
+                <h5 class="card-title">Mi Ingesta Diaria Recomendada (IDR)</h5>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>IDR actual:</td>
+                            <td>
+                                <p th:if="${icr != null}" th:text="${icr} + ' cal'"></p>
+                                <p th:unless="${icr != null}">Valor de IDR no disponible</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Grasa a consumir:</td>
+                            <td>
+                                <p th:if="${grasas != null}" th:text="${grasas} + ' g'"></p>
+                                <p th:unless="${grasas != null}">Valor de cantidad de grasas a consumir no disponible</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Carbohidratos a consumir:</td>
+                            <td>
+                                <p th:if="${carbos != null}" th:text="${carbos} + ' g'"></p>
+                                <p th:unless="${carbos != null}">Valor de cantidad de carbohidratos a consumir no disponible</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Proteínas a consumir:</td>
+                            <td>
+                                <p th:if="${proteinas != null}" th:text="${proteinas} + ' g'"></p>
+                                <p th:unless="${proteinas != null}">Valor de cantidad de proteínas a consumir no disponible</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
