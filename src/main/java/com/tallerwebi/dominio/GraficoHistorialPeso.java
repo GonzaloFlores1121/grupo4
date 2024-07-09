@@ -15,6 +15,9 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class GraficoHistorialPeso extends JFrame {
@@ -25,13 +28,15 @@ public class GraficoHistorialPeso extends JFrame {
 
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-
-                for(int i =0;i < historialPesos.size() && i < 7;i++){
-                   HistoriaPesoUsuario historiaPesoUsuario= historialPesos.get(i);
-                    dataset.addValue(historiaPesoUsuario.getPeso(), "Peso", new SimpleDateFormat("dd-MM-yyyy").format(historiaPesoUsuario.getFecha()));
-                }
+        Collections.sort(historialPesos,Comparator.comparing(HistoriaPesoUsuario::getFecha));
+        int startIndex=Math.max(0,historialPesos.size()-7);
+        List<HistoriaPesoUsuario> ultimosPesos = historialPesos.subList(startIndex, historialPesos.size());
 
 
+
+        for (HistoriaPesoUsuario historiaPesoUsuario : ultimosPesos) {
+            dataset.addValue(historiaPesoUsuario.getPeso(), "Peso", new SimpleDateFormat("dd-MM-yyyy").format(historiaPesoUsuario.getFecha()));
+        }
 
         JFreeChart chart = ChartFactory.createBarChart(
                 "Historial de Peso",
