@@ -22,11 +22,11 @@ public class GraficoHistorialPeso extends JFrame {
     public GraficoHistorialPeso(List<HistoriaPesoUsuario> historialPesos) {
         super("Historial de Peso");
 
-     int unitGraph=0;
+
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
 
-                for(int i =1;i<=7;i++){
+                for(int i =0;i < historialPesos.size() && i < 7;i++){
                    HistoriaPesoUsuario historiaPesoUsuario= historialPesos.get(i);
                     dataset.addValue(historiaPesoUsuario.getPeso(), "Peso", new SimpleDateFormat("dd-MM-yyyy").format(historiaPesoUsuario.getFecha()));
                 }
