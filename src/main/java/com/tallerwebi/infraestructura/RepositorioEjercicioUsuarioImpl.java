@@ -5,6 +5,7 @@ import com.tallerwebi.dominio.RepositorioEjercicioUsuario;
 import com.tallerwebi.dominio.Usuario;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +64,28 @@ public class RepositorioEjercicioUsuarioImpl implements RepositorioEjercicioUsua
                 .add(Restrictions.eq("id", id))
                 .uniqueResult();
     }
+
+    @Override
+    public void eliminarEjercicioUsuario(LocalDate fecha, EjercicioUsuario ejercicioUsuario) {
+        Transaction transaction = null;
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+
+            String hql = "delete from EjercicioUsuario eu WHERE eu.fecha = :fecha AND eu.id = :id";
+            Query<?> query = session.createQuery(hql);
+            query.setParameter("fecha", fecha);
+            query.setParameter("id", ejercicioUsuario.getId());
+            query.executeUpdate();
+
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+    }
+
 
 
 }
