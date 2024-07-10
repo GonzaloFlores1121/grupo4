@@ -2,9 +2,9 @@ package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.Publicacion;
 import com.tallerwebi.dominio.PublicacionLike;
+import com.tallerwebi.dominio.Respuesta;
 import com.tallerwebi.dominio.ServicioComunidad;
 import com.tallerwebi.dominio.ServicioFollow;
-import com.tallerwebi.dominio.ServicioLike;
 import com.tallerwebi.dominio.ServicioNotificacion;
 import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.UsuarioFollow;
@@ -21,13 +21,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,232 +31,233 @@ public class ControladorComunidad {
 
     private ServicioComunidad servicioComunidad;
     private ServicioFollow servicioFollow;
-    private ServicioLike servicioLike;
     private ServicioNotificacion servicioNotificacion;
 
     @Autowired
-    public ControladorComunidad(ServicioComunidad servicioComunidad, ServicioFollow servicioFollow, ServicioLike servicioLike, ServicioNotificacion servicioNotificacion) {
+    public ControladorComunidad(ServicioComunidad servicioComunidad, ServicioFollow servicioFollow, ServicioNotificacion servicioNotificacion) {
         this.servicioComunidad = servicioComunidad;
         this.servicioFollow = servicioFollow;
-        this.servicioLike = servicioLike;
         this.servicioNotificacion = servicioNotificacion;
     }
 
     @Transactional
     @RequestMapping(value = "/comunidad", method = RequestMethod.GET)
-    public ModelAndView irAComunidad(HttpServletRequest request) throws UsuarioNoExistente, PublicacionNoExistente {
-        HttpSession session = request.getSession();
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-        if(usuario == null) {return new ModelAndView("redirect:/inicio");}
+    public ModelAndView irAComunidad(HttpServletRequest request) {
         ModelMap model = new ModelMap();
-        model.addAttribute("usuario", usuario);
-        List<Publicacion> publicaciones = servicioComunidad.todasLasPublicacionesSubidas();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        for (Publicacion publicacion : publicaciones) {
-            publicacion.setFechaFormateada(publicacion.getFechaHora().format(formatter));
-        }
-        model.put("publicaciones", publicaciones);
-        Map<Long, Boolean> likes = this.obtenerMapaDeLikesPorUsuario(usuario.getId());
+        Usuario usuario = this.setUsuario(request, model);
+        if (usuario == null) {return new ModelAndView("redirect:/inicio");}
+        model.addAttribute("nuevaPublicacion", new Publicacion());
+        model.addAttribute("nuevaRespuesta", new Respuesta());
+        List<Publicacion> publicaciones = servicioComunidad.obtenerPublicacionesSubidas();
+        model.addAttribute("publicaciones", publicaciones);
+        Map<Long, List<Respuesta>> respuestas = servicioComunidad.obtenRespuestasPorPublicacionSubida(publicaciones);
+        model.addAttribute("respuestas", respuestas);
+        Map<Long, Boolean> likes = servicioComunidad.obtenerLikesPorUsuario(usuario.getId());
         model.addAttribute("likes", likes);
-        Map<Long, String> likesList = obtenerListaDeLikesPorPublicacion(publicaciones);
-        model.addAttribute("likesList", likesList);
+        Map<Long, String> likesLista = servicioComunidad.obtenerLikesPorPublicacion(publicaciones);
+        model.addAttribute("likesLista", likesLista);
         return new ModelAndView("comunidad", model);
     }
 
-    private Map<Long, Boolean> obtenerMapaDeLikesPorUsuario(Long idUsuario) throws UsuarioNoExistente {
-        Map<Long, Boolean> likes = new HashMap<>();
-        List<Publicacion> likedPublicaciones = servicioLike.obtenerTodosLosLikePorUsuario(idUsuario);
-        for (Publicacion publicacion : likedPublicaciones) {
-            likes.put(publicacion.getId(), true);
+    @Transactional
+    @RequestMapping(value = "/buscarPublicacion", method = RequestMethod.GET)
+    public ModelAndView buscarPubliacion(HttpServletRequest request, @RequestParam(value = "busqueda", required = false) String tituloBuscado) {
+        ModelMap model = new ModelMap();
+        Usuario usuario = this.setUsuario(request, model);
+        if (usuario == null) {return new ModelAndView("redirect:/inicio");}
+        model.addAttribute("nuevaPublicacion", new Publicacion());
+        model.addAttribute("nuevaRespuesta", new Respuesta());
+        List<Publicacion> publicaciones = servicioComunidad.obtenerPublicacionesSubidasPorBusqueda(tituloBuscado);
+        if (publicaciones.isEmpty()) {
+            publicaciones = servicioComunidad.obtenerPublicacionesSubidas();
+            model.addAttribute("noEncontrado", "No se encontraron publicaciones con los datos ingresados.");
         }
-        return likes;
+        model.addAttribute("publicaciones", publicaciones);
+        Map<Long, List<Respuesta>> respuestas = servicioComunidad.obtenRespuestasPorPublicacionSubida(publicaciones);
+        model.addAttribute("respuestas", respuestas);
+        Map<Long, Boolean> likes = servicioComunidad.obtenerLikesPorUsuario(usuario.getId());
+        model.addAttribute("likes", likes);
+        Map<Long, String> likesLista = servicioComunidad.obtenerLikesPorPublicacion(publicaciones);
+        model.addAttribute("likesLista", likesLista);
+        return new ModelAndView("comunidad", model);        
     }
-    
-    private Map<Long, String> obtenerListaDeLikesPorPublicacion(List<Publicacion> publicaciones) throws PublicacionNoExistente {
-        Map<Long, String> likesList = new HashMap<>();
-        for (Publicacion publicacion : publicaciones) {
-            List<Usuario> likes = servicioLike.obtenerTodosLosLikesPorPublicacion(publicacion.getId());
-            String usuarios = "";
-            for (int i = 0; i < likes.size(); i++) {
-                if (i > 0) {usuarios += "</br>";}
-                usuarios += likes.get(i).getNombre();
-            }
-            likesList.put(publicacion.getId(), usuarios);
-        }
-        return likesList;
+
+    @Transactional
+    @RequestMapping(value = "/guardarPublicacion", method = RequestMethod.POST)
+    public ModelAndView guardarPublicacion(HttpServletRequest request, @ModelAttribute("publicacion") Publicacion publicacion, @RequestParam("imagen") MultipartFile imagenFile) throws IOException {
+        ModelMap model = new ModelMap();
+        Usuario usuario = this.setUsuario(request, model);
+        if (usuario == null) {return new ModelAndView("redirect:/inicio");}
+        if (!imagenFile.isEmpty()) {
+            servicioComunidad.subirPublicacion(usuario, publicacion.getTitulo(), publicacion.getContenido(), imagenFile);
+            return new ModelAndView("redirect:/comunidad");
+        } else {
+            model.addAttribute("error", "No se proporciono una imagen valida");
+            return new ModelAndView("subirPublicacion", model);
+        }       
+    }
+
+    @Transactional
+    @RequestMapping(value = "/guardarRespuesta", method = RequestMethod.POST)
+    public ModelAndView guardarRespuesta(HttpServletRequest request, @ModelAttribute("respuesta") Respuesta respuesta, @RequestParam("idPublicacion") Long idPublicacion, @RequestParam("busquedaRespuesta") String tituloBuscado) throws PublicacionNoExistente {
+        Usuario usuario = this.setUsuario(request);
+        if (usuario == null) {return new ModelAndView("redirect:/inicio");}
+        Publicacion publicacion = servicioComunidad.obtenerPublicacionPorId(idPublicacion);
+        servicioComunidad.responderPublicacion(publicacion, usuario, respuesta.getContenido());
+        if (tituloBuscado != null && !tituloBuscado.isEmpty()) {return new ModelAndView("redirect:/buscarPublicacion?busqueda=" +  tituloBuscado); }
+        return new ModelAndView("redirect:/comunidad");
     }
 
     @Transactional
     @RequestMapping(value = "/darMeGusta", method = RequestMethod.POST)
-    public ModelAndView darMeGusta(HttpServletRequest request, @RequestParam Long publicacionId) throws PublicacionNoExistente, UsuarioNoExistente {
-        HttpSession session = request.getSession();
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
+    public ModelAndView darMeGusta(HttpServletRequest request, @RequestParam Long idPublicacion) throws PublicacionNoExistente, UsuarioNoExistente {
+        Usuario usuario = this.setUsuario(request);
         if (usuario == null) {return new ModelAndView("redirect:/inicio");}
-        Publicacion publicacion = servicioComunidad.obtenerPublicacionPorId(publicacionId);
-        servicioLike.like(publicacion, usuario);
+        Publicacion publicacion = servicioComunidad.obtenerPublicacionPorId(idPublicacion);
+        servicioComunidad.darLike(publicacion, usuario);
         String titulo = "Publicacion";
-        String contenido = usuario.getNombre() +  " le dio me gusta a tu publicacion.";         
+        String contenido = usuario.getNombre() +  " le dio me gusta a tu publicacion " + publicacion.getTitulo() + ".";         
         servicioNotificacion.enviarNotificacion(titulo, contenido, LocalDateTime.now(), publicacion.getUsuario().getId());
         return new ModelAndView("redirect:/comunidad");
     }
 
     @Transactional
     @RequestMapping(value = "/quitarMeGusta", method = RequestMethod.POST)
-    public ModelAndView quitarMeGusta(HttpServletRequest request, @RequestParam Long publicacionId) throws PublicacionNoExistente, UsuarioNoExistente {
-        HttpSession session = request.getSession();
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
+    public ModelAndView quitarMeGusta(HttpServletRequest request, @RequestParam Long idPublicacion) throws PublicacionNoExistente, UsuarioNoExistente {
+        Usuario usuario = this.setUsuario(request);
         if (usuario == null) {return new ModelAndView("redirect:/inicio");}
-        PublicacionLike like = servicioLike.obtenerLike(publicacionId, usuario.getId());
-        servicioLike.unlike(like);
-        Publicacion publicacion = servicioComunidad.obtenerPublicacionPorId(publicacionId);
+        PublicacionLike like = servicioComunidad.obtenerLikePorIdPublicacionYUsuario(idPublicacion, usuario.getId());
+        servicioComunidad.quitarLike(like);
+        Publicacion publicacion = servicioComunidad.obtenerPublicacionPorId(idPublicacion);
         String titulo = "Publicacion";
-        String contenido = usuario.getNombre() +  " le quito el me gusta a tu publicacion.";         
+        String contenido = usuario.getNombre() +  " le quito el me gusta a tu publicacion ." + publicacion.getTitulo() + ".";         
         servicioNotificacion.enviarNotificacion(titulo, contenido, LocalDateTime.now(), publicacion.getUsuario().getId());
         return new ModelAndView("redirect:/comunidad");
     }
 
-    @RequestMapping(value = "/subirPublicacion")
-    public ModelAndView subirPublicacion(HttpServletRequest request) throws IOException {
-        HttpSession session = request.getSession();
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-        if(usuario == null) {return new ModelAndView("redirect:/inicio");}
-        ModelMap model = new ModelMap();
-        model.addAttribute("usuario", usuario);
-        return new ModelAndView("subirPublicacion", model);
-    }
-
-    @RequestMapping(value = "/guardarPublicacion", method = RequestMethod.POST)
-    public ModelAndView guardarPublicacion(@ModelAttribute("publicacion") Publicacion publicacion,
-                                           @RequestParam("imagen") MultipartFile imagenFile,
-                                           HttpSession session) throws IOException {
-        ModelMap modelo = new ModelMap();
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-        if (usuario == null) {return new ModelAndView("redirect:/inicio");}
-        if (!imagenFile.isEmpty()) {
-            String directorioImagenes = "src/main/webapp/resources/core/img/publicaciones";
-            Files.createDirectories(Paths.get(directorioImagenes));
-            String nombreImagen = LocalDateTime.now().toString().replaceAll("[:.]", "-") + "_" + imagenFile.getOriginalFilename();
-            String rutaCompleta = Paths.get(directorioImagenes, nombreImagen).toString();
-            imagenFile.transferTo(new File(rutaCompleta));
-            servicioComunidad.subirPublicacion(usuario, nombreImagen, publicacion.getTexto());
-            return new ModelAndView("redirect:/comunidad");
-        } else {
-            modelo.addAttribute("error", "No se proporcionó una imagen válida");
-            return new ModelAndView("subirPublicacion", modelo);
-        }       
-    }
-
     @Transactional
     @RequestMapping(value = "/perfilComunidad/{id}",method = RequestMethod.GET)
-    public ModelAndView mostrarPerfilComunidad(@PathVariable Long id, HttpServletRequest request) throws UsuarioNoExistente {
-        HttpSession session = request.getSession();
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-        if(usuario == null) {return new ModelAndView("redirect:/inicio");}
+    public ModelAndView mostrarPerfilComunidad(HttpServletRequest request, @PathVariable Long id) throws UsuarioNoExistente {
         ModelMap model = new ModelMap();
-        model.addAttribute("usuario", usuario);
+        Usuario usuario = this.setUsuario(request, model);
+        if (usuario == null) {return new ModelAndView("redirect:/inicio");}
         Usuario usuarioComunidad = servicioComunidad.obtenerUsuarioPorId(id);
         model.addAttribute("usuarioComunidad", usuarioComunidad);
-        if(usuarioComunidad.getId().equals(usuario.getId())) {return new ModelAndView("redirect:/perfilUsuario");}
+        if (usuarioComunidad.getId().equals(usuario.getId())) {return new ModelAndView("redirect:/perfilUsuario");}
         UsuarioFollow follow = servicioFollow.obtenerFollow(usuarioComunidad.getId(), usuario.getId());
-        model.put("follow", follow);
+        model.addAttribute("follow", follow);
         return new ModelAndView("perfilComunidad", model);
     }
 
     @Transactional
     @RequestMapping(value = "/seguir", method = RequestMethod.POST)
-    public ModelAndView seguir(HttpServletRequest request, @RequestParam Long usuarioId) throws UsuarioNoExistente {
-        HttpSession session = request.getSession();
-        Usuario usuario = (Usuario) session.getAttribute("usuario");        
-        if(usuario == null) {return new ModelAndView("redirect:/inicio");}
-        Usuario usuarioComunidad = servicioComunidad.obtenerUsuarioPorId(usuarioId);
+    public ModelAndView seguir(HttpServletRequest request, @RequestParam Long idUsuario) throws UsuarioNoExistente {
+        Usuario usuario = this.setUsuario(request);      
+        if (usuario == null) {return new ModelAndView("redirect:/inicio");}
+        Usuario usuarioComunidad = servicioComunidad.obtenerUsuarioPorId(idUsuario);
         servicioFollow.follow(usuarioComunidad, usuario);
         String titulo = "Seguidores";
-        String contenido = usuario.getNombre() +  " te esta siguiendo.";         
+        String contenido = usuario.getNombre() + " te esta siguiendo.";         
         servicioNotificacion.enviarNotificacion(titulo, contenido, LocalDateTime.now(), usuarioComunidad.getId());
-        return new ModelAndView("redirect:/perfilComunidad/"+usuarioId);    
+        return new ModelAndView("redirect:/perfilComunidad/" + idUsuario);    
     }
 
     @Transactional
     @RequestMapping(value = "/dejarDeSeguir", method = RequestMethod.POST)
-    public ModelAndView dejarDeSeguir(HttpServletRequest request, @RequestParam Long usuarioId) throws UsuarioNoExistente {
-        HttpSession session = request.getSession();
-        Usuario usuario = (Usuario) session.getAttribute("usuario");        
-        if(usuario == null) {return new ModelAndView("redirect:/inicio");}
-        UsuarioFollow follow = servicioFollow.obtenerFollow(usuarioId, usuario.getId());
+    public ModelAndView dejarDeSeguir(HttpServletRequest request, @RequestParam Long idUsuario) throws UsuarioNoExistente {
+        Usuario usuario = this.setUsuario(request);        
+        if (usuario == null) {return new ModelAndView("redirect:/inicio");}
+        UsuarioFollow follow = servicioFollow.obtenerFollow(idUsuario, usuario.getId());
         servicioFollow.unfollow(follow);
-        Usuario usuarioComunidad = servicioComunidad.obtenerUsuarioPorId(usuarioId);
+        Usuario usuarioComunidad = servicioComunidad.obtenerUsuarioPorId(idUsuario);
         String titulo = "Seguidores";
-        String contenido = usuario.getNombre() +  " dejo de seguirte.";         
+        String contenido = usuario.getNombre() + " dejo de seguirte.";         
         servicioNotificacion.enviarNotificacion(titulo, contenido, LocalDateTime.now(), usuarioComunidad.getId());
-        return new ModelAndView("redirect:/perfilComunidad/"+usuarioId);  
+        return new ModelAndView("redirect:/perfilComunidad/" + idUsuario);  
     }
    
     @Transactional
     @RequestMapping(value = "/publicacionesUsuario/{id}", method = RequestMethod.GET)
-    public ModelAndView irAPublicaciones(@PathVariable Long id, HttpServletRequest request) throws UsuarioNoExistente, PublicacionNoExistente {       
-        HttpSession session = request.getSession();
-        Usuario usuarioSession = (Usuario) session.getAttribute("usuario");
-        if(usuarioSession == null) {return new ModelAndView("redirect:/inicio");}
+    public ModelAndView irAPublicaciones(@PathVariable Long id, HttpServletRequest request) throws UsuarioNoExistente {       
         ModelMap model = new ModelMap();
-        model.addAttribute("usuario", usuarioSession);
+        Usuario usuarioSession = this.setUsuario(request, model);
+        if (usuarioSession == null) {return new ModelAndView("redirect:/inicio");}
         Usuario usuario = servicioComunidad.obtenerUsuarioPorId(id);
-        String nombre = usuario.getNombre();
-        model.put("nombre", nombre);        
-        List<Publicacion> publicaciones = servicioComunidad.todasLasPublicacionesSubidasPorUnUsuario(id);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        for (Publicacion publicacion : publicaciones) {
-            publicacion.setFechaFormateada(publicacion.getFechaHora().format(formatter));
-        }       
-        model.put("publicacionesUsuario", publicaciones);        
-        Map<Long, Boolean> likes = this.obtenerMapaDeLikesPorUsuario(usuario.getId());
+        model.addAttribute("usuarioComunidad", usuario);
+        model.addAttribute("nuevaRespuesta", new Respuesta());
+        List<Publicacion> publicaciones = servicioComunidad.obtenerPublicacionesSubidasPorUsuario(id);
+        model.addAttribute("publicaciones", publicaciones);
+        Map<Long, List<Respuesta>> respuestas = servicioComunidad.obtenRespuestasPorPublicacionSubida(publicaciones);
+        model.addAttribute("respuestas", respuestas);
+        Map<Long, Boolean> likes = servicioComunidad.obtenerLikesPorUsuario(usuario.getId());
         model.addAttribute("likes", likes);
-        Map<Long, String> likesList = obtenerListaDeLikesPorPublicacion(publicaciones);
-        model.addAttribute("likesList", likesList);
+        Map<Long, String> likesLista = servicioComunidad.obtenerLikesPorPublicacion(publicaciones);
+        model.addAttribute("likesLista", likesLista);
         return new ModelAndView("publicacionesUsuario", model);
     }
 
     @Transactional
-    @RequestMapping(value = "/darMeGustaDesdeUsuario", method = RequestMethod.POST)
-    public ModelAndView darMeGustaDesdeUsuario(HttpServletRequest request, @RequestParam Long publicacionId) throws PublicacionNoExistente, UsuarioNoExistente {
-        HttpSession session = request.getSession();
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
+    @RequestMapping(value = "/guardarRespuestaDesdePublicacion", method = RequestMethod.POST)
+    public ModelAndView guardarRespuestaDesdePublicacion(HttpServletRequest request, @ModelAttribute("respuesta") Respuesta respuesta, @RequestParam("idPublicacion") Long idPublicacion, @RequestParam("busquedaRespuesta") String tituloBuscado) throws PublicacionNoExistente {
+        Usuario usuario = this.setUsuario(request);
         if (usuario == null) {return new ModelAndView("redirect:/inicio");}
-        Publicacion publicacion = servicioComunidad.obtenerPublicacionPorId(publicacionId);
-        servicioLike.like(publicacion, usuario);
+        Publicacion publicacion = servicioComunidad.obtenerPublicacionPorId(idPublicacion);
+        servicioComunidad.responderPublicacion(publicacion, usuario, respuesta.getContenido());
+        if (tituloBuscado != null && !tituloBuscado.isEmpty()) {return new ModelAndView("redirect:/buscarPublicacion?busqueda=" +  tituloBuscado); }
+        return new ModelAndView("redirect:/publicacionUsuario/" + publicacion.getUsuario().getId());
+    }
+
+    @Transactional
+    @RequestMapping(value = "/darMeGustaDesdeUsuario", method = RequestMethod.POST)
+    public ModelAndView darMeGustaDesdeUsuario(HttpServletRequest request, @RequestParam Long idPublicacion) throws PublicacionNoExistente, UsuarioNoExistente {
+        Usuario usuario = this.setUsuario(request);
+        if (usuario == null) {return new ModelAndView("redirect:/inicio");}
+        Publicacion publicacion = servicioComunidad.obtenerPublicacionPorId(idPublicacion);
+        servicioComunidad.darLike(publicacion, usuario);
         String titulo = "Publicacion";
-        String contenido = usuario.getNombre() +  " le dio me gusta a tu publicacion.";         
+        String contenido = usuario.getNombre() + " le dio me gusta a tu publicacion " + publicacion.getTitulo() + ".";         
         servicioNotificacion.enviarNotificacion(titulo, contenido, LocalDateTime.now(), publicacion.getUsuario().getId());
-        return new ModelAndView("redirect:/publicacionesUsuario/"+publicacion.getUsuario().getId());
+        return new ModelAndView("redirect:/publicacionesUsuario/" + publicacion.getUsuario().getId());
     }
 
     @Transactional
     @RequestMapping(value = "/quitarMeGustaDesdeUsuario", method = RequestMethod.POST)
-    public ModelAndView quitarMeGustaDesdeUsuario(HttpServletRequest request, @RequestParam Long publicacionId) throws PublicacionNoExistente, UsuarioNoExistente {
-        HttpSession session = request.getSession();
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
+    public ModelAndView quitarMeGustaDesdeUsuario(HttpServletRequest request, @RequestParam Long idPublicacion) throws PublicacionNoExistente, UsuarioNoExistente {
+        Usuario usuario = this.setUsuario(request);
         if (usuario == null) {return new ModelAndView("redirect:/inicio");}
-        PublicacionLike like = servicioLike.obtenerLike(publicacionId, usuario.getId());
-        servicioLike.unlike(like);
-        Publicacion publicacion = servicioComunidad.obtenerPublicacionPorId(publicacionId);
+        PublicacionLike like = servicioComunidad.obtenerLikePorIdPublicacionYUsuario(idPublicacion, usuario.getId());
+        servicioComunidad.quitarLike(like);
+        Publicacion publicacion = servicioComunidad.obtenerPublicacionPorId(idPublicacion);
         String titulo = "Publicacion";
-        String contenido = usuario.getNombre() +  " le quito el me gusta a tu publicacion.";         
+        String contenido = usuario.getNombre() + " le quito el me gusta a tu publicacion" + publicacion.getTitulo() + ".";         
         servicioNotificacion.enviarNotificacion(titulo, contenido, LocalDateTime.now(), publicacion.getUsuario().getId());
-        return new ModelAndView("redirect:/publicacionesUsuario/"+publicacion.getUsuario().getId());
+        return new ModelAndView("redirect:/publicacionesUsuario/" + publicacion.getUsuario().getId());
     }
 
     @Transactional
     @RequestMapping(value = "/seguidores", method = RequestMethod.GET)
     public ModelAndView seguidores(HttpServletRequest request) throws UsuarioNoExistente {
-        HttpSession session = request.getSession();
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-        if(usuario == null) {return new ModelAndView("redirect:/inicio");}
         ModelMap model = new ModelMap();
-        model.addAttribute("usuario", usuario);
+        Usuario usuario = this.setUsuario(request, model);
+        if (usuario == null) {return new ModelAndView("redirect:/inicio");}
         List<Usuario> seguidores = servicioFollow.obtenerTodosLosFollows(usuario.getId());
         model.addAttribute("seguidores", seguidores);
         List<Usuario> seguidos = servicioFollow.obtenerTodosMisFollows(usuario.getId());
         model.addAttribute("seguidos", seguidos);
         return new ModelAndView("seguidores", model);
+    }
+
+    private Usuario setUsuario(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        return usuario;
+    }
+
+    private Usuario setUsuario(HttpServletRequest request, ModelMap model) {
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuario);
+        return usuario;
     }
 
 }

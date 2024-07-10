@@ -40,10 +40,10 @@
         <h6 class="fw-bold"><a th:href="@{/home}" style="color: #5FB92E;">Home</a> > Mi perfil</h6>
     </div>
 
-    <div class="offcanvas offcanvas-start" id="cambiarAvatar">
+    <div class="offcanvas offcanvas-start text-bg-dark" id="cambiarAvatar">
         <div class="offcanvas-header my-2 mx-2">
             <h3 class="fw-bold">Cambiar Avatar</h3>
-            <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="offcanvas"></button>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
         </div>
         <div class="offcanvas-body mx-2">
             <form th:action="@{/procesarImagen}" method="post" th:object="${usuario}" th:inline="javascript"> 
@@ -51,19 +51,19 @@
                     <select class="form-control" th:field="*{imagen}" onchange="changeImage(this)" id="imagen" name="imagen">
                         <option th:each="imagen : ${imagenes}" th:value="${imagen.value}" th:selected="${imagen.value == usuario.imagen}" th:text="${imagen.key}"></option>
                     </select>
-                    <label for="imagen">Elige una Avatar:</label>
+                    <label for="imagen">Elige un Avatar:</label>
                     <div class="container p-4">
-                        <img class="img-fluid" id="mostrarAvatar" name="mostrarAvatar" th:src="@{'/img/' + ${usuario.imagen}}" alt="img-seleccionada">
+                        <img class="img-fluid rounded-circle" id="mostrarAvatar" name="mostrarAvatar" th:src="@{'/img/' + ${usuario.imagen}}" alt="img-seleccionada">
                     </div>                    
                 </div>
-                <div class="my-2">
-                    <input class="btn btn-success" type="submit" id="guardar" name="guardar" value="Guadar Cambio">
+                <div class="mb-2 d-flex justify-content-center align-items-center">
+                    <input class="btn btn-success" type="submit" id="guardar" name="guardar" value="Guadar">
                 </div>              
             </form>
         </div>
     </div>
 
-    <div class="container my-5" style="min-height: 60vh;"> 
+    <main class="container my-5"> 
         <div class="row d-flex align-items-center">
             <div class="col-md-4 d-flex flex-column justify-content-center my-3">
                 <h3 class="text-center fw-bold">Mi Avatar</h3>
@@ -90,7 +90,7 @@
                 </div>  
             </div>
         </div>        
-    </div>
+    </main>
     
     <div th:replace="footer :: footer"></div>
 

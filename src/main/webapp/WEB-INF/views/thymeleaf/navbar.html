@@ -7,31 +7,30 @@
 <body>
 
 <div th:fragment="navbar">
-<nav class="navbar navbar-expand-sm navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/home}">
-            <h1 class="display 3 fw-bold"><img th:src="@{/img/logo_bg-color.png}" alt="logo" height="100px">fatloss</h1>
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="collapsibleNavbar">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle fw-bold" href="#" role="button" data-bs-toggle="dropdown" th:text="${usuario} ? ${usuario.nombre}: 'Datos Usuario'"></a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" th:href="@{/perfilUsuario}">Perfil</a></li>
-                        <li><a class="dropdown-item" th:href="@{/seguidores}">Seguidores</a></li>
-                        <li><a class="dropdown-item" th:href="@{/notificaciones}">Notificaciones</a></li>
+    <header class="container-fluid" style="background-color: #5FB92E;">
+        <div class="px-3 py-3">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a th:href="@{/home}" class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
+                    <img th:src="@{/img/logo_bg-color.png}" alt="logo-header" width="80" height="80">
+                    <h1 class="ms-3 fw-bold text-white">fatloss</h1>
+                </a>
+                <div class="dropdown text-end d-flex flex-wrap justify-content-center align-items-center ms-auto">
+                    <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img th:if="${usuario != null}" th:src="@{'/img/' + ${usuario.imagen}}" alt="profile-picture" width="32" height="32" class="rounded-circle">
+                        <img th:if="${usuario == null}" th:src="@{/img/icono-perfil-1.png}" alt="profile-picture" width="32" height="32" class="rounded-circle">
+                    </a>
+                    <ul class="dropdown-menu gap-1 p-2 rounded-3 mx-0 border-0 shadow w-220px">
+                        <li><a class="dropdown-item rounded-2" th:href="@{/perfilUsuario}">Perfil</a></li>
+                        <li><a class="dropdown-item rounded-2" th:href="@{/seguidores}">Seguidores</a></li>
+                        <li><a class="dropdown-item rounded-2" th:href="@{/notificaciones}">Notificaciones</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item rounded-2" th:href="@{/inicio}">Cerrar sesion</a></li>
                     </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link fw-bold" th:href="@{/inicio}">Salir</a>
-                </li>
-            </ul>
+                </div>
+            </div>
         </div>
-    </div>
-</nav>
+    </header>
 </div>
+
 </body>
 </html>

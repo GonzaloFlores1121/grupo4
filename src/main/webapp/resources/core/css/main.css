@@ -26,12 +26,12 @@ h2{
     margin:0 2rem;
 }
 
-.navbar {
-    background-color: #5FB92E;
-}
-
 footer {
     background-color: #1B1F23;
+}
+
+main {
+    flex: 1;
 }
 
 a, a:link, a:visited, a:hover, a:active {
