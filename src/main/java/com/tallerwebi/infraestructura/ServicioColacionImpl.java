@@ -47,8 +47,9 @@ public class ServicioColacionImpl implements ServicioColacion {
         if(colacion.getTipo() == null) {
             throw new Exception("El tipo de colación es nulo");
         }
-        
+
         repositorioColacion.agregarColacion(colacion);
+        servicioDatosUsuario.verificarIngestaDelDia(usuario);
     }
 
 
@@ -137,7 +138,7 @@ public class ServicioColacionImpl implements ServicioColacion {
         Date fechaSql = Date.valueOf(fecha);
 
         List<Colacion> colaciones = repositorioColacion.obtenerTodasLasColacionesDelUsuarioPorFecha(usuario, fechaSql.toLocalDate());
-        servicioDatosUsuario.verificarIngestaDelDia(usuario);
+
         return colaciones;
     }
 

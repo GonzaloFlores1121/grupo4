@@ -23,13 +23,15 @@ public class ControladorMisAlimentos {
 
     private ServicioColacion servicioColacion;
     private ServicioAlimento servicioALimento;
+    private ServicioDatosUsuario servicioDatosUsuario;
 
 
     @Autowired
-    public ControladorMisAlimentos( ServicioColacion servicioColacion, ServicioAlimento servicioALimento) {
+    public ControladorMisAlimentos( ServicioColacion servicioColacion, ServicioAlimento servicioALimento, ServicioDatosUsuario servicioDatosUsuario) {
 
         this.servicioColacion = servicioColacion;
         this.servicioALimento = servicioALimento;
+        this.servicioDatosUsuario = servicioDatosUsuario;
     }
 
     @RequestMapping(value = "/misAlimentos", method = RequestMethod.GET)
@@ -108,6 +110,7 @@ public class ControladorMisAlimentos {
             try {
                 servicioColacion.eliminarColacionUsuario(alimento, usuario, tipoVieja, fechaAntiguaColacion);
                 servicioColacion.guardarColacionUsuario(alimento, usuario, cantidad, tipo, fecha, nombre);
+
                 redirectAttributes.addFlashAttribute("mensajeAlimentoModificado", "El alimento se ha modificado correctamente.");
             } catch (Exception e) {
                 model.put("mensaje", "Error: " + e.getMessage());
