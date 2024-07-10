@@ -10,6 +10,7 @@
     <!--bootstrap-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <!--google-fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -64,17 +65,14 @@
                     </p>
                 </div>
 
-        <div th:if="${mensajeAlimentoModificado}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <div th:if="${mensajeAlimentoModificado}" class="alert alert-success alert-dismissible fade show mensajesPersonalizados" role="alert">
             <p th:text="${mensajeAlimentoModificado}"></p>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-        <div th:if="${mensajeAlimentoAgregado}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <div th:if="${mensajeAlimentoAgregado}" class="alert alert-success alert-dismissible fade show mensajesPersonalizados" role="alert">
             <p th:text="${mensajeAlimentoAgregado}"></p>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-        <div th:if="${mensajeAlimentoEliminado}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <div th:if="${mensajeAlimentoEliminado}" class="alert alert-success alert-dismissible fade show mensajesPersonalizados" role="alert">
             <p th:text="${mensajeAlimentoEliminado}"></p>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         <div class="container">
             <div class="row justify-content-center">
@@ -101,13 +99,20 @@
             </div>
             </div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script>
             function confirmDelete() {
                 return confirm('¿Estás seguro de que quieres eliminar este alimento?');
             }
+    </script>
+    <script>
+        $(document).ready(function() {
+            setTimeout(function() {
+                $('.mensajesPersonalizados').fadeOut('slow');
+            }, 3000); //
+        });
     </script>
 </body>
 </html>

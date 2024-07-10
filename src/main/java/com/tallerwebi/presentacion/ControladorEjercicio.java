@@ -159,7 +159,8 @@ public class ControladorEjercicio {
 
     @RequestMapping(value = "/misEjercicios/eliminarEjercicio/{idEjercicioUsuario}/{fecha}", method = RequestMethod.GET)
     public ModelAndView eliminarEjercicioUsuario(@PathVariable("idEjercicioUsuario") Long idEjercicio,
-                                                   @PathVariable("fecha") String fecha, HttpServletRequest request) {
+                                                   @PathVariable("fecha") String fecha, HttpServletRequest request,
+                                                 RedirectAttributes redirectAttributes) {
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
 
@@ -170,6 +171,8 @@ public class ControladorEjercicio {
         try {
             EjercicioUsuario ejercicio= servicioEjercicio.buscarEjercicioUsuarioPorId(idEjercicio);
             servicioEjercicio.eliminarEjercicioUsuario(ejercicio, parseFecha(fecha));
+            redirectAttributes.addFlashAttribute("mensajeEjercicioEliminadoCorrectamente","El ejercicio " + ejercicio.getNombre()+
+                    " fue eliminado correctamente!");
             return new ModelAndView("redirect:/misEjercicios?fecha=" + fecha);
         } catch (Exception e) {
 

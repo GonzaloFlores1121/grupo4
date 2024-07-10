@@ -115,6 +115,7 @@ public class ControladorMisAlimentos {
             }
         } else {
             updateAlimento(alimento, cantidad, nombre);
+            redirectAttributes.addFlashAttribute("mensajeAlimentoModificado", "El alimento se ha modificado correctamente.");
         }
 
         return new ModelAndView("redirect:/misAlimentos?fecha="+fecha);

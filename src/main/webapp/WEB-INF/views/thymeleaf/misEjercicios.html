@@ -9,20 +9,24 @@
 
     <!--bootstrap-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!--google-fonts-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900&display=swap" rel="stylesheet">
 </head>
 <style>
-    .custom-card {
-        width: 50%;
-        margin: auto;
+    .eliminarEjercicio {
+        color: #333;
+        font-size: 1.2em;
+        text-decoration: none;
+        margin-left: 10px;
     }
 
+    .eliminarEjercicio:hover {
+        color: #fff;
+        background-color: #000;
+    }
 .exercise-name{
     font-family: 'Arial', sans-serif;
     font-size: 1.5em;
@@ -56,23 +60,29 @@
                 </p>
             </div>
 
-            <div th:if="${mensajeEjercicioAgregado}" class="alert alert-success" role="alert">
+            <div th:if="${mensajeEjercicioAgregado}" class="alert alert-success mensajesPersonalizados" role="alert">
                 <p th:text="${mensajeEjercicioAgregado}"></p>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+            <div th:if="${mensajeEjercicioEliminadoCorrectamente}" class="alert alert-success mensajesPersonalizados" role="alert">
+                <p th:text="${mensajeEjercicioEliminadoCorrectamente}"></p>
             </div>
 
             <div class="container" style="min-height: 80vh;">
                 <div class="row justify-content-center">
                     <div class="col-md-8">
                         <h2>Mis ejercicios <span th:text="${fechaFormateada}"></span></h2>
+                        <div th:if="${#lists.isEmpty(ejercicios)}" class="alert alert-info">
+                            No hay ejercicios agregados aún.
+                        </div>
                         <div th:each="ejercicio : ${ejercicios}" class="card mb-3">
                             <div class="card-body custom-card">
+                                <a th:href="@{/misEjercicios/eliminarEjercicio/{idEjercicioUsuario}/{fecha}/(idEjercicioUsuario=${ejercicio.id},fecha=${fecha})}"
+                                   class="btn eliminarEjercicio float-end" onclick="return confirmDelete()">x</a>
                                 <h5 class="card-title exercise-name" th:text="${ejercicio.ejercicio.nombre}"></h5>
                                 <p class="card-text">
                                     <span th:text="'Minutos empleados: ' + ${ejercicio.minutos}"></span><br>
                                     <span th:text="'Calorias quemadas: ' + ${ejercicio.caloriasQuemadas}"></span>
-                                    <a th:href="@{/misEjercicios/eliminarEjercicio/{idEjercicioUsuario}/{fecha}/(idEjercicioUsuario=${ejercicio.id},fecha=${fecha})}"
-                                       class="btn btn-danger eliminarAlimento" onclick="return confirmDelete()">x</a>
                                 </p>
                             </div>
                         </div>
@@ -82,7 +92,20 @@
         </div>
     </div>
     <div th:replace="footer :: footer"></div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script>
+        function confirmDelete() {
+            return confirm('¿Estás seguro de que quieres eliminar este ejercicio?');
+        }
+
+    </script>
+    <script>
+        $(document).ready(function() {
+            setTimeout(function() {
+                $('.mensajesPersonalizados').fadeOut('slow');
+            }, 3000); //
+        });
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
