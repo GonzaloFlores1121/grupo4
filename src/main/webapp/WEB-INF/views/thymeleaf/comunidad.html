@@ -20,13 +20,34 @@
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
 
     <style>
+        .subir {
+           position: fixed;
+           bottom: 20px;
+           right: 20px;
+           padding: 10px; /* Padding para el contenedor */
+           margin: 0; /* Margin para el contenedor */
+           z-index: 1000; /* Asegura que esté por encima de otros elementos */
+           background-color: rgba(255, 255, 255, 0.8); /* Fondo con un poco de transparencia */
+           border-radius: 8px; /* Bordes redondeados */
+           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+       }
+
         .post-card {
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 720px;
+            margin: 0 auto;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
         }
 
         .post-header img {
             border-radius: 50%;
+        }
+
+        .post-content {
+            padding: 15px;
         }
 
         .post-responses {
@@ -183,7 +204,7 @@
                 </form>
             </div>
         </div>    
-        <button class="btn btn-warning position-fixed end-0 bottom-0 mb-3 me-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#subirPublicacion">Subir Publicacion</button>
+        <button class="btn btn-warning subir" type="button" data-bs-toggle="offcanvas" data-bs-target="#subirPublicacion">Subir Publicacion</button>
     </main>
 
     <div th:replace="footer :: footer"></div>
@@ -193,6 +214,18 @@
             var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
             var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
                 return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+            window.addEventListener('scroll', function() {
+                var footer = document.querySelector('footer');
+                var button = document.querySelector('.subir');
+                var footerRect = footer.getBoundingClientRect();
+                var buttonRect = button.getBoundingClientRect();
+
+                if (footerRect.top < window.innerHeight) {
+                    button.style.bottom = (window.innerHeight - footerRect.top + 20) + 'px';
+                } else {
+                    button.style.bottom = '20px';
+                }
             });
         });
     </script>
