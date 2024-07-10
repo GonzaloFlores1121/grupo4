@@ -42,7 +42,12 @@ public class ControladorMisAlimentos {
         modelo.put("usuario", usuario);
         List<Colacion> colaciones = servicioColacion.obtenerColacionesDelUsuarioPOrFecha(usuario, fecha);
         modelo.put("colaciones", colaciones);
-        modelo.put("fecha", fecha);
+        modelo.put("fecha",fecha);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE d 'de' MMMM 'de' yyyy", new Locale("es", "ES"));
+        String fechaFormateada = fecha.format(formatter);
+
+        modelo.put("fechaFormateada", fechaFormateada);
         return new ModelAndView("misAlimentos", modelo);
     }
 
@@ -161,7 +166,8 @@ public class ControladorMisAlimentos {
 
     @RequestMapping(value = "/misAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}", method = RequestMethod.GET)
     public ModelAndView eliminarAlimentoDeColacion(@PathVariable("idAlimento") Long idAlimento, @PathVariable("tipoColacion")TipoColacion tipoColacion,
-                                                   @PathVariable("fecha") String fecha, HttpServletRequest request) {
+                                                   @PathVariable("fecha") String fecha, HttpServletRequest request,
+                                                   RedirectAttributes redirectAttributes) {
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
 
@@ -172,6 +178,9 @@ public class ControladorMisAlimentos {
         try {
             Alimento alimento = servicioALimento.obtenerAlimentosPorId(idAlimento);
             servicioColacion.eliminarColacionUsuario(alimento, usuario, tipoColacion,parseFecha(fecha));
+            redirectAttributes.addFlashAttribute("mensajeAlimentoEliminado","Se eliminó el alimento "+alimento.getNombre()
+            + " correctamente!");
+
             return new ModelAndView("redirect:/misAlimentos?fecha=" + fecha);
         } catch (Exception e) {
 

@@ -1,4 +1,5 @@
 package com.tallerwebi.presentacion;
+import java.time.format.DateTimeFormatter;
 import com.tallerwebi.dominio.*;
 import com.tallerwebi.dominio.excepcion.EjercicioInvalido;
 import com.tallerwebi.dominio.excepcion.EjercicioNoExistente;
@@ -21,7 +22,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 
 @Controller
 public class ControladorEjercicio {
@@ -71,10 +74,13 @@ public class ControladorEjercicio {
         ModelMap model = new ModelMap();
         model.put("ejercicio", ejercicio);
 
+
         try {
             servicioEjercicio.guardarEjercicioUsuario(ejercicio.getNombre(),intensidad,ejercicio,usuario,fecha,minutos);
             redirectAttributes.addFlashAttribute("mensajeEjercicioAgregado", "El ejercicio se ha guardado correctamente.");
-            return new ModelAndView("redirect:/actividadesFisicas");
+
+
+            return new ModelAndView("redirect:/misEjercicios?fecha="+fecha);
         }catch (Exception EjercicioInvalido){
             model.put("mensaje", "El ejercicio no se ha guardado correctamente.");
             return new ModelAndView("ejercicio", model);
@@ -134,6 +140,12 @@ public class ControladorEjercicio {
         List<EjercicioUsuario> ejercicios = servicioEjercicio.obtenerEjercicioUsuarioPorFecha(usuario, fecha);
         modelo.put("ejercicios", ejercicios);
         modelo.put("fecha", fecha);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE d 'de' MMMM 'de' yyyy", new Locale("es", "ES"));
+        String fechaFormateada = fecha.format(formatter);
+
+        modelo.put("fechaFormateada",fechaFormateada);
+
         return new ModelAndView("misEjercicios", modelo);
     }
     @RequestMapping(value = "/verEjercicio", method = RequestMethod.GET)

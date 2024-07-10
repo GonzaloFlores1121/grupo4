@@ -17,7 +17,30 @@
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
 </head>
+<style>
+    .eliminarAlimento {
+        color: #333;
+        font-size: 1.2em;
+        text-decoration: none;
+        margin-left: 10px;
+    }
+
+    .eliminarAlimento:hover {
+        color: #fff;
+        background-color: #000;
+    }
+    .card-text {
+        padding-right: 20px;
+    }
+    .food-name{
+        font-family: 'Arial', sans-serif;
+        font-size: 1.5em;
+        font-weight: bold;
+        color: #5FB92E;
+    }
+</style>
 <body>
+
     <div th:replace="navbar :: navbar"></div>
     <div class="container">
         <div class="row justify-content-center">
@@ -41,29 +64,43 @@
             </p>
         </div>
 
-        <div th:if="${mensajeAlimentoModificado}" class="alert alert-success" role="alert">
+        <div th:if="${mensajeAlimentoModificado}" class="alert alert-success alert-dismissible fade show" role="alert">
             <p th:text="${mensajeAlimentoModificado}"></p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-        <div th:if="${mensajeAlimentoAgregado}" class="alert alert-success" role="alert">
+        <div th:if="${mensajeAlimentoAgregado}" class="alert alert-success alert-dismissible fade show" role="alert">
             <p th:text="${mensajeAlimentoAgregado}"></p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-
+        <div th:if="${mensajeAlimentoEliminado}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <p th:text="${mensajeAlimentoEliminado}"></p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-8">
-                    <h2>Alimentos consumidos el <span th:text="${fecha}"></span></h2>
-                    <ul>
-                        <li th:each="colacion : ${colaciones}">
-                            <a th:href="@{/alimentos/{id}(id=${colacion.alimentos.id}, from='misAlimentos')}">
-                                <span th:text="${colacion.alimentos.nombre}"></span> </a> -
-                            <span th:text="'Cantidad consumida: ' + ${colacion.cantidad}"></span> -
-                            <span th:text="'Calorias: ' + ${colacion.alimentos.energia}"></span>
-                            <a th:href="@{/misAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}(idAlimento=${colacion.alimentos.id},tipoColacion=${colacion.tipo},fecha=${fecha})}" class="btn btn-danger eliminarAlimento" onclick="return confirmDelete()">x</a>
-                    </ul>
+                    <h2>Alimentos consumidos el <span th:text="${fechaFormateada}"></span></h2>
+                    <div th:if="${colaciones.isEmpty()}" class="alert alert-info">
+                        No hay alimentos agregados aún.
+                    </div>
+                    <div th:each="colacion : ${colaciones}" class="card mb-3" th:unless="${colaciones.isEmpty()}">
+                        <div class="card-body">
+                            <a th:href="@{/misAlimentos/eliminarAlimento/{idAlimento}/{tipoColacion}/{fecha}(idAlimento=${colacion.alimentos.id},tipoColacion=${colacion.tipo},fecha=${fecha})}" class="btn eliminarAlimento float-end" onclick="return confirmDelete()">x</a>
+                            <h5 class="card-title">
+                                <a th:href="@{/alimentos/{id}(id=${colacion.alimentos.id}, from='misAlimentos')}">
+                                    <span class="food-name" th:text="${colacion.alimentos.nombre}"></span>
+                                </a>
+                            </h5>
+                            <p class="card-text">
+                                <span th:text="'Cantidad consumida: ' + ${colacion.alimentos.cantidad}"></span><br>
+                                <span th:text="'Calorias: ' + ${colacion.alimentos.energia}"></span>
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
-            </div>
         </div>
+    </div>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
