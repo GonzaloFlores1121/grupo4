@@ -68,23 +68,24 @@
 
 <div class="container-fluid my-5 d-flex justify-content-center align-items-center" style="min-height: 60vh;">
     <div class="row" style="padding-left: 110px;">
-        <div th:each="receta : ${recetas}" class="col-md-4 justify-content-center my-5">
-            <div class="card text-center">
-                <img th:src="@{'/img/recetas/' + ${receta.imagen}}" class="card-img-top mx-auto d-block img-fluid" alt="receta_imagen" style="max-width:400px; max-height:400px;">
-                <div class="card-body">
+        <div th:each="receta : ${recetas}" class="col-md-4 d-flex justify-content-center my-5">
+            <div class="card text-center" style="width: 18rem; min-height: 24rem;">
+                <img th:src="@{'/img/recetas/' + ${receta.imagen}}" class="card-img-top mx-auto d-block img-fluid" alt="receta_imagen" style="max-height: 200px;">
+                <div class="card-body d-flex flex-column">
                     <h5 class="card-title">
                         <a th:href="@{/recetas/{id}(id=${receta.id})}" th:text="${receta.nombre}" class="card-title text-center"></a>
                     </h5>
                     <p class="card-text" th:text="${receta.descripcion}"></p>
+                    <div class="mt-auto">
+                        <a th:href="@{/agregarAFavoritos/{id}(id=${receta.id})}">
+                            <button class="boton-fav">Agregar a favoritos</button>
+                        </a>
+                    </div>
                 </div>
-                <a th:href="@{/agregarAFavoritos/{id}(id=${receta.id})}">
-                    <button class="boton-fav"> agregar a favoritos </button>
-                </a>
             </div>
         </div>
     </div>
 </div>
-
 
 <div th:replace="footer :: footer"></div>
 

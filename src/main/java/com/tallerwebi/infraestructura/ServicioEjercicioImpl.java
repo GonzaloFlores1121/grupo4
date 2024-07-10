@@ -57,6 +57,11 @@ public class ServicioEjercicioImpl implements ServicioEjercicio {
     }
 
     @Override
+    public void eliminarEjercicioUsuario(EjercicioUsuario ejercicioUsuario,LocalDate fecha) {
+         repositorioEjercicioUsuario.eliminarEjercicioUsuario(fecha,ejercicioUsuario);
+    }
+
+    @Override
     public Ejercicio obtenerEjercicioPorId(Long id) {
         return ejercicioRepositorio.obtenerEjercicioPorId(id);
     }

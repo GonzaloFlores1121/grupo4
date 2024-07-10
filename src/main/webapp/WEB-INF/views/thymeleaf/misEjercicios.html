@@ -15,7 +15,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900&display=swap" rel="stylesheet">
 </head>
 <style>
     .custom-card {
@@ -33,44 +33,48 @@
 <body>
     <div th:replace="navbar :: navbar"></div>
 
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-12">
-                <div class="list-group flex-row justify-content-center">
-                    <a th:href="@{/home}" class="list-group-item list-group-item-action ">MI FATLOSS</a>
-                    <a th:href="@{/categoria_alimentos}" class="list-group-item list-group-item-action">ALIMENTOS</a>
-                    <a th:href="@{/recetas}" class="list-group-item list-group-item-action">RECETAS</a>
-                    <a th:href="@{/actividadesFisicas}" class="list-group-item list-group-item-action">EN FORMA</a>
-                    <a th:href="@{/estadisticasUsuario}" class="list-group-item list-group-item-action">ESTADISTICAS</a>
-                    <a th:href="@{/calendarioDieta}" class="list-group-item list-group-item-action activo">CALENDARIO</a>
-                    <a th:href="@{/comunidad}" class="list-group-item list-group-item-action">COMUNIDAD</a>
+    <div class="d-flex flex-column min-vh-100">
+        <div class="container flex-grow-1">
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    <div class="list-group flex-row justify-content-center">
+                        <a th:href="@{/home}" class="list-group-item list-group-item-action">MI FATLOSS</a>
+                        <a th:href="@{/categoria_alimentos}" class="list-group-item list-group-item-action">ALIMENTOS</a>
+                        <a th:href="@{/recetas}" class="list-group-item list-group-item-action">RECETAS</a>
+                        <a th:href="@{/actividadesFisicas}" class="list-group-item list-group-item-action">EN FORMA</a>
+                        <a th:href="@{/estadisticasUsuario}" class="list-group-item list-group-item-action">ESTADISTICAS</a>
+                        <a th:href="@{/calendarioDieta}" class="list-group-item list-group-item-action activo">CALENDARIO</a>
+                        <a th:href="@{/comunidad}" class="list-group-item list-group-item-action">COMUNIDAD</a>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div style="margin-left: 20px; padding: 10px;">
-            <p>
-                <span><a th:href="@{/home}" style="color: green;">Home</a></span> >
-                <span><a th:href="@{/calendarioDieta}" style="color: green;">Calendario</a></span> > Mis ejercicios
-            </p>
-        </div>
+            <div style="margin-left: 20px; padding: 10px;">
+                <p>
+                    <span><a th:href="@{/home}" style="color: green;">Home</a></span> >
+                    <span><a th:href="@{/calendarioDieta}" style="color: green;">Calendario</a></span> > Mis ejercicios
+                </p>
+            </div>
 
-        <div th:if="${mensajeEjercicioAgregado}" class="alert alert-success" role="alert">
-            <p th:text="${mensajeEjercicioAgregado}"></p>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+            <div th:if="${mensajeEjercicioAgregado}" class="alert alert-success" role="alert">
+                <p th:text="${mensajeEjercicioAgregado}"></p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
 
-        <div class="container" style="min-height: 80vh;">
-            <div class="row justify-content-center">
-                <div class="col-md-8">
-                    <h2>Mis ejercicios <span th:text="${fechaFormateada}"></span></h2>
-                    <div th:each="ejercicio : ${ejercicios}" class="card mb-3">
-                        <div class="card-body custom-card">
-                            <h5 class="card-title exercise-name" th:text="${ejercicio.ejercicio.nombre}"></h5>
-                            <p class="card-text">
-                                <span th:text="'Minutos empleados: ' + ${ejercicio.minutos}"></span><br>
-                                <span th:text="'Calorias quemadas: ' + ${ejercicio.caloriasQuemadas}"></span>
-                            </p>
+            <div class="container" style="min-height: 80vh;">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <h2>Mis ejercicios <span th:text="${fechaFormateada}"></span></h2>
+                        <div th:each="ejercicio : ${ejercicios}" class="card mb-3">
+                            <div class="card-body custom-card">
+                                <h5 class="card-title exercise-name" th:text="${ejercicio.ejercicio.nombre}"></h5>
+                                <p class="card-text">
+                                    <span th:text="'Minutos empleados: ' + ${ejercicio.minutos}"></span><br>
+                                    <span th:text="'Calorias quemadas: ' + ${ejercicio.caloriasQuemadas}"></span>
+                                    <a th:href="@{/misEjercicios/eliminarEjercicio/{idEjercicioUsuario}/{fecha}/(idEjercicioUsuario=${ejercicio.id},fecha=${fecha})}"
+                                       class="btn btn-danger eliminarAlimento" onclick="return confirmDelete()">x</a>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>

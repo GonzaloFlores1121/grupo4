@@ -18,5 +18,8 @@ public interface ServicioEjercicio {
     Integer calcularCaloriasQuemadas(Ejercicio ejercicio,  Integer minutos);
     List<EjercicioUsuario> obtenerEjercicioUsuarioPorFecha(Usuario usuario, LocalDate fecha);
     EjercicioUsuario buscarEjercicioUsuarioPorId(Long id);
+
+    void eliminarEjercicioUsuario(EjercicioUsuario ejercicioUsuario, LocalDate fecha);
+
     Ejercicio obtenerEjercicioPorId(Long id);
 }

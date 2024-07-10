@@ -157,7 +157,29 @@ public class ControladorEjercicio {
         return new ModelAndView("ejercicio", modelo);
     }
 
+    @RequestMapping(value = "/misEjercicios/eliminarEjercicio/{idEjercicioUsuario}/{fecha}", method = RequestMethod.GET)
+    public ModelAndView eliminarEjercicioUsuario(@PathVariable("idEjercicioUsuario") Long idEjercicio,
+                                                   @PathVariable("fecha") String fecha, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
 
+        if (usuario == null) {
+            return new ModelAndView("redirect:/inicio");
+        }
+
+        try {
+            EjercicioUsuario ejercicio= servicioEjercicio.buscarEjercicioUsuarioPorId(idEjercicio);
+            servicioEjercicio.eliminarEjercicioUsuario(ejercicio, parseFecha(fecha));
+            return new ModelAndView("redirect:/misEjercicios?fecha=" + fecha);
+        } catch (Exception e) {
+
+            return new ModelAndView("redirect:/misEjercicios?fecha=" + fecha);
+        }
+    }
+    private LocalDate parseFecha(String fechaStr) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-d");
+        return LocalDate.parse(fechaStr, formatter);
+    }
     private void obtenerUsuarioSession(HttpServletRequest request, ModelMap model) {
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
