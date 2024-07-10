@@ -125,6 +125,7 @@ public class ControladorPerfil {
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         if(usuario != null) {
+
             model.addAttribute("usuario", usuario);
             List<Notificacion> notificaciones = servicioNotificacion.obtenerNotificaciones(usuario.getId());
             model.addAttribute("notificaciones", notificaciones);

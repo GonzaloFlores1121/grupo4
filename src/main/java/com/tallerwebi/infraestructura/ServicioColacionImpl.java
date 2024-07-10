@@ -1,5 +1,6 @@
 package com.tallerwebi.infraestructura;
 import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.excepcion.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,8 +47,7 @@ public class ServicioColacionImpl implements ServicioColacion {
         if(colacion.getTipo() == null) {
             throw new Exception("El tipo de colación es nulo");
         }
-
-        servicioDatosUsuario.verificarIngestaDelDia(usuario);
+        
         repositorioColacion.agregarColacion(colacion);
     }
 
@@ -111,7 +111,7 @@ public class ServicioColacionImpl implements ServicioColacion {
     }
 
     @Override
-    public Integer obtenerCaloriasTotalesDeAlimentosPorUsuarioYFecha(Usuario usuario, LocalDate fecha) {
+    public Integer obtenerCaloriasTotalesDeAlimentosPorUsuarioYFecha(Usuario usuario, LocalDate fecha) throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, UsuarioNoExistente, PesoIncorrectoException, EjercicioNoExistente {
         List <Colacion> colaciones= obtenerColacionesDelUsuarioPOrFecha(usuario, fecha);
         Integer caloriasTotales=0;
         if(colaciones ==null){
@@ -132,11 +132,12 @@ public class ServicioColacionImpl implements ServicioColacion {
     }
 
     @Override
-    public List<Colacion> obtenerColacionesDelUsuarioPOrFecha(Usuario usuario, LocalDate fecha) {
+    public List<Colacion> obtenerColacionesDelUsuarioPOrFecha(Usuario usuario, LocalDate fecha) throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, UsuarioNoExistente, PesoIncorrectoException, EjercicioNoExistente {
         // Convertir LocalDate a Date
         Date fechaSql = Date.valueOf(fecha);
 
         List<Colacion> colaciones = repositorioColacion.obtenerTodasLasColacionesDelUsuarioPorFecha(usuario, fechaSql.toLocalDate());
+        servicioDatosUsuario.verificarIngestaDelDia(usuario);
         return colaciones;
     }
 

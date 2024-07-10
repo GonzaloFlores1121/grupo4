@@ -1,5 +1,7 @@
 package com.tallerwebi.dominio;
 
+import com.tallerwebi.dominio.excepcion.*;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -12,8 +14,8 @@ public interface ServicioColacion {
 
     Colacion obtenerColacionPorAlimento(Alimento alimento);
     List<Colacion> obtenerTodasLasColacionesDelUsuario(Usuario usuario);
-    List<Colacion> obtenerColacionesDelUsuarioPOrFecha(Usuario usuario,LocalDate fecha);
+    List<Colacion> obtenerColacionesDelUsuarioPOrFecha(Usuario usuario,LocalDate fecha) throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, UsuarioNoExistente, PesoIncorrectoException, EjercicioNoExistente;
     Colacion obtenerColacionPorId(Long id);
 
-    Integer obtenerCaloriasTotalesDeAlimentosPorUsuarioYFecha(Usuario usuario, LocalDate fecha);
+    Integer obtenerCaloriasTotalesDeAlimentosPorUsuarioYFecha(Usuario usuario, LocalDate fecha) throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, UsuarioNoExistente, PesoIncorrectoException, EjercicioNoExistente;
 }

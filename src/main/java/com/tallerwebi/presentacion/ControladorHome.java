@@ -6,6 +6,7 @@ import com.tallerwebi.dominio.ServicioDatosUsuario;
 import com.tallerwebi.dominio.Usuario;
 
 import com.tallerwebi.dominio.excepcion.*;
+import com.tallerwebi.infraestructura.ServicioCalendarioImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,17 +16,21 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Date;
+import java.time.LocalDate;
 
 @Controller
 @SessionAttributes("usuario")
 public class ControladorHome {
 
 
+    private final ServicioCalendarioImpl servicioCalendarioImpl;
     private ServicioDatosUsuario servicioDatosUsuario;
 
     @Autowired
-    public ControladorHome(ServicioDatosUsuario servicioDatosUsuario) {
+    public ControladorHome(ServicioDatosUsuario servicioDatosUsuario, ServicioCalendarioImpl servicioCalendarioImpl) {
         this.servicioDatosUsuario = servicioDatosUsuario;
+        this.servicioCalendarioImpl = servicioCalendarioImpl;
     }
 
 
@@ -36,11 +41,13 @@ public class ControladorHome {
         ModelMap modelo = new ModelMap();
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
+        LocalDate localDate=LocalDate.now();
 
         if(usuario==null){
             return new ModelAndView("redirect:/inicio");
         }
         modelo.put("nombre", usuario.getNombre());
+
 
         return new ModelAndView("home", modelo);
     }
