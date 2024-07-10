@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seguidores</title>
+    <title>Seguidores y Seguidos</title>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/css/main.css}">
 
@@ -15,6 +15,26 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+
+    <style>
+        .follower-card {
+            transition: box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out;
+            background-color: rgba(255, 165, 0, 0.7);
+        }
+
+        .follower-card:hover {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            background-color: rgba(255, 165, 0, 1); 
+        }
+
+        .follower-card img {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .follower-card:hover img {
+            transform: scale(1.1);
+        }
+    </style>
 
 </head>
 <body>
@@ -41,16 +61,16 @@
         <h6 class="fw-bold"><a th:href="@{/home}" style="color: #5FB92E;">Home</a> > Seguidores</h6>
     </div>
 
-    <div class="container my-5" style="min-height: 60vh;">        
-        <h3 class="mb-2 fw-bold">Seguidores</h3> 
-        <div class="container mx-2">
+    <main class="container my-5">
+        <h2 class="my-3 fw-bold">Seguidores</h2>
+        <div class="container m-2">
             <div th:if="${#lists.isEmpty(seguidores)}">
-                <h4 class="text-center text-warning fw-bold my-2">No tienes Seguidores.</h4>
-            </div>            
+                <h4 class="text-center text-muted fw-bold p-5">No tienes Seguidores.</h4>
+            </div>
             <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
                 <div th:each="seguidor : ${seguidores}" class="col justify-content-center">
-                    <div class="card text-center">
-                        <img th:src="@{'/img/' + ${seguidor.imagen}}" class="card-img-top mx-auto d-block" alt="avatar-seguidor" style="max-height: 160px; max-width: 160px;">
+                    <div class="card text-center border border-3 border-muted rounded follower-card" onclick="highlightCard(this)">
+                        <img th:src="@{'/img/' + ${seguidor.imagen}}" class="card-img-top mx-auto d-block rounded-circle" alt="avatar-seguidor" style="max-height: 160px; max-width: 160px;">
                         <div class="card-body">
                             <a th:href="@{/perfilComunidad/{id}(id=${seguidor.id})}">
                                 <h5 th:text="${seguidor.nombre}" class="card-title fw-bold"></h5>
@@ -58,17 +78,17 @@
                         </div>
                     </div>
                 </div>
-            </div>  
+            </div>
         </div>
-        <h3 class="mb-2 fw-bold">Siguiendo</h3>
-        <div class="container mx-2">
+        <h2 class="my-3 fw-bold">Siguiendo</h2>
+        <div class="container m-2">
             <div th:if="${#lists.isEmpty(seguidos)}">
-                <h4 class="text-center text-warning fw-bold my-2">No estas Siguiendo a otros Usuarios.</h4>
-            </div>            
+                <h4 class="text-center text-muted fw-bold p-5">No estas Siguiendo a otros Usuarios.</h4>
+            </div>
             <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
                 <div th:each="seguido : ${seguidos}" class="col justify-content-center">
-                    <div class="card text-center">
-                        <img th:src="@{'/img/' + ${seguido.imagen}}" class="card-img-top mx-auto d-block" alt="avatar-seguido" style="max-height: 160px; max-width: 160px;">
+                    <div class="card text-center border border-3 border-muted rounded follower-card" onclick="highlightCard(this)">
+                        <img th:src="@{'/img/' + ${seguido.imagen}}" class="card-img-top mx-auto d-block rounded-circle" alt="avatar-seguido" style="max-height: 160px; max-width: 160px;">
                         <div class="card-body">
                             <a th:href="@{/perfilComunidad/{id}(id=${seguido.id})}">
                                 <h5 th:text="${seguido.nombre}" class="card-title fw-bold"></h5>
@@ -76,9 +96,9 @@
                         </div>
                     </div>
                 </div>
-            </div>             
+            </div>
         </div>
-    </div>
+    </main>
 
     <div th:replace="footer :: footer"></div>
 

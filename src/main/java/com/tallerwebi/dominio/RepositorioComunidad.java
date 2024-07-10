@@ -1,20 +1,22 @@
 package com.tallerwebi.dominio;
 
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 
 public interface RepositorioComunidad {
 
-    List<Publicacion> obtenerTodasLasPublicaciones();
-
-    @Transactional(readOnly = true)
-    List<Publicacion> obtenerTodasLasPublicacionesDeUnUsuario(Long id);
-
     void guardarPublicacion(Publicacion publicacion);
-    
-    Usuario consultarUsuario(Long id);
-    
-    Publicacion consultarPublicacion(Long id);
+    void guardarRespuesta(Respuesta respuesta);
+    void guardarPublicacionRespuesta(PublicacionRespuesta publicacionRespuesta);
+    void guardarPublicacionLike(PublicacionLike publicacionLike);
+    void borrarPublicacionLike(PublicacionLike publicacionLike);
+    Usuario obtenerUsuarioPorId(Long id);   
+    Publicacion obtenerPublicacionPorId(Long id); 
+    PublicacionLike obtenerPublicacionLikePorIdPublicacionYUsuario(Long idPublicacion, Long idUsuario);
+    List<Publicacion> obtenerPublicaciones();
+    List<Publicacion> obtenerPublicacionesPorUsuario(Long idUsuario);
+    List<Publicacion> obtenerPublicacionesPorBusqueda(String busqueda);
+    List<Respuesta> obtenerRespuestasPorPublicacion(Long idPublicacion);
+    List<Publicacion> obtenerPublicacionLikesPorUsuario(Long idUsuario);
+    List<Usuario> obtenerPublicacionLikesPorPublicacion(Long idPublicacion);
 
 }

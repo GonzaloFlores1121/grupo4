@@ -6,25 +6,29 @@
 </head>
 <body>
 <div th:fragment="footer">
-<footer class="container-fluid mt-auto mt-2">
-    <div class="row d-flex align-items-center">
-        <div class="col-sm-2 d-flex justify-content-center justify-content-sm-end justify-content-md-end
-            justify-content-lg-end justify-content-xl-end justify-content-xxl-end py-2">
-            <img th:src="@{/img/logo-mono_bg-color.png}" alt="logo" height="100px">
+    <footer class="container-fluid mt-auto">
+        <div class="row d-flex flex-wrap justify-content-between align-items-center py-3 px-3">
+            <div class="col-md-4 d-flex justify-content-center align-items-center mb-1">
+                <img th:src="@{/img/logo-mono_bg-color.png}" alt="logo-footer" width="80" height="80">
+                <span class="fw-bold ms-3">&copy; fatloss, Aplicacion Nutricional</span>
+            </div>
+            <div class="col-md-6 d-flex flex-column justify-content-center align-items-center mb-1">
+                <h5 class="fw-bold">Integrantes: </h5>
+                <ul class="nav list-unstyled d-flex flex-column">
+                    <li>Rodolfo Gutierrez - Gonzalo Flores</li>
+                    <li>Milagros Chavez - Kevin Llombart</li>
+                    <li>Joaquin Paiva</li>
+                </ul>
+            </div>
+            <div class="col-md-2 d-flex flex-column justify-content-center align-items-center mb-1">
+                <h5 class="fw-bold">Enlaces: </h5>
+                <ul class="nav list-unstyled">
+                    <li class="ms-3"><a href="https://github.com/GonzaloFlores1121/grupo4" target="_blank"><img th:src="@{/img/github.png}" alt="logo-github"></a></li>
+                    <li class="ms-3"><a href="https://trello.com/w/grupo4tallerweb" target="_blank"><img th:src="@{/img/trello.png}" alt="logo-trello"></a></li>
+                </ul>
+            </div>
         </div>
-        <div class="col-sm-5 d-flex flex-column justify-content-star">
-            <h3 class="fw-bold">TP Taller Web I: fatloss</h3>
-            <p><img th:src="@{/img/github.png}" alt="logo-github"> Github:  <a class="text-break fw-bold" href="https://github.com/GonzaloFlores1121/grupo4" target="_blank">https://github.com/GonzaloFlores1121/grupo4</a></p>
-            <p><img th:src="@{/img/trello.png}" alt="logo-trello"> Trello:  <a class="text-break fw-bold" href="https://trello.com/w/grupo4tallerweb" target="_blank">https://trello.com/w/grupo4tallerweb</a></p>
-        </div>
-        <div class="col-sm-5 d-flex flex-column justify-content-star">
-            <h5 class="fw-bold">Integrantes: </h5>
-            <p class="fw-bold">Rodolfo Gutierrez - Gonzalo Flores</p>
-            <p class="fw-bold">Milagros Chavez - Kevin Llombart</p>
-            <p class="fw-bold">Joaquin Paiva</p>
-        </div>
-    </div>
-</footer>
+    </footer> 
 </div>
 </body>
 </html>
