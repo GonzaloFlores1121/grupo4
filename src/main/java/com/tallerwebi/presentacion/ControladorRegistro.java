@@ -38,7 +38,7 @@ public class ControladorRegistro {
     public ModelAndView inicio() {
         return new ModelAndView("redirect:/inicio");
     }
-    
+
     @RequestMapping(path = "/inicio", method = RequestMethod.GET)
     public ModelAndView irAInicio() {
         return new ModelAndView("inicio");
@@ -62,9 +62,11 @@ public class ControladorRegistro {
             servicioDatosUsuario.ingresarPesoInicial(usuario.getPeso(),usuario);
             String titulo = "Bienvenido a fatloss";
             String contenido = "Nos alegra que te unas a nosotros en tu camino hacia una vida mas saludable. FatLoss es tu app de nutricion ideal para alcanzar tus objetivos de perdida de peso.";
-            servicioNotificacion.enviarNotificacion(titulo, contenido, LocalDateTime.now(), usuario.getId()); 
+            servicioNotificacion.enviarNotificacion(titulo, contenido, LocalDateTime.now(), usuario.getId());
         } catch (UsuarioExistente e) {
             error = "El usuario ya existe.";
+        } catch (PesoMetaIncorrectoException e) {
+            error = "El peso meta debe ser menor a su peso.";
         } catch (AlturaIncorrectaException e) {
             error = "La altura debe ser mayor a 0 y menor que 3 metros.";
         } catch (EdadInvalidaException e) {
@@ -74,6 +76,7 @@ public class ControladorRegistro {
         } catch (Exception e) {
             error = "Fallo desconocida al registrar usuario.";
         }
+
         if (error != null) {
             model.addAttribute("error", error);
             return new ModelAndView("formulario-registro", model);

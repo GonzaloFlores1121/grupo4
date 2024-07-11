@@ -30,7 +30,7 @@ public class ServicioFormularioRegistroTest {
     }
 
     @Test
-    public void elUsuarioNoPuedeRegistrarseSiSuPesoEsMenorACero() throws DatosIncorrectos, UsuarioExistente, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
+    public void elUsuarioNoPuedeRegistrarseSiSuPesoEsMenorACero() throws DatosIncorrectos, UsuarioExistente, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, PesoMetaIncorrectoException {
         Usuario usuario = givenTengoUnUsuarioConPesoInvalido();
 
         assertTrue(thenRegistroDenegado(usuario));
@@ -50,7 +50,7 @@ public class ServicioFormularioRegistroTest {
         return usuario;
     }
 
-    private Boolean thenRegistroDenegado(Usuario usuario) throws DatosIncorrectos, UsuarioExistente, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
+    private Boolean thenRegistroDenegado(Usuario usuario) throws DatosIncorrectos, UsuarioExistente, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, PesoMetaIncorrectoException {
        if(!servicioLogin.validarDatos(usuario)){
           return true;
        }
@@ -106,10 +106,12 @@ public class ServicioFormularioRegistroTest {
             throw new RuntimeException(e);
         } catch (PesoIncorrectoException e) {
             throw new RuntimeException(e);
+        } catch (PesoMetaIncorrectoException e) {
+            throw new RuntimeException(e);
         }
     }
     @Test
-    public void elUsuarioNoPuedeRegistrarseSiSuEdadEsMenorADieciOcho() throws DatosIncorrectos, UsuarioExistente, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
+    public void elUsuarioNoPuedeRegistrarseSiSuEdadEsMenorADieciOcho() throws DatosIncorrectos, UsuarioExistente, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, PesoMetaIncorrectoException {
 
         Usuario usuario = givenTengoUnUsuarioMenorDeEdad();
 

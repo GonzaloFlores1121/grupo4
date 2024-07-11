@@ -44,7 +44,7 @@ public class ServicioDatosUsuarioTest {
 
 
     @Test
-    public void IngestaCaloricaDeUsuarioHombreDe40SedentarioYTiene70kgYMide170() throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
+    public void IngestaCaloricaDeUsuarioHombreDe40SedentarioYTiene70kgYMide170() throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, PesoMetaIncorrectoException {
         Usuario usuario = givenTengoUnUsuario();
         Integer icr = whenSeCalculaSuIngestaCalorica(usuario);
         thenLaIngestaCaloricaEsCorrecta(icr);
@@ -56,7 +56,7 @@ public class ServicioDatosUsuarioTest {
         assertEquals(1938, icr, 0.0);
     }
 
-    private Integer whenSeCalculaSuIngestaCalorica(Usuario usuario) throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
+    private Integer whenSeCalculaSuIngestaCalorica(Usuario usuario) throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, PesoMetaIncorrectoException {
 
         if (servicioLogin.validarDatos(usuario)) {
             return servicioUsuario.calcularIngestaCalorica(usuario);
@@ -104,7 +104,7 @@ public class ServicioDatosUsuarioTest {
     }
 
     @Test
-    public void SeGuardanLosMacronutrientesDelUsuario() throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
+    public void SeGuardanLosMacronutrientesDelUsuario() throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, PesoMetaIncorrectoException {
         Usuario usuario = givenTengoUnUsuario();
 
         MacronutrientesUsuario macro = whenCalculoLosMacronutrientesDelUsuario(usuario);
@@ -122,7 +122,7 @@ public class ServicioDatosUsuarioTest {
         assertNotNull(vo3);
     }
 
-    private MacronutrientesUsuario whenCalculoLosMacronutrientesDelUsuario(Usuario usuario) throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
+    private MacronutrientesUsuario whenCalculoLosMacronutrientesDelUsuario(Usuario usuario) throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, PesoMetaIncorrectoException {
         servicioUsuario.calcularIngestaCalorica(usuario);
         return servicioUsuario.CalcularDistribucionDeMacronutrientes(usuario);
     }
@@ -154,7 +154,7 @@ public class ServicioDatosUsuarioTest {
 
     @Test
     public void actualizarPesoDeUsuario() throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException,
-            PesoIncorrectoException, UsuarioNoExistente {
+            PesoIncorrectoException, UsuarioNoExistente, PesoMetaIncorrectoException {
         Usuario usuario = givenTengoUnUsuario();
 
         when(repositorioUsuario.buscarUsuario(any(), any())).thenReturn(usuario);
@@ -163,7 +163,7 @@ public class ServicioDatosUsuarioTest {
         assertEquals(80.0, usuario.getPeso());
     }
 
-    private void whenLeCambioDePesoAlUsuario(Usuario usuario) throws PesoIncorrectoException, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, UsuarioNoExistente {
+    private void whenLeCambioDePesoAlUsuario(Usuario usuario) throws PesoIncorrectoException, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, UsuarioNoExistente, PesoMetaIncorrectoException {
         servicioUsuario.actualizarPeso(usuario, 80.0);
     }
 }

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.tallerwebi.dominio.ServicioDatosUsuario;
+import com.tallerwebi.dominio.excepcion.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,12 +20,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.tallerwebi.dominio.ServicioLogin;
 import com.tallerwebi.dominio.ServicioNotificacion;
 import com.tallerwebi.dominio.Usuario;
-import com.tallerwebi.dominio.excepcion.AlturaIncorrectaException;
-import com.tallerwebi.dominio.excepcion.DatosIncorrectos;
-import com.tallerwebi.dominio.excepcion.EdadInvalidaException;
-import com.tallerwebi.dominio.excepcion.PesoIncorrectoException;
-import com.tallerwebi.dominio.excepcion.UsuarioExistente;
-import com.tallerwebi.dominio.excepcion.UsuarioNoExistente;
 
 public class ControladorRegistroTest {
 
@@ -85,13 +80,13 @@ public class ControladorRegistroTest {
     }
  
     @Test
-    public void testEnviarFormularioExitoso() throws UsuarioExistente, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, UsuarioNoExistente  {
+    public void testEnviarFormularioExitoso() throws UsuarioExistente, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, UsuarioNoExistente, PesoMetaIncorrectoException {
         Usuario usuario = givenExisteUsuarioNoRegistrado(1L, "admin@gmail.com", "1234abcd");
         ModelAndView vista = whenCreoVistaEnviarFormulario(usuario);
         thenRegistroExitoso(usuario, vista);
     }
 
-    private Usuario givenExisteUsuarioNoRegistrado(Long id, String email, String password) throws UsuarioExistente, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, UsuarioNoExistente {
+    private Usuario givenExisteUsuarioNoRegistrado(Long id, String email, String password) throws UsuarioExistente, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, UsuarioNoExistente, PesoMetaIncorrectoException {
         Usuario usuario = new Usuario();
         usuario.setId(id); 
         usuario.setEmail(email);
@@ -104,19 +99,19 @@ public class ControladorRegistroTest {
         return controladorRegistro.enviarFormulario(usuario, request);
     } 
 
-    private void thenRegistroExitoso(Usuario usuario, ModelAndView vista) throws UsuarioExistente, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, UsuarioNoExistente {
+    private void thenRegistroExitoso(Usuario usuario, ModelAndView vista) throws UsuarioExistente, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, UsuarioNoExistente, PesoMetaIncorrectoException {
         verify(servicioLogin).registrarUsuario(usuario);        
         assertEquals("redirect:/iniciar-sesion", vista.getViewName());
     }    
     
     @Test
-    public void testEnviarFormularioUsuarioFallido() throws UsuarioExistente, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException{
+    public void testEnviarFormularioUsuarioFallido() throws UsuarioExistente, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, PesoMetaIncorrectoException {
         Usuario usuario = givenExisteUsuarioRegistrado(1L, "admin@gmail.com", "1234abcd");
         ModelAndView vista = whenCreoVistaEnviarFormulario(usuario); 
         thenVistaRegistroFaliida(vista);
     }
 
-    private Usuario givenExisteUsuarioRegistrado(Long id, String email, String password) throws UsuarioExistente, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
+    private Usuario givenExisteUsuarioRegistrado(Long id, String email, String password) throws UsuarioExistente, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, PesoMetaIncorrectoException {
         Usuario usuario = new Usuario();
         usuario.setId(id);
         usuario.setEmail(email);
