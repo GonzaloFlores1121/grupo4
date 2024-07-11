@@ -84,7 +84,7 @@ public class ControladorHome {
     }
 
     @RequestMapping(value = "/cambioPeso", method = RequestMethod.POST)
-    public ModelAndView cambiarPeso(@ModelAttribute("nuevoPeso") Double nuevoPeso, HttpServletRequest request) throws PesoIncorrectoException, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, UsuarioNoExistente {
+    public ModelAndView cambiarPeso(@ModelAttribute("nuevoPeso") Double nuevoPeso, HttpServletRequest request) throws PesoIncorrectoException, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, UsuarioNoExistente, PesoMetaIncorrectoException {
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         ModelMap modelo = new ModelMap();

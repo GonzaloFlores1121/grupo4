@@ -37,7 +37,7 @@ public class ServicioDatosUsuarioImpl implements ServicioDatosUsuario {
     }
 
     @Override
-    public Integer calcularIngestaCalorica(Usuario usuario) throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
+    public Integer calcularIngestaCalorica(Usuario usuario) throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, PesoMetaIncorrectoException {
         if (!servicioLogin.validarDatos(usuario)) {
             throw new DatosIncorrectos("Datos incorrectos del usuario");
         }
@@ -73,7 +73,7 @@ public class ServicioDatosUsuarioImpl implements ServicioDatosUsuario {
 
 
     @Override
-    public Double calcularMetabolismoBasalDelUsuario(Usuario usuario) throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
+    public Double calcularMetabolismoBasalDelUsuario(Usuario usuario) throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, PesoMetaIncorrectoException {
         if (!servicioLogin.validarDatos(usuario)) {
             throw new DatosIncorrectos("Datos incorrectos del usuario");
         }
@@ -134,7 +134,7 @@ public class ServicioDatosUsuarioImpl implements ServicioDatosUsuario {
         }
     }
     @Override
-    public void verificarIngestaDelDia(Usuario usuario) throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, UsuarioNoExistente, EjercicioNoExistente {
+    public void verificarIngestaDelDia(Usuario usuario) throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, UsuarioNoExistente, EjercicioNoExistente, PesoMetaIncorrectoException {
         Integer ingestaCalorica = calcularIngestaCalorica(usuario);
         LocalDate today = LocalDate.now();
         java.sql.Date sqlDate = java.sql.Date.valueOf(today);
@@ -208,7 +208,7 @@ public class ServicioDatosUsuarioImpl implements ServicioDatosUsuario {
         }
     }
     @Override
-    public void actualizarPeso(Usuario usuario, Double peso) throws PesoIncorrectoException, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, UsuarioNoExistente {
+    public void actualizarPeso(Usuario usuario, Double peso) throws PesoIncorrectoException, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, UsuarioNoExistente, PesoMetaIncorrectoException {
 
 
         if (usuario != null && pesoValidoUsuario(peso)) {

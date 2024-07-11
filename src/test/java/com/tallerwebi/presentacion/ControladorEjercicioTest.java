@@ -58,7 +58,7 @@ public class ControladorEjercicioTest {
         // assertEquals("El ejercicio se ha guardado correctamente.", modelAndView.getModel().get("mensaje"));
     }
 */
-    private Usuario givenTengoUnUsuario() throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, UsuarioExistente {
+    private Usuario givenTengoUnUsuario() throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, UsuarioExistente, PesoMetaIncorrectoException {
 
         String email = "ejemplo@example.com";
         String password = "contraseña123";
@@ -83,7 +83,7 @@ public class ControladorEjercicioTest {
     }
 
     @Test
-    public void seBuscaUnEjercicioPorNombreOIntensidad() throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, UsuarioExistente, EjercicioInvalido, EjercicioNoExistente {
+    public void seBuscaUnEjercicioPorNombreOIntensidad() throws DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, UsuarioExistente, EjercicioInvalido, EjercicioNoExistente, PesoMetaIncorrectoException {
 
         Usuario usuario = givenTengoUnUsuario();
         List<Ejercicio> ejercicios = new ArrayList<>();

@@ -12,6 +12,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.tallerwebi.dominio.excepcion.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.stereotype.Controller;
@@ -21,12 +22,6 @@ import com.tallerwebi.dominio.Notificacion;
 import com.tallerwebi.dominio.ServicioLogin;
 import com.tallerwebi.dominio.ServicioNotificacion;
 import com.tallerwebi.dominio.Usuario;
-import com.tallerwebi.dominio.excepcion.AlturaIncorrectaException;
-import com.tallerwebi.dominio.excepcion.DatosIncorrectos;
-import com.tallerwebi.dominio.excepcion.EdadInvalidaException;
-import com.tallerwebi.dominio.excepcion.PesoIncorrectoException;
-import com.tallerwebi.dominio.excepcion.UsuarioExistente;
-import com.tallerwebi.dominio.excepcion.UsuarioNoExistente;
 
 @Controller
 public class ControladorPerfilTest {
@@ -146,7 +141,7 @@ public class ControladorPerfilTest {
     }
 
     @Test
-    public void testProcesarDatosExitoso() throws UsuarioExistente, DatosIncorrectos, EdadInvalidaException, AlturaIncorrectaException, PesoIncorrectoException {
+    public void testProcesarDatosExitoso() throws UsuarioExistente, DatosIncorrectos, EdadInvalidaException, AlturaIncorrectaException, PesoIncorrectoException, PesoMetaIncorrectoException {
         Usuario usuario = givenExisteUsuarioLogueado(1L, "admin@gmail.com", "1234abcd");
         Usuario usuarioForm = givenExisteUsuarioFormPerfil("pacolo@gmail.com");
         ModelAndView vista = whenEnvioDatosUsuario(usuarioForm);
@@ -163,7 +158,7 @@ public class ControladorPerfilTest {
         return controladorPerfil.procesarDatos(usuarioForm, request);
     }
 
-    private void thenDatosUsuarioProcesados(Usuario usuario, Usuario usuarioForm, ModelAndView vista) throws UsuarioExistente, DatosIncorrectos, EdadInvalidaException, AlturaIncorrectaException, PesoIncorrectoException {
+    private void thenDatosUsuarioProcesados(Usuario usuario, Usuario usuarioForm, ModelAndView vista) throws UsuarioExistente, DatosIncorrectos, EdadInvalidaException, AlturaIncorrectaException, PesoIncorrectoException, PesoMetaIncorrectoException {
         verify(servicioLogin, times(1)).modificarUsuario(usuario, usuarioForm);
         assertEquals("redirect:/perfilUsuario", vista.getViewName());
     }

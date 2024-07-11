@@ -34,7 +34,7 @@ public class ControladorEstadisticaUsuario {
     }
 
     @RequestMapping(value = "/estadisticasUsuario", method = RequestMethod.GET)
-    public ModelAndView irAlasEstadisticas(HttpServletRequest request) throws UsuarioNoExistente, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
+    public ModelAndView irAlasEstadisticas(HttpServletRequest request) throws UsuarioNoExistente, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, PesoMetaIncorrectoException {
         ModelMap model = new ModelMap();
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");

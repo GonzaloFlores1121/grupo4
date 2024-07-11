@@ -27,7 +27,7 @@ public class ServicioLoginImpl implements ServicioLogin {
     }
 
     @Override
-    public void registrarUsuario(Usuario usuario) throws UsuarioExistente, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
+    public void registrarUsuario(Usuario usuario) throws UsuarioExistente, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, PesoMetaIncorrectoException {
         if (repositorioUsuario.buscarPorEmail(usuario.getEmail()) != null) {throw new UsuarioExistente();}
         if (validarDatos(usuario)) {
             Integer icr = servicioDatosUsuario.calcularIngestaCalorica(usuario);
@@ -55,7 +55,7 @@ public class ServicioLoginImpl implements ServicioLogin {
     }
 
     @Override
-    public void modificarUsuario(Usuario usuario, Usuario nuevosDatos) throws UsuarioExistente, DatosIncorrectos, EdadInvalidaException, AlturaIncorrectaException, PesoIncorrectoException {
+    public void modificarUsuario(Usuario usuario, Usuario nuevosDatos) throws UsuarioExistente, DatosIncorrectos, EdadInvalidaException, AlturaIncorrectaException, PesoIncorrectoException, PesoMetaIncorrectoException {
         if((repositorioUsuario.buscarPorEmail(nuevosDatos.getEmail())!=null) && (usuario.getEmail().equals(nuevosDatos.getEmail())==false)) {throw new UsuarioExistente();}
         if(validarDatos(nuevosDatos)) {
             usuario.setNombre(nuevosDatos.getNombre());
@@ -73,12 +73,18 @@ public class ServicioLoginImpl implements ServicioLogin {
     }
 
     @Override
-    public Boolean validarDatos(Usuario usuario) throws DatosIncorrectos, EdadInvalidaException, AlturaIncorrectaException, PesoIncorrectoException {
+    public Boolean validarDatos(Usuario usuario) throws DatosIncorrectos, EdadInvalidaException, AlturaIncorrectaException, PesoIncorrectoException, PesoMetaIncorrectoException {
         validarUsuario(usuario);
         validarEdad(usuario.getEdad());
         validarAltura(usuario.getAltura());
         validarPeso(usuario.getPeso());
+        validarPesoMeta(usuario);
         return true;
+    }
+
+    private void validarPesoMeta(Usuario usuario) throws PesoIncorrectoException, PesoMetaIncorrectoException {
+        if (usuario.getMetaAlcanzarPeso() == null || usuario.getMetaAlcanzarPeso() >= usuario.getPeso() ) {throw new PesoMetaIncorrectoException();}
+
     }
 
     //validaciones

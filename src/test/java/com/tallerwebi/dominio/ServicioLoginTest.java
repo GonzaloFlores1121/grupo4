@@ -8,14 +8,10 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.tallerwebi.dominio.excepcion.*;
 import com.tallerwebi.infraestructura.ServicioDatosUsuarioImpl;
 import org.junit.jupiter.api.Test;
 
-import com.tallerwebi.dominio.excepcion.AlturaIncorrectaException;
-import com.tallerwebi.dominio.excepcion.DatosIncorrectos;
-import com.tallerwebi.dominio.excepcion.EdadInvalidaException;
-import com.tallerwebi.dominio.excepcion.PesoIncorrectoException;
-import com.tallerwebi.dominio.excepcion.UsuarioExistente;
 import com.tallerwebi.infraestructura.ServicioLoginImpl;
 
 public class ServicioLoginTest {
@@ -49,7 +45,7 @@ public class ServicioLoginTest {
     }
 
     @Test
-    public void testRegistrarUsuario() throws UsuarioExistente, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
+    public void testRegistrarUsuario() throws UsuarioExistente, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, PesoMetaIncorrectoException {
         Usuario usuario = givenExisteUsuarioNoRegistrado("admin@gmail.com", "1234abcd", "masculino", 25, 170.0, 65.0);
         whenRegistrarUsuario(usuario);
         thenRegistroUsuarioExitoso(usuario);
@@ -67,7 +63,7 @@ public class ServicioLoginTest {
         return usuario;
     }
 
-    private void whenRegistrarUsuario(Usuario usuario) throws UsuarioExistente, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException {
+    private void whenRegistrarUsuario(Usuario usuario) throws UsuarioExistente, DatosIncorrectos, AlturaIncorrectaException, EdadInvalidaException, PesoIncorrectoException, PesoMetaIncorrectoException {
         servicioLogin.registrarUsuario(usuario);
     }
 
@@ -106,14 +102,14 @@ public class ServicioLoginTest {
     }
 
     @Test
-    public void testModificarUsuario() throws UsuarioExistente, DatosIncorrectos, EdadInvalidaException, AlturaIncorrectaException, PesoIncorrectoException {
+    public void testModificarUsuario() throws UsuarioExistente, DatosIncorrectos, EdadInvalidaException, AlturaIncorrectaException, PesoIncorrectoException, PesoMetaIncorrectoException {
         Usuario usuario = givenExisteUsuarioRegistrado("admin@gmail.com", "1234abcd", "masculino", 24, 155.0, 44.0);
         Usuario nuevosDatos = givenExisteUsuarioNoRegistrado("pacolo@gmail.com", "querty123", "masculino", 25, 158.0, 46.0);
         whenModificarUsuario(usuario, nuevosDatos);
         thenModificacionExitosa(usuario, nuevosDatos);
     }
 
-    private void whenModificarUsuario(Usuario usuario, Usuario nuevosDatos) throws UsuarioExistente, DatosIncorrectos, EdadInvalidaException, AlturaIncorrectaException, PesoIncorrectoException {
+    private void whenModificarUsuario(Usuario usuario, Usuario nuevosDatos) throws UsuarioExistente, DatosIncorrectos, EdadInvalidaException, AlturaIncorrectaException, PesoIncorrectoException, PesoMetaIncorrectoException {
         servicioLogin.modificarUsuario(usuario, nuevosDatos);
     }
 
@@ -158,12 +154,12 @@ public class ServicioLoginTest {
     } 
 
     @Test
-    public void testValidarDatos() throws DatosIncorrectos, EdadInvalidaException, AlturaIncorrectaException, PesoIncorrectoException {
+    public void testValidarDatos() throws DatosIncorrectos, EdadInvalidaException, AlturaIncorrectaException, PesoIncorrectoException, PesoMetaIncorrectoException {
         Usuario usuario = givenExisteUsuarioRegistrado("admin@gmail.com", "1234abcd", "masculino", 23, 155.0, 44.0);
         thenDatosValidados(usuario);
     }
 
-    private void thenDatosValidados(Usuario usuario) throws DatosIncorrectos, EdadInvalidaException, AlturaIncorrectaException, PesoIncorrectoException {
+    private void thenDatosValidados(Usuario usuario) throws DatosIncorrectos, EdadInvalidaException, AlturaIncorrectaException, PesoIncorrectoException, PesoMetaIncorrectoException {
         assertTrue(servicioLogin.validarDatos(usuario));
     }
 
