@@ -20,35 +20,44 @@
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
 
     <style>
-        .post-card {
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+       .post-card {
+                  background-color: #fff;
+                  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                  max-width: 720px;
+                  margin: 0 auto;
+                  border: 1px solid #ddd;
+                  border-radius: 10px;
+                  overflow: hidden;
+              }
 
-        .post-header img {
-            border-radius: 50%;
-        }
+              .post-header img {
+                  border-radius: 50%;
+              }
 
-        .post-responses {
-            max-height: 240px;
-            overflow-y: auto;
-        }
+              .post-content {
+                  padding: 15px;
+              }
 
-        .response img {
-            border-radius: 50%;
-        }
+              .post-responses {
+                  max-height: 240px;
+                  overflow-y: auto;
+              }
 
-        .response {
-            background-color: #f8f9fa;
-        }
+              .response img {
+                  border-radius: 50%;
+              }
 
-        .icon-like {
-            color: gray;
-        }
+              .response {
+                  background-color: #f8f9fa;
+              }
 
-        .icon-like.active {
-            color: orange;
-        }
+              .icon-like {
+                  color: gray;
+              }
+
+              .icon-like.active {
+                  color: orange;
+              }
     </style>
 
 </head>

@@ -78,14 +78,11 @@ public class ServicioLoginImpl implements ServicioLogin {
         validarEdad(usuario.getEdad());
         validarAltura(usuario.getAltura());
         validarPeso(usuario.getPeso());
-        validarPesoMeta(usuario);
+
         return true;
     }
 
-    private void validarPesoMeta(Usuario usuario) throws PesoIncorrectoException, PesoMetaIncorrectoException {
-        if (usuario.getMetaAlcanzarPeso() == null || usuario.getMetaAlcanzarPeso() >= usuario.getPeso() ) {throw new PesoMetaIncorrectoException();}
 
-    }
 
     //validaciones
     private void validarUsuario(Usuario usuario) throws DatosIncorrectos {
