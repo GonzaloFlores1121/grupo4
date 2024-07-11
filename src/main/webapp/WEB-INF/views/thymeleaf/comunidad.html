@@ -207,7 +207,7 @@
         <button class="btn btn-warning subir" type="button" data-bs-toggle="offcanvas" data-bs-target="#subirPublicacion">Subir Publicacion</button>
         <hr>
         <h2 class="text-center fw-bold mb-3">Desafíos Disponibles</h2>
-        <a id="button" th:href="@{/desafiosUsuario/{id}(id=${usuario.id})}"  class="btn btn-primary">Ver Desafios</a>
+        <a id="button" th:href="@{/desafiosUsuario/{id}(id=${usuario.id})}"  class="btn btn-primary align-self-center">Ver Desafios</a>
         <div th:if="${#lists.isEmpty(desafios)}" class="container mx-3 my-3">
             <h4 class="text-center text-warning fw-bold my-2">No hay desafíos disponibles en este momento.</h4>
         </div>
