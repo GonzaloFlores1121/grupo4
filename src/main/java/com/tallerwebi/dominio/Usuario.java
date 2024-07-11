@@ -1,7 +1,9 @@
 package com.tallerwebi.dominio;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Set;
+import java.util.List;
 
 @Entity
 public class Usuario {
@@ -24,6 +26,8 @@ public class Usuario {
     private Boolean premium;
     @OneToMany(mappedBy = "usuario")
     private Set<Colacion> colaciones;
+    @OneToMany(mappedBy = "usuario")
+    private List<DesafioUsuario> desafiosCompletados = new ArrayList<>();
 
     public Usuario() {
         this.premium = false;

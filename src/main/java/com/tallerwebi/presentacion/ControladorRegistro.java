@@ -51,7 +51,7 @@ public class ControladorRegistro {
         return new ModelAndView("formulario-registro", model);
     }
 
-    @Transactional
+
     @RequestMapping(path = "/enviarFormulario", method = RequestMethod.POST)
     public ModelAndView enviarFormulario(@ModelAttribute("usuario") Usuario usuario, HttpServletRequest request) {
         ModelMap model = new ModelMap();

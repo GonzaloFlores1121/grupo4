@@ -1,13 +1,6 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.Publicacion;
-import com.tallerwebi.dominio.PublicacionLike;
-import com.tallerwebi.dominio.Respuesta;
-import com.tallerwebi.dominio.ServicioComunidad;
-import com.tallerwebi.dominio.ServicioFollow;
-import com.tallerwebi.dominio.ServicioNotificacion;
-import com.tallerwebi.dominio.Usuario;
-import com.tallerwebi.dominio.UsuarioFollow;
+import com.tallerwebi.dominio.*;
 import com.tallerwebi.dominio.excepcion.PublicacionNoExistente;
 import com.tallerwebi.dominio.excepcion.UsuarioNoExistente;
 
@@ -32,12 +25,16 @@ public class ControladorComunidad {
     private ServicioComunidad servicioComunidad;
     private ServicioFollow servicioFollow;
     private ServicioNotificacion servicioNotificacion;
+    private ServicioDesafio servicioDesafio;
+    private RepositorioDesafioUsuario repositorioDesafioUsuario;
 
     @Autowired
-    public ControladorComunidad(ServicioComunidad servicioComunidad, ServicioFollow servicioFollow, ServicioNotificacion servicioNotificacion) {
+    public ControladorComunidad(ServicioComunidad servicioComunidad, ServicioFollow servicioFollow, ServicioNotificacion servicioNotificacion, ServicioDesafio servicioDesafio, RepositorioDesafioUsuario repositorioDesafioUsuario) {
         this.servicioComunidad = servicioComunidad;
         this.servicioFollow = servicioFollow;
         this.servicioNotificacion = servicioNotificacion;
+        this.servicioDesafio = servicioDesafio;
+        this.repositorioDesafioUsuario = repositorioDesafioUsuario;
     }
 
     @Transactional
@@ -56,6 +53,9 @@ public class ControladorComunidad {
         model.addAttribute("likes", likes);
         Map<Long, String> likesLista = servicioComunidad.obtenerLikesPorPublicacion(publicaciones);
         model.addAttribute("likesLista", likesLista);
+        List<Desafio> desafios = servicioDesafio.obtenerTodosDesafios();
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("desafios", desafios);
         return new ModelAndView("comunidad", model);
     }
 
@@ -90,6 +90,14 @@ public class ControladorComunidad {
         if (usuario == null) {return new ModelAndView("redirect:/inicio");}
         if (!imagenFile.isEmpty()) {
             servicioComunidad.subirPublicacion(usuario, publicacion.getTitulo(), publicacion.getContenido(), imagenFile);
+            int publicacionesContador = servicioComunidad.obtenerPublicacionesSubidasPorUsuario(usuario.getId()).size();
+            if (publicacionesContador == 3) {
+                List<Desafio> desafios = servicioDesafio.obtenerDesafiosEnCurso(usuario.getId());
+                for (Desafio desafio : desafios) {
+                    if(desafio.getNombre() == "Consigue 3 seguidores");
+                    servicioDesafio.completarDesafio(desafio.getId(), usuario.getId());
+                }
+            }
             return new ModelAndView("redirect:/comunidad");
         } else {
             model.addAttribute("error", "No se proporciono una imagen valida");
@@ -246,6 +254,54 @@ public class ControladorComunidad {
         model.addAttribute("seguidos", seguidos);
         return new ModelAndView("seguidores", model);
     }
+
+    @Transactional
+    @RequestMapping(value = "/unirseDesafio", method = RequestMethod.POST)
+    public ModelAndView unirseDesafio(HttpServletRequest request, @RequestParam Long desafioId) {
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario == null) {
+            return new ModelAndView("redirect:/inicio");
+        }
+        Desafio desafio = servicioDesafio.obtenerDesafioPorId(desafioId);
+        if (desafio == null) {
+            return new ModelAndView("redirect:/inicio"); // O manejar el error de otra manera
+        }
+        servicioDesafio.unirseADesafio(desafio.getId(), usuario.getId());
+        return new ModelAndView("redirect:/comunidad");
+    }
+
+    @Transactional
+    @RequestMapping(value = "/completarDesafio/{id}", method = RequestMethod.GET)
+    public ModelAndView completarDesafio(HttpServletRequest request, @PathVariable Long id) {
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario == null) {
+            return new ModelAndView("redirect:/inicio");
+        }
+        servicioDesafio.completarDesafio(id, usuario.getId());
+        return new ModelAndView("redirect:/desafiosUsuario/" + usuario.getId());
+    }
+
+    @Transactional
+    @RequestMapping(value = "/desafiosUsuario/{id}", method = RequestMethod.GET)
+    public ModelAndView mostrarDesafiosUsuario(@PathVariable Long id, HttpServletRequest request) throws UsuarioNoExistente{
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario == null) {
+            return new ModelAndView("redirect:/inicio");
+        }
+        ModelMap model = new ModelMap();
+        model.addAttribute("usuario", usuario);
+        String nombre = usuario.getNombre();
+        model.put("nombre", nombre);
+        List<Desafio> desafiosCompletos = servicioDesafio.obtenerDesafiosCompletados(id);
+        List<Desafio> desafiosEnCurso = servicioDesafio.obtenerDesafiosEnCurso(id);
+        model.addAttribute("desafiosCompletados", desafiosCompletos);
+        model.addAttribute("desafiosEnProgreso", desafiosEnCurso);
+        return new ModelAndView("desafiosUsuario", model);
+    }
+
 
     private Usuario setUsuario(HttpServletRequest request) {
         HttpSession session = request.getSession();
